@@ -9,7 +9,7 @@ import retrofit2.Retrofit
 
 interface AppContainer
 {
-
+    val networkConfigurationRepository: NetworkConfigurationRepository
 }
 
 class DefaultAppContainer: AppContainer
@@ -31,8 +31,12 @@ class DefaultAppContainer: AppContainer
         .baseUrl(baseUrl)
         .build()
 
-    val retrofitService: TMDBApiService by lazy {
+    private val retrofitService: TMDBApiService by lazy {
         retrofit.create(TMDBApiService::class.java)
     }
 
+    override val networkConfigurationRepository: NetworkConfigurationRepository by lazy()
+    {
+        NetworkConfigurationRepository(retrofitService)
+    }
 }
