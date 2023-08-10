@@ -1,7 +1,7 @@
 package dev.aliakbar.tmdbunofficial.data
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import dev.aliakbar.tmdbunofficial.network.TMDBApiService
+import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient

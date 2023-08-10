@@ -1,4 +1,4 @@
-package dev.aliakbar.tmdbunofficial.network
+package dev.aliakbar.tmdbunofficial.data.source.network
 
 import retrofit2.http.GET
 

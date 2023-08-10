@@ -1,7 +1,7 @@
 package dev.aliakbar.tmdbunofficial.data
 
-import dev.aliakbar.tmdbunofficial.network.NetworkConfiguration
-import dev.aliakbar.tmdbunofficial.network.TMDBApiService
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkConfiguration
+import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 
 interface ConfigurationRepository
 {

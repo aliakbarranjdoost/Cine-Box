@@ -1,4 +1,4 @@
-package dev.aliakbar.tmdbunofficial
+package dev.aliakbar.tmdbunofficial.data
 
 import kotlinx.serialization.SerialName
 

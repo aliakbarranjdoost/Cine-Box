@@ -10,8 +10,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.NetworkConfigurationRepository
-import dev.aliakbar.tmdbunofficial.network.NetworkConfiguration
-import dev.aliakbar.tmdbunofficial.network.TMDBApiService
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkConfiguration
+import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 import kotlinx.coroutines.launch
 
 private val TAG: String = MainViewModel::class.java.simpleName
