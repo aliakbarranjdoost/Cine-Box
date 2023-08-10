@@ -15,6 +15,6 @@ class NetworkTrendingRepository(
 {
     override suspend fun getTrendingTodayMovies(): NetworkTrending<NetworkTrendingMovie>
     {
-        TODO("Not yet implemented")
+        return tmdbApiService.getTodayTrendingMovies()
     }
 }
