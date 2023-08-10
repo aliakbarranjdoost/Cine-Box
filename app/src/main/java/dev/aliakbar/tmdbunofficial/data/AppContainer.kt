@@ -10,6 +10,7 @@ import retrofit2.Retrofit
 interface AppContainer
 {
     val networkConfigurationRepository: NetworkConfigurationRepository
+    val networkTrendingRepository: NetworkTrendingRepository
 }
 
 class DefaultAppContainer: AppContainer
@@ -38,5 +39,9 @@ class DefaultAppContainer: AppContainer
     override val networkConfigurationRepository: NetworkConfigurationRepository by lazy()
     {
         NetworkConfigurationRepository(retrofitService)
+    }
+    override val networkTrendingRepository: NetworkTrendingRepository by lazy()
+    {
+        NetworkTrendingRepository(retrofitService)
     }
 }
