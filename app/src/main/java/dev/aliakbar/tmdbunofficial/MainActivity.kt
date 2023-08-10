@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import dev.aliakbar.tmdbunofficial.ui.main.MainUiState
 import dev.aliakbar.tmdbunofficial.ui.main.MainViewModel
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
@@ -36,12 +37,28 @@ class MainActivity : ComponentActivity()
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier)
 {
-    //val mainViewModel: MainViewModel = viewModel(factory = MainViewModel.factory)
-    //mainViewModel::get
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+    val mainViewModel: MainViewModel = viewModel(factory = MainViewModel.factory)
+    var mainUiState = mainViewModel.mainUiState
+
+    when(mainUiState)
+    {
+        is MainUiState.Loading ->
+            Text(
+                text = "Loading",
+                modifier = modifier
+            )
+        is MainUiState.Success ->
+            Text(
+                text = "${mainUiState.imageConfiguration}",
+                modifier = modifier
+            )
+        is MainUiState.Error ->
+            Text(
+                text = "Error",
+                modifier = modifier
+            )
+    }
+
 }
 
 @Preview(showBackground = true)
