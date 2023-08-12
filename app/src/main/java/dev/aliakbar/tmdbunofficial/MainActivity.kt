@@ -42,17 +42,17 @@ fun Greeting(name: String, modifier: Modifier = Modifier)
 
     when(mainUiState)
     {
-        is MainUiState.Loading ->
+        is MainUiState.Loading              ->
             Text(
                 text = "Loading",
                 modifier = modifier
             )
-        is MainUiState.Success ->
+        is MainUiState.TrendingTodayMoviesSuccess ->
             Text(
-                text = "${mainUiState.imageConfiguration}",
+                text = "${mainUiState.networkTrending}",
                 modifier = modifier
             )
-        is MainUiState.Error ->
+        is MainUiState.Error                ->
             Text(
                 text = "Error",
                 modifier = modifier
