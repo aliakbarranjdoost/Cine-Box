@@ -52,8 +52,10 @@ class MainViewModel(
             mainUiState = MainUiState.Loading
             mainUiState = try
             {
+                val trendingSeries = trendingRepository.getTrendingThisWeekSeries()
+                Log.d(TAG,trendingSeries.toString())
+
                 val trendingMovie = trendingRepository.getTrendingThisWeekMovies()
-                Log.d(TAG,trendingMovie.toString())
                 MainUiState.TrendingTodayMoviesSuccess(trendingMovie)
 
                 //val imageConfiguration = networkConfigurationRepository.getConfiguration().imageConfiguration.toExternal()
