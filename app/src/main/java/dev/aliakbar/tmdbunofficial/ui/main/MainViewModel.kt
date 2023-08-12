@@ -1,5 +1,6 @@
 package dev.aliakbar.tmdbunofficial.ui.main
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -51,7 +52,8 @@ class MainViewModel(
             mainUiState = MainUiState.Loading
             mainUiState = try
             {
-                val trendingMovie = trendingRepository.getTrendingTodayMovies()
+                val trendingMovie = trendingRepository.getTrendingThisWeekMovies()
+                Log.d(TAG,trendingMovie.toString())
                 MainUiState.TrendingTodayMoviesSuccess(trendingMovie)
 
                 //val imageConfiguration = networkConfigurationRepository.getConfiguration().imageConfiguration.toExternal()

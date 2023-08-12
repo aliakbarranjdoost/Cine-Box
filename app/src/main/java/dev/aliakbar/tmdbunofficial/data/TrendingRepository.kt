@@ -7,6 +7,7 @@ import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 interface TrendingRepository
 {
     suspend fun getTrendingTodayMovies(): NetworkTrending<NetworkTrendingMovie>
+    suspend fun getTrendingThisWeekMovies(): NetworkTrending<NetworkTrendingMovie>
 }
 
 class NetworkTrendingRepository(
@@ -16,5 +17,10 @@ class NetworkTrendingRepository(
     override suspend fun getTrendingTodayMovies(): NetworkTrending<NetworkTrendingMovie>
     {
         return tmdbApiService.getTodayTrendingMovies()
+    }
+
+    override suspend fun getTrendingThisWeekMovies(): NetworkTrending<NetworkTrendingMovie>
+    {
+        return tmdbApiService.getThisWeekTrendingMovies()
     }
 }
