@@ -14,7 +14,7 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.internal.wait
 
 private var TAG = ConfigurationRepository::class.java.simpleName
-class ConfigurationRepository(
+open class ConfigurationRepository(
     private val networkDataSource: TMDBApiService,
     private val localDataSource: LocalConfigurationDao
 )
@@ -22,7 +22,6 @@ class ConfigurationRepository(
     var imageConfiguration: LocalImageConfiguration
     init
     {
-
         runBlocking ()
         {
             var networkImageConfiguration: LocalImageConfiguration = getConfigurationFromNetwork().toLocal( 1 )

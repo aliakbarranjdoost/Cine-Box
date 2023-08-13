@@ -13,6 +13,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.ConfigurationRepository
 import dev.aliakbar.tmdbunofficial.data.ImageConfiguration
+import dev.aliakbar.tmdbunofficial.data.TrendingRepository
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrending
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingMovie
@@ -34,7 +35,8 @@ sealed interface MainUiState
     object Loading: MainUiState
 }
 class MainViewModel(
-    private val configurationRepository: ConfigurationRepository
+    private val configurationRepository: ConfigurationRepository,
+    private val trendingRepository: TrendingRepository
 ): ViewModel()
 {
     var mainUiState: MainUiState by mutableStateOf(MainUiState.Loading)
@@ -80,8 +82,10 @@ class MainViewModel(
             {
                 val application =(this[APPLICATION_KEY] as TmdbUnofficialApplication)
                 val configurationRepository = application.container.configurationRepository
+                val trendingRepository = application.container.trendingRepository
                 MainViewModel(
-                    configurationRepository
+                    configurationRepository,
+                    trendingRepository
                 )
             }
         }

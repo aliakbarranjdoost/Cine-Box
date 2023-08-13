@@ -3,6 +3,7 @@ package dev.aliakbar.tmdbunofficial
 import android.content.Context
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dev.aliakbar.tmdbunofficial.data.ConfigurationRepository
+import dev.aliakbar.tmdbunofficial.data.TrendingRepository
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 import kotlinx.serialization.json.Json
@@ -13,6 +14,7 @@ import retrofit2.Retrofit
 interface AppContainer
 {
     val configurationRepository: ConfigurationRepository
+    val trendingRepository: TrendingRepository
 }
 
 class DefaultAppContainer(private val context: Context): AppContainer
@@ -43,6 +45,14 @@ class DefaultAppContainer(private val context: Context): AppContainer
     override val configurationRepository: ConfigurationRepository by lazy()
     {
         ConfigurationRepository(
+            retrofitService,
+            roomDatabase.configurationDao()
+        )
+    }
+
+    override val trendingRepository: TrendingRepository by lazy()
+    {
+        TrendingRepository(
             retrofitService,
             roomDatabase.configurationDao()
         )
