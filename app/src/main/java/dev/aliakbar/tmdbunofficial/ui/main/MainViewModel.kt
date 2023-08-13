@@ -11,12 +11,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
-import dev.aliakbar.tmdbunofficial.data.ImageConfiguration
-import dev.aliakbar.tmdbunofficial.data.NetworkConfigurationRepository
-import dev.aliakbar.tmdbunofficial.data.NetworkTrendingRepository
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkConfigurationRepository
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingRepository
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrending
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingMovie
-import dev.aliakbar.tmdbunofficial.data.toExternal
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException

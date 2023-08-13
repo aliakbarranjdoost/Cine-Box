@@ -1,9 +1,4 @@
-package dev.aliakbar.tmdbunofficial.data
-
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrending
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingMovie
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingSeries
-import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
+package dev.aliakbar.tmdbunofficial.data.source.network
 
 interface TrendingRepository
 {

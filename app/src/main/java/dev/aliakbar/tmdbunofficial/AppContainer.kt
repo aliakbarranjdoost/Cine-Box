@@ -1,7 +1,9 @@
-package dev.aliakbar.tmdbunofficial.data
+package dev.aliakbar.tmdbunofficial
 
 import android.content.Context
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkConfigurationRepository
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingRepository
 import dev.aliakbar.tmdbunofficial.data.source.local.OfflineConfigurationRepository
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService

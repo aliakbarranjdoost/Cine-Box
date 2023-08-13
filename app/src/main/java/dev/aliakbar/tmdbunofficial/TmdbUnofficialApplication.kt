@@ -1,8 +1,6 @@
 package dev.aliakbar.tmdbunofficial
 
 import android.app.Application
-import dev.aliakbar.tmdbunofficial.data.AppContainer
-import dev.aliakbar.tmdbunofficial.data.DefaultAppContainer
 
 class TmdbUnofficialApplication: Application()
 {

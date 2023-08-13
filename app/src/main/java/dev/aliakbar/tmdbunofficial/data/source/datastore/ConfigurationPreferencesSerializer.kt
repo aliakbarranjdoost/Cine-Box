@@ -1,4 +1,4 @@
-package dev.aliakbar.tmdbunofficial.data
+package dev.aliakbar.tmdbunofficial.data.source.datastore
 
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
