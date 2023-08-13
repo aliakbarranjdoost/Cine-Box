@@ -4,8 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "configurations")
-data class LocalConfiguration(
-    @PrimaryKey(autoGenerate = true)
+data class LocalImageConfiguration(
+    @PrimaryKey
     val id: Int,
     val baseUrl: String,
     val secureBaseUrl: String,

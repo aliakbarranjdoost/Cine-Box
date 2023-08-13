@@ -47,9 +47,9 @@ fun Greeting(name: String, modifier: Modifier = Modifier)
                 text = "Loading",
                 modifier = modifier
             )
-        is MainUiState.TrendingTodayMoviesSuccess ->
+        is MainUiState.ConfigurationSuccess ->
             Text(
-                text = "${mainUiState.networkTrending}",
+                text = "${mainUiState.imageConfiguration}",
                 modifier = modifier
             )
         is MainUiState.Error                ->

@@ -11,17 +11,17 @@ import androidx.room.Update
 interface LocalConfigurationDao
 {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(configuration: LocalConfiguration)
+    suspend fun insert(configuration: LocalImageConfiguration)
 
     @Update
-    suspend fun update(configuration: LocalConfiguration)
+    suspend fun update(configuration: LocalImageConfiguration)
 
     @Delete
-    suspend fun delete(configuration: LocalConfiguration)
+    suspend fun delete(configuration: LocalImageConfiguration)
 
     @Query("SELECT * from configurations WHERE id = :id")
-    fun getConfiguration(id: Int): LocalConfiguration
+    suspend fun getConfiguration(id: Int): LocalImageConfiguration
 
     @Query("SELECT * from configurations")
-    fun getAllConfigurations(): List<LocalConfiguration>
+    fun getAllConfigurations(): List<LocalImageConfiguration>
 }

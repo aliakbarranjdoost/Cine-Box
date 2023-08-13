@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import dev.aliakbar.tmdbunofficial.util.Converters
 
-@Database(entities = [LocalConfiguration::class], version = 1, exportSchema = false)
+@Database(entities = [LocalImageConfiguration::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class TmdbDatabase: RoomDatabase()
 {
