@@ -1,6 +1,9 @@
 package dev.aliakbar.tmdbunofficial.data
 
+import android.content.Context
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import dev.aliakbar.tmdbunofficial.data.source.local.OfflineConfigurationRepository
+import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -11,9 +14,10 @@ interface AppContainer
 {
     val networkConfigurationRepository: NetworkConfigurationRepository
     val networkTrendingRepository: NetworkTrendingRepository
+    val offlineConfigurationRepository: OfflineConfigurationRepository
 }
 
-class DefaultAppContainer: AppContainer
+class DefaultAppContainer(private val context: Context): AppContainer
 {
     private val baseUrl = "https://api.themoviedb.org/3/"
     private val bearerToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNzkwYjcwMzRkOTFhODU0YmE5MmUxOTlkMWQ2MTk3MiIsInN1YiI6IjYzMGYxMTg0MTI0MjVjMDA5ZDdkMjAzZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xPKQ-BTT_SZqBtJKyQ36VoDDpqCr_BAp-b_NjOOXvhc"
@@ -40,8 +44,14 @@ class DefaultAppContainer: AppContainer
     {
         NetworkConfigurationRepository(retrofitService)
     }
+
     override val networkTrendingRepository: NetworkTrendingRepository by lazy()
     {
         NetworkTrendingRepository(retrofitService)
+    }
+
+    override val offlineConfigurationRepository: OfflineConfigurationRepository by lazy()
+    {
+        OfflineConfigurationRepository(TmdbDatabase.getDatabase(context).configurationDao())
     }
 }

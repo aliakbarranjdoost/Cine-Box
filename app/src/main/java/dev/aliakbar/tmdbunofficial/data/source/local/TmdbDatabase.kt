@@ -11,7 +11,7 @@ import dev.aliakbar.tmdbunofficial.util.Converters
 @TypeConverters(Converters::class)
 abstract class TmdbDatabase: RoomDatabase()
 {
-    //abstract fun configurationDao():
+    abstract fun configurationDao(): LocalConfigurationDao
     companion object
     {
         @Volatile
