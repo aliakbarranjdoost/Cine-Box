@@ -2,9 +2,7 @@ package dev.aliakbar.tmdbunofficial
 
 import android.content.Context
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkConfigurationRepository
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingRepository
-import dev.aliakbar.tmdbunofficial.data.source.local.OfflineConfigurationRepository
+import dev.aliakbar.tmdbunofficial.data.ConfigurationRepository
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 import kotlinx.serialization.json.Json
@@ -14,9 +12,7 @@ import retrofit2.Retrofit
 
 interface AppContainer
 {
-    val networkConfigurationRepository: NetworkConfigurationRepository
-    val networkTrendingRepository: NetworkTrendingRepository
-    val offlineConfigurationRepository: OfflineConfigurationRepository
+    val configurationRepository: ConfigurationRepository
 }
 
 class DefaultAppContainer(private val context: Context): AppContainer
@@ -42,18 +38,13 @@ class DefaultAppContainer(private val context: Context): AppContainer
         retrofit.create(TMDBApiService::class.java)
     }
 
-    override val networkConfigurationRepository: NetworkConfigurationRepository by lazy()
-    {
-        NetworkConfigurationRepository(retrofitService)
-    }
+    private val roomDatabase: TmdbDatabase = TmdbDatabase.getDatabase(context)
 
-    override val networkTrendingRepository: NetworkTrendingRepository by lazy()
+    override val configurationRepository: ConfigurationRepository by lazy()
     {
-        NetworkTrendingRepository(retrofitService)
-    }
-
-    override val offlineConfigurationRepository: OfflineConfigurationRepository by lazy()
-    {
-        OfflineConfigurationRepository(TmdbDatabase.getDatabase(context).configurationDao())
+        ConfigurationRepository(
+            retrofitService,
+            roomDatabase.configurationDao()
+        )
     }
 }
