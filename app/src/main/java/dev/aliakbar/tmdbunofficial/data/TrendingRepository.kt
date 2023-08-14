@@ -1,17 +1,18 @@
 package dev.aliakbar.tmdbunofficial.data
 
-import android.util.Log
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalConfigurationDao
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 
 private var TAG = TrendingRepository::class.java.simpleName
+
 class TrendingRepository(
     private val networkDataSource: TMDBApiService,
     private val localDataSource: LocalConfigurationDao
-): ConfigurationRepository(networkDataSource, localDataSource)
+) : ConfigurationRepository(networkDataSource, localDataSource)
 {
-    init
+    suspend fun getTodayTrendingMovies(): List<Trend>
     {
-        Log.d(TAG,"TrendingRepository")
+        val baseUrl = imageConfiguration.secureBaseUrl + imageConfiguration.posterSizes.max()
+        return networkDataSource.getTodayTrendingMovies().results.toExternal(baseUrl)
     }
 }
