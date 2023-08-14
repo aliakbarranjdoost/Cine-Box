@@ -1,5 +1,6 @@
 package dev.aliakbar.tmdbunofficial.data
 
+import android.util.Log
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalConfigurationDao
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 
@@ -12,7 +13,12 @@ class TrendingRepository(
 {
     suspend fun getTodayTrendingMovies(): List<Trend>
     {
-        val baseUrl = imageConfiguration.secureBaseUrl + imageConfiguration.posterSizes.max()
+        val baseUrl = imageConfiguration.secureBaseUrl + findBiggestPosterSize(imageConfiguration.posterSizes)
         return networkDataSource.getTodayTrendingMovies().results.toExternal(baseUrl)
     }
+}
+
+private fun findBiggestPosterSize(posterSizes: List<String>): String
+{
+    return posterSizes[posterSizes.size - 2]
 }
