@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import dev.aliakbar.tmdbunofficial.ui.home.HomeScreen
 import dev.aliakbar.tmdbunofficial.ui.main.MainUiState
 import dev.aliakbar.tmdbunofficial.ui.main.MainViewModel
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
@@ -27,7 +28,7 @@ class MainActivity : ComponentActivity()
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    HomeScreen()
                 }
             }
         }
