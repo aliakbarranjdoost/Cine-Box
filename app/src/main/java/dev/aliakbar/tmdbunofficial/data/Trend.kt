@@ -4,5 +4,6 @@ data class Trend(
     val id: Int,
     val title: String,
     val score: Float,
-    val poster: String
+    val poster: String,
+    val rank: Int
 )

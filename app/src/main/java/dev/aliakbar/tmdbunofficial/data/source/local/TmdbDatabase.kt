@@ -12,7 +12,7 @@ import dev.aliakbar.tmdbunofficial.util.Converters
 abstract class TmdbDatabase: RoomDatabase()
 {
     abstract fun configurationDao(): LocalConfigurationDao
-    abstract fun trendDao(): LocalTrend
+    abstract fun trendDao(): LocalTrendDao
     companion object
     {
         @Volatile

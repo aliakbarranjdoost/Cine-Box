@@ -11,8 +11,11 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface LocalTrendDao
 {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(trend: LocalTrend)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(trends: List<LocalTrend>)
 
     @Update
     suspend fun update(trend: LocalTrend)
@@ -23,6 +26,6 @@ interface LocalTrendDao
     @Query("SELECT * FROM trends WHERE id = :id")
     fun getTrend(id: Int): Flow<LocalTrend>
 
-    @Query("SELECT * FROM trends")
+    @Query("SELECT * FROM trends ORDER BY rank")
     fun getAllTrends(): Flow<List<LocalTrend>>
 }
