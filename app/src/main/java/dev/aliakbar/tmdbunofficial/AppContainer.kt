@@ -54,7 +54,7 @@ class DefaultAppContainer(private val context: Context): AppContainer
     {
         TrendingRepository(
             retrofitService,
-            roomDatabase.configurationDao()
+            roomDatabase
         )
     }
 }
