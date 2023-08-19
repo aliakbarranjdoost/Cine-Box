@@ -16,18 +16,23 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
+enum class TrendType
+{
+    TODAY_MOVIES,THIS_WEEK_MOVIES,TODAY_SERIES,THIS_WEEK_SERIES
+}
+
 sealed interface HomeUiState
 {
     data class Success(val trends: List<Trend>) : HomeUiState
-    object Error: HomeUiState
-    object Loading: HomeUiState
+    data class Error(val trendType: TrendType): HomeUiState
+    data class Loading(val trendType: TrendType): HomeUiState
 }
 
 class HomeViewModel(
     private val trendingRepository: TrendingRepository
 ) : ViewModel()
 {
-    var homeUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
+    var homeUiState: HomeUiState by mutableStateOf(HomeUiState.Loading(TrendType.TODAY_MOVIES))
         private set
 
     init
@@ -41,7 +46,7 @@ class HomeViewModel(
     {
         viewModelScope.launch()
         {
-            homeUiState = HomeUiState.Loading
+            homeUiState = HomeUiState.Loading(TrendType.TODAY_MOVIES)
             homeUiState = try
             {
                 val todayTrendMovies = trendingRepository.getTodayTrendingMovies()
@@ -49,11 +54,11 @@ class HomeViewModel(
             }
             catch (e: IOException)
             {
-                HomeUiState.Error
+                HomeUiState.Error(TrendType.TODAY_MOVIES)
             }
             catch (e: HttpException)
             {
-                HomeUiState.Error
+                HomeUiState.Error(TrendType.TODAY_MOVIES)
             }
         }
     }
