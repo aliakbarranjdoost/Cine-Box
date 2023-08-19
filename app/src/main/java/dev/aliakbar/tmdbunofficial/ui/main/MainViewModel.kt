@@ -1,6 +1,5 @@
 package dev.aliakbar.tmdbunofficial.ui.main
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,11 +11,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.ConfigurationRepository
-import dev.aliakbar.tmdbunofficial.data.ImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.TrendingRepository
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalImageConfiguration
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrending
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingMovie
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException

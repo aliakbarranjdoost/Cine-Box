@@ -4,9 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class NetworkTrending<T>(
+data class NetworkResponse<T>(
     val page: Int,
-    val results: List<T>,
+    val results: T,
     @SerialName("total_pages")
     val totalPages: Int,
     @SerialName("total_results")

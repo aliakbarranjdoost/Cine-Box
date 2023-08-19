@@ -3,7 +3,6 @@ package dev.aliakbar.tmdbunofficial.data
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalTrend
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImageConfiguration
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrending
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingMovie
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingSeries
 

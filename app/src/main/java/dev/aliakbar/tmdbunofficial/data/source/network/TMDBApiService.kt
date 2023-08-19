@@ -8,14 +8,14 @@ interface TMDBApiService
     suspend fun getConfiguration(): NetworkConfiguration
 
     @GET("trending/movie/day")
-    suspend fun getTodayTrendingMovies(): NetworkTrending<NetworkTrendingMovie>
+    suspend fun getTodayTrendingMovies(): NetworkResponse<List<NetworkTrendingMovie>>
 
     @GET("trending/movie/week")
-    suspend fun getThisWeekTrendingMovies(): NetworkTrending<NetworkTrendingMovie>
+    suspend fun getThisWeekTrendingMovies(): NetworkResponse<List<NetworkTrendingMovie>>
 
     @GET("trending/tv/day")
-    suspend fun getTodayTrendingSeries(): NetworkTrending<NetworkTrendingSeries>
+    suspend fun getTodayTrendingSeries(): NetworkResponse<List<NetworkTrendingSeries>>
 
     @GET("trending/tv/week")
-    suspend fun getThisWeekTrendingSeries(): NetworkTrending<NetworkTrendingSeries>
+    suspend fun getThisWeekTrendingSeries(): NetworkResponse<List<NetworkTrendingSeries>>
 }
