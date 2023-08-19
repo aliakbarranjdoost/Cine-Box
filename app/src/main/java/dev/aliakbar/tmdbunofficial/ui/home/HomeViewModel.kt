@@ -11,16 +11,16 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.TrendingRepository
-import dev.aliakbar.tmdbunofficial.ui.main.MainUiState
+import dev.aliakbar.tmdbunofficial.data.toExternal
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
 sealed interface HomeUiState
 {
-    data class Success(val trends: List<Trend>): HomeUiState
-    object Error : HomeUiState
-    object Loading : HomeUiState
+    data class Success(val trends: List<Trend>) : HomeUiState
+    object Error: HomeUiState
+    object Loading: HomeUiState
 }
 
 class HomeViewModel(
@@ -32,7 +32,10 @@ class HomeViewModel(
 
     init
     {
-        getTrendingTodayMovies()
+        viewModelScope.launch()
+        {
+            getTrendingTodayMovies()
+        }
     }
     private fun getTrendingTodayMovies()
     {
@@ -42,7 +45,7 @@ class HomeViewModel(
             homeUiState = try
             {
                 val todayTrendMovies = trendingRepository.getTodayTrendingMovies()
-                HomeUiState.Success(todayTrendMovies)
+                HomeUiState.Success(todayTrendMovies.toExternal())
             }
             catch (e: IOException)
             {

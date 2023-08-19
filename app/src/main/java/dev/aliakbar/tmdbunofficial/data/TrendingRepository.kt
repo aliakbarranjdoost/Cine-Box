@@ -13,27 +13,14 @@ class TrendingRepository(
     private val localDataSource: TmdbDatabase
 ) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
 {
-    suspend fun getTodayTrendingMovies(): List<Trend>
+    suspend fun getTodayTrendingMovies(): List<LocalTrend>
     {
         val baseUrl = imageConfiguration.secureBaseUrl + findBiggestPosterSize(imageConfiguration.posterSizes)
-        return networkDataSource.getTodayTrendingMovies().results.toExternal(baseUrl)
+        return networkDataSource.getTodayTrendingMovies().results.toLocal(baseUrl)
     }
 
-    suspend fun saveTrendsToLocal(trends: List<LocalTrend>)
+    private fun findBiggestPosterSize(posterSizes: List<String>): String
     {
-        localDataSource.trendDao().insertAll(trends)
+        return posterSizes[posterSizes.size - 2]
     }
-
-    fun getTrendsStreamFromLocal(): Flow<List<Trend>>
-    {
-        return localDataSource.trendDao().getAllTrends().map()
-        {
-            it.toExternal()
-        }
-    }
-}
-
-private fun findBiggestPosterSize(posterSizes: List<String>): String
-{
-    return posterSizes[posterSizes.size - 2]
 }
