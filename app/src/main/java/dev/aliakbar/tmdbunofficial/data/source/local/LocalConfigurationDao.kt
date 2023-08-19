@@ -20,7 +20,7 @@ interface LocalConfigurationDao
     suspend fun delete(configuration: LocalImageConfiguration)
 
     @Query("SELECT * from configurations WHERE id = :id")
-    suspend fun getConfiguration(id: Int): LocalImageConfiguration
+    suspend fun getConfiguration(id: Int = 1): LocalImageConfiguration
 
     @Query("SELECT * from configurations")
     fun getAllConfigurations(): List<LocalImageConfiguration>

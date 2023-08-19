@@ -40,8 +40,8 @@ open class ConfigurationRepository(
         localDataSource.insert(imageConfiguration)
     }
 
-    private suspend fun getConfigurationFromLocal(id: Int = 1): LocalImageConfiguration
+    private suspend fun getConfigurationFromLocal(): LocalImageConfiguration
     {
-        return localDataSource.getConfiguration(id)
+        return localDataSource.getConfiguration()
     }
 }
