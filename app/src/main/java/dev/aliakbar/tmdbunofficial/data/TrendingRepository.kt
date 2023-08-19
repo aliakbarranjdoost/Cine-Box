@@ -19,6 +19,24 @@ class TrendingRepository(
         return networkDataSource.getTodayTrendingMovies().results.toLocal(baseUrl)
     }
 
+    suspend fun getThisWeekTrendingMovies(): List<LocalTrend>
+    {
+        val baseUrl = imageConfiguration.secureBaseUrl + findBiggestPosterSize(imageConfiguration.posterSizes)
+        return networkDataSource.getThisWeekTrendingMovies().results.toLocal(baseUrl)
+    }
+
+    suspend fun getTodayTrendingSeries(): List<LocalTrend>
+    {
+        val baseUrl = imageConfiguration.secureBaseUrl + findBiggestPosterSize(imageConfiguration.posterSizes)
+        return networkDataSource.getTodayTrendingSeries().results.toLocal(baseUrl)
+    }
+
+    suspend fun getThisWeekTrendingSeries(): List<LocalTrend>
+    {
+        val baseUrl = imageConfiguration.secureBaseUrl + findBiggestPosterSize(imageConfiguration.posterSizes)
+        return networkDataSource.getThisWeekTrendingSeries().results.toLocal(baseUrl)
+    }
+
     private fun findBiggestPosterSize(posterSizes: List<String>): String
     {
         return posterSizes[posterSizes.size - 2]

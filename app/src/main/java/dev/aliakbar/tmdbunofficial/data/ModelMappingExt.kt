@@ -5,6 +5,7 @@ import dev.aliakbar.tmdbunofficial.data.source.local.LocalTrend
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrending
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingMovie
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingSeries
 
 fun NetworkImageConfiguration.toExternal() = ImageConfiguration(
     baseUrl = baseUrl,
@@ -66,4 +67,30 @@ fun List<LocalTrend>.toExternal() = map()
 {
     localTrend ->
     localTrend.toExternal()
+}
+
+fun NetworkTrendingSeries.toExternal(basePosterUrl: String) = Trend(
+    id = id,
+    title = name,
+    score = voteAverage,
+    poster = basePosterUrl + posterPath,
+    rank = 0
+)
+
+//@JvmName("networkToExternal")
+fun List<NetworkTrendingSeries>.toExternal(basePosterUrl: String) =
+    map { it.toExternal(basePosterUrl) }
+
+fun NetworkTrendingSeries.toLocal(basePosterUrl: String, rank: Int) = LocalTrend(
+    id = id,
+    title = name,
+    score = voteAverage,
+    poster = basePosterUrl + posterPath,
+    rank = rank
+)
+
+//@JvmName("networkToLocal")
+fun List<NetworkTrendingSeries>.toLocal(basePosterUrl: String) = mapIndexed()
+{ index, networkTrendMovie ->
+    networkTrendMovie.toLocal(basePosterUrl, index.inc())
 }

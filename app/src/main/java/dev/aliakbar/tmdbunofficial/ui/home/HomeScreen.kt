@@ -1,10 +1,15 @@
 package dev.aliakbar.tmdbunofficial.ui.home
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,18 +27,32 @@ fun HomeScreen()
     val viewModel: HomeViewModel = viewModel(factory = HomeViewModel.factory)
     var homeUiState = viewModel.homeUiState
 
-    when (homeUiState)
-    {
-        is HomeUiState.Loading -> Text(text = "Loading")
-        is HomeUiState.Success -> TrendList(trends = homeUiState.trends)
-        is HomeUiState.Error   -> Text(text = "Error")
+    Column {
+        Row(modifier = Modifier.fillMaxWidth(),Arrangement.Center)
+        {
+            Spacer(modifier = Modifier.width(16.dp))
+            Button(onClick = { viewModel.getTodayTrendMovies() }) { Text(text = "1") }
+            Spacer(modifier = Modifier.width(16.dp))
+            Button(onClick = { viewModel.getThisWeekTrendMovies() }) { Text(text = "2") }
+            Spacer(modifier = Modifier.width(16.dp))
+            Button(onClick = { viewModel.getTodayTrendSeries() }) { Text(text = "3") }
+            Spacer(modifier = Modifier.width(16.dp))
+            Button(onClick = { viewModel.getThisWeekTrendSeries() }) { Text(text = "4") }
+            Spacer(modifier = Modifier.width(16.dp))
+        }
+        when (homeUiState)
+        {
+            is HomeUiState.Loading -> Text(text = "Loading")
+            is HomeUiState.Success -> TrendList(trends = homeUiState.trends)
+            is HomeUiState.Error   -> Text(text = "Error")
+        }
     }
 }
 
 @Composable
-fun TrendList(trends: List<Trend>)
+fun TrendList(trends: List<Trend>, modifier: Modifier = Modifier)
 {
-    LazyRow()
+    LazyRow(modifier = modifier)
     {
         items(items = trends, key = { trend -> trend.id })
         { trend ->

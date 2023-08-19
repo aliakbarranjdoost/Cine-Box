@@ -16,52 +16,68 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
-enum class TrendType
-{
-    TODAY_MOVIES,THIS_WEEK_MOVIES,TODAY_SERIES,THIS_WEEK_SERIES
-}
-
 sealed interface HomeUiState
 {
     data class Success(val trends: List<Trend>) : HomeUiState
-    data class Error(val trendType: TrendType): HomeUiState
-    data class Loading(val trendType: TrendType): HomeUiState
+    data object Error : HomeUiState
+    data object Loading : HomeUiState
 }
 
 class HomeViewModel(
     private val trendingRepository: TrendingRepository
 ) : ViewModel()
 {
-    var homeUiState: HomeUiState by mutableStateOf(HomeUiState.Loading(TrendType.TODAY_MOVIES))
+    private lateinit var todayTrendMovies: List<Trend>
+    private lateinit var thisWeekTrendMovies: List<Trend>
+    private lateinit var todayTrendSeries: List<Trend>
+    private lateinit var thisWeekTrendSeries: List<Trend>
+    var homeUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
         private set
 
     init
     {
         viewModelScope.launch()
         {
-            getTrendingTodayMovies()
-        }
-    }
-    private fun getTrendingTodayMovies()
-    {
-        viewModelScope.launch()
-        {
-            homeUiState = HomeUiState.Loading(TrendType.TODAY_MOVIES)
+            homeUiState = HomeUiState.Loading
             homeUiState = try
             {
-                val todayTrendMovies = trendingRepository.getTodayTrendingMovies()
-                HomeUiState.Success(todayTrendMovies.toExternal())
+                todayTrendMovies = trendingRepository.getTodayTrendingMovies().toExternal()
+                thisWeekTrendMovies = trendingRepository.getThisWeekTrendingMovies().toExternal()
+                todayTrendSeries = trendingRepository.getTodayTrendingSeries().toExternal()
+                thisWeekTrendSeries = trendingRepository.getThisWeekTrendingSeries().toExternal()
+                HomeUiState.Success(todayTrendMovies)
             }
             catch (e: IOException)
             {
-                HomeUiState.Error(TrendType.TODAY_MOVIES)
+                HomeUiState.Error
             }
             catch (e: HttpException)
             {
-                HomeUiState.Error(TrendType.TODAY_MOVIES)
+                HomeUiState.Error
             }
         }
     }
+
+    fun getTodayTrendMovies()
+    {
+        homeUiState = HomeUiState.Success(todayTrendMovies)
+    }
+
+    fun getThisWeekTrendMovies()
+    {
+        homeUiState = HomeUiState.Success(thisWeekTrendMovies)
+    }
+
+    fun getTodayTrendSeries()
+    {
+        homeUiState = HomeUiState.Success(todayTrendSeries)
+    }
+
+    fun getThisWeekTrendSeries()
+    {
+        homeUiState = HomeUiState.Success(thisWeekTrendSeries)
+    }
+
     companion object
     {
         val factory: ViewModelProvider.Factory = viewModelFactory()
