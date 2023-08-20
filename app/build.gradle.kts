@@ -11,12 +11,12 @@ plugins {
 
 android {
     namespace = "dev.aliakbar.tmdbunofficial"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "dev.aliakbar.tmdbunofficial"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
