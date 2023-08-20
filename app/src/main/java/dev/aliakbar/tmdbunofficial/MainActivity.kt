@@ -14,6 +14,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.aliakbar.tmdbunofficial.ui.home.HomeScreen
 import dev.aliakbar.tmdbunofficial.ui.main.MainUiState
 import dev.aliakbar.tmdbunofficial.ui.main.MainViewModel
+import dev.aliakbar.tmdbunofficial.ui.main.TmdbApp
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
 class MainActivity : ComponentActivity()
@@ -21,15 +22,11 @@ class MainActivity : ComponentActivity()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        setContent {
-            TMDBUnofficialTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    HomeScreen()
-                }
+        setContent()
+        {
+            TMDBUnofficialTheme()
+            {
+                TmdbApp()
             }
         }
     }
@@ -41,18 +38,20 @@ fun Greeting(name: String, modifier: Modifier = Modifier)
     val mainViewModel: MainViewModel = viewModel(factory = MainViewModel.factory)
     var mainUiState = mainViewModel.mainUiState
 
-    when(mainUiState)
+    when (mainUiState)
     {
         is MainUiState.Loading              ->
             Text(
                 text = "Loading",
                 modifier = modifier
             )
+
         is MainUiState.ConfigurationSuccess ->
             Text(
                 text = "${mainUiState.imageConfiguration}",
                 modifier = modifier
             )
+
         is MainUiState.Error                ->
             Text(
                 text = "Error",
