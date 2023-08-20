@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity()
         super.onCreate(savedInstanceState)
         setContent()
         {
-            TMDBUnofficialTheme()
+            TMDBUnofficialTheme(darkTheme = false, dynamicColor = false)
             {
                 TmdbApp()
             }
