@@ -31,21 +31,37 @@ class HomeViewModel(
     private lateinit var thisWeekTrendMovies: List<Trend>
     private lateinit var todayTrendSeries: List<Trend>
     private lateinit var thisWeekTrendSeries: List<Trend>
-    var homeUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
+    var homeMovieUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
+        private set
+    var homeSerialUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
         private set
 
     init
     {
         viewModelScope.launch()
         {
-            homeUiState = HomeUiState.Loading
-            homeUiState = try
+            homeMovieUiState = HomeUiState.Loading
+            homeMovieUiState = try
             {
                 todayTrendMovies = trendingRepository.getTodayTrendingMovies().toExternal()
                 thisWeekTrendMovies = trendingRepository.getThisWeekTrendingMovies().toExternal()
+                HomeUiState.Success(todayTrendMovies)
+            }
+            catch (e: IOException)
+            {
+                HomeUiState.Error
+            }
+            catch (e: HttpException)
+            {
+                HomeUiState.Error
+            }
+
+            homeSerialUiState = HomeUiState.Loading
+            homeSerialUiState = try
+            {
                 todayTrendSeries = trendingRepository.getTodayTrendingSeries().toExternal()
                 thisWeekTrendSeries = trendingRepository.getThisWeekTrendingSeries().toExternal()
-                HomeUiState.Success(todayTrendMovies)
+                HomeUiState.Success(todayTrendSeries)
             }
             catch (e: IOException)
             {
@@ -60,22 +76,22 @@ class HomeViewModel(
 
     fun getTodayTrendMovies()
     {
-        homeUiState = HomeUiState.Success(todayTrendMovies)
+        homeMovieUiState = HomeUiState.Success(todayTrendMovies)
     }
 
     fun getThisWeekTrendMovies()
     {
-        homeUiState = HomeUiState.Success(thisWeekTrendMovies)
+        homeMovieUiState = HomeUiState.Success(thisWeekTrendMovies)
     }
 
     fun getTodayTrendSeries()
     {
-        homeUiState = HomeUiState.Success(todayTrendSeries)
+        homeSerialUiState = HomeUiState.Success(todayTrendSeries)
     }
 
     fun getThisWeekTrendSeries()
     {
-        homeUiState = HomeUiState.Success(thisWeekTrendSeries)
+        homeSerialUiState = HomeUiState.Success(thisWeekTrendSeries)
     }
 
     companion object

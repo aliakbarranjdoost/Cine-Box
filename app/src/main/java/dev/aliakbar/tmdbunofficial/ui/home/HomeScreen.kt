@@ -1,15 +1,14 @@
 package dev.aliakbar.tmdbunofficial.ui.home
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SegmentedButton
@@ -36,71 +35,90 @@ import dev.aliakbar.tmdbunofficial.data.Trend
 fun HomeScreen()
 {
     val viewModel: HomeViewModel = viewModel(factory = HomeViewModel.factory)
-    var homeUiState = viewModel.homeUiState
+    var homeMovieUiState = viewModel.homeMovieUiState
+    var homeSerialUiState = viewModel.homeSerialUiState
 
-    Column()
+    Column(modifier = Modifier.fillMaxSize())
     {
-
         val timeRangeOptions = stringArrayResource(R.array.date_range)
         var moviesTimeSelectedIndex by remember { mutableIntStateOf(0) }
         var seriesTimeSelectedIndex by remember { mutableIntStateOf(0) }
 
-        SingleChoiceSegmentedButtonRow(modifier = Modifier.width(200.dp))
+        Row(modifier = Modifier.fillMaxWidth())
         {
-            timeRangeOptions.forEachIndexed()
+            Text(text = "Trending Movies")
+            Spacer(modifier = Modifier.width(16.dp))
+            SingleChoiceSegmentedButtonRow(modifier = Modifier.width(200.dp))
             {
-                index,label ->
-                SegmentedButton(
-                    modifier = Modifier.width(75.dp),
-                    selected = index == moviesTimeSelectedIndex,
-                    onClick = { moviesTimeSelectedIndex = index },
-                    shape = SegmentedButtonDefaults.shape(position = index, count = timeRangeOptions.size)
-                )
-                {
-                    Text(label)
+                timeRangeOptions.forEachIndexed()
+                { index, label ->
+                    SegmentedButton(
+                        modifier = Modifier.width(75.dp),
+                        selected = index == moviesTimeSelectedIndex,
+                        onClick =
+                        {
+                            moviesTimeSelectedIndex = index
+                            when (moviesTimeSelectedIndex)
+                            {
+                                0 -> viewModel.getTodayTrendMovies()
+                                1 -> viewModel.getThisWeekTrendMovies()
+                            }
+                        },
+                        shape = SegmentedButtonDefaults.shape(
+                            position = index,
+                            count = timeRangeOptions.size
+                        )
+                    )
+                    {
+                        Text(label)
+                    }
                 }
             }
         }
 
-        Row(modifier = Modifier.fillMaxWidth(),Arrangement.Center)
-        {
-            Spacer(modifier = Modifier.width(16.dp))
-            Button(onClick = { viewModel.getTodayTrendMovies() }) { Text(text = "1") }
-            Spacer(modifier = Modifier.width(16.dp))
-            Button(onClick = { viewModel.getThisWeekTrendMovies() }) { Text(text = "2") }
-            Spacer(modifier = Modifier.width(16.dp))
-        }
-
-        SingleChoiceSegmentedButtonRow(modifier = Modifier.width(200.dp))
-        {
-            timeRangeOptions.forEachIndexed()
-            {
-                    index,label ->
-                SegmentedButton(
-                    modifier = Modifier.width(75.dp),
-                    selected = index == seriesTimeSelectedIndex,
-                    onClick = { seriesTimeSelectedIndex = index },
-                    shape = SegmentedButtonDefaults.shape(position = index, count = timeRangeOptions.size)
-                )
-                {
-                    Text(label)
-                }
-            }
-        }
-
-        Row(modifier = Modifier.fillMaxWidth(),Arrangement.Center)
-        {
-            Spacer(modifier = Modifier.width(16.dp))
-            Button(onClick = { viewModel.getTodayTrendSeries() }) { Text(text = "3") }
-            Spacer(modifier = Modifier.width(16.dp))
-            Button(onClick = { viewModel.getThisWeekTrendSeries() }) { Text(text = "4") }
-            Spacer(modifier = Modifier.width(16.dp))
-        }
-
-        when (homeUiState)
+        when (homeMovieUiState)
         {
             is HomeUiState.Loading -> Text(text = "Loading")
-            is HomeUiState.Success -> TrendList(trends = homeUiState.trends)
+            is HomeUiState.Success -> TrendList(trends = homeMovieUiState.trends)
+            is HomeUiState.Error   -> Text(text = "Error")
+        }
+
+        Row(modifier = Modifier.fillMaxWidth())
+        {
+            Text(text = "Trending Series")
+            Spacer(modifier = Modifier.width(16.dp))
+            SingleChoiceSegmentedButtonRow(modifier = Modifier.width(200.dp))
+            {
+                timeRangeOptions.forEachIndexed()
+                { index, label ->
+                    SegmentedButton(
+                        modifier = Modifier.width(75.dp),
+                        selected = index == seriesTimeSelectedIndex,
+                        onClick =
+                        {
+                            seriesTimeSelectedIndex = index
+                            when (seriesTimeSelectedIndex)
+                            {
+                                0 -> viewModel.getTodayTrendSeries()
+                                1 -> viewModel.getThisWeekTrendSeries()
+                            }
+                        },
+                        shape = SegmentedButtonDefaults.shape(
+                            position = index,
+                            count = timeRangeOptions.size
+                        )
+                    )
+                    {
+                        Text(label)
+                    }
+                }
+            }
+        }
+
+        when (homeSerialUiState)
+        {
+            is HomeUiState.Loading -> Text(text = "Loading")
+            is HomeUiState.Success -> TrendList(trends = homeSerialUiState.trends)
             is HomeUiState.Error   -> Text(text = "Error")
         }
     }
