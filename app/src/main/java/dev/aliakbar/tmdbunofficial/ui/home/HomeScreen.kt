@@ -1,5 +1,6 @@
 package dev.aliakbar.tmdbunofficial.ui.home
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SegmentedButton
@@ -37,8 +40,9 @@ fun HomeScreen()
     val viewModel: HomeViewModel = viewModel(factory = HomeViewModel.factory)
     var homeMovieUiState = viewModel.homeMovieUiState
     var homeSerialUiState = viewModel.homeSerialUiState
+    val scrollState = rememberScrollState()
 
-    Column(modifier = Modifier.fillMaxSize())
+    Column(modifier = Modifier.fillMaxSize().verticalScroll(scrollState))
     {
         val timeRangeOptions = stringArrayResource(R.array.date_range)
         var moviesTimeSelectedIndex by remember { mutableIntStateOf(0) }
