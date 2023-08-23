@@ -10,8 +10,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.Trend
-import dev.aliakbar.tmdbunofficial.data.TrendingRepository
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularSerial
+import dev.aliakbar.tmdbunofficial.data.HomeRepository
 import dev.aliakbar.tmdbunofficial.data.toExternal
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -25,7 +24,7 @@ sealed interface HomeUiState
 }
 
 class HomeViewModel(
-    private val trendingRepository: TrendingRepository
+    private val homeRepository: HomeRepository
 ) : ViewModel()
 {
     private lateinit var todayTrendMovies: List<Trend>
@@ -50,8 +49,8 @@ class HomeViewModel(
             homeMovieUiState = HomeUiState.Loading
             homeMovieUiState = try
             {
-                todayTrendMovies = trendingRepository.getTodayTrendingMovies().toExternal()
-                thisWeekTrendMovies = trendingRepository.getThisWeekTrendingMovies().toExternal()
+                todayTrendMovies = homeRepository.getTodayTrendingMovies().toExternal()
+                thisWeekTrendMovies = homeRepository.getThisWeekTrendingMovies().toExternal()
                 HomeUiState.Success(todayTrendMovies)
             }
             catch (e: IOException)
@@ -66,8 +65,8 @@ class HomeViewModel(
             homeSerialUiState = HomeUiState.Loading
             homeSerialUiState = try
             {
-                todayTrendSeries = trendingRepository.getTodayTrendingSeries().toExternal()
-                thisWeekTrendSeries = trendingRepository.getThisWeekTrendingSeries().toExternal()
+                todayTrendSeries = homeRepository.getTodayTrendingSeries().toExternal()
+                thisWeekTrendSeries = homeRepository.getThisWeekTrendingSeries().toExternal()
                 HomeUiState.Success(todayTrendSeries)
             }
             catch (e: IOException)
@@ -82,7 +81,7 @@ class HomeViewModel(
             homePopularMoviesUiState = HomeUiState.Loading
             homePopularMoviesUiState = try
             {
-                popularMovies = trendingRepository.getPopularMovies().toExternal()
+                popularMovies = homeRepository.getPopularMovies().toExternal()
                 HomeUiState.Success(popularMovies)
             }
             catch (e: IOException)
@@ -97,7 +96,7 @@ class HomeViewModel(
             homePopularSeriesUiState = HomeUiState.Loading
             homePopularSeriesUiState = try
             {
-                popularSeries = trendingRepository.getPopularSeries().toExternal()
+                popularSeries = homeRepository.getPopularSeries().toExternal()
                 HomeUiState.Success(popularSeries)
             }
             catch (e: IOException)
@@ -149,7 +148,7 @@ class HomeViewModel(
             {
                 val application =
                     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as TmdbUnofficialApplication)
-                val trendingRepository = application.container.trendingRepository
+                val trendingRepository = application.container.homeRepository
                 HomeViewModel(trendingRepository)
             }
         }

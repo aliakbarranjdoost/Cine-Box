@@ -3,12 +3,10 @@ package dev.aliakbar.tmdbunofficial.data
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalTrend
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
-private var TAG = TrendingRepository::class.java.simpleName
+private var TAG = HomeRepository::class.java.simpleName
 
-class TrendingRepository(
+class HomeRepository(
     private val networkDataSource: TMDBApiService,
     private val localDataSource: TmdbDatabase
 ) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao())

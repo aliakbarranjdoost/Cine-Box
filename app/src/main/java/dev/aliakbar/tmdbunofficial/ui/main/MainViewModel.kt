@@ -11,7 +11,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.ConfigurationRepository
-import dev.aliakbar.tmdbunofficial.data.TrendingRepository
+import dev.aliakbar.tmdbunofficial.data.HomeRepository
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalImageConfiguration
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -32,7 +32,7 @@ sealed interface MainUiState
 }
 class MainViewModel(
     private val configurationRepository: ConfigurationRepository,
-    private val trendingRepository: TrendingRepository
+    private val homeRepository: HomeRepository
 ): ViewModel()
 {
     var mainUiState: MainUiState by mutableStateOf(MainUiState.Loading)
@@ -78,7 +78,7 @@ class MainViewModel(
             {
                 val application =(this[APPLICATION_KEY] as TmdbUnofficialApplication)
                 val configurationRepository = application.container.configurationRepository
-                val trendingRepository = application.container.trendingRepository
+                val trendingRepository = application.container.homeRepository
                 MainViewModel(
                     configurationRepository,
                     trendingRepository
