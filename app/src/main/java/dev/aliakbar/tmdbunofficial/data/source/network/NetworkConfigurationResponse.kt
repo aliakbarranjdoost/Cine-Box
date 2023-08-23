@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class NetworkConfiguration(
+data class NetworkConfigurationResponse(
     @SerialName("images")
     val imageConfiguration: NetworkImageConfiguration,
     @SerialName("change_keys")

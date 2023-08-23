@@ -5,7 +5,7 @@ import retrofit2.http.GET
 interface TMDBApiService
 {
     @GET("configuration")
-    suspend fun getConfiguration(): NetworkConfiguration
+    suspend fun getConfiguration(): NetworkConfigurationResponse
 
     @GET("trending/movie/day")
     suspend fun getTodayTrendingMovies(): NetworkResponse<List<NetworkTrendingMovie>>
