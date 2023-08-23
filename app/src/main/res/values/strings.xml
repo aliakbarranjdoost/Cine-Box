@@ -10,9 +10,16 @@
     <string name = "series_details">Series Details</string>
     <string name = "today">Today</string>
     <string name = "this_week">This Week</string>
+    <string name = "Movie">Movie</string>
+    <string name = "Series">Series</string>
 
-    <string-array name = "date_range">
+    <string-array name = "date_range_options">
         <item>@string/today</item>
         <item>@string/this_week</item>
+    </string-array>
+
+    <string-array name = "content_type_option">
+        <item>@string/Movie</item>
+        <item>@string/Series</item>
     </string-array>
 </resources>

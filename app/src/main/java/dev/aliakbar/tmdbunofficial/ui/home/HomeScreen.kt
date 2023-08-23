@@ -45,7 +45,7 @@ fun HomeScreen()
 
     Column(modifier = Modifier.fillMaxSize().verticalScroll(scrollState))
     {
-        val timeRangeOptions = stringArrayResource(R.array.date_range)
+        val timeRangeOptions = stringArrayResource(R.array.date_range_options)
         var moviesSelectedTimeRangeIndex by remember { mutableIntStateOf(0) }
         var seriesSelectedTimeRangeIndex by remember { mutableIntStateOf(0) }
         var popularSelectedTypeIndex by remember { mutableIntStateOf(0) }
