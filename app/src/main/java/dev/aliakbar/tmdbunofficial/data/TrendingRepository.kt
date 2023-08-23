@@ -37,8 +37,17 @@ class TrendingRepository(
         return networkDataSource.getThisWeekTrendingSeries().results.toLocal(baseUrl)
     }
 
+    suspend fun getPopularMovies(): List<LocalTrend>
+    {
+        return networkDataSource.getPopularMovies().results.toLocal(createBaseImageUrl())
+    }
     private fun findBiggestPosterSize(posterSizes: List<String>): String
     {
         return posterSizes[posterSizes.size - 2]
+    }
+
+    private fun createBaseImageUrl(): String
+    {
+        return imageConfiguration.secureBaseUrl + findBiggestPosterSize(imageConfiguration.posterSizes)
     }
 }

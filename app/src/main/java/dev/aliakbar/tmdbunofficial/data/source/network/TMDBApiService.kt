@@ -18,4 +18,7 @@ interface TMDBApiService
 
     @GET("trending/tv/week")
     suspend fun getThisWeekTrendingSeries(): NetworkResponse<List<NetworkTrendingSeries>>
+
+    @GET("movie/popular")
+    suspend fun getPopularMovies(): NetworkResponse<List<NetworkPopularMovie>>
 }

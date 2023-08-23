@@ -31,9 +31,13 @@ class HomeViewModel(
     private lateinit var thisWeekTrendMovies: List<Trend>
     private lateinit var todayTrendSeries: List<Trend>
     private lateinit var thisWeekTrendSeries: List<Trend>
+    private lateinit var popularMovies: List<Trend>
+
     var homeMovieUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
         private set
     var homeSerialUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
+        private set
+    var homePopularMoviesUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
         private set
 
     init
@@ -71,6 +75,21 @@ class HomeViewModel(
             {
                 HomeUiState.Error
             }
+
+            homePopularMoviesUiState = HomeUiState.Loading
+            homePopularMoviesUiState = try
+            {
+                popularMovies = trendingRepository.getPopularMovies().toExternal()
+                HomeUiState.Success(popularMovies)
+            }
+            catch (e: IOException)
+            {
+                HomeUiState.Error
+            }
+            catch (e: HttpException)
+            {
+                HomeUiState.Error
+            }
         }
     }
 
@@ -92,6 +111,11 @@ class HomeViewModel(
     fun getThisWeekTrendSeries()
     {
         homeSerialUiState = HomeUiState.Success(thisWeekTrendSeries)
+    }
+
+    fun getPopularMovies()
+    {
+        homePopularMoviesUiState = HomeUiState.Success(popularMovies)
     }
 
     companion object

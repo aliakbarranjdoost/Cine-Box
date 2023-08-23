@@ -40,6 +40,8 @@ fun HomeScreen()
     val viewModel: HomeViewModel = viewModel(factory = HomeViewModel.factory)
     var homeMovieUiState = viewModel.homeMovieUiState
     var homeSerialUiState = viewModel.homeSerialUiState
+     var homePopularMoviesUiState = viewModel.homePopularMoviesUiState
+
     val scrollState = rememberScrollState()
 
     Column(modifier = Modifier.fillMaxSize().verticalScroll(scrollState))
@@ -123,6 +125,45 @@ fun HomeScreen()
         {
             is HomeUiState.Loading -> Text(text = "Loading")
             is HomeUiState.Success -> TrendList(trends = homeSerialUiState.trends)
+            is HomeUiState.Error   -> Text(text = "Error")
+        }
+
+        Row(modifier = Modifier.fillMaxWidth())
+        {
+            Text(text = "Trending Series")
+            Spacer(modifier = Modifier.width(16.dp))
+            SingleChoiceSegmentedButtonRow(modifier = Modifier.width(200.dp))
+            {
+                timeRangeOptions.forEachIndexed()
+                { index, label ->
+                    SegmentedButton(
+                        modifier = Modifier.width(75.dp),
+                        selected = index == seriesTimeSelectedIndex,
+                        onClick =
+                        {
+                            seriesTimeSelectedIndex = index
+                            when (seriesTimeSelectedIndex)
+                            {
+                                0 -> viewModel.getPopularMovies()
+                                1 -> viewModel.getThisWeekTrendSeries()
+                            }
+                        },
+                        shape = SegmentedButtonDefaults.shape(
+                            position = index,
+                            count = timeRangeOptions.size
+                        )
+                    )
+                    {
+                        Text(label)
+                    }
+                }
+            }
+        }
+
+        when (homePopularMoviesUiState)
+        {
+            is HomeUiState.Loading -> Text(text = "Loading")
+            is HomeUiState.Success -> TrendList(trends = homePopularMoviesUiState.trends)
             is HomeUiState.Error   -> Text(text = "Error")
         }
     }
