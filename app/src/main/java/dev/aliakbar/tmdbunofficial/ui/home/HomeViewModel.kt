@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.TrendingRepository
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularSerial
 import dev.aliakbar.tmdbunofficial.data.toExternal
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -32,6 +33,7 @@ class HomeViewModel(
     private lateinit var todayTrendSeries: List<Trend>
     private lateinit var thisWeekTrendSeries: List<Trend>
     private lateinit var popularMovies: List<Trend>
+    private lateinit var popularSeries: List<Trend>
 
     var homeMovieUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
         private set
@@ -39,6 +41,7 @@ class HomeViewModel(
         private set
     var homePopularMoviesUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
         private set
+    var homePopularSeriesUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
 
     init
     {
@@ -90,6 +93,21 @@ class HomeViewModel(
             {
                 HomeUiState.Error
             }
+
+            homePopularSeriesUiState = HomeUiState.Loading
+            homePopularSeriesUiState = try
+            {
+                popularSeries = trendingRepository.getPopularSeries().toExternal()
+                HomeUiState.Success(popularSeries)
+            }
+            catch (e: IOException)
+            {
+                HomeUiState.Error
+            }
+            catch (e: HttpException)
+            {
+                HomeUiState.Error
+            }
         }
     }
 
@@ -116,6 +134,11 @@ class HomeViewModel(
     fun getPopularMovies()
     {
         homePopularMoviesUiState = HomeUiState.Success(popularMovies)
+    }
+
+    fun getPopularSeries()
+    {
+        homePopularMoviesUiState = HomeUiState.Success(popularSeries)
     }
 
     companion object

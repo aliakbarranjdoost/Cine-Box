@@ -4,6 +4,7 @@ import dev.aliakbar.tmdbunofficial.data.source.local.LocalImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalTrend
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularMovie
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularSerial
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingMovie
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingSeries
 
@@ -117,6 +118,32 @@ fun NetworkPopularMovie.toLocal(basePosterUrl: String, rank: Int) = LocalTrend(
 
 @JvmName("popularMovieNetworkToLocal")
 fun List<NetworkPopularMovie>.toLocal(basePosterUrl: String) = mapIndexed()
+{ index, networkPopularMovie ->
+    networkPopularMovie.toLocal(basePosterUrl, index.inc())
+}
+
+fun NetworkPopularSerial.toExternal(basePosterUrl: String) = Trend(
+    id = id,
+    title = name,
+    score = voteAverage,
+    poster = basePosterUrl + posterPath,
+    rank = 0
+)
+
+@JvmName("popularSerialNetworkToExternal")
+fun List<NetworkPopularSerial>.toExternal(basePosterUrl: String) =
+    map { it.toExternal(basePosterUrl) }
+
+fun NetworkPopularSerial.toLocal(basePosterUrl: String, rank: Int) = LocalTrend(
+    id = id,
+    title = name,
+    score = voteAverage,
+    poster = basePosterUrl + posterPath,
+    rank = rank
+)
+
+@JvmName("popularSerialNetworkToLocal")
+fun List<NetworkPopularSerial>.toLocal(basePosterUrl: String) = mapIndexed()
 { index, networkPopularMovie ->
     networkPopularMovie.toLocal(basePosterUrl, index.inc())
 }

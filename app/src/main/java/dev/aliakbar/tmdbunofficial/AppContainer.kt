@@ -6,6 +6,7 @@ import dev.aliakbar.tmdbunofficial.data.ConfigurationRepository
 import dev.aliakbar.tmdbunofficial.data.TrendingRepository
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -30,8 +31,11 @@ class DefaultAppContainer(private val context: Context): AppContainer
         chain.proceed(newRequest)
     }
 
+    @OptIn(ExperimentalSerializationApi::class)
+    private val json = Json { coerceInputValues = true }
+
     private val retrofit = Retrofit.Builder()
-        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
         .client(okhttp.build())
         .baseUrl(baseUrl)
         .build()

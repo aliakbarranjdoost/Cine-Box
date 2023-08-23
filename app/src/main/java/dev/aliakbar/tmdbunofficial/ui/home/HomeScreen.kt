@@ -1,6 +1,5 @@
 package dev.aliakbar.tmdbunofficial.ui.home
 
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -40,15 +39,16 @@ fun HomeScreen()
     val viewModel: HomeViewModel = viewModel(factory = HomeViewModel.factory)
     var homeMovieUiState = viewModel.homeMovieUiState
     var homeSerialUiState = viewModel.homeSerialUiState
-     var homePopularMoviesUiState = viewModel.homePopularMoviesUiState
+    var homePopularMoviesUiState = viewModel.homePopularMoviesUiState
 
     val scrollState = rememberScrollState()
 
     Column(modifier = Modifier.fillMaxSize().verticalScroll(scrollState))
     {
         val timeRangeOptions = stringArrayResource(R.array.date_range)
-        var moviesTimeSelectedIndex by remember { mutableIntStateOf(0) }
-        var seriesTimeSelectedIndex by remember { mutableIntStateOf(0) }
+        var moviesSelectedTimeRangeIndex by remember { mutableIntStateOf(0) }
+        var seriesSelectedTimeRangeIndex by remember { mutableIntStateOf(0) }
+        var popularSelectedTypeIndex by remember { mutableIntStateOf(0) }
 
         Row(modifier = Modifier.fillMaxWidth())
         {
@@ -60,11 +60,11 @@ fun HomeScreen()
                 { index, label ->
                     SegmentedButton(
                         modifier = Modifier.width(75.dp),
-                        selected = index == moviesTimeSelectedIndex,
+                        selected = index == moviesSelectedTimeRangeIndex,
                         onClick =
                         {
-                            moviesTimeSelectedIndex = index
-                            when (moviesTimeSelectedIndex)
+                            moviesSelectedTimeRangeIndex = index
+                            when (moviesSelectedTimeRangeIndex)
                             {
                                 0 -> viewModel.getTodayTrendMovies()
                                 1 -> viewModel.getThisWeekTrendMovies()
@@ -99,11 +99,11 @@ fun HomeScreen()
                 { index, label ->
                     SegmentedButton(
                         modifier = Modifier.width(75.dp),
-                        selected = index == seriesTimeSelectedIndex,
+                        selected = index == seriesSelectedTimeRangeIndex,
                         onClick =
                         {
-                            seriesTimeSelectedIndex = index
-                            when (seriesTimeSelectedIndex)
+                            seriesSelectedTimeRangeIndex = index
+                            when (seriesSelectedTimeRangeIndex)
                             {
                                 0 -> viewModel.getTodayTrendSeries()
                                 1 -> viewModel.getThisWeekTrendSeries()
@@ -130,7 +130,7 @@ fun HomeScreen()
 
         Row(modifier = Modifier.fillMaxWidth())
         {
-            Text(text = "Trending Series")
+            Text(text = "Popular Movies")
             Spacer(modifier = Modifier.width(16.dp))
             SingleChoiceSegmentedButtonRow(modifier = Modifier.width(200.dp))
             {
@@ -138,14 +138,14 @@ fun HomeScreen()
                 { index, label ->
                     SegmentedButton(
                         modifier = Modifier.width(75.dp),
-                        selected = index == seriesTimeSelectedIndex,
+                        selected = index == popularSelectedTypeIndex,
                         onClick =
                         {
-                            seriesTimeSelectedIndex = index
-                            when (seriesTimeSelectedIndex)
+                            popularSelectedTypeIndex = index
+                            when (popularSelectedTypeIndex)
                             {
                                 0 -> viewModel.getPopularMovies()
-                                1 -> viewModel.getThisWeekTrendSeries()
+                                1 -> viewModel.getPopularSeries()
                             }
                         },
                         shape = SegmentedButtonDefaults.shape(

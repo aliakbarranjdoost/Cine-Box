@@ -21,4 +21,7 @@ interface TMDBApiService
 
     @GET("movie/popular")
     suspend fun getPopularMovies(): NetworkResponse<List<NetworkPopularMovie>>
+
+    @GET("tv/popular")
+    suspend fun getPopularSeries(): NetworkResponse<List<NetworkPopularSerial>>
 }
