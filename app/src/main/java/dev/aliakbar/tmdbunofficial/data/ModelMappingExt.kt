@@ -2,7 +2,10 @@ package dev.aliakbar.tmdbunofficial.data
 
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalTrend
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCompany
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkGenre
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImageConfiguration
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkMovieDetails
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularMovie
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularSerial
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingMovie
@@ -65,8 +68,7 @@ fun LocalTrend.toExternal() = Trend(
 
 @JvmName("trendingSerialLocalToExternal")
 fun List<LocalTrend>.toExternal() = map()
-{
-    localTrend ->
+{ localTrend ->
     localTrend.toExternal()
 }
 
@@ -146,4 +148,49 @@ fun NetworkPopularSerial.toLocal(basePosterUrl: String, rank: Int) = LocalTrend(
 fun List<NetworkPopularSerial>.toLocal(basePosterUrl: String) = mapIndexed()
 { index, networkPopularMovie ->
     networkPopularMovie.toLocal(basePosterUrl, index.inc())
+}
+
+fun NetworkMovieDetails.toExternal() = Movie(
+    id = id,
+    title = title,
+    originalTitle = originalTitle,
+    tagline = tagline,
+    overview = overview,
+    originalLanguage = originalLanguage,
+    releaseDate = releaseDate,
+    adult = adult,
+    popularity = popularity,
+    voteAverage = voteAverage,
+    voteCount = voteCount,
+    budget = budget,
+    homepage = homepage,
+    revenue = revenue,
+    runtime = runtime,
+    status = status,
+    backdropPath = backdropPath,
+    posterPath = posterPath,
+    genres = genres.toExternal(),
+    productionCompanies = productionCompanies.toExternal()
+)
+
+fun NetworkGenre.toExternal() = Genre(
+    id = id,
+    name = name
+)
+
+fun List<NetworkGenre>.toExternal() = map()
+{
+    networkGenre -> networkGenre.toExternal()
+}
+
+fun NetworkCompany.toExternal() = Company(
+    id = id,
+    logoPath = logoPath,
+    name = name,
+    originCountry = originCountry
+)
+
+fun List<NetworkCompany>.toExternal() = map()
+{
+    networkCompany -> networkCompany.toExternal()
 }
