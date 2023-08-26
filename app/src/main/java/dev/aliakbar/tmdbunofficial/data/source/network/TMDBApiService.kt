@@ -1,6 +1,7 @@
 package dev.aliakbar.tmdbunofficial.data.source.network
 
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface TMDBApiService
 {
@@ -24,4 +25,7 @@ interface TMDBApiService
 
     @GET("tv/popular")
     suspend fun getPopularSeries(): NetworkResponse<List<NetworkPopularSerial>>
+
+    @GET("movie/{id}")
+    suspend fun getMovieDetails(@Path("id") id : Int): NetworkMovieDetails
 }
