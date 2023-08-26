@@ -11,8 +11,8 @@ class DetailsRepository(
     private val localDataSource: TmdbDatabase
 ): ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
 {
-    suspend fun getMovieDetails(id: Int): NetworkMovieDetails
+    suspend fun getMovieDetails(id: Int): Movie
     {
-        return networkDataSource.getMovieDetails(id)
+        return networkDataSource.getMovieDetails(id).toExternal()
     }
 }
