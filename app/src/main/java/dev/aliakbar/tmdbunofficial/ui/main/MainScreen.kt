@@ -26,11 +26,14 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import dev.aliakbar.tmdbunofficial.R
+import dev.aliakbar.tmdbunofficial.ui.details.DetailsScreen
 import dev.aliakbar.tmdbunofficial.ui.home.HomeScreen
 import dev.aliakbar.tmdbunofficial.ui.home.HomeViewModel
 
@@ -53,9 +56,9 @@ fun TmdbApp(
 )
 {
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentScreen = TmdbScreen.valueOf(
-        backStackEntry?.destination?.route ?: TmdbScreen.Home.name
-    )
+    //val currentScreen = TmdbScreen.valueOf(
+    //    backStackEntry?.destination?.route ?: TmdbScreen.Home.name
+    //)
 
 
     Scaffold(
@@ -77,7 +80,7 @@ fun TmdbApp(
             }
             composable(route = TmdbScreen.Home.name)
             {
-                HomeScreen()
+                HomeScreen(navController)
             }
             composable(route = TmdbScreen.Bookmark.name)
             {
@@ -95,9 +98,12 @@ fun TmdbApp(
             {
                 Text(text = stringResource(id = TmdbScreen.Setting.title))
             }
-            composable(route = TmdbScreen.MovieDetails.name)
-            {
-
+            composable(
+                route = TmdbScreen.MovieDetails.name + "/{id}",
+                arguments = listOf(navArgument("id") { type = NavType.IntType})
+                )
+            { backStackEntry ->
+                DetailsScreen(id = backStackEntry.arguments?.getInt("id") ?: 0)
             }
             composable(route = TmdbScreen.SeriesDetails.name)
             {

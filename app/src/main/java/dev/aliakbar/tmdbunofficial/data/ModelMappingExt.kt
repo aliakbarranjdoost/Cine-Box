@@ -178,6 +178,7 @@ fun NetworkGenre.toExternal() = Genre(
     name = name
 )
 
+@JvmName("NetworkGenreToExternal")
 fun List<NetworkGenre>.toExternal() = map()
 {
     networkGenre -> networkGenre.toExternal()
@@ -190,6 +191,7 @@ fun NetworkCompany.toExternal() = Company(
     originCountry = originCountry
 )
 
+@JvmName("NetworkCompanyToExternal")
 fun List<NetworkCompany>.toExternal() = map()
 {
     networkCompany -> networkCompany.toExternal()

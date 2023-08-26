@@ -27,14 +27,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Trend
+import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen()
+fun HomeScreen(navController: NavHostController)
 {
     val viewModel: HomeViewModel = viewModel(factory = HomeViewModel.factory)
     var homeMovieUiState = viewModel.homeMovieUiState
@@ -85,7 +87,10 @@ fun HomeScreen()
         when (homeMovieUiState)
         {
             is HomeUiState.Loading -> Text(text = "Loading")
-            is HomeUiState.Success -> TrendList(trends = homeMovieUiState.trends)
+            is HomeUiState.Success -> TrendList(
+                trends = homeMovieUiState.trends,
+                navController = navController
+            )
             is HomeUiState.Error   -> Text(text = "Error")
         }
 
@@ -124,7 +129,9 @@ fun HomeScreen()
         when (homeSerialUiState)
         {
             is HomeUiState.Loading -> Text(text = "Loading")
-            is HomeUiState.Success -> TrendList(trends = homeSerialUiState.trends)
+            is HomeUiState.Success -> TrendList(trends = homeSerialUiState.trends,
+                navController = navController
+            )
             is HomeUiState.Error   -> Text(text = "Error")
         }
 
@@ -163,28 +170,35 @@ fun HomeScreen()
         when (homePopularMoviesUiState)
         {
             is HomeUiState.Loading -> Text(text = "Loading")
-            is HomeUiState.Success -> TrendList(trends = homePopularMoviesUiState.trends)
+            is HomeUiState.Success -> TrendList(
+                trends = homePopularMoviesUiState.trends,
+                navController = navController
+            )
             is HomeUiState.Error   -> Text(text = "Error")
         }
     }
 }
 
 @Composable
-fun TrendList(trends: List<Trend>, modifier: Modifier = Modifier)
+fun TrendList(trends: List<Trend>,navController: NavHostController, modifier: Modifier = Modifier)
 {
     LazyRow(modifier = modifier)
     {
         items(items = trends, key = { trend -> trend.id })
         { trend ->
-            TrendItem(trend = trend)
+            TrendItem(trend = trend, onNavigateToDetails =
+            {
+                navController.navigate(TmdbScreen.MovieDetails.name + "/" + trend.id.toString())
+            })
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TrendItem(trend: Trend)
+fun TrendItem(trend: Trend,onNavigateToDetails: () -> Unit)
 {
-    Card(modifier = Modifier.padding(16.dp))
+    Card(modifier = Modifier.padding(16.dp), onClick = onNavigateToDetails)
     {
         Column {
             AsyncImage(
