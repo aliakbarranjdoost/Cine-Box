@@ -21,4 +21,5 @@ data class Movie(
     val revenue: Int,
     val runtime: Int,
     val status: String,
+    val collection: Collection
 )

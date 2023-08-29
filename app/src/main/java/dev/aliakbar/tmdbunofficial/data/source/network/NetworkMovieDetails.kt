@@ -30,7 +30,7 @@ data class NetworkMovieDetails(
     @SerialName("vote_count")
     val voteCount: Int,
     @SerialName("belongs_to_collection")
-    val collections: List<Int>,
+    val collection: NetworkCollection,
     val budget: Int,
     val homepage: String,
     @SerialName("production_companies")

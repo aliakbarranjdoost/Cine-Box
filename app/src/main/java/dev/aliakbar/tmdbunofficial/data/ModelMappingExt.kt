@@ -2,6 +2,7 @@ package dev.aliakbar.tmdbunofficial.data
 
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalTrend
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCollection
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCompany
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkGenre
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImageConfiguration
@@ -169,6 +170,7 @@ fun NetworkMovieDetails.toExternal() = Movie(
     status = status,
     backdropPath = backdropPath,
     posterPath = posterPath,
+    collection = collection.toExternal(),
     genres = genres.toExternal(),
     productionCompanies = productionCompanies.toExternal()
 )
@@ -196,3 +198,10 @@ fun List<NetworkCompany>.toExternal() = map()
 {
     networkCompany -> networkCompany.toExternal()
 }
+
+fun NetworkCollection.toExternal() = Collection(
+    id = id,
+    name = name,
+    posterPath = posterPath,
+    backdropPath = backdropPath
+)
