@@ -4,6 +4,7 @@ import dev.aliakbar.tmdbunofficial.data.source.local.LocalImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalTrend
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCollection
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCompany
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCountry
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkGenre
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkMovieDetails
@@ -170,6 +171,7 @@ fun NetworkMovieDetails.toExternal() = Movie(
     status = status,
     backdropPath = backdropPath,
     posterPath = posterPath,
+    productionCountries = productionCountries.toExternal(),
     collection = collection.toExternal(),
     genres = genres.toExternal(),
     productionCompanies = productionCompanies.toExternal()
@@ -205,3 +207,14 @@ fun NetworkCollection.toExternal() = Collection(
     posterPath = posterPath,
     backdropPath = backdropPath
 )
+
+fun NetworkCountry.toExternal() = Country(
+    iso = iso,
+    name = name
+)
+
+@JvmName("NetworkCountryToExternal")
+fun List<NetworkCountry>.toExternal() = map()
+{
+        networkCountry -> networkCountry.toExternal()
+}
