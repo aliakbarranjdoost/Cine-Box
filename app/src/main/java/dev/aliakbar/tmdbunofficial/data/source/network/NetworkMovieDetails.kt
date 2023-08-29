@@ -40,4 +40,6 @@ data class NetworkMovieDetails(
     val revenue: Int,
     val runtime: Int,
     val status: String,
+    @SerialName("spoken_languages")
+    val spokenLanguages: List<NetworkLanguage>
 )

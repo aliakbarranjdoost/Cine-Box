@@ -7,6 +7,7 @@ import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCompany
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCountry
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkGenre
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImageConfiguration
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkLanguage
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkMovieDetails
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularMovie
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularSerial
@@ -174,6 +175,7 @@ fun NetworkMovieDetails.toExternal() = Movie(
     productionCountries = productionCountries.toExternal(),
     collection = collection.toExternal(),
     genres = genres.toExternal(),
+    spokenLanguages = spokenLanguages.toExternal(),
     productionCompanies = productionCompanies.toExternal()
 )
 
@@ -217,4 +219,16 @@ fun NetworkCountry.toExternal() = Country(
 fun List<NetworkCountry>.toExternal() = map()
 {
         networkCountry -> networkCountry.toExternal()
+}
+
+fun NetworkLanguage.toExternal() = Language(
+    iso = iso,
+    englishName = englishName,
+    name = name
+)
+
+@JvmName("NetworkLanguageToExternal")
+fun List<NetworkLanguage>.toExternal() = map()
+{
+        networkLanguage -> networkLanguage.toExternal()
 }
