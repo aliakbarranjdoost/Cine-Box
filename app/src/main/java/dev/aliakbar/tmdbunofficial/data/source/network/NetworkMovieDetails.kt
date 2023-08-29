@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class NetworkMovieDetails(
     val id: Int,
     @SerialName("imdb_id")
-    val imdbId: Int,
+    val imdbId: String,
     val title: String,
     @SerialName("original_title")
     val originalTitle: String,
