@@ -18,16 +18,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Movie
+import dev.aliakbar.tmdbunofficial.data.source.sample.movie
 
-private const val TAG: String = "DetailsScreen"
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsScreen(
-                  viewModel: DetailsViewModel = viewModel(factory = DetailsViewModel.factory)
+        viewModel: DetailsViewModel = viewModel(factory = DetailsViewModel.factory)
 )
 {
     val uiState = viewModel.detailsUiState
@@ -35,15 +35,14 @@ fun DetailsScreen(
     when(uiState)
     {
         is DetailsUiState.Loading -> Text(text = "Loading")
-        is DetailsUiState.Success -> ShowMovieDetails(movie = uiState.movie)
+        is DetailsUiState.Success -> MovieDetails(movie = uiState.movie)
         is DetailsUiState.Error -> Text(text = "Error")
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShowMovieDetails(movie: Movie)
+fun MovieDetails(movie: Movie)
 {
     Scaffold(
         topBar = {
@@ -86,4 +85,11 @@ fun ShowMovieDetails(movie: Movie)
             Text(text = movie.title)
         }
     }
+}
+
+@Preview
+@Composable
+fun MovieDetailsPreview()
+{
+    MovieDetails(movie = movie)
 }
