@@ -13,6 +13,8 @@ class DetailsRepository(
 {
     suspend fun getMovieDetails(id: Int): Movie
     {
-        return networkDataSource.getMovieDetails(id).toExternal()
+        return networkDataSource.getMovieDetails(id).toExternal(
+            createBasePosterUrl(),createBaseBackdropUrl()
+        )
     }
 }

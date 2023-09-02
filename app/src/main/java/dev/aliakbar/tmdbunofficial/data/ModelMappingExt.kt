@@ -153,7 +153,7 @@ fun List<NetworkPopularSerial>.toLocal(basePosterUrl: String) = mapIndexed()
     networkPopularMovie.toLocal(basePosterUrl, index.inc())
 }
 
-fun NetworkMovieDetails.toExternal() = Movie(
+fun NetworkMovieDetails.toExternal(basePosterUrl: String,baseBackdropUrl: String) = Movie(
     id = id,
     title = title,
     originalTitle = originalTitle,
@@ -170,8 +170,8 @@ fun NetworkMovieDetails.toExternal() = Movie(
     revenue = revenue,
     runtime = runtime,
     status = status,
-    backdropPath = backdropPath,
-    posterPath = posterPath,
+    backdropPath = baseBackdropUrl + backdropPath,
+    posterPath = basePosterUrl + posterPath,
     productionCountries = productionCountries.toExternal(),
     collection = collection?.toExternal(),
     genres = genres.toExternal(),

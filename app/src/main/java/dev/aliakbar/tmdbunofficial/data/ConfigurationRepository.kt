@@ -1,17 +1,10 @@
 package dev.aliakbar.tmdbunofficial.data
 
-import android.util.Log
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalConfigurationDao
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import okhttp3.internal.wait
 
 private var TAG = ConfigurationRepository::class.java.simpleName
 open class ConfigurationRepository(
@@ -45,13 +38,18 @@ open class ConfigurationRepository(
         return localDataSource.getConfiguration()
     }
 
-    private fun findBiggestPosterSize(posterSizes: List<String>): String
+    private fun findBiggestImageSize(imageSizes: List<String>): String
     {
-        return posterSizes[posterSizes.size - 2]
+        return imageSizes[imageSizes.size - 2]
     }
 
-    protected fun createBaseImageUrl(): String
+    protected fun createBasePosterUrl(): String
     {
-        return imageConfiguration.secureBaseUrl + findBiggestPosterSize(imageConfiguration.posterSizes)
+        return imageConfiguration.secureBaseUrl + findBiggestImageSize(imageConfiguration.posterSizes)
+    }
+
+    protected fun createBaseBackdropUrl(): String
+    {
+        return imageConfiguration.secureBaseUrl + findBiggestImageSize(imageConfiguration.backdropSizes)
     }
 }
