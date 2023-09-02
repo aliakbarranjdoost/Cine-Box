@@ -3,8 +3,10 @@ package dev.aliakbar.tmdbunofficial.ui.details
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -26,16 +28,19 @@ sealed interface DetailsUiState
 }
 
 class DetailsViewModel (
-    private val repository: DetailsRepository
+    private val repository: DetailsRepository,
+    private val savedStateHandle: SavedStateHandle
 ): ViewModel()
 {
     var detailsUiState: DetailsUiState by mutableStateOf(
         DetailsUiState.Loading
     )
 
+    private val id: Int = savedStateHandle["id"] ?: 0
+
     init
     {
-
+        getMovieDetails(id)
     }
 
     fun getMovieDetails(id: Int)
@@ -66,7 +71,8 @@ class DetailsViewModel (
                 val application =
                     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as TmdbUnofficialApplication)
                 val repository = application.container.detailsRepository
-                DetailsViewModel(repository)
+                val savedStateHandle = this.createSavedStateHandle()
+                DetailsViewModel(repository,savedStateHandle)
             }
         }
     }

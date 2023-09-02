@@ -21,7 +21,7 @@ data class Movie(
     val revenue: Int,
     val runtime: Int,
     val status: String,
-    val collection: Collection,
+    val collection: Collection?,
     val productionCountries: List<Country>,
     val spokenLanguages: List<Language>
 )

@@ -103,7 +103,7 @@ fun TmdbApp(
                 arguments = listOf(navArgument("id") { type = NavType.IntType})
                 )
             { backStackEntry ->
-                DetailsScreen(id = backStackEntry.arguments?.getInt("id") ?: 0)
+                DetailsScreen()
             }
             composable(route = TmdbScreen.SeriesDetails.name)
             {
