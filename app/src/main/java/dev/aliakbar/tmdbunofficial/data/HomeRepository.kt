@@ -13,26 +13,22 @@ class HomeRepository(
 {
     suspend fun getTodayTrendingMovies(): List<LocalTrend>
     {
-        val baseUrl = imageConfiguration.secureBaseUrl + findBiggestPosterSize(imageConfiguration.posterSizes)
-        return networkDataSource.getTodayTrendingMovies().results.toLocal(baseUrl)
+        return networkDataSource.getTodayTrendingMovies().results.toLocal(createBaseImageUrl())
     }
 
     suspend fun getThisWeekTrendingMovies(): List<LocalTrend>
     {
-        val baseUrl = imageConfiguration.secureBaseUrl + findBiggestPosterSize(imageConfiguration.posterSizes)
-        return networkDataSource.getThisWeekTrendingMovies().results.toLocal(baseUrl)
+        return networkDataSource.getThisWeekTrendingMovies().results.toLocal(createBaseImageUrl())
     }
 
     suspend fun getTodayTrendingSeries(): List<LocalTrend>
     {
-        val baseUrl = imageConfiguration.secureBaseUrl + findBiggestPosterSize(imageConfiguration.posterSizes)
-        return networkDataSource.getTodayTrendingSeries().results.toLocal(baseUrl)
+        return networkDataSource.getTodayTrendingSeries().results.toLocal(createBaseImageUrl())
     }
 
     suspend fun getThisWeekTrendingSeries(): List<LocalTrend>
     {
-        val baseUrl = imageConfiguration.secureBaseUrl + findBiggestPosterSize(imageConfiguration.posterSizes)
-        return networkDataSource.getThisWeekTrendingSeries().results.toLocal(baseUrl)
+        return networkDataSource.getThisWeekTrendingSeries().results.toLocal(createBaseImageUrl())
     }
 
     suspend fun getPopularMovies(): List<LocalTrend>
@@ -43,15 +39,5 @@ class HomeRepository(
     suspend fun getPopularSeries(): List<LocalTrend>
     {
         return networkDataSource.getPopularSeries().results.toLocal(createBaseImageUrl())
-    }
-
-    private fun findBiggestPosterSize(posterSizes: List<String>): String
-    {
-        return posterSizes[posterSizes.size - 2]
-    }
-
-    private fun createBaseImageUrl(): String
-    {
-        return imageConfiguration.secureBaseUrl + findBiggestPosterSize(imageConfiguration.posterSizes)
     }
 }

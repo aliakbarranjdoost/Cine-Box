@@ -44,4 +44,14 @@ open class ConfigurationRepository(
     {
         return localDataSource.getConfiguration()
     }
+
+    private fun findBiggestPosterSize(posterSizes: List<String>): String
+    {
+        return posterSizes[posterSizes.size - 2]
+    }
+
+    protected fun createBaseImageUrl(): String
+    {
+        return imageConfiguration.secureBaseUrl + findBiggestPosterSize(imageConfiguration.posterSizes)
+    }
 }
