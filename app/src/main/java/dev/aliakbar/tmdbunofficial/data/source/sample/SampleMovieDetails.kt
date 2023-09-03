@@ -76,5 +76,7 @@ val movie = Movie(
     status = "Released",
     collection = collection,
     productionCountries = countries,
-    spokenLanguages = languages
+    spokenLanguages = languages,
+    casts = emptyList(),
+    crews = emptyList()
 )

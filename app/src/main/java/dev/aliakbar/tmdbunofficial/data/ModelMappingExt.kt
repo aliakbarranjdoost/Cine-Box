@@ -2,9 +2,11 @@ package dev.aliakbar.tmdbunofficial.data
 
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalTrend
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCast
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCollection
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCompany
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCountry
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCrew
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkGenre
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkLanguage
@@ -176,7 +178,9 @@ fun NetworkMovieDetails.toExternal(basePosterUrl: String,baseBackdropUrl: String
     collection = collection?.toExternal(),
     genres = genres.toExternal(),
     spokenLanguages = spokenLanguages.toExternal(),
-    productionCompanies = productionCompanies.toExternal()
+    productionCompanies = productionCompanies.toExternal(),
+    casts = credits.cast.toExternal(),
+    crews = credits.crew.toExternal()
 )
 
 fun NetworkGenre.toExternal() = Genre(
@@ -231,4 +235,45 @@ fun NetworkLanguage.toExternal() = Language(
 fun List<NetworkLanguage>.toExternal() = map()
 {
         networkLanguage -> networkLanguage.toExternal()
+}
+
+fun NetworkCast.toExternal() = Cast(
+    id = id,
+    adult = adult,
+    gender = gender,
+    knownFor = knownFor,
+    name = name,
+    originalName = originalName,
+    popularity = popularity,
+    profilePath = profilePath,
+    castId = castId,
+    character = character,
+    creditId = creditId,
+    order = order
+)
+
+@JvmName("NetworkCastToExternal")
+fun List<NetworkCast>.toExternal() = map()
+{
+    networkCast -> networkCast.toExternal()
+}
+
+fun NetworkCrew.toExternal() = Crew(
+    id = id,
+    adult = adult,
+    gender = gender,
+    knownForDepartment = knownForDepartment,
+    name = name,
+    originalName = originalName,
+    popularity = popularity,
+    profilePath = profilePath,
+    creditId = creditId,
+    department = department,
+    job = job
+)
+
+@JvmName("NetworkCrewToExternal")
+fun List<NetworkCrew>.toExternal() = map()
+{
+    networkCrew -> networkCrew.toExternal()
 }
