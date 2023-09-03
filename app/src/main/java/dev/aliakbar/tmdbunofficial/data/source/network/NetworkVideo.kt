@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Video(
+data class NetworkVideo(
     @SerialName("iso_639_1")
     val iso6391: String,
     @SerialName("iso_3166_1")
