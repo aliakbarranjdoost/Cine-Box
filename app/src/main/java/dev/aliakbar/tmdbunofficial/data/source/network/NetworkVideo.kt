@@ -17,5 +17,5 @@ data class NetworkVideo(
     val official: Boolean,
     @SerialName("published_at")
     val publishedAt: String,
-    val id: Int
+    val id: String
 )

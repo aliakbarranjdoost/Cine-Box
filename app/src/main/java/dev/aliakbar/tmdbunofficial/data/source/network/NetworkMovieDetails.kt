@@ -42,5 +42,6 @@ data class NetworkMovieDetails(
     val status: String,
     @SerialName("spoken_languages")
     val spokenLanguages: List<NetworkLanguage>,
-    val credits: NetworkCredit
+    val credits: NetworkCredit,
+    val videos: NetworkVideoResponse
 )
