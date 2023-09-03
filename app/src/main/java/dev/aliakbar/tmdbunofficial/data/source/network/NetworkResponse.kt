@@ -12,3 +12,8 @@ data class NetworkResponse<T>(
     @SerialName("total_results")
     val totalResults: Int
 )
+
+@Serializable
+data class NetworkVideoResponse(
+    val results: List<Video>
+)

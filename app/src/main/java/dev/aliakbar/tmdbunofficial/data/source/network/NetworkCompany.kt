@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class NetworkCompany(
     val id: Int,
     @SerialName("logo_path")
-    val logoPath: String = "",
+    val logoPath: String? = null,
     val name: String,
     @SerialName("origin_country")
     val originCountry: String
