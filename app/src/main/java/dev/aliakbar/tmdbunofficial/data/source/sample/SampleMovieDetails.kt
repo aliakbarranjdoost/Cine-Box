@@ -78,5 +78,6 @@ val movie = Movie(
     productionCountries = countries,
     spokenLanguages = languages,
     casts = emptyList(),
-    crews = emptyList()
+    crews = emptyList(),
+    videos = emptyList()
 )

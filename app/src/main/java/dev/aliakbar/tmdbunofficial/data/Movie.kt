@@ -25,5 +25,6 @@ data class Movie(
     val productionCountries: List<Country>,
     val spokenLanguages: List<Language>,
     val casts: List<Cast>,
-    val crews: List<Crew>
+    val crews: List<Crew>,
+    val videos: List<Video>
 )

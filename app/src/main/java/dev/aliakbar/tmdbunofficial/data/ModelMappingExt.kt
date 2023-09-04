@@ -15,6 +15,7 @@ import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularMovie
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularSerial
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingMovie
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingSeries
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkVideo
 
 fun NetworkImageConfiguration.toExternal() = ImageConfiguration(
     baseUrl = baseUrl,
@@ -180,7 +181,8 @@ fun NetworkMovieDetails.toExternal(basePosterUrl: String,baseBackdropUrl: String
     spokenLanguages = spokenLanguages.toExternal(),
     productionCompanies = productionCompanies.toExternal(),
     casts = credits.cast.toExternal(),
-    crews = credits.crew.toExternal()
+    crews = credits.crew.toExternal(),
+    videos = videos.results.toExternal()
 )
 
 fun NetworkGenre.toExternal() = Genre(
@@ -276,4 +278,23 @@ fun NetworkCrew.toExternal() = Crew(
 fun List<NetworkCrew>.toExternal() = map()
 {
     networkCrew -> networkCrew.toExternal()
+}
+
+fun NetworkVideo.toExternal() = Video(
+    iso6391 = iso6391,
+    iso31661 = iso31661,
+    name = name,
+    key = key,
+    site = site,
+    size = size,
+    type = type,
+    official = official,
+    publishedAt = publishedAt,
+    id = id
+)
+
+@JvmName("NetworkVideoToExternal")
+fun List<NetworkVideo>.toExternal() = map()
+{
+    networkVideo -> networkVideo.toExternal()
 }
