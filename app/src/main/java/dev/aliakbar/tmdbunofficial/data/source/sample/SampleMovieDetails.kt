@@ -79,5 +79,8 @@ val movie = Movie(
     spokenLanguages = languages,
     casts = emptyList(),
     crews = emptyList(),
-    videos = emptyList()
+    videos = emptyList(),
+    posters = emptyList(),
+    backdrops = emptyList(),
+    logos = emptyList(),
 )

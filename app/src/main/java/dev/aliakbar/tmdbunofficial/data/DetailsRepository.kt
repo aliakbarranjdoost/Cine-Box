@@ -14,7 +14,9 @@ class DetailsRepository(
     suspend fun getMovieDetails(id: Int): Movie
     {
         return networkDataSource.getMovieDetails(id).toExternal(
-            createBasePosterUrl(),createBaseBackdropUrl()
+            basePosterUrl = createBasePosterUrl(),
+            baseBackdropUrl = createBaseBackdropUrl(),
+            baseLogoUrl = createBaseLogoUrl()
         )
     }
 }

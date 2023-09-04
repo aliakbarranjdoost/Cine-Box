@@ -26,5 +26,8 @@ data class Movie(
     val spokenLanguages: List<Language>,
     val casts: List<Cast>,
     val crews: List<Crew>,
-    val videos: List<Video>
+    val videos: List<Video>,
+    val posters: List<Image>,
+    val backdrops: List<Image>,
+    val logos: List<Image>
 )

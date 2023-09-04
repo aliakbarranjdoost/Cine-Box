@@ -8,6 +8,7 @@ import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCompany
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCountry
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCrew
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkGenre
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImage
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkLanguage
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkMovieDetails
@@ -156,7 +157,7 @@ fun List<NetworkPopularSerial>.toLocal(basePosterUrl: String) = mapIndexed()
     networkPopularMovie.toLocal(basePosterUrl, index.inc())
 }
 
-fun NetworkMovieDetails.toExternal(basePosterUrl: String,baseBackdropUrl: String) = Movie(
+fun NetworkMovieDetails.toExternal(basePosterUrl: String, baseBackdropUrl: String,baseLogoUrl: String) = Movie(
     id = id,
     title = title,
     originalTitle = originalTitle,
@@ -182,7 +183,10 @@ fun NetworkMovieDetails.toExternal(basePosterUrl: String,baseBackdropUrl: String
     productionCompanies = productionCompanies.toExternal(),
     casts = credits.cast.toExternal(),
     crews = credits.crew.toExternal(),
-    videos = videos.results.toExternal()
+    videos = videos.results.toExternal(),
+    posters = images.posters.toExternal(basePosterUrl),
+    backdrops = images.backdrops.toExternal(baseBackdropUrl),
+    logos = images.logos.toExternal(baseLogoUrl)
 )
 
 fun NetworkGenre.toExternal() = Genre(
@@ -297,4 +301,20 @@ fun NetworkVideo.toExternal() = Video(
 fun List<NetworkVideo>.toExternal() = map()
 {
     networkVideo -> networkVideo.toExternal()
+}
+
+fun NetworkImage.toExternal(baseUrl: String) = Image(
+    iso6391 = iso6391,
+    aspectRatio = aspectRatio,
+    height = height,
+    width = width,
+    filePath = baseUrl + filePath,
+    voteAverage = voteAverage,
+    voteCount = voteCount
+)
+
+@JvmName("NetworkImageToExternal")
+fun List<NetworkImage>.toExternal(baseUrl: String) = map()
+{
+    networkImage -> networkImage.toExternal(baseUrl)
 }

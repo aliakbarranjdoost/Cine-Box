@@ -52,4 +52,9 @@ open class ConfigurationRepository(
     {
         return imageConfiguration.secureBaseUrl + findBiggestImageSize(imageConfiguration.backdropSizes)
     }
+
+    protected fun createBaseLogoUrl(): String
+    {
+        return imageConfiguration.secureBaseUrl + findBiggestImageSize(imageConfiguration.logoSizes)
+    }
 }
