@@ -43,5 +43,6 @@ data class NetworkMovieDetails(
     @SerialName("spoken_languages")
     val spokenLanguages: List<NetworkLanguage>,
     val credits: NetworkCredit,
-    val videos: NetworkVideoResponse
+    val videos: NetworkVideoResponse,
+    val images: NetworkImageResponse
 )

@@ -17,3 +17,10 @@ data class NetworkResponse<T>(
 data class NetworkVideoResponse(
     val results: List<NetworkVideo>
 )
+
+@Serializable
+data class NetworkImageResponse(
+    val backdrops: List<NetworkImage>,
+    val logos: List<NetworkImage>,
+    val posters: List<NetworkImage>
+)
