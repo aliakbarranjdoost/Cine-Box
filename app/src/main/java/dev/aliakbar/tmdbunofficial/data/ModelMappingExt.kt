@@ -157,7 +157,11 @@ fun List<NetworkPopularSerial>.toLocal(basePosterUrl: String) = mapIndexed()
     networkPopularMovie.toLocal(basePosterUrl, index.inc())
 }
 
-fun NetworkMovieDetails.toExternal(basePosterUrl: String, baseBackdropUrl: String,baseLogoUrl: String) = Movie(
+fun NetworkMovieDetails.toExternal(
+    basePosterUrl: String,
+    baseBackdropUrl: String,
+    baseLogoUrl: String,
+    baseProfileUrl: String) = Movie(
     id = id,
     title = title,
     originalTitle = originalTitle,
@@ -181,8 +185,8 @@ fun NetworkMovieDetails.toExternal(basePosterUrl: String, baseBackdropUrl: Strin
     genres = genres.toExternal(),
     spokenLanguages = spokenLanguages.toExternal(),
     productionCompanies = productionCompanies.toExternal(),
-    casts = credits.cast.toExternal(),
-    crews = credits.crew.toExternal(),
+    casts = credits.cast.toExternal(baseProfileUrl),
+    crews = credits.crew.toExternal(baseProfileUrl),
     videos = videos.results.toExternal(),
     posters = images.posters.toExternal(basePosterUrl),
     backdrops = images.backdrops.toExternal(baseBackdropUrl),
@@ -243,7 +247,7 @@ fun List<NetworkLanguage>.toExternal() = map()
         networkLanguage -> networkLanguage.toExternal()
 }
 
-fun NetworkCast.toExternal() = Cast(
+fun NetworkCast.toExternal(baseProfileUrl: String) = Cast(
     id = id,
     adult = adult,
     gender = gender,
@@ -251,7 +255,7 @@ fun NetworkCast.toExternal() = Cast(
     name = name,
     originalName = originalName,
     popularity = popularity,
-    profilePath = profilePath,
+    profilePath = baseProfileUrl + profilePath,
     castId = castId,
     character = character,
     creditId = creditId,
@@ -259,12 +263,12 @@ fun NetworkCast.toExternal() = Cast(
 )
 
 @JvmName("NetworkCastToExternal")
-fun List<NetworkCast>.toExternal() = map()
+fun List<NetworkCast>.toExternal(baseProfileUrl: String) = map()
 {
-    networkCast -> networkCast.toExternal()
+    networkCast -> networkCast.toExternal(baseProfileUrl)
 }
 
-fun NetworkCrew.toExternal() = Crew(
+fun NetworkCrew.toExternal(baseProfileUrl: String) = Crew(
     id = id,
     adult = adult,
     gender = gender,
@@ -272,16 +276,16 @@ fun NetworkCrew.toExternal() = Crew(
     name = name,
     originalName = originalName,
     popularity = popularity,
-    profilePath = profilePath,
+    profilePath = baseProfileUrl + profilePath,
     creditId = creditId,
     department = department,
     job = job
 )
 
 @JvmName("NetworkCrewToExternal")
-fun List<NetworkCrew>.toExternal() = map()
+fun List<NetworkCrew>.toExternal(baseProfileUrl: String) = map()
 {
-    networkCrew -> networkCrew.toExternal()
+    networkCrew -> networkCrew.toExternal(baseProfileUrl)
 }
 
 fun NetworkVideo.toExternal() = Video(

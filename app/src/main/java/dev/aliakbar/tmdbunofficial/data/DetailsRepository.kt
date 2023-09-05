@@ -16,7 +16,8 @@ class DetailsRepository(
         return networkDataSource.getMovieDetails(id).toExternal(
             basePosterUrl = createBasePosterUrl(),
             baseBackdropUrl = createBaseBackdropUrl(),
-            baseLogoUrl = createBaseLogoUrl()
+            baseLogoUrl = createBaseLogoUrl(),
+            baseProfileUrl = createBaseProfileUrl()
         )
     }
 }
