@@ -29,5 +29,6 @@ data class Movie(
     val videos: List<Video>,
     val posters: List<Image>,
     val backdrops: List<Image>,
-    val logos: List<Image>
+    val logos: List<Image>,
+    val recommendations: List<Trend>
 )

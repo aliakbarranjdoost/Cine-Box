@@ -171,4 +171,5 @@ val movie = Movie(
     posters = posters,
     backdrops = backdrops,
     logos = logos,
+    recommendations = emptyList()
 )

@@ -190,7 +190,8 @@ fun NetworkMovieDetails.toExternal(
     videos = videos.results.toExternal(),
     posters = images.posters.toExternal(basePosterUrl),
     backdrops = images.backdrops.toExternal(baseBackdropUrl),
-    logos = images.logos.toExternal(baseLogoUrl)
+    logos = images.logos.toExternal(baseLogoUrl),
+    recommendations = recommendations.results.toExternal(basePosterUrl)
 )
 
 fun NetworkGenre.toExternal() = Genre(

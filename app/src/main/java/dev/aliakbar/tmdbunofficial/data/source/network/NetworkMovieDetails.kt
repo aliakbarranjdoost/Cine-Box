@@ -44,5 +44,6 @@ data class NetworkMovieDetails(
     val spokenLanguages: List<NetworkLanguage>,
     val credits: NetworkCredit,
     val videos: NetworkVideoResponse,
-    val images: NetworkImageResponse
+    val images: NetworkImageResponse,
+    val recommendations: NetworkResponse<List<NetworkTrendingMovie>>
 )
