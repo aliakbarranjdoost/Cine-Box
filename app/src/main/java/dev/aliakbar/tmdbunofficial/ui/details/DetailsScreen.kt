@@ -2,12 +2,18 @@ package dev.aliakbar.tmdbunofficial.ui.details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -16,13 +22,20 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import dev.aliakbar.tmdbunofficial.R
+import dev.aliakbar.tmdbunofficial.data.Cast
+import dev.aliakbar.tmdbunofficial.data.Crew
+import dev.aliakbar.tmdbunofficial.data.Image
 import dev.aliakbar.tmdbunofficial.data.Movie
+import dev.aliakbar.tmdbunofficial.data.Video
 import dev.aliakbar.tmdbunofficial.data.source.sample.movie
 
 @Composable
@@ -40,42 +53,24 @@ fun DetailsScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieDetails(movie: Movie)
 {
+    val scrollState = rememberScrollState()
+
     Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(title = {
-                Text(
-                    "Centered TopAppBar",
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            },
-                navigationIcon = {
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(
-                            imageVector = Icons.Filled.Menu,
-                            contentDescription = "Localized description"
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(
-                            imageVector = Icons.Filled.Favorite,
-                            contentDescription = "Localized description"
-                        )
-                    }
-                })
-        }
+        topBar = { TopBar() },
+        modifier = Modifier.fillMaxSize().verticalScroll(scrollState)
     )
     { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding))
         {
-            Image(
-                painter = painterResource(id = R.drawable.test),
+            AsyncImage(
+                model = ImageRequest
+                    .Builder( context = LocalContext.current)
+                    .data(movie.backdropPath)
+                    .build(),
+                placeholder = painterResource(id = R.drawable.backdrop_test),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -83,8 +78,199 @@ fun MovieDetails(movie: Movie)
             )
 
             Text(text = movie.title)
+
+            Text(text = movie.voteAverage.toString())
+
+            Text(text = movie.overview)
+
+            CastList(casts = movie.casts)
+
+            CrewList(crews = movie.crews)
+
+            VideoList(videos = movie.videos, onVideoClick = { /*TODO*/ })
+
+            PosterList(posters = movie.posters)
         }
     }
+}
+
+@Composable
+fun CastList(casts: List<Cast>, modifier: Modifier = Modifier)
+{
+    LazyRow( )
+    {
+        items(items = casts)
+        {
+            cast ->
+            CastItem(cast = cast, onCastClick = { })
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CastItem(cast: Cast,onCastClick: () -> Unit, modifier: Modifier = Modifier)
+{
+    Card(modifier = Modifier.padding(16.dp), onClick = onCastClick)
+    {
+        AsyncImage(
+            model = ImageRequest
+            .Builder(context = LocalContext.current)
+            .data(cast.profilePath)
+            .build(),
+            placeholder = painterResource(id = R.drawable.profile_test),
+            contentDescription = null
+        )
+
+        Text(text = cast.name)
+        Text(text = cast.character)
+    }
+}
+
+@Composable
+fun CrewList(crews: List<Crew>, modifier: Modifier = Modifier)
+{
+    LazyRow( )
+    {
+        items(items = crews)
+        {
+                crew ->
+            CrewItem(crew = crew, onCastClick = { })
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CrewItem(crew: Crew,onCastClick: () -> Unit, modifier: Modifier = Modifier)
+{
+    Card(modifier = Modifier.padding(16.dp), onClick = onCastClick)
+    {
+        AsyncImage(
+            model = ImageRequest
+                .Builder(context = LocalContext.current)
+                .data(crew.profilePath)
+                .build(),
+            placeholder = painterResource(id = R.drawable.profile_test),
+            contentDescription = null
+        )
+
+        Text(text = crew.name)
+        Text(text = crew.job)
+    }
+}
+
+@Composable
+fun VideoList(videos: List<Video>, onVideoClick: () -> Unit, modifier: Modifier = Modifier)
+{
+    LazyRow()
+    {
+        items(videos)
+        {
+            video ->
+            VideoItem(video = video, onVideoClick)
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun VideoItem(video: Video, onVideoClick: () -> Unit, modifier: Modifier = Modifier)
+{
+    Card(modifier = Modifier.padding(16.dp), onClick = onVideoClick)
+    {
+        Image(
+            painter = painterResource(id = R.drawable.backdrop_test),
+            contentDescription = null
+        )
+    }
+}
+
+@Composable
+fun PosterList(posters: List<Image>, modifier: Modifier = Modifier)
+{
+    LazyRow( )
+    {
+        items(items = posters)
+        {
+                poster ->
+            PosterItem(poster = poster)
+        }
+    }
+}
+
+@Composable
+fun PosterItem(poster: Image)
+{
+    Card()
+    {
+        AsyncImage(
+            model = ImageRequest
+                .Builder(context = LocalContext.current)
+                .data(poster.filePath)
+                .build(),
+            placeholder = painterResource(id = R.drawable.poster_test),
+            contentDescription = null
+        )
+    }
+}
+
+@Composable
+fun BackdropList(backdrops: List<Image>, modifier: Modifier = Modifier)
+{
+    LazyRow( )
+    {
+        items(items = backdrops)
+        {
+                backdrop ->
+            BackdropItem(backdrop = backdrop)
+        }
+    }
+}
+
+@Composable
+fun BackdropItem(backdrop: Image)
+{
+    Card()
+    {
+        AsyncImage(
+            model = ImageRequest
+                .Builder(context = LocalContext.current)
+                .data(backdrop.filePath)
+                .build(),
+            placeholder = painterResource(id = R.drawable.backdrop_test),
+            contentDescription = null
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopBar()
+{
+    CenterAlignedTopAppBar(title = {
+        Text(
+            "Centered TopAppBar",
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+    },
+        navigationIcon = {
+            IconButton(onClick = { /* doSomething() */ }) {
+                Icon(
+                    imageVector = Icons.Filled.Menu,
+                    contentDescription = "Localized description"
+                )
+            }
+        },
+        actions = {
+            IconButton(onClick = { /* doSomething() */ }) {
+                Icon(
+                    imageVector = Icons.Filled.Favorite,
+                    contentDescription = "Localized description"
+                )
+            }
+        })
 }
 
 @Preview

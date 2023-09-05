@@ -1,5 +1,6 @@
 package dev.aliakbar.tmdbunofficial.ui.details
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -13,9 +14,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.DetailsRepository
 import dev.aliakbar.tmdbunofficial.data.Movie
-import dev.aliakbar.tmdbunofficial.data.Trend
-import dev.aliakbar.tmdbunofficial.data.toExternal
-import dev.aliakbar.tmdbunofficial.ui.home.HomeUiState
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -26,6 +24,8 @@ sealed interface DetailsUiState
     data object Error : DetailsUiState
     data object Loading : DetailsUiState
 }
+
+private val TAG: String = DetailsViewModel::class.java.simpleName
 
 class DetailsViewModel (
     private val repository: DetailsRepository,
@@ -49,6 +49,8 @@ class DetailsViewModel (
         {
             detailsUiState = try
             {
+                Log.d(TAG, repository.getMovieDetails(id).casts.toString())
+                Log.d(TAG, repository.getMovieDetails(id).crews.toString())
                 DetailsUiState.Success(repository.getMovieDetails(id))
             }
             catch (e: IOException)
