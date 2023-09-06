@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package dev.aliakbar.tmdbunofficial.ui.details
 
 import androidx.compose.foundation.Image
@@ -35,6 +37,7 @@ import dev.aliakbar.tmdbunofficial.data.Cast
 import dev.aliakbar.tmdbunofficial.data.Crew
 import dev.aliakbar.tmdbunofficial.data.Image
 import dev.aliakbar.tmdbunofficial.data.Movie
+import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.Video
 import dev.aliakbar.tmdbunofficial.data.source.sample.movie
 
@@ -60,7 +63,9 @@ fun MovieDetails(movie: Movie)
 
     Scaffold(
         topBar = { TopBar() },
-        modifier = Modifier.fillMaxSize().verticalScroll(scrollState)
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)
     )
     { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding))
@@ -90,6 +95,10 @@ fun MovieDetails(movie: Movie)
             VideoList(videos = movie.videos, onVideoClick = { /*TODO*/ })
 
             PosterList(posters = movie.posters)
+
+            BackdropList(backdrops = movie.backdrops)
+
+            RecommendationList(recommendations = movie.recommendations)
         }
     }
 }
@@ -107,7 +116,6 @@ fun CastList(casts: List<Cast>, modifier: Modifier = Modifier)
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CastItem(cast: Cast,onCastClick: () -> Unit, modifier: Modifier = Modifier)
 {
@@ -140,7 +148,6 @@ fun CrewList(crews: List<Crew>, modifier: Modifier = Modifier)
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CrewItem(crew: Crew,onCastClick: () -> Unit, modifier: Modifier = Modifier)
 {
@@ -173,7 +180,6 @@ fun VideoList(videos: List<Video>, onVideoClick: () -> Unit, modifier: Modifier 
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideoItem(video: Video, onVideoClick: () -> Unit, modifier: Modifier = Modifier)
 {
@@ -202,7 +208,7 @@ fun PosterList(posters: List<Image>, modifier: Modifier = Modifier)
 @Composable
 fun PosterItem(poster: Image)
 {
-    Card()
+    Card(modifier = Modifier.padding(16.dp))
     {
         AsyncImage(
             model = ImageRequest
@@ -231,7 +237,7 @@ fun BackdropList(backdrops: List<Image>, modifier: Modifier = Modifier)
 @Composable
 fun BackdropItem(backdrop: Image)
 {
-    Card()
+    Card(modifier = Modifier.padding(16.dp))
     {
         AsyncImage(
             model = ImageRequest
@@ -244,7 +250,41 @@ fun BackdropItem(backdrop: Image)
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RecommendationList(recommendations: List<Trend>, modifier: Modifier = Modifier)
+{
+    LazyRow( )
+    {
+        items(items = recommendations)
+        {
+                recommendation ->
+            RecommendationItem(recommendation = recommendation)
+        }
+    }
+}
+
+@Composable
+fun RecommendationItem(recommendation: Trend)
+{
+    Card(modifier = Modifier.padding(16.dp))
+    {
+        Column()
+        {
+            AsyncImage(
+                model = ImageRequest
+                    .Builder(context = LocalContext.current)
+                    .data(recommendation.poster)
+                    .build(),
+                placeholder = painterResource(id = R.drawable.poster_test),
+                contentDescription = null
+            )
+
+            Text(text = recommendation.title)
+
+            Text(text = recommendation.score.toString())
+        }
+    }
+}
 @Composable
 fun TopBar()
 {

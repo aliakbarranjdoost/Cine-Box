@@ -9,6 +9,7 @@ import dev.aliakbar.tmdbunofficial.data.Genre
 import dev.aliakbar.tmdbunofficial.data.Image
 import dev.aliakbar.tmdbunofficial.data.Language
 import dev.aliakbar.tmdbunofficial.data.Movie
+import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.Video
 
 val genres = listOf(
@@ -137,6 +138,17 @@ val logo = Image(
 
 val logos = mutableListOf<Image>().apply { repeat(10) { this.add(logo) } }.toList()
 
+
+val trend = Trend(
+    id = 121,
+    title = "The Lord of the Rings: The Two Towers",
+    score = 8.384F,
+    poster = "/5VTN0pR8gcqV3EPUHHfMGnJYN9L.jpg",
+    rank = 0
+
+)
+
+val recommendations = mutableListOf<Trend>().apply { repeat(10) { this.add(trend)} }.toList()
 val movie = Movie(
     id = 120,
     title = "The Lord of the Rings: The Fellowship of the Ring",
@@ -171,5 +183,5 @@ val movie = Movie(
     posters = posters,
     backdrops = backdrops,
     logos = logos,
-    recommendations = emptyList()
+    recommendations = recommendations
 )
