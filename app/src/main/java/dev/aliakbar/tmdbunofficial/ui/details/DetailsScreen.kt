@@ -3,6 +3,7 @@
 package dev.aliakbar.tmdbunofficial.ui.details
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,17 +14,26 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -60,31 +70,41 @@ fun DetailsScreen(
 fun MovieDetails(movie: Movie)
 {
     val scrollState = rememberScrollState()
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     Scaffold(
-        topBar = { TopBar() },
+        topBar = { TopBar(title = movie.title) },
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
-    )
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+
+        )
     { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding))
         {
-            AsyncImage(
-                model = ImageRequest
-                    .Builder( context = LocalContext.current)
-                    .data(movie.backdropPath)
-                    .build(),
-                placeholder = painterResource(id = R.drawable.backdrop_test),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-            )
+            Box(modifier = Modifier.fillMaxWidth().height(200.dp))
+            {
+                AsyncImage(
+                    model = ImageRequest
+                        .Builder( context = LocalContext.current)
+                        .data(movie.backdropPath)
+                        .build(),
+                    placeholder = painterResource(id = R.drawable.backdrop_test),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .align(Alignment.Center)
+                )
+                Text(
+                    text = movie.voteAverage.toString(),
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.TopStart)
+                )
 
-            Text(text = movie.title)
-
-            Text(text = movie.voteAverage.toString())
+            }
 
             Text(text = movie.overview)
 
@@ -286,11 +306,11 @@ fun RecommendationItem(recommendation: Trend)
     }
 }
 @Composable
-fun TopBar()
+fun TopBar(title: String)
 {
     CenterAlignedTopAppBar(title = {
         Text(
-            "Centered TopAppBar",
+            text = title,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
@@ -298,7 +318,7 @@ fun TopBar()
         navigationIcon = {
             IconButton(onClick = { /* doSomething() */ }) {
                 Icon(
-                    imageVector = Icons.Filled.Menu,
+                    imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Localized description"
                 )
             }
@@ -306,11 +326,19 @@ fun TopBar()
         actions = {
             IconButton(onClick = { /* doSomething() */ }) {
                 Icon(
-                    imageVector = Icons.Filled.Favorite,
+                    imageVector = Icons.Filled.Share,
                     contentDescription = "Localized description"
                 )
             }
-        })
+
+            IconButton(onClick = { /* doSomething() */ }) {
+                Icon(
+                    imageVector = Icons.Filled.BookmarkBorder,
+                    contentDescription = "Localized description"
+                )
+            }
+        },
+    )
 }
 
 @Preview
