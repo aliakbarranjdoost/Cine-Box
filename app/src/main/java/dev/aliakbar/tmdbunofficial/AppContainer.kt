@@ -2,6 +2,7 @@ package dev.aliakbar.tmdbunofficial
 
 import android.content.Context
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import dev.aliakbar.tmdbunofficial.data.BookmarkRepository
 import dev.aliakbar.tmdbunofficial.data.ConfigurationRepository
 import dev.aliakbar.tmdbunofficial.data.DetailsRepository
 import dev.aliakbar.tmdbunofficial.data.HomeRepository
@@ -18,6 +19,7 @@ interface AppContainer
     val configurationRepository: ConfigurationRepository
     val homeRepository: HomeRepository
     val detailsRepository: DetailsRepository
+    val bookmarkRepository: BookmarkRepository
 }
 
 class DefaultAppContainer(private val context: Context): AppContainer
@@ -66,6 +68,13 @@ class DefaultAppContainer(private val context: Context): AppContainer
     override val detailsRepository: DetailsRepository by lazy()
     {
         DetailsRepository(
+            retrofitService,
+            roomDatabase
+        )
+    }
+    override val bookmarkRepository: BookmarkRepository by lazy()
+    {
+        BookmarkRepository(
             retrofitService,
             roomDatabase
         )
