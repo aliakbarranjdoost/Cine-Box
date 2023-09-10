@@ -1,5 +1,6 @@
 package dev.aliakbar.tmdbunofficial.data
 
+import dev.aliakbar.tmdbunofficial.data.source.local.LocalBookmark
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalTrend
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCast
@@ -323,3 +324,23 @@ fun List<NetworkImage>.toExternal(baseUrl: String) = map()
 {
     networkImage -> networkImage.toExternal(baseUrl)
 }
+
+fun LocalBookmark.toExternal() = Bookmark(
+    id = id,
+    title = title,
+    score = score,
+    poster = poster
+)
+
+@JvmName("LocalBookmarkToExternal")
+fun List<LocalBookmark>.toExternal() = map()
+{
+    localBookmark -> localBookmark.toExternal()
+}
+
+fun Bookmark.toLocal() = LocalBookmark(
+    id = id,
+    title = title,
+    score = score,
+    poster = poster
+)

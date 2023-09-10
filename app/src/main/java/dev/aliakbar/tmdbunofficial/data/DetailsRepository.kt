@@ -20,4 +20,9 @@ class DetailsRepository(
             baseProfileUrl = createBaseProfileUrl()
         )
     }
+
+    suspend fun addMovieToBookmark(bookmark: Bookmark)
+    {
+        localDataSource.bookmarkDao().insert(bookmark.toLocal())
+    }
 }

@@ -61,19 +61,29 @@ fun DetailsScreen(
     when(uiState)
     {
         is DetailsUiState.Loading -> Text(text = "Loading")
-        is DetailsUiState.Success -> MovieDetails(movie = uiState.movie)
+        is DetailsUiState.Success -> MovieDetails(movie = uiState.movie,
+            onBookmarkClick =
+            {
+                viewModel.addMovieToBookmark(
+                    id = movie.id,
+                    title = movie.title,
+                    score = movie.voteAverage,
+                    poster = movie.posterPath
+                )
+            }
+        )
         is DetailsUiState.Error -> Text(text = "Error")
     }
 }
 
 @Composable
-fun MovieDetails(movie: Movie)
+fun MovieDetails(movie: Movie,onBookmarkClick: () -> Unit)
 {
     val scrollState = rememberScrollState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     Scaffold(
-        topBar = { TopBar(title = movie.title) },
+        topBar = { TopBar(title = movie.title, onBookmarkClick ) },
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
@@ -306,7 +316,7 @@ fun RecommendationItem(recommendation: Trend)
     }
 }
 @Composable
-fun TopBar(title: String)
+fun TopBar(title: String, onBookmarkClick: () -> Unit)
 {
     CenterAlignedTopAppBar(title = {
         Text(
@@ -331,7 +341,7 @@ fun TopBar(title: String)
                 )
             }
 
-            IconButton(onClick = { /* doSomething() */ }) {
+            IconButton(onClick = onBookmarkClick ) {
                 Icon(
                     imageVector = Icons.Filled.BookmarkBorder,
                     contentDescription = "Localized description"
@@ -345,5 +355,5 @@ fun TopBar(title: String)
 @Composable
 fun MovieDetailsPreview()
 {
-    MovieDetails(movie = movie)
+    MovieDetails(movie = movie, { /* doNothing() */ })
 }

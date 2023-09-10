@@ -15,6 +15,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -27,6 +29,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.aliakbar.tmdbunofficial.R
+import dev.aliakbar.tmdbunofficial.data.Bookmark
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.source.sample.recommendations
 import dev.aliakbar.tmdbunofficial.ui.details.DetailsViewModel
@@ -37,18 +40,18 @@ fun BookmarkScreen(
     viewModel: BookmarkViewModel = viewModel(factory = DetailsViewModel.factory)
 )
 {
-    var uiState = viewModel.bookmarkUiState
+    val uiState by viewModel.bookmarkUiState.collectAsState()
 
     when (uiState)
     {
         is BookmarkUiState.Loading -> Text(text = "Loading")
-        is BookmarkUiState.Success -> BookmarkList(bookmarks = uiState.bookmarks)
+        is BookmarkUiState.Success -> BookmarkList(bookmarks = (uiState as BookmarkUiState.Success).bookmarks)
         is BookmarkUiState.Error   -> Text(text = "Error")
     }
 }
 
 @Composable
-fun BookmarkList(bookmarks: List<Trend>, modifier: Modifier = Modifier)
+fun BookmarkList(bookmarks: List<Bookmark>, modifier: Modifier = Modifier)
 {
     LazyColumn()
     {
@@ -61,7 +64,7 @@ fun BookmarkList(bookmarks: List<Trend>, modifier: Modifier = Modifier)
 }
 
 @Composable
-fun BookmarkItem(bookmark: Trend, modifier: Modifier = Modifier)
+fun BookmarkItem(bookmark: Bookmark, modifier: Modifier = Modifier)
 {
     Card(modifier = Modifier.padding(16.dp))
     {
@@ -75,15 +78,21 @@ fun BookmarkItem(bookmark: Trend, modifier: Modifier = Modifier)
                 placeholder = painterResource(id = R.drawable.poster_test),
                 contentDescription = bookmark.title,
                 contentScale = ContentScale.FillBounds,
-                modifier = Modifier.size(width = 160.dp, height = 320.dp).align(Alignment.TopStart)
+                modifier = Modifier
+                    .size(width = 160.dp, height = 320.dp)
+                    .align(Alignment.TopStart)
             )
             Text(
                 text = bookmark.title,
-                modifier = Modifier.align(Alignment.TopCenter).padding(start = 160.dp)
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(start = 160.dp)
             )
 
             IconButton(onClick = { /* doSomething() */ },
-                modifier = Modifier.align(Alignment.BottomEnd).padding(20.dp)
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(20.dp)
             ) {
                 Icon(
                     imageVector = Icons.Filled.BookmarkBorder,
@@ -99,5 +108,5 @@ fun BookmarkItem(bookmark: Trend, modifier: Modifier = Modifier)
 @Composable
 fun BookmarkScreenPreview()
 {
-    BookmarkList(bookmarks = recommendations)
+    //BookmarkList(bookmarks = recommendations)
 }

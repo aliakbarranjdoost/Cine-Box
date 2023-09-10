@@ -12,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
+import dev.aliakbar.tmdbunofficial.data.Bookmark
 import dev.aliakbar.tmdbunofficial.data.DetailsRepository
 import dev.aliakbar.tmdbunofficial.data.Movie
 import kotlinx.coroutines.launch
@@ -27,10 +28,10 @@ sealed interface DetailsUiState
 
 private val TAG: String = DetailsViewModel::class.java.simpleName
 
-class DetailsViewModel (
+class DetailsViewModel(
     private val repository: DetailsRepository,
     private val savedStateHandle: SavedStateHandle
-): ViewModel()
+) : ViewModel()
 {
     var detailsUiState: DetailsUiState by mutableStateOf(
         DetailsUiState.Loading
@@ -63,6 +64,26 @@ class DetailsViewModel (
         }
     }
 
+    fun addMovieToBookmark(
+        id: Int,
+        title: String,
+        score: Float,
+        poster: String,
+    )
+    {
+        viewModelScope.launch()
+        {
+            repository.addMovieToBookmark(
+                Bookmark(
+                    id = id,
+                    title = title,
+                    score = score,
+                    poster = poster
+                )
+            )
+        }
+    }
+
     companion object
     {
         val factory: ViewModelProvider.Factory = viewModelFactory()
@@ -73,7 +94,7 @@ class DetailsViewModel (
                     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as TmdbUnofficialApplication)
                 val repository = application.container.detailsRepository
                 val savedStateHandle = this.createSavedStateHandle()
-                DetailsViewModel(repository,savedStateHandle)
+                DetailsViewModel(repository, savedStateHandle)
             }
         }
     }

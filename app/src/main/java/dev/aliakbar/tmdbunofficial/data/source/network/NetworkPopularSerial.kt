@@ -11,6 +11,7 @@ data class NetworkPopularSerial(
     @SerialName("original_name")
     val originalName: String,
     val overview: String,
+
     @SerialName("original_language")
     val originalLanguage: String,
     @SerialName("backdrop_path")
@@ -20,7 +21,7 @@ data class NetworkPopularSerial(
     @SerialName("genre_ids")
     val genreList: List<Int>,
     @SerialName("first_air_date")
-    val firstAirDate: String,
+    val firstAirDate: String? = null,
     val popularity: Float,
     @SerialName("vote_average")
     val voteAverage: Float,
