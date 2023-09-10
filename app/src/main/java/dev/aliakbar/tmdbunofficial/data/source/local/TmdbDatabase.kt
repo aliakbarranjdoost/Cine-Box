@@ -7,12 +7,20 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import dev.aliakbar.tmdbunofficial.util.Converters
 
-@Database(entities = [LocalImageConfiguration::class,LocalTrend::class], version = 3, exportSchema = false)
+@Database(
+    entities = [
+        LocalImageConfiguration::class,
+        LocalTrend::class,
+        LocalBookmark::class
+    ],
+    version = 3,
+    exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class TmdbDatabase: RoomDatabase()
 {
     abstract fun configurationDao(): LocalConfigurationDao
     abstract fun trendDao(): LocalTrendDao
+    abstract fun bookmarkDao(): LocalBookmarkDao
     companion object
     {
         @Volatile
