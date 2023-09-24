@@ -1,5 +1,6 @@
 package dev.aliakbar.tmdbunofficial.data
 
+import android.util.Log
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalTrend
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
@@ -39,5 +40,40 @@ class HomeRepository(
     suspend fun getPopularSeries(): List<LocalTrend>
     {
         return networkDataSource.getPopularSeries().results.toLocal(createBasePosterUrl())
+    }
+
+    suspend fun getTodayTrendingMovieTrailers() : List<Video>
+    {
+        val todayTrendingMovieTrailers = mutableListOf<Video>()
+
+        networkDataSource.getTodayTrendingMovies().results.forEach()
+        {
+            val movieTrailers = networkDataSource.getMovieVideos(it.id).results.toExternal()
+
+            if (movieTrailers.isNotEmpty())
+            {
+                val trailer = findOfficialTrailerFromYoutube(movieTrailers)
+                if (trailer != null)
+                {
+                    todayTrendingMovieTrailers.add( trailer )
+                }
+            }
+        }
+        Log.d(TAG, todayTrendingMovieTrailers.toString())
+
+        return todayTrendingMovieTrailers
+    }
+
+    private fun findOfficialTrailerFromYoutube(videos: List<Video>): Video?
+    {
+        videos.forEach()
+        {
+                video ->
+            if (video.official && video.site == "YouTube" && video.type == "Trailer")
+            {
+                return video
+            }
+        }
+        return null
     }
 }

@@ -1,5 +1,6 @@
 package dev.aliakbar.tmdbunofficial.ui.home
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -11,7 +12,9 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.HomeRepository
+import dev.aliakbar.tmdbunofficial.data.Video
 import dev.aliakbar.tmdbunofficial.data.toExternal
+import dev.aliakbar.tmdbunofficial.ui.details.DetailsViewModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -23,6 +26,8 @@ sealed interface HomeUiState
     data object Loading : HomeUiState
 }
 
+private val TAG: String = HomeViewModel::class.java.simpleName
+
 class HomeViewModel(
     private val homeRepository: HomeRepository
 ) : ViewModel()
@@ -33,6 +38,7 @@ class HomeViewModel(
     private lateinit var thisWeekTrendSeries: List<Trend>
     private lateinit var popularMovies: List<Trend>
     private lateinit var popularSeries: List<Trend>
+    private lateinit var todayTrendingMoviesTrailers: List<Video>
 
     var homeMovieUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
         private set
@@ -107,6 +113,9 @@ class HomeViewModel(
             {
                 HomeUiState.Error
             }
+
+            todayTrendingMoviesTrailers = homeRepository.getTodayTrendingMovieTrailers()
+            Log.d(TAG, todayTrendingMoviesTrailers.toString())
         }
     }
 

@@ -28,4 +28,7 @@ interface TMDBApiService
 
     @GET("movie/{id}?append_to_response=credits,videos,images,recommendations")
     suspend fun getMovieDetails(@Path("id") id : Int): NetworkMovieDetails
+
+    @GET("movie/{id}/videos")
+    suspend fun getMovieVideos(@Path("id") id: Int): NetworkVideoResponse
 }
