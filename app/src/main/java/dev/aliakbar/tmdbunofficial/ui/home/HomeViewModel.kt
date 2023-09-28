@@ -26,6 +26,13 @@ sealed interface HomeUiState
     data object Loading : HomeUiState
 }
 
+/*sealed interface HomeSliderUiState
+{
+    data class Success(val trailers: List<Video>) : HomeUiState
+    data object Error : HomeUiState
+    data object Loading : HomeUiState
+}*/
+
 private val TAG: String = HomeViewModel::class.java.simpleName
 
 class HomeViewModel(
@@ -47,6 +54,9 @@ class HomeViewModel(
     var homePopularMoviesUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
         private set
     var homePopularSeriesUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
+        private set
+    /*var homeSliderUiState: HomeSliderUiState by mutableStateOf(HomeSliderUiState.Loading)
+        private set*/
 
     init
     {
@@ -114,8 +124,21 @@ class HomeViewModel(
                 HomeUiState.Error
             }
 
-            todayTrendingMoviesTrailers = homeRepository.getTodayTrendingMovieTrailers()
-            Log.d(TAG, todayTrendingMoviesTrailers.toString())
+            /*homeSliderUiState = HomeSliderUiState.Loading
+            homeSliderUiState = try
+            {
+                todayTrendingMoviesTrailers = homeRepository.getTodayTrendingMovieTrailers()
+                HomeSliderUiState.Success(todayTrendingMoviesTrailers)
+            }
+            catch (e: IOException)
+            {
+                HomeSliderUiState.Error
+            }
+            catch (e: HttpException)
+            {
+                HomeSliderUiState.Error
+            }*/
+
         }
     }
 

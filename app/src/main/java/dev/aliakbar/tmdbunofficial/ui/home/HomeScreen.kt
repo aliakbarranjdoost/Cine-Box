@@ -1,18 +1,34 @@
+@file:OptIn(ExperimentalFoundationApi::class, ExperimentalFoundationApi::class,
+    ExperimentalFoundationApi::class
+)
+
 package dev.aliakbar.tmdbunofficial.ui.home
 
+import android.content.res.Configuration
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayCircleOutline
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
@@ -22,9 +38,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -32,7 +52,10 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Trend
+import dev.aliakbar.tmdbunofficial.data.Video
+import dev.aliakbar.tmdbunofficial.data.source.sample.videos
 import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
+import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,12 +68,16 @@ fun HomeScreen(navController: NavHostController)
 
     val scrollState = rememberScrollState()
 
-    Column(modifier = Modifier.fillMaxSize().verticalScroll(scrollState))
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(scrollState))
     {
         val timeRangeOptions = stringArrayResource(R.array.date_range_options)
         var moviesSelectedTimeRangeIndex by remember { mutableIntStateOf(0) }
         var seriesSelectedTimeRangeIndex by remember { mutableIntStateOf(0) }
         var popularSelectedTypeIndex by remember { mutableIntStateOf(0) }
+
+        //Slider(trailers = viewModel.todayTrendingMoviesTrailers)
 
         Row(modifier = Modifier.fillMaxWidth())
         {
@@ -211,5 +238,89 @@ fun TrendItem(trend: Trend,onNavigateToDetails: () -> Unit)
             Text(text = trend.title)
             Text(text = trend.score.toString())
         }
+    }
+}
+
+@Composable
+fun Slider(trailers: List<Video>)
+{
+    val pagerState = rememberPagerState(pageCount = {
+        trailers.size
+    })
+
+    HorizontalPager(state = pagerState)
+    { page ->
+        SliderItem(trailers[page])
+    }
+}
+
+@Composable
+fun SliderItem(trailer: Video)
+{
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .height(400.dp))
+    {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp)
+                .align(Alignment.TopStart)
+        )
+        {
+            Image(
+                painter = painterResource(id = R.drawable.backdrop_test),
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            Icon(
+                imageVector = Icons.Default.PlayCircleOutline,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(64.dp)
+                    .align(Alignment.Center)
+            )
+        }
+
+        Image(
+            painter = painterResource(id = R.drawable.poster_test),
+            contentDescription = null,
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier
+                .width(150.dp)
+                .height(225.dp)
+                .padding(start = 16.dp, bottom = 16.dp)
+                .align(Alignment.BottomStart)
+        )
+
+        Text(
+            text = trailer.name,
+            style = MaterialTheme.typography.titleMedium,
+            maxLines = 1,
+            modifier = Modifier
+                .padding(start = 182.dp, bottom = 75.dp)
+                .align(Alignment.BottomStart)
+        )
+
+        Text(
+            text = trailer.type,
+            style = MaterialTheme.typography.titleSmall,
+            maxLines = 1,
+            modifier = Modifier
+                .padding(start = 182.dp, bottom = 50.dp)
+                .align(Alignment.BottomStart)
+        )
+    }
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Composable
+fun PreviewSliderItem()
+{
+    TMDBUnofficialTheme()
+    {
+        Slider(trailers = videos)
     }
 }
