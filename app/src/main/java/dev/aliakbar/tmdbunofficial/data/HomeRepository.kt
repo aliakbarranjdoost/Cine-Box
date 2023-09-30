@@ -42,9 +42,9 @@ class HomeRepository(
         return networkDataSource.getPopularSeries().results.toLocal(createBasePosterUrl())
     }
 
-    suspend fun getTodayTrendingMovieTrailers() : List<Video>
+    suspend fun getTodayTrendingMovieTrailers() : List<Pair<Video,Trend>>
     {
-        val todayTrendingMovieTrailers = mutableListOf<Video>()
+        val todayTrendingMovieTrailers = mutableListOf<Pair<Video,Trend>>()
 
         networkDataSource.getTodayTrendingMovies().results.forEach()
         {
@@ -55,12 +55,10 @@ class HomeRepository(
                 val trailer = findOfficialTrailerFromYoutube(movieTrailers)
                 if (trailer != null)
                 {
-                    todayTrendingMovieTrailers.add( trailer )
+                    todayTrendingMovieTrailers.add( Pair(trailer,it.toExternal(createBasePosterUrl())) )
                 }
             }
         }
-        Log.d(TAG, todayTrendingMovieTrailers.toString())
-
         return todayTrendingMovieTrailers
     }
 

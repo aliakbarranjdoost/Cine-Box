@@ -1,6 +1,5 @@
 package dev.aliakbar.tmdbunofficial.ui.home
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -14,24 +13,24 @@ import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.HomeRepository
 import dev.aliakbar.tmdbunofficial.data.Video
 import dev.aliakbar.tmdbunofficial.data.toExternal
-import dev.aliakbar.tmdbunofficial.ui.details.DetailsViewModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
 sealed interface HomeUiState
 {
-    data class Success(val trends: List<Trend>) : HomeUiState
+    data class Success(
+        val todayTrendMovies: List<Trend>,
+        val thisWeekTrendMovies: List<Trend>,
+        val todayTrendSeries: List<Trend>,
+        val thisWeekTrendSeries: List<Trend>,
+        val popularMovies: List<Trend>,
+        val popularSeries: List<Trend>,
+        var todayTrendingMoviesTrailers: List<Pair<Video,Trend>>
+    ) : HomeUiState
     data object Error : HomeUiState
     data object Loading : HomeUiState
 }
-
-/*sealed interface HomeSliderUiState
-{
-    data class Success(val trailers: List<Video>) : HomeUiState
-    data object Error : HomeUiState
-    data object Loading : HomeUiState
-}*/
 
 private val TAG: String = HomeViewModel::class.java.simpleName
 
@@ -39,35 +38,30 @@ class HomeViewModel(
     private val homeRepository: HomeRepository
 ) : ViewModel()
 {
-    private lateinit var todayTrendMovies: List<Trend>
-    private lateinit var thisWeekTrendMovies: List<Trend>
-    private lateinit var todayTrendSeries: List<Trend>
-    private lateinit var thisWeekTrendSeries: List<Trend>
-    private lateinit var popularMovies: List<Trend>
-    private lateinit var popularSeries: List<Trend>
-    private lateinit var todayTrendingMoviesTrailers: List<Video>
-
-    var homeMovieUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
+    var homeUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
         private set
-    var homeSerialUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
-        private set
-    var homePopularMoviesUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
-        private set
-    var homePopularSeriesUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
-        private set
-    /*var homeSliderUiState: HomeSliderUiState by mutableStateOf(HomeSliderUiState.Loading)
-        private set*/
 
     init
     {
         viewModelScope.launch()
         {
-            homeMovieUiState = HomeUiState.Loading
-            homeMovieUiState = try
+            homeUiState = HomeUiState.Loading
+            homeUiState = try
             {
-                todayTrendMovies = homeRepository.getTodayTrendingMovies().toExternal()
-                thisWeekTrendMovies = homeRepository.getThisWeekTrendingMovies().toExternal()
-                HomeUiState.Success(todayTrendMovies)
+                val todayTrendMovies = homeRepository.getTodayTrendingMovies().toExternal()
+                val thisWeekTrendMovies = homeRepository.getThisWeekTrendingMovies().toExternal()
+
+                val todayTrendSeries = homeRepository.getTodayTrendingSeries().toExternal()
+                val thisWeekTrendSeries = homeRepository.getThisWeekTrendingSeries().toExternal()
+
+                val popularMovies = homeRepository.getPopularMovies().toExternal()
+
+                val popularSeries = homeRepository.getPopularSeries().toExternal()
+
+                val todayTrendingMoviesTrailers = homeRepository.getTodayTrendingMovieTrailers()
+
+                HomeUiState.Success(todayTrendMovies,thisWeekTrendMovies, todayTrendSeries,
+                    thisWeekTrendSeries, popularMovies, popularSeries, todayTrendingMoviesTrailers)
             }
             catch (e: IOException)
             {
@@ -77,99 +71,7 @@ class HomeViewModel(
             {
                 HomeUiState.Error
             }
-
-            homeSerialUiState = HomeUiState.Loading
-            homeSerialUiState = try
-            {
-                todayTrendSeries = homeRepository.getTodayTrendingSeries().toExternal()
-                thisWeekTrendSeries = homeRepository.getThisWeekTrendingSeries().toExternal()
-                HomeUiState.Success(todayTrendSeries)
-            }
-            catch (e: IOException)
-            {
-                HomeUiState.Error
-            }
-            catch (e: HttpException)
-            {
-                HomeUiState.Error
-            }
-
-            homePopularMoviesUiState = HomeUiState.Loading
-            homePopularMoviesUiState = try
-            {
-                popularMovies = homeRepository.getPopularMovies().toExternal()
-                HomeUiState.Success(popularMovies)
-            }
-            catch (e: IOException)
-            {
-                HomeUiState.Error
-            }
-            catch (e: HttpException)
-            {
-                HomeUiState.Error
-            }
-
-            homePopularSeriesUiState = HomeUiState.Loading
-            homePopularSeriesUiState = try
-            {
-                popularSeries = homeRepository.getPopularSeries().toExternal()
-                HomeUiState.Success(popularSeries)
-            }
-            catch (e: IOException)
-            {
-                HomeUiState.Error
-            }
-            catch (e: HttpException)
-            {
-                HomeUiState.Error
-            }
-
-            /*homeSliderUiState = HomeSliderUiState.Loading
-            homeSliderUiState = try
-            {
-                todayTrendingMoviesTrailers = homeRepository.getTodayTrendingMovieTrailers()
-                HomeSliderUiState.Success(todayTrendingMoviesTrailers)
-            }
-            catch (e: IOException)
-            {
-                HomeSliderUiState.Error
-            }
-            catch (e: HttpException)
-            {
-                HomeSliderUiState.Error
-            }*/
-
         }
-    }
-
-    fun getTodayTrendMovies()
-    {
-        homeMovieUiState = HomeUiState.Success(todayTrendMovies)
-    }
-
-    fun getThisWeekTrendMovies()
-    {
-        homeMovieUiState = HomeUiState.Success(thisWeekTrendMovies)
-    }
-
-    fun getTodayTrendSeries()
-    {
-        homeSerialUiState = HomeUiState.Success(todayTrendSeries)
-    }
-
-    fun getThisWeekTrendSeries()
-    {
-        homeSerialUiState = HomeUiState.Success(thisWeekTrendSeries)
-    }
-
-    fun getPopularMovies()
-    {
-        homePopularMoviesUiState = HomeUiState.Success(popularMovies)
-    }
-
-    fun getPopularSeries()
-    {
-        homePopularMoviesUiState = HomeUiState.Success(popularSeries)
     }
 
     companion object

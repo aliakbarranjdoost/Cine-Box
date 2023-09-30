@@ -59,14 +59,25 @@ import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavHostController)
+fun HomeScreen(
+    navController: NavHostController,
+    viewModel: HomeViewModel = viewModel(factory = HomeViewModel.factory),
+    modifier: Modifier = Modifier
+)
 {
-    val viewModel: HomeViewModel = viewModel(factory = HomeViewModel.factory)
-    var homeMovieUiState = viewModel.homeMovieUiState
-    var homeSerialUiState = viewModel.homeSerialUiState
-    var homePopularMoviesUiState = viewModel.homePopularMoviesUiState
+    val homeUiState = viewModel.homeUiState
 
-    val scrollState = rememberScrollState()
+    when(homeUiState)
+    {
+        is HomeUiState.Loading -> Text(text = "Loading")
+        is HomeUiState.Success ->
+        {
+            Slider(trailers = homeUiState.todayTrendingMoviesTrailers)
+        }
+        is HomeUiState.Error   -> Text(text = "Error")
+    }
+    
+    /*val scrollState = rememberScrollState()
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -111,11 +122,11 @@ fun HomeScreen(navController: NavHostController)
             }
         }
 
-        when (homeMovieUiState)
+        when (homeUiState)
         {
             is HomeUiState.Loading -> Text(text = "Loading")
             is HomeUiState.Success -> TrendList(
-                trends = homeMovieUiState.trends,
+                trends = homeUiState.trends,
                 navController = navController
             )
             is HomeUiState.Error   -> Text(text = "Error")
@@ -202,8 +213,8 @@ fun HomeScreen(navController: NavHostController)
                 navController = navController
             )
             is HomeUiState.Error   -> Text(text = "Error")
-        }
-    }
+        }*/
+    //}
 }
 
 @Composable
@@ -242,7 +253,7 @@ fun TrendItem(trend: Trend,onNavigateToDetails: () -> Unit)
 }
 
 @Composable
-fun Slider(trailers: List<Video>)
+fun Slider(trailers: List<Pair<Video,Trend>>)
 {
     val pagerState = rememberPagerState(pageCount = {
         trailers.size
@@ -255,7 +266,7 @@ fun Slider(trailers: List<Video>)
 }
 
 @Composable
-fun SliderItem(trailer: Video)
+fun SliderItem(trailer: Pair<Video,Trend>)
 {
     Box(modifier = Modifier
         .fillMaxWidth()
@@ -284,8 +295,11 @@ fun SliderItem(trailer: Video)
             )
         }
 
-        Image(
-            painter = painterResource(id = R.drawable.poster_test),
+        AsyncImage(
+            model = ImageRequest
+                .Builder(context = LocalContext.current)
+                .data(trailer.second.poster)
+                .build(),
             contentDescription = null,
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
@@ -296,7 +310,7 @@ fun SliderItem(trailer: Video)
         )
 
         Text(
-            text = trailer.name,
+            text = trailer.second.title,
             style = MaterialTheme.typography.titleMedium,
             maxLines = 1,
             modifier = Modifier
@@ -305,7 +319,7 @@ fun SliderItem(trailer: Video)
         )
 
         Text(
-            text = trailer.type,
+            text = trailer.first.name,
             style = MaterialTheme.typography.titleSmall,
             maxLines = 1,
             modifier = Modifier
@@ -321,6 +335,6 @@ fun PreviewSliderItem()
 {
     TMDBUnofficialTheme()
     {
-        Slider(trailers = videos)
+        //Slider(trailers = videos)
     }
 }
