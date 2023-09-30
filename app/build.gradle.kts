@@ -72,6 +72,9 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
     implementation ("androidx.compose.material:material-icons-extended")
+    implementation ("androidx.webkit:webkit:1.8.0")
+
+
 
     implementation(libs.navigation)
 
