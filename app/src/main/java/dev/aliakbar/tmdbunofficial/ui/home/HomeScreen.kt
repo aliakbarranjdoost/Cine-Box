@@ -1,14 +1,12 @@
-@file:OptIn(ExperimentalFoundationApi::class, ExperimentalFoundationApi::class,
+@file:OptIn(
+    ExperimentalFoundationApi::class, ExperimentalFoundationApi::class,
     ExperimentalFoundationApi::class, ExperimentalFoundationApi::class
 )
 
 package dev.aliakbar.tmdbunofficial.ui.home
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,7 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
@@ -32,7 +29,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -41,8 +37,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -58,7 +52,6 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Trailer
 import dev.aliakbar.tmdbunofficial.data.Trend
-import dev.aliakbar.tmdbunofficial.data.Video
 import dev.aliakbar.tmdbunofficial.data.source.sample.trailers
 import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
@@ -73,16 +66,17 @@ fun HomeScreen(
 {
     val homeUiState = viewModel.homeUiState
 
-    when(homeUiState)
+    when (homeUiState)
     {
         is HomeUiState.Loading -> Text(text = "Loading")
         is HomeUiState.Success ->
         {
             Slider(trailers = homeUiState.todayTrendingMoviesTrailers)
         }
+
         is HomeUiState.Error   -> Text(text = "Error")
     }
-    
+
     /*val scrollState = rememberScrollState()
 
     Column(modifier = Modifier
@@ -224,7 +218,7 @@ fun HomeScreen(
 }
 
 @Composable
-fun TrendList(trends: List<Trend>,navController: NavHostController, modifier: Modifier = Modifier)
+fun TrendList(trends: List<Trend>, navController: NavHostController, modifier: Modifier = Modifier)
 {
     LazyRow(modifier = modifier)
     {
@@ -240,7 +234,7 @@ fun TrendList(trends: List<Trend>,navController: NavHostController, modifier: Mo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TrendItem(trend: Trend,onNavigateToDetails: () -> Unit)
+fun TrendItem(trend: Trend, onNavigateToDetails: () -> Unit)
 {
     Card(modifier = Modifier.padding(16.dp), onClick = onNavigateToDetails)
     {
@@ -275,24 +269,18 @@ fun Slider(trailers: List<Trailer>)
 fun SliderItem(trailer: Trailer)
 {
     var isVideoFullScreen by remember { mutableStateOf(false) }
-    //val shipZIndex = if (submarineMode) -1f else 1f
 
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .height(335.dp)
-        /*.clickable()
-        {
-            isVideoFullScreen = true
-        }*/
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(335.dp)
     )
     {
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(300.dp)
                 .align(Alignment.TopStart)
-
         )
         {
             /*if (isVideoFullScreen)
@@ -323,7 +311,9 @@ fun SliderItem(trailer: Trailer)
                     .build(),
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds,
-                modifier = Modifier.fillMaxWidth().height(230.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(230.dp)
             )
 
         }
@@ -385,7 +375,8 @@ fun YoutubeVideoPlayer(id: String, lifecycleOwner: LifecycleOwner, modifier: Mod
 }
 
 @Composable
-fun VideoDialog(videoId: String, onDismissRequest: () -> Unit) {
+fun VideoDialog(videoId: String, onDismissRequest: () -> Unit)
+{
     Dialog(onDismissRequest = { onDismissRequest() })
     {
         Card(
