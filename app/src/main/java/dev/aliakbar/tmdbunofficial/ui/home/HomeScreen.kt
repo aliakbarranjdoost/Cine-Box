@@ -59,6 +59,7 @@ import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Trailer
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.Video
+import dev.aliakbar.tmdbunofficial.data.source.sample.trailers
 import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
@@ -318,6 +319,7 @@ fun SliderItem(trailer: Trailer)
                 model = ImageRequest
                     .Builder(context = LocalContext.current)
                     .data(trailer.trend.backdrop)
+                    .placeholder(drawableResId = R.drawable.backdrop_test)
                     .build(),
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds,
@@ -330,6 +332,7 @@ fun SliderItem(trailer: Trailer)
             model = ImageRequest
                 .Builder(context = LocalContext.current)
                 .data(trailer.trend.poster)
+                .placeholder(drawableResId = R.drawable.poster_test)
                 .build(),
             contentDescription = null,
             contentScale = ContentScale.FillBounds,
@@ -395,12 +398,13 @@ fun VideoDialog(videoId: String, onDismissRequest: () -> Unit) {
         }
     }
 }
+
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 fun PreviewSliderItem()
 {
     TMDBUnofficialTheme()
     {
-        //Slider(trailers = videos)
+        Slider(trailers = trailers)
     }
 }
