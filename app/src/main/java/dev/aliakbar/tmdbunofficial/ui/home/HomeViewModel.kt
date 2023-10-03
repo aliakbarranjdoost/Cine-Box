@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.HomeRepository
+import dev.aliakbar.tmdbunofficial.data.Trailer
 import dev.aliakbar.tmdbunofficial.data.Video
 import dev.aliakbar.tmdbunofficial.data.toExternal
 import kotlinx.coroutines.launch
@@ -26,7 +27,7 @@ sealed interface HomeUiState
         val thisWeekTrendSeries: List<Trend>,
         val popularMovies: List<Trend>,
         val popularSeries: List<Trend>,
-        var todayTrendingMoviesTrailers: List<Pair<Video,Trend>>
+        var todayTrendingMoviesTrailers: List<Trailer>
     ) : HomeUiState
     data object Error : HomeUiState
     data object Loading : HomeUiState

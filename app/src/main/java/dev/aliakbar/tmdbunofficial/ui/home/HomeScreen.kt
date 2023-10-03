@@ -56,6 +56,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import dev.aliakbar.tmdbunofficial.R
+import dev.aliakbar.tmdbunofficial.data.Trailer
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.Video
 import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
@@ -257,7 +258,7 @@ fun TrendItem(trend: Trend,onNavigateToDetails: () -> Unit)
 }
 
 @Composable
-fun Slider(trailers: List<Pair<Video,Trend>>)
+fun Slider(trailers: List<Trailer>)
 {
     val pagerState = rememberPagerState(pageCount = {
         trailers.size
@@ -270,7 +271,7 @@ fun Slider(trailers: List<Pair<Video,Trend>>)
 }
 
 @Composable
-fun SliderItem(trailer: Pair<Video,Trend>)
+fun SliderItem(trailer: Trailer)
 {
     var isVideoFullScreen by remember { mutableStateOf(false) }
     //val shipZIndex = if (submarineMode) -1f else 1f
@@ -313,8 +314,11 @@ fun SliderItem(trailer: Pair<Video,Trend>)
                     .align(Alignment.Center)
             )
 
-            Image(
-                painter = painterResource(id = R.drawable.backdrop_test),
+            AsyncImage(
+                model = ImageRequest
+                    .Builder(context = LocalContext.current)
+                    .data(trailer.trend.backdrop)
+                    .build(),
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier.fillMaxWidth().height(230.dp)
@@ -325,7 +329,7 @@ fun SliderItem(trailer: Pair<Video,Trend>)
         AsyncImage(
             model = ImageRequest
                 .Builder(context = LocalContext.current)
-                .data(trailer.second.poster)
+                .data(trailer.trend.poster)
                 .build(),
             contentDescription = null,
             contentScale = ContentScale.FillBounds,
@@ -337,7 +341,7 @@ fun SliderItem(trailer: Pair<Video,Trend>)
         )
 
         Text(
-            text = trailer.second.title,
+            text = trailer.trend.title,
             style = MaterialTheme.typography.titleMedium,
             maxLines = 1,
             modifier = Modifier
@@ -346,7 +350,7 @@ fun SliderItem(trailer: Pair<Video,Trend>)
         )
 
         Text(
-            text = trailer.first.name,
+            text = trailer.video.name,
             style = MaterialTheme.typography.titleSmall,
             maxLines = 1,
             modifier = Modifier
