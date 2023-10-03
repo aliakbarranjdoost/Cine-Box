@@ -18,6 +18,7 @@ import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularSerial
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingMovie
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingSeries
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkVideo
+import dev.aliakbar.tmdbunofficial.data.source.sample.backdrop
 
 fun NetworkImageConfiguration.toExternal() = ImageConfiguration(
     baseUrl = baseUrl,
@@ -40,30 +41,32 @@ fun NetworkImageConfiguration.toLocal(id: Int) = LocalImageConfiguration(
     stillSizes = stillSizes
 )
 
-fun NetworkTrendingMovie.toExternal(basePosterUrl: String) = Trend(
+fun NetworkTrendingMovie.toExternal(basePosterUrl: String, baseBackdropUrl: String) = Trend(
     id = id,
     title = title,
     score = voteAverage,
     poster = basePosterUrl + posterPath,
+    backdrop = baseBackdropUrl + backdropPath,
     rank = 0
 )
 
 @JvmName("trendingMovieNetworkToExternal")
-fun List<NetworkTrendingMovie>.toExternal(basePosterUrl: String) =
-    map { it.toExternal(basePosterUrl) }
+fun List<NetworkTrendingMovie>.toExternal(basePosterUrl: String, baseBackdropUrl: String) =
+    map { it.toExternal(basePosterUrl, baseBackdropUrl) }
 
-fun NetworkTrendingMovie.toLocal(basePosterUrl: String, rank: Int) = LocalTrend(
+fun NetworkTrendingMovie.toLocal(basePosterUrl: String, baseBackdropUrl: String, rank: Int) = LocalTrend(
     id = id,
     title = title,
     score = voteAverage,
     poster = basePosterUrl + posterPath,
+    backdrop = baseBackdropUrl + backdropPath,
     rank = rank
 )
 
 @JvmName("trendingMovieNetworkToLocal")
-fun List<NetworkTrendingMovie>.toLocal(basePosterUrl: String) = mapIndexed()
+fun List<NetworkTrendingMovie>.toLocal(basePosterUrl: String, baseBackdropUrl: String) = mapIndexed()
 { index, networkTrendMovie ->
-    networkTrendMovie.toLocal(basePosterUrl, index.inc())
+    networkTrendMovie.toLocal(basePosterUrl, baseBackdropUrl, index.inc())
 }
 
 fun LocalTrend.toExternal() = Trend(
@@ -71,6 +74,7 @@ fun LocalTrend.toExternal() = Trend(
     title = title,
     score = score,
     poster = poster,
+    backdrop = backdrop,
     rank = rank
 )
 
@@ -80,82 +84,88 @@ fun List<LocalTrend>.toExternal() = map()
     localTrend.toExternal()
 }
 
-fun NetworkTrendingSeries.toExternal(basePosterUrl: String) = Trend(
+fun NetworkTrendingSeries.toExternal(basePosterUrl: String, baseBackdropUrl: String) = Trend(
     id = id,
     title = name,
     score = voteAverage,
     poster = basePosterUrl + posterPath,
+    backdrop = baseBackdropUrl + backdropPath,
     rank = 0
 )
 
 @JvmName("trendingSerialNetworkToExternal")
-fun List<NetworkTrendingSeries>.toExternal(basePosterUrl: String) =
-    map { it.toExternal(basePosterUrl) }
+fun List<NetworkTrendingSeries>.toExternal(basePosterUrl: String, baseBackdropUrl: String) =
+    map { it.toExternal(basePosterUrl, baseBackdropUrl) }
 
-fun NetworkTrendingSeries.toLocal(basePosterUrl: String, rank: Int) = LocalTrend(
+fun NetworkTrendingSeries.toLocal(basePosterUrl: String, baseBackdropUrl: String, rank: Int) = LocalTrend(
     id = id,
     title = name,
     score = voteAverage,
     poster = basePosterUrl + posterPath,
+    backdrop = baseBackdropUrl + backdropPath,
     rank = rank
 )
 
 @JvmName("trendingSerialNetworkToLocal")
-fun List<NetworkTrendingSeries>.toLocal(basePosterUrl: String) = mapIndexed()
+fun List<NetworkTrendingSeries>.toLocal(basePosterUrl: String, baseBackdropUrl: String) = mapIndexed()
 { index, networkTrendMovie ->
-    networkTrendMovie.toLocal(basePosterUrl, index.inc())
+    networkTrendMovie.toLocal(basePosterUrl, baseBackdropUrl, index.inc())
 }
 
-fun NetworkPopularMovie.toExternal(basePosterUrl: String) = Trend(
+fun NetworkPopularMovie.toExternal(basePosterUrl: String, baseBackdropUrl: String) = Trend(
     id = id,
     title = title,
     score = voteAverage,
     poster = basePosterUrl + posterPath,
+    backdrop = baseBackdropUrl + backdropPath,
     rank = 0
 )
 
 @JvmName("popularMovieNetworkToExternal")
-fun List<NetworkPopularMovie>.toExternal(basePosterUrl: String) =
-    map { it.toExternal(basePosterUrl) }
+fun List<NetworkPopularMovie>.toExternal(basePosterUrl: String, baseBackdropUrl: String) =
+    map { it.toExternal(basePosterUrl, baseBackdropUrl) }
 
-fun NetworkPopularMovie.toLocal(basePosterUrl: String, rank: Int) = LocalTrend(
+fun NetworkPopularMovie.toLocal(basePosterUrl: String,baseBackdropUrl: String, rank: Int) = LocalTrend(
     id = id,
     title = title,
     score = voteAverage,
     poster = basePosterUrl + posterPath,
+    backdrop = baseBackdropUrl + baseBackdropUrl,
     rank = rank
 )
 
 @JvmName("popularMovieNetworkToLocal")
-fun List<NetworkPopularMovie>.toLocal(basePosterUrl: String) = mapIndexed()
+fun List<NetworkPopularMovie>.toLocal(basePosterUrl: String, baseBackdropUrl: String) = mapIndexed()
 { index, networkPopularMovie ->
-    networkPopularMovie.toLocal(basePosterUrl, index.inc())
+    networkPopularMovie.toLocal(basePosterUrl, baseBackdropUrl, index.inc())
 }
 
-fun NetworkPopularSerial.toExternal(basePosterUrl: String) = Trend(
+fun NetworkPopularSerial.toExternal(basePosterUrl: String, baseBackdropUrl: String) = Trend(
     id = id,
     title = name,
     score = voteAverage,
     poster = basePosterUrl + posterPath,
+    backdrop = baseBackdropUrl + backdropPath,
     rank = 0
 )
 
 @JvmName("popularSerialNetworkToExternal")
-fun List<NetworkPopularSerial>.toExternal(basePosterUrl: String) =
-    map { it.toExternal(basePosterUrl) }
+fun List<NetworkPopularSerial>.toExternal(basePosterUrl: String, baseBackdropUrl: String) =
+    map { it.toExternal(basePosterUrl, baseBackdropUrl) }
 
-fun NetworkPopularSerial.toLocal(basePosterUrl: String, rank: Int) = LocalTrend(
+fun NetworkPopularSerial.toLocal(basePosterUrl: String,baseBackdropUrl: String, rank: Int) = LocalTrend(
     id = id,
     title = name,
     score = voteAverage,
     poster = basePosterUrl + posterPath,
+    backdrop = baseBackdropUrl + backdropPath,
     rank = rank
 )
 
 @JvmName("popularSerialNetworkToLocal")
-fun List<NetworkPopularSerial>.toLocal(basePosterUrl: String) = mapIndexed()
+fun List<NetworkPopularSerial>.toLocal(basePosterUrl: String,baseBackdropUrl: String) = mapIndexed()
 { index, networkPopularMovie ->
-    networkPopularMovie.toLocal(basePosterUrl, index.inc())
+    networkPopularMovie.toLocal(basePosterUrl, baseBackdropUrl, index.inc())
 }
 
 fun NetworkMovieDetails.toExternal(
@@ -192,7 +202,7 @@ fun NetworkMovieDetails.toExternal(
     posters = images.posters.toExternal(basePosterUrl),
     backdrops = images.backdrops.toExternal(baseBackdropUrl),
     logos = images.logos.toExternal(baseLogoUrl),
-    recommendations = recommendations.results.toExternal(basePosterUrl)
+    recommendations = recommendations.results.toExternal(basePosterUrl, baseBackdropUrl)
 )
 
 fun NetworkGenre.toExternal() = Genre(
