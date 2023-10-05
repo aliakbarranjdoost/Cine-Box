@@ -1,6 +1,4 @@
 @file:OptIn(
-    ExperimentalFoundationApi::class, ExperimentalFoundationApi::class,
-    ExperimentalFoundationApi::class, ExperimentalFoundationApi::class,
     ExperimentalFoundationApi::class
 )
 
@@ -8,27 +6,35 @@ package dev.aliakbar.tmdbunofficial.ui.home
 
 import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayCircleOutline
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,6 +48,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -77,156 +85,185 @@ fun HomeScreen(
         is HomeUiState.Loading -> Text(text = "Loading")
         is HomeUiState.Success ->
         {
-            Slider(trailers = homeUiState.todayTrendingMoviesTrailers)
+
+            val scrollState = rememberScrollState()
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
+            )
+            {
+                Slider(trailers = homeUiState.todayTrendingMoviesTrailers)
+
+                val timeRangeOptions = stringArrayResource(R.array.date_range_options)
+                var moviesSelectedTimeRangeIndex by remember { mutableIntStateOf(0) }
+                var seriesSelectedTimeRangeIndex by remember { mutableIntStateOf(0) }
+                var popularSelectedTypeIndex by remember { mutableIntStateOf(0) }
+
+                Column(
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                )
+                {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(12.dp)
+                    )
+                    {
+                        Text(text = "Trending Movies")
+                        Spacer(modifier = Modifier.weight(1f).fillMaxHeight())
+                        SingleChoiceSegmentedButtonRow(modifier = Modifier.width(200.dp))
+                        {
+                            timeRangeOptions.forEachIndexed()
+                            { index, label ->
+                                SegmentedButton(
+                                    modifier = Modifier.width(75.dp),
+                                    selected = index == moviesSelectedTimeRangeIndex,
+                                    onClick = { moviesSelectedTimeRangeIndex = index },
+                                    shape = SegmentedButtonDefaults.shape(
+                                        position = index,
+                                        count = timeRangeOptions.size
+                                    )
+                                )
+                                {
+                                    Text(label)
+                                }
+                            }
+                        }
+                    }
+
+                    when (moviesSelectedTimeRangeIndex)
+                    {
+                        0 -> TrendList(
+                            trends = homeUiState.todayTrendMovies,
+                            navController = navController
+                        )
+
+                        1 -> TrendList(
+                            trends = homeUiState.thisWeekTrendMovies,
+                            navController = navController
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.fillMaxWidth().height(16.dp))
+
+                Column(
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                )
+                {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(12.dp)
+                    )
+                    {
+                        Text(text = "Trending Series")
+                        Spacer(modifier = Modifier.weight(1f).fillMaxHeight())
+                        SingleChoiceSegmentedButtonRow(modifier = Modifier.width(200.dp))
+                        {
+                            timeRangeOptions.forEachIndexed()
+                            { index, label ->
+                                SegmentedButton(
+                                    modifier = Modifier.width(75.dp),
+                                    selected = index == seriesSelectedTimeRangeIndex,
+                                    onClick = { seriesSelectedTimeRangeIndex = index },
+                                    shape = SegmentedButtonDefaults.shape(
+                                        position = index,
+                                        count = timeRangeOptions.size
+                                    )
+                                )
+                                {
+                                    Text(label)
+                                }
+                            }
+                        }
+                    }
+
+                    when (seriesSelectedTimeRangeIndex)
+                    {
+                        0 -> TrendList(
+                            trends = homeUiState.todayTrendSeries,
+                            navController = navController
+                        )
+
+                        1 -> TrendList(
+                            trends = homeUiState.thisWeekTrendSeries,
+                            navController = navController
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.fillMaxWidth().height(16.dp))
+
+                Column(
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                )
+                {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(12.dp)
+                    )
+                    {
+                        Text(text = "Popular")
+                        Spacer(modifier = Modifier.weight(1f).fillMaxHeight())
+                        SingleChoiceSegmentedButtonRow(modifier = Modifier.width(200.dp))
+                        {
+                            timeRangeOptions.forEachIndexed()
+                            { index, label ->
+                                SegmentedButton(
+                                    modifier = Modifier.width(75.dp),
+                                    selected = index == popularSelectedTypeIndex,
+                                    onClick = { popularSelectedTypeIndex = index },
+                                    shape = SegmentedButtonDefaults.shape(
+                                        position = index,
+                                        count = timeRangeOptions.size
+                                    )
+                                )
+                                {
+                                    Text(label)
+                                }
+                            }
+                        }
+                    }
+
+                    when (popularSelectedTypeIndex)
+                    {
+                        0 -> TrendList(
+                            trends = homeUiState.popularMovies,
+                            navController = navController
+                        )
+
+                        1 -> TrendList(
+                            trends = homeUiState.popularSeries,
+                            navController = navController
+                        )
+                    }
+                }
+            }
         }
 
         is HomeUiState.Error   -> Text(text = "Error")
     }
 
-    /*val scrollState = rememberScrollState()
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .verticalScroll(scrollState))
-    {
-        val timeRangeOptions = stringArrayResource(R.array.date_range_options)
-        var moviesSelectedTimeRangeIndex by remember { mutableIntStateOf(0) }
-        var seriesSelectedTimeRangeIndex by remember { mutableIntStateOf(0) }
-        var popularSelectedTypeIndex by remember { mutableIntStateOf(0) }
-
-        //Slider(trailers = viewModel.todayTrendingMoviesTrailers)
-
-        Row(modifier = Modifier.fillMaxWidth())
-        {
-            Text(text = "Trending Movies")
-            Spacer(modifier = Modifier.width(16.dp))
-            SingleChoiceSegmentedButtonRow(modifier = Modifier.width(200.dp))
-            {
-                timeRangeOptions.forEachIndexed()
-                { index, label ->
-                    SegmentedButton(
-                        modifier = Modifier.width(75.dp),
-                        selected = index == moviesSelectedTimeRangeIndex,
-                        onClick =
-                        {
-                            moviesSelectedTimeRangeIndex = index
-                            when (moviesSelectedTimeRangeIndex)
-                            {
-                                0 -> viewModel.getTodayTrendMovies()
-                                1 -> viewModel.getThisWeekTrendMovies()
-                            }
-                        },
-                        shape = SegmentedButtonDefaults.shape(
-                            position = index,
-                            count = timeRangeOptions.size
-                        )
-                    )
-                    {
-                        Text(label)
-                    }
-                }
-            }
-        }
-
-        when (homeUiState)
-        {
-            is HomeUiState.Loading -> Text(text = "Loading")
-            is HomeUiState.Success -> TrendList(
-                trends = homeUiState.trends,
-                navController = navController
-            )
-            is HomeUiState.Error   -> Text(text = "Error")
-        }
-
-        Row(modifier = Modifier.fillMaxWidth())
-        {
-            Text(text = "Trending Series")
-            Spacer(modifier = Modifier.width(16.dp))
-            SingleChoiceSegmentedButtonRow(modifier = Modifier.width(200.dp))
-            {
-                timeRangeOptions.forEachIndexed()
-                { index, label ->
-                    SegmentedButton(
-                        modifier = Modifier.width(75.dp),
-                        selected = index == seriesSelectedTimeRangeIndex,
-                        onClick =
-                        {
-                            seriesSelectedTimeRangeIndex = index
-                            when (seriesSelectedTimeRangeIndex)
-                            {
-                                0 -> viewModel.getTodayTrendSeries()
-                                1 -> viewModel.getThisWeekTrendSeries()
-                            }
-                        },
-                        shape = SegmentedButtonDefaults.shape(
-                            position = index,
-                            count = timeRangeOptions.size
-                        )
-                    )
-                    {
-                        Text(label)
-                    }
-                }
-            }
-        }
-
-        when (homeSerialUiState)
-        {
-            is HomeUiState.Loading -> Text(text = "Loading")
-            is HomeUiState.Success -> TrendList(trends = homeSerialUiState.trends,
-                navController = navController
-            )
-            is HomeUiState.Error   -> Text(text = "Error")
-        }
-
-        Row(modifier = Modifier.fillMaxWidth())
-        {
-            Text(text = "Popular Movies")
-            Spacer(modifier = Modifier.width(16.dp))
-            SingleChoiceSegmentedButtonRow(modifier = Modifier.width(200.dp))
-            {
-                timeRangeOptions.forEachIndexed()
-                { index, label ->
-                    SegmentedButton(
-                        modifier = Modifier.width(75.dp),
-                        selected = index == popularSelectedTypeIndex,
-                        onClick =
-                        {
-                            popularSelectedTypeIndex = index
-                            when (popularSelectedTypeIndex)
-                            {
-                                0 -> viewModel.getPopularMovies()
-                                1 -> viewModel.getPopularSeries()
-                            }
-                        },
-                        shape = SegmentedButtonDefaults.shape(
-                            position = index,
-                            count = timeRangeOptions.size
-                        )
-                    )
-                    {
-                        Text(label)
-                    }
-                }
-            }
-        }
-
-        when (homePopularMoviesUiState)
-        {
-            is HomeUiState.Loading -> Text(text = "Loading")
-            is HomeUiState.Success -> TrendList(
-                trends = homePopularMoviesUiState.trends,
-                navController = navController
-            )
-            is HomeUiState.Error   -> Text(text = "Error")
-        }*/
-    //}
 }
 
 @Composable
 fun TrendList(trends: List<Trend>, navController: NavHostController, modifier: Modifier = Modifier)
 {
-    LazyRow(modifier = modifier)
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier.padding(16.dp)
+    )
     {
         items(items = trends, key = { trend -> trend.id })
         { trend ->
@@ -242,18 +279,32 @@ fun TrendList(trends: List<Trend>, navController: NavHostController, modifier: M
 @Composable
 fun TrendItem(trend: Trend, onNavigateToDetails: () -> Unit)
 {
-    Card(modifier = Modifier.padding(16.dp), onClick = onNavigateToDetails)
+    Card(
+        onClick = onNavigateToDetails
+    )
     {
-        Column {
+        Column()
+        {
             AsyncImage(
                 model = ImageRequest
                     .Builder(context = LocalContext.current)
                     .data(trend.poster)
                     .build(),
-                contentDescription = trend.title
+                contentDescription = trend.title,
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier
+                    .size(width = 150.dp, height = 225.dp)
             )
-            Text(text = trend.title)
-            Text(text = trend.score.toString())
+            Text(
+                text = trend.title,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .width(150.dp)
+            )
+            Text(
+                text = trend.score.toString()
+            )
         }
     }
 }
@@ -306,7 +357,8 @@ fun SliderItem(trailer: Trailer)
                             isVideoFullScreen = false
                         }
                     }
-                    else ->
+
+                    else                                ->
                     {
                         VideoDialog(
                             videoId = trailer.video.key,
@@ -387,29 +439,33 @@ fun SliderItem(trailer: Trailer)
 @Composable
 fun YoutubeVideoPlayer(id: String, lifecycleOwner: LifecycleOwner, modifier: Modifier = Modifier)
 {
-    AndroidView(factory =
-    { context ->
-        YouTubePlayerView(context = context).apply()
-        {
-            lifecycleOwner.lifecycle.addObserver(this)
-
-            addYouTubePlayerListener(object : AbstractYouTubePlayerListener()
+    AndroidView(
+        factory =
+        { context ->
+            YouTubePlayerView(context = context).apply()
             {
-                override fun onReady(youTubePlayer: YouTubePlayer)
+                lifecycleOwner.lifecycle.addObserver(this)
+
+                addYouTubePlayerListener(object : AbstractYouTubePlayerListener()
                 {
-                    youTubePlayer.setLoop(true)
-                    youTubePlayer.cueVideo(id, 0F)
-                }
-            })
-        }
-    }, modifier = Modifier.fillMaxSize())
+                    override fun onReady(youTubePlayer: YouTubePlayer)
+                    {
+                        youTubePlayer.setLoop(true)
+                        youTubePlayer.cueVideo(id, 0F)
+                    }
+                })
+            }
+        }, modifier = Modifier.fillMaxSize()
+    )
 }
 
 @Composable
-fun VideoDialog(videoId: String,
-                lifecycleOwner: LifecycleOwner,
-                modifier: Modifier = Modifier,
-                onDismissRequest: () -> Unit)
+fun VideoDialog(
+    videoId: String,
+    lifecycleOwner: LifecycleOwner,
+    modifier: Modifier = Modifier,
+    onDismissRequest: () -> Unit
+)
 {
     Dialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),
@@ -442,7 +498,7 @@ fun PreviewVideoDialog()
     {
         VideoDialog(videoId = "", LocalLifecycleOwner.current)
         {
-            
+
         }
     }
 }
