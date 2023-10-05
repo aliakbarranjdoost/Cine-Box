@@ -15,7 +15,7 @@ data class NetworkResponse<T>(
 
 @Serializable
 data class NetworkVideoResponse(
-    val id: Int,
+    val id: Int? = null,
     val results: List<NetworkVideo>
 )
 

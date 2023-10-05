@@ -94,7 +94,10 @@ fun HomeScreen(
                     .verticalScroll(scrollState)
             )
             {
-                Slider(trailers = homeUiState.todayTrendingMoviesTrailers)
+                Slider(
+                    trailers = homeUiState.todayTrendingMoviesTrailers,
+                    navController = navController
+                )
 
                 val timeRangeOptions = stringArrayResource(R.array.date_range_options)
                 var moviesSelectedTimeRangeIndex by remember { mutableIntStateOf(0) }
@@ -310,7 +313,7 @@ fun TrendItem(trend: Trend, onNavigateToDetails: () -> Unit)
 }
 
 @Composable
-fun Slider(trailers: List<Trailer>)
+fun Slider(trailers: List<Trailer>, navController: NavHostController)
 {
     val pagerState = rememberPagerState(pageCount = {
         trailers.size
@@ -318,12 +321,17 @@ fun Slider(trailers: List<Trailer>)
 
     HorizontalPager(state = pagerState)
     { page ->
-        SliderItem(trailers[page])
+        SliderItem(
+            trailer = trailers[page],
+            onNavigateToDetails =
+            {
+                navController.navigate(TmdbScreen.MovieDetails.name + "/" + trailers[page].trend.id.toString())
+            })
     }
 }
 
 @Composable
-fun SliderItem(trailer: Trailer)
+fun SliderItem(trailer: Trailer, onNavigateToDetails: () -> Unit)
 {
     var isVideoFullScreen by remember { mutableStateOf(false) }
 
@@ -414,6 +422,7 @@ fun SliderItem(trailer: Trailer)
                 .height(225.dp)
                 .padding(start = 16.dp, bottom = 16.dp)
                 .align(Alignment.BottomStart)
+                .clickable { onNavigateToDetails() }
         )
 
         Text(
@@ -486,7 +495,7 @@ fun PreviewSliderItem()
 {
     TMDBUnofficialTheme()
     {
-        Slider(trailers = trailers)
+        //Slider(trailers = trailers,  )
     }
 }
 
