@@ -15,32 +15,32 @@ class HomeRepository(
 {
     suspend fun getTodayTrendingMovies(): List<LocalTrend>
     {
-        return networkDataSource.getTodayTrendingMovies().results.toLocal(createBasePosterUrl(),createBaseBackdropUrl())
+        return networkDataSource.getTodayTrendingMovies().results.toLocal(createBasePosterUrl(),createBaseBackdropUrl(),false)
     }
 
     suspend fun getThisWeekTrendingMovies(): List<LocalTrend>
     {
-        return networkDataSource.getThisWeekTrendingMovies().results.toLocal(createBasePosterUrl(),createBaseBackdropUrl())
+        return networkDataSource.getThisWeekTrendingMovies().results.toLocal(createBasePosterUrl(),createBaseBackdropUrl(),false)
     }
 
     suspend fun getTodayTrendingSeries(): List<LocalTrend>
     {
-        return networkDataSource.getTodayTrendingSeries().results.toLocal(createBasePosterUrl(),createBaseBackdropUrl())
+        return networkDataSource.getTodayTrendingSeries().results.toLocal(createBasePosterUrl(),createBaseBackdropUrl(),false)
     }
 
     suspend fun getThisWeekTrendingSeries(): List<LocalTrend>
     {
-        return networkDataSource.getThisWeekTrendingSeries().results.toLocal(createBasePosterUrl(),createBaseBackdropUrl())
+        return networkDataSource.getThisWeekTrendingSeries().results.toLocal(createBasePosterUrl(),createBaseBackdropUrl(),false)
     }
 
     suspend fun getPopularMovies(): List<LocalTrend>
     {
-        return networkDataSource.getPopularMovies().results.toLocal(createBasePosterUrl(),createBaseBackdropUrl())
+        return networkDataSource.getPopularMovies().results.toLocal(createBasePosterUrl(),createBaseBackdropUrl(),false)
     }
 
     suspend fun getPopularSeries(): List<LocalTrend>
     {
-        return networkDataSource.getPopularSeries().results.toLocal(createBasePosterUrl(),createBaseBackdropUrl())
+        return networkDataSource.getPopularSeries().results.toLocal(createBasePosterUrl(),createBaseBackdropUrl(),false)
     }
 
     suspend fun getTodayTrendingMovieTrailers() : List<Trailer>
@@ -59,7 +59,7 @@ class HomeRepository(
                     todayTrendingMovieTrailers.add(
                         Trailer(
                             video = trailer,
-                            trend = it.toExternal(createBasePosterUrl(),createBaseBackdropUrl()),
+                            trend = it.toExternal(createBasePosterUrl(),createBaseBackdropUrl(),false),
                         )
                     )
                 }

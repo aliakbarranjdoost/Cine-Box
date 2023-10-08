@@ -11,5 +11,6 @@ data class LocalTrend(
     val score: Float,
     val poster: String,
     val backdrop: String,
-    val rank: Int
+    val rank: Int,
+    val isBookmark: Boolean
 )

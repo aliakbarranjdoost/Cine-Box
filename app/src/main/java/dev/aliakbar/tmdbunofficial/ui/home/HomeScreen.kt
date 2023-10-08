@@ -1,4 +1,5 @@
 @file:OptIn(
+    ExperimentalFoundationApi::class, ExperimentalFoundationApi::class,
     ExperimentalFoundationApi::class
 )
 
@@ -27,10 +28,13 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.PlayCircleOutline
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -48,6 +52,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -66,7 +71,9 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Trailer
 import dev.aliakbar.tmdbunofficial.data.Trend
+import dev.aliakbar.tmdbunofficial.data.source.sample.movie
 import dev.aliakbar.tmdbunofficial.data.source.sample.trailers
+import dev.aliakbar.tmdbunofficial.data.source.sample.trend
 import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
@@ -117,7 +124,11 @@ fun HomeScreen(
                     )
                     {
                         Text(text = "Trending Movies")
-                        Spacer(modifier = Modifier.weight(1f).fillMaxHeight())
+                        Spacer(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight()
+                        )
                         SingleChoiceSegmentedButtonRow(modifier = Modifier.width(200.dp))
                         {
                             timeRangeOptions.forEachIndexed()
@@ -142,17 +153,23 @@ fun HomeScreen(
                     {
                         0 -> TrendList(
                             trends = homeUiState.todayTrendMovies,
-                            navController = navController
+                            navController = navController,
+                            viewModel = viewModel
                         )
 
                         1 -> TrendList(
                             trends = homeUiState.thisWeekTrendMovies,
-                            navController = navController
+                            navController = navController,
+                            viewModel = viewModel
                         )
                     }
                 }
 
-                Spacer(modifier = Modifier.fillMaxWidth().height(16.dp))
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(16.dp)
+                )
 
                 Column(
                     modifier = Modifier
@@ -167,7 +184,11 @@ fun HomeScreen(
                     )
                     {
                         Text(text = "Trending Series")
-                        Spacer(modifier = Modifier.weight(1f).fillMaxHeight())
+                        Spacer(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight()
+                        )
                         SingleChoiceSegmentedButtonRow(modifier = Modifier.width(200.dp))
                         {
                             timeRangeOptions.forEachIndexed()
@@ -192,17 +213,23 @@ fun HomeScreen(
                     {
                         0 -> TrendList(
                             trends = homeUiState.todayTrendSeries,
-                            navController = navController
+                            navController = navController,
+                            viewModel = viewModel
                         )
 
                         1 -> TrendList(
                             trends = homeUiState.thisWeekTrendSeries,
-                            navController = navController
+                            navController = navController,
+                            viewModel = viewModel
                         )
                     }
                 }
 
-                Spacer(modifier = Modifier.fillMaxWidth().height(16.dp))
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(16.dp)
+                )
 
                 Column(
                     modifier = Modifier
@@ -217,7 +244,11 @@ fun HomeScreen(
                     )
                     {
                         Text(text = "Popular")
-                        Spacer(modifier = Modifier.weight(1f).fillMaxHeight())
+                        Spacer(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight()
+                        )
                         SingleChoiceSegmentedButtonRow(modifier = Modifier.width(200.dp))
                         {
                             timeRangeOptions.forEachIndexed()
@@ -242,12 +273,14 @@ fun HomeScreen(
                     {
                         0 -> TrendList(
                             trends = homeUiState.popularMovies,
-                            navController = navController
+                            navController = navController,
+                            viewModel = viewModel
                         )
 
                         1 -> TrendList(
                             trends = homeUiState.popularSeries,
-                            navController = navController
+                            navController = navController,
+                            viewModel = viewModel
                         )
                     }
                 }
@@ -261,7 +294,11 @@ fun HomeScreen(
 }
 
 @Composable
-fun TrendList(trends: List<Trend>, navController: NavHostController, modifier: Modifier = Modifier)
+fun TrendList(
+    trends: List<Trend>,
+    navController: NavHostController,
+    viewModel: HomeViewModel,
+    modifier: Modifier = Modifier)
 {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -273,14 +310,19 @@ fun TrendList(trends: List<Trend>, navController: NavHostController, modifier: M
             TrendItem(trend = trend, onNavigateToDetails =
             {
                 navController.navigate(TmdbScreen.MovieDetails.name + "/" + trend.id.toString())
-            })
+            },
+            onBookmarkClick = { viewModel.addToBookmark(trend) })
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TrendItem(trend: Trend, onNavigateToDetails: () -> Unit)
+fun TrendItem(
+    trend: Trend,
+    onNavigateToDetails: () -> Unit,
+    onBookmarkClick: () -> Unit ,
+    )
 {
     Card(
         onClick = onNavigateToDetails
@@ -288,16 +330,8 @@ fun TrendItem(trend: Trend, onNavigateToDetails: () -> Unit)
     {
         Column()
         {
-            AsyncImage(
-                model = ImageRequest
-                    .Builder(context = LocalContext.current)
-                    .data(trend.poster)
-                    .build(),
-                contentDescription = trend.title,
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier
-                    .size(width = 150.dp, height = 225.dp)
-            )
+            Poster(trend = trend, onBookmarkClick = onBookmarkClick)
+
             Text(
                 text = trend.title,
                 maxLines = 1,
@@ -489,6 +523,47 @@ fun VideoDialog(
     }
 }
 
+@Composable
+fun Poster(
+    onBookmarkClick: () -> Unit ,
+    trend: Trend,
+    modifier: Modifier = Modifier
+)
+{
+    Box(
+        modifier = Modifier
+            .size(width = 150.dp, height = 225.dp)
+    )
+    {
+        AsyncImage(
+            model = ImageRequest
+                .Builder(context = LocalContext.current)
+                .placeholder(R.drawable.poster_test)
+                .data(trend.poster)
+                .build(),
+            contentDescription = trend.title,
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier.fillMaxSize()
+        )
+
+        IconButton(
+            onClick = onBookmarkClick ,
+            modifier = Modifier
+                .size(48.dp)
+                .align(Alignment.BottomEnd),
+        )
+        {
+            Icon(
+                imageVector = if (trend.isBookmark) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+            )
+        }
+
+    }
+}
+
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 fun PreviewSliderItem()
@@ -499,7 +574,7 @@ fun PreviewSliderItem()
     }
 }
 
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
+//@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 fun PreviewVideoDialog()
 {
@@ -509,5 +584,15 @@ fun PreviewVideoDialog()
         {
 
         }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewPoster()
+{
+    TMDBUnofficialTheme()
+    {
+        Poster(trend = trend, onBookmarkClick = {})
     }
 }

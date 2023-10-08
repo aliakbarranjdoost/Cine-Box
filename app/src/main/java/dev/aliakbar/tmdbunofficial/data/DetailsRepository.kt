@@ -17,9 +17,12 @@ class DetailsRepository(
             basePosterUrl = createBasePosterUrl(),
             baseBackdropUrl = createBaseBackdropUrl(),
             baseLogoUrl = createBaseLogoUrl(),
-            baseProfileUrl = createBaseProfileUrl()
+            baseProfileUrl = createBaseProfileUrl(),
+            false
+
         )
     }
+
 
     suspend fun addMovieToBookmark(bookmark: Bookmark)
     {

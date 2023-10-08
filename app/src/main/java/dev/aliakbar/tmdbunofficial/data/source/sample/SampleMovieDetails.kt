@@ -145,8 +145,8 @@ val trend = Trend(
     score = 8.384F,
     poster = "/5VTN0pR8gcqV3EPUHHfMGnJYN9L.jpg",
     backdrop = "/bccR2CGTWVVSZAG0yqmy3DIvhTX.jpg",
-    rank = 0
-
+    rank = 0,
+    isBookmark = false
 )
 
 val recommendations = mutableListOf<Trend>().apply { repeat(10) { this.add(trend)} }.toList()
