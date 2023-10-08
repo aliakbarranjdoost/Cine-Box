@@ -28,4 +28,7 @@ interface LocalBookmarkDao
 
     @Query("SELECT * FROM bookmarks")
     fun getAllBookmarks(): Flow<List<LocalBookmark>>
+
+    @Query("SELECT EXISTS(SELECT * FROM bookmarks WHERE id = :id)")
+    fun isBookmark(id: Int): Boolean
 }

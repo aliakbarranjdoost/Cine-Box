@@ -39,10 +39,6 @@ class HomeViewModel(
     private val homeRepository: HomeRepository
 ) : ViewModel()
 {
-    fun addToBookmark(trend: Trend)
-    {
-        TODO("Not yet implemented")
-    }
 
     var homeUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
         private set
@@ -77,6 +73,14 @@ class HomeViewModel(
             {
                 HomeUiState.Error
             }
+        }
+    }
+
+    fun addToBookmark(trend: Trend)
+    {
+        viewModelScope.launch()
+        {
+            homeRepository.addTrendToBookmark(trend)
         }
     }
 

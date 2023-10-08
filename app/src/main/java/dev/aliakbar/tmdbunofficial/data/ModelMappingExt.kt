@@ -421,3 +421,10 @@ fun Bookmark.toLocal() = LocalBookmark(
     score = score,
     poster = poster
 )
+
+fun Trend.toLocalBookmark() = LocalBookmark(
+    id = id,
+    title = title,
+    score = score,
+    poster = poster
+)
