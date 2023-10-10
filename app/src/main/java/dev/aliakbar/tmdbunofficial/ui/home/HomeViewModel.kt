@@ -3,6 +3,7 @@ package dev.aliakbar.tmdbunofficial.ui.home
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -50,7 +51,7 @@ class HomeViewModel(
             homeUiState = HomeUiState.Loading
             homeUiState = try
             {
-                val todayTrendMovies = homeRepository.getTodayTrendingMovies().toExternal()
+                val todayTrendMovies = homeRepository.getTodayTrendingMovies()
                 val thisWeekTrendMovies = homeRepository.getThisWeekTrendingMovies().toExternal()
 
                 val todayTrendSeries = homeRepository.getTodayTrendingSeries().toExternal()

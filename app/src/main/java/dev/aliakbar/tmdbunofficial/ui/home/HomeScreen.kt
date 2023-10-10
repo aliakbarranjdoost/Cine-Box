@@ -6,6 +6,7 @@
 package dev.aliakbar.tmdbunofficial.ui.home
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,15 +27,18 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.PlayCircleOutline
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -48,6 +52,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -76,6 +82,9 @@ import dev.aliakbar.tmdbunofficial.data.source.sample.trailers
 import dev.aliakbar.tmdbunofficial.data.source.sample.trend
 import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
+import dev.aliakbar.tmdbunofficial.util.toDegree
+import dev.aliakbar.tmdbunofficial.util.toPercent
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -311,7 +320,8 @@ fun TrendList(
             {
                 navController.navigate(TmdbScreen.MovieDetails.name + "/" + trend.id.toString())
             },
-            onBookmarkClick = { viewModel.addToBookmark(trend) })
+            onBookmarkClick =
+            { viewModel.addToBookmark(trend) })
         }
     }
 }
@@ -338,9 +348,6 @@ fun TrendItem(
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .width(150.dp)
-            )
-            Text(
-                text = trend.score.toString()
             )
         }
     }
@@ -546,6 +553,12 @@ fun Poster(
             modifier = Modifier.fillMaxSize()
         )
 
+        ScoreBar(
+            score = trend.score,
+            modifier = Modifier.
+                align(Alignment.BottomStart)
+        )
+
         IconButton(
             onClick = onBookmarkClick ,
             modifier = Modifier
@@ -562,6 +575,30 @@ fun Poster(
         }
 
     }
+}
+
+@Composable
+fun ScoreBar(score: Float, modifier: Modifier = Modifier)
+{
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = modifier
+                .padding(4.dp)
+    )
+    {
+        Text(
+            text = (score * 10).roundToInt().toString() + "%",
+            modifier = Modifier
+                .clip(CircleShape),
+        )
+
+        CircularProgressIndicator(
+            modifier = Modifier,
+            color = convertPercentageToHsvColor(score.toDegree()),
+            progress = (score / 10.0).toFloat()
+        )
+    }
+
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
@@ -595,4 +632,19 @@ fun PreviewPoster()
     {
         Poster(trend = trend, onBookmarkClick = {})
     }
+}
+
+@Preview
+@Composable
+fun PreviewScore()
+{
+    TMDBUnofficialTheme()
+    {
+        ScoreBar(score = 7.93F)
+    }
+}
+
+private fun convertPercentageToHsvColor(degree: Float): Color
+{
+    return Color.hsv(degree,1F,1F)
 }

@@ -13,9 +13,17 @@ class HomeRepository(
     private val localDataSource: TmdbDatabase
 ) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
 {
-    suspend fun getTodayTrendingMovies(): List<LocalTrend>
+    suspend fun getTodayTrendingMovies(): List<Trend>
     {
-        return networkDataSource.getTodayTrendingMovies().results.toLocal(createBasePosterUrl(),createBaseBackdropUrl(),false)
+        return networkDataSource.getTodayTrendingMovies().results.map()
+        {
+            it.toExternal(
+                createBasePosterUrl(),
+                createBaseBackdropUrl(),
+                isBookmark(it.id)
+            )
+        }
+        //return networkDataSource.getTodayTrendingMovies().results.toLocal(createBasePosterUrl(),createBaseBackdropUrl(),false)
     }
 
     suspend fun getThisWeekTrendingMovies(): List<LocalTrend>
@@ -86,7 +94,7 @@ class HomeRepository(
         localDataSource.bookmarkDao().insert(trend.toLocalBookmark())
     }
 
-    fun isBookmark(id: Int): Boolean
+    suspend fun isBookmark(id: Int): Boolean
     {
         return localDataSource.bookmarkDao().isBookmark(id)
     }
