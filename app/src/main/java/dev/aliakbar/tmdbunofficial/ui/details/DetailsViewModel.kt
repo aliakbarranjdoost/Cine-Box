@@ -69,6 +69,7 @@ class DetailsViewModel(
         title: String,
         score: Float,
         poster: String,
+        backdrop: String
     )
     {
         viewModelScope.launch()
@@ -78,7 +79,8 @@ class DetailsViewModel(
                     id = id,
                     title = title,
                     score = score,
-                    poster = poster
+                    poster = poster,
+                    backdrop = backdrop
                 )
             )
         }

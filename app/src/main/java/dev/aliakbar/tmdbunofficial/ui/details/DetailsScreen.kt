@@ -68,7 +68,8 @@ fun DetailsScreen(
                     id = movie.id,
                     title = movie.title,
                     score = movie.voteAverage,
-                    poster = movie.posterPath
+                    poster = movie.posterPath,
+                    backdrop = movie.backdropPath
                 )
             }
         )

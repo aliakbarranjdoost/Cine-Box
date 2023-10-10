@@ -2,7 +2,16 @@
 
 package dev.aliakbar.tmdbunofficial.ui.bookmark
 
+import android.content.res.Configuration
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,9 +19,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -22,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -31,8 +43,10 @@ import coil.request.ImageRequest
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Bookmark
 import dev.aliakbar.tmdbunofficial.data.Trend
+import dev.aliakbar.tmdbunofficial.data.source.sample.bookmarks
 import dev.aliakbar.tmdbunofficial.data.source.sample.recommendations
 import dev.aliakbar.tmdbunofficial.ui.details.DetailsViewModel
+import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
 @Composable
 fun BookmarkScreen(
@@ -53,11 +67,13 @@ fun BookmarkScreen(
 @Composable
 fun BookmarkList(bookmarks: List<Bookmark>, modifier: Modifier = Modifier)
 {
-    LazyColumn()
+    LazyColumn(
+        modifier = Modifier.padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    )
     {
         items(items = bookmarks)
-        {
-            trend ->
+        { trend ->
             BookmarkItem(bookmark = trend)
         }
     }
@@ -66,47 +82,88 @@ fun BookmarkList(bookmarks: List<Bookmark>, modifier: Modifier = Modifier)
 @Composable
 fun BookmarkItem(bookmark: Bookmark, modifier: Modifier = Modifier)
 {
-    Card(modifier = Modifier.padding(16.dp))
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(300.dp),
+        shape = CardDefaults.shape
+    )
     {
-        Box()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        )
         {
             AsyncImage(
                 model = ImageRequest
                     .Builder(context = LocalContext.current)
                     .data(bookmark.poster)
                     .build(),
-                placeholder = painterResource(id = R.drawable.poster_test),
+                placeholder = painterResource(id = R.drawable.backdrop_test),
                 contentDescription = bookmark.title,
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier
-                    .size(width = 160.dp, height = 320.dp)
-                    .align(Alignment.TopStart)
-            )
-            Text(
-                text = bookmark.title,
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .padding(start = 160.dp)
+                    .weight(0.76F)
+                    .fillMaxWidth()
             )
 
-            IconButton(onClick = { /* doSomething() */ },
+            Text(
+                text = bookmark.title,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(20.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.BookmarkBorder,
-                    contentDescription = "Localized description"
+                    .weight(0.12F)
+                    .fillMaxWidth(),
+                style = MaterialTheme.typography.headlineSmall
+            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .weight(0.12F)
+                    .fillMaxWidth()
+            )
+            {
+                Text(
+                    text = bookmark.title,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .padding(4.dp),
+                    style = MaterialTheme.typography.titleSmall
                 )
+
+                Spacer(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                )
+
+                IconButton(
+                    onClick = { /* doSomething() */ },
+                    modifier = Modifier
+                        .size(48.dp)
+                        .padding(4.dp)
+                    ) {
+                    Icon(
+                        imageVector = Icons.Filled.BookmarkBorder,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxSize()
+                    )
+                }
             }
         }
     }
 }
 
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun BookmarkScreenPreview()
 {
-    //BookmarkList(bookmarks = recommendations)
+    TMDBUnofficialTheme()
+    {
+        BookmarkList(bookmarks = bookmarks)
+    }
 }
