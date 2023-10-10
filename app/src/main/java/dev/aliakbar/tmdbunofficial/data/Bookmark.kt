@@ -5,4 +5,5 @@ data class Bookmark(
     val title: String,
     val score: Float,
     val poster: String,
+    val backdrop: String
 )

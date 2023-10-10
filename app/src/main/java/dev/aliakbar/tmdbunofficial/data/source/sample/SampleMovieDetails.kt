@@ -1,5 +1,6 @@
 package dev.aliakbar.tmdbunofficial.data.source.sample
 
+import dev.aliakbar.tmdbunofficial.data.Bookmark
 import dev.aliakbar.tmdbunofficial.data.Cast
 import dev.aliakbar.tmdbunofficial.data.Collection
 import dev.aliakbar.tmdbunofficial.data.Company
@@ -150,6 +151,16 @@ val trend = Trend(
 )
 
 val recommendations = mutableListOf<Trend>().apply { repeat(10) { this.add(trend)} }.toList()
+
+val bookmark = Bookmark(
+    id = 121,
+    title = "The Lord of the Rings: The Two Towers",
+    score = 8.384F,
+    poster = "/5VTN0pR8gcqV3EPUHHfMGnJYN9L.jpg",
+    backdrop = "/bccR2CGTWVVSZAG0yqmy3DIvhTX.jpg",
+)
+
+val bookmarks = mutableListOf<Bookmark>().apply { repeat(10) { this.add(bookmark)} }.toList()
 
 val trailer = Trailer(video, trend)
 

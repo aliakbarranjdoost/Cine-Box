@@ -406,7 +406,8 @@ fun LocalBookmark.toExternal() = Bookmark(
     id = id,
     title = title,
     score = score,
-    poster = poster
+    poster = poster,
+    backdrop = backdrop
 )
 
 @JvmName("LocalBookmarkToExternal")
@@ -419,12 +420,14 @@ fun Bookmark.toLocal() = LocalBookmark(
     id = id,
     title = title,
     score = score,
-    poster = poster
+    poster = poster,
+    backdrop = backdrop
 )
 
 fun Trend.toLocalBookmark() = LocalBookmark(
     id = id,
     title = title,
     score = score,
-    poster = poster
+    poster = poster,
+    backdrop = backdrop
 )

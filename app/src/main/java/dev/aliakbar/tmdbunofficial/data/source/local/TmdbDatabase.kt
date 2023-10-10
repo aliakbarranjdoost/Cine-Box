@@ -13,7 +13,7 @@ import dev.aliakbar.tmdbunofficial.util.Converters
         LocalTrend::class,
         LocalBookmark::class
     ],
-    version = 5,
+    version = 6,
     exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class TmdbDatabase: RoomDatabase()
