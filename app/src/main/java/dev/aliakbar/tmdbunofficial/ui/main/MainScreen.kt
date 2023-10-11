@@ -33,6 +33,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dev.aliakbar.tmdbunofficial.R
+import dev.aliakbar.tmdbunofficial.ui.bookmark.BookmarkScreen
 import dev.aliakbar.tmdbunofficial.ui.details.DetailsScreen
 import dev.aliakbar.tmdbunofficial.ui.home.HomeScreen
 import dev.aliakbar.tmdbunofficial.ui.home.HomeViewModel
@@ -84,7 +85,7 @@ fun TmdbApp(
             }
             composable(route = TmdbScreen.Bookmark.name)
             {
-                Text(text = stringResource(id = TmdbScreen.Bookmark.title))
+                BookmarkScreen(navController = navController)
             }
             composable(route = TmdbScreen.Search.name)
             {

@@ -2,17 +2,17 @@
 
 package dev.aliakbar.tmdbunofficial.ui.bookmark
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -26,8 +26,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -42,24 +40,21 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Bookmark
-import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.source.sample.bookmarks
-import dev.aliakbar.tmdbunofficial.data.source.sample.recommendations
-import dev.aliakbar.tmdbunofficial.ui.details.DetailsViewModel
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
 @Composable
 fun BookmarkScreen(
     navController: NavHostController,
-    viewModel: BookmarkViewModel = viewModel(factory = DetailsViewModel.factory)
+    viewModel: BookmarkViewModel = viewModel(factory = BookmarkViewModel.factory)
 )
 {
-    val uiState by viewModel.bookmarkUiState.collectAsState()
+    val uiState = viewModel.bookmarkUiState
 
     when (uiState)
     {
         is BookmarkUiState.Loading -> Text(text = "Loading")
-        is BookmarkUiState.Success -> BookmarkList(bookmarks = (uiState as BookmarkUiState.Success).bookmarks)
+        is BookmarkUiState.Success -> BookmarkList(bookmarks = uiState.bookmarks)
         is BookmarkUiState.Error   -> Text(text = "Error")
     }
 }
@@ -119,6 +114,7 @@ fun BookmarkItem(bookmark: Bookmark, modifier: Modifier = Modifier)
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .weight(0.12F)
                     .fillMaxWidth()
@@ -129,14 +125,9 @@ fun BookmarkItem(bookmark: Bookmark, modifier: Modifier = Modifier)
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
-                        .padding(4.dp),
+                        .padding(4.dp)
+                        .weight(1f),
                     style = MaterialTheme.typography.titleSmall
-                )
-
-                Spacer(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
                 )
 
                 IconButton(
@@ -144,7 +135,8 @@ fun BookmarkItem(bookmark: Bookmark, modifier: Modifier = Modifier)
                     modifier = Modifier
                         .size(48.dp)
                         .padding(4.dp)
-                    ) {
+                )
+                {
                     Icon(
                         imageVector = Icons.Filled.BookmarkBorder,
                         contentDescription = null,
