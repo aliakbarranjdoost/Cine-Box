@@ -147,7 +147,8 @@ val trend = Trend(
     poster = "/5VTN0pR8gcqV3EPUHHfMGnJYN9L.jpg",
     backdrop = "/bccR2CGTWVVSZAG0yqmy3DIvhTX.jpg",
     rank = 0,
-    isBookmark = false
+    isBookmark = false,
+    type = "movie"
 )
 
 val recommendations = mutableListOf<Trend>().apply { repeat(10) { this.add(trend)} }.toList()
@@ -158,6 +159,7 @@ val bookmark = Bookmark(
     score = 8.384F,
     poster = "/5VTN0pR8gcqV3EPUHHfMGnJYN9L.jpg",
     backdrop = "/bccR2CGTWVVSZAG0yqmy3DIvhTX.jpg",
+    type = "tv"
 )
 
 val bookmarks = mutableListOf<Bookmark>().apply { repeat(10) { this.add(bookmark)} }.toList()

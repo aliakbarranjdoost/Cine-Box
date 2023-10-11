@@ -5,14 +5,10 @@ package dev.aliakbar.tmdbunofficial.ui.bookmark
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -36,11 +32,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Bookmark
 import dev.aliakbar.tmdbunofficial.data.source.sample.bookmarks
+import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
 @Composable
@@ -54,13 +52,13 @@ fun BookmarkScreen(
     when (uiState)
     {
         is BookmarkUiState.Loading -> Text(text = "Loading")
-        is BookmarkUiState.Success -> BookmarkList(bookmarks = uiState.bookmarks)
+        is BookmarkUiState.Success -> BookmarkList(bookmarks = uiState.bookmarks, navController)
         is BookmarkUiState.Error   -> Text(text = "Error")
     }
 }
 
 @Composable
-fun BookmarkList(bookmarks: List<Bookmark>, modifier: Modifier = Modifier)
+fun BookmarkList(bookmarks: List<Bookmark>,navController: NavHostController, modifier: Modifier = Modifier)
 {
     LazyColumn(
         modifier = Modifier.padding(16.dp),
@@ -69,15 +67,19 @@ fun BookmarkList(bookmarks: List<Bookmark>, modifier: Modifier = Modifier)
     {
         items(items = bookmarks)
         { trend ->
-            BookmarkItem(bookmark = trend)
+            BookmarkItem(
+                bookmark = trend,
+                { navController.navigate(TmdbScreen.MovieDetails.name + "/" + trend.id.toString()) }
+            )
         }
     }
 }
 
 @Composable
-fun BookmarkItem(bookmark: Bookmark, modifier: Modifier = Modifier)
+fun BookmarkItem(bookmark: Bookmark, onNavigateToDetails: () -> Unit, modifier: Modifier = Modifier)
 {
     Card(
+        onClick = onNavigateToDetails,
         modifier = Modifier
             .fillMaxWidth()
             .height(300.dp),
@@ -149,13 +151,12 @@ fun BookmarkItem(bookmark: Bookmark, modifier: Modifier = Modifier)
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun BookmarkScreenPreview()
 {
     TMDBUnofficialTheme()
     {
-        BookmarkList(bookmarks = bookmarks)
+        BookmarkList(bookmarks = bookmarks, rememberNavController())
     }
 }

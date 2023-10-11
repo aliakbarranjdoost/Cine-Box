@@ -15,6 +15,8 @@ import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.Bookmark
 import dev.aliakbar.tmdbunofficial.data.DetailsRepository
 import dev.aliakbar.tmdbunofficial.data.Movie
+import dev.aliakbar.tmdbunofficial.data.Trend
+import dev.aliakbar.tmdbunofficial.data.toBookmark
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -64,25 +66,11 @@ class DetailsViewModel(
         }
     }
 
-    fun addMovieToBookmark(
-        id: Int,
-        title: String,
-        score: Float,
-        poster: String,
-        backdrop: String
-    )
+    fun addMovieToBookmark(trend: Trend)
     {
         viewModelScope.launch()
         {
-            repository.addMovieToBookmark(
-                Bookmark(
-                    id = id,
-                    title = title,
-                    score = score,
-                    poster = poster,
-                    backdrop = backdrop
-                )
-            )
+            repository.addMovieToBookmark(trend.toBookmark())
         }
     }
 

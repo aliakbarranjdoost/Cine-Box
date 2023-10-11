@@ -52,7 +52,8 @@ fun NetworkTrendingMovie.toExternal(
     poster = basePosterUrl + posterPath,
     backdrop = baseBackdropUrl + backdropPath,
     rank = 0,
-    isBookmark = isBookmark
+    isBookmark = isBookmark,
+    type = mediaType
 )
 
 @JvmName("trendingMovieNetworkToExternal")
@@ -73,7 +74,8 @@ fun NetworkTrendingMovie.toLocal(
     poster = basePosterUrl + posterPath,
     backdrop = baseBackdropUrl + backdropPath,
     rank = rank,
-    isBookmark = isBookmark
+    isBookmark = isBookmark,
+    type = mediaType
 )
 
 @JvmName("trendingMovieNetworkToLocal")
@@ -92,7 +94,8 @@ fun LocalTrend.toExternal() = Trend(
     poster = poster,
     backdrop = backdrop,
     rank = rank,
-    isBookmark = isBookmark
+    isBookmark = isBookmark,
+    type = type
 )
 
 @JvmName("trendingSerialLocalToExternal")
@@ -111,7 +114,8 @@ fun NetworkTrendingSeries.toExternal(
     poster = basePosterUrl + posterPath,
     backdrop = baseBackdropUrl + backdropPath,
     rank = 0,
-    isBookmark = isBookmark
+    isBookmark = isBookmark,
+    type = mediaType
 )
 
 @JvmName("trendingSerialNetworkToExternal")
@@ -132,7 +136,8 @@ fun NetworkTrendingSeries.toLocal(
         poster = basePosterUrl + posterPath,
         backdrop = baseBackdropUrl + backdropPath,
         rank = rank,
-        isBookmark = isBookmark
+        isBookmark = isBookmark,
+        type = mediaType
     )
 
 @JvmName("trendingSerialNetworkToLocal")
@@ -155,7 +160,8 @@ fun NetworkPopularMovie.toExternal(
     poster = basePosterUrl + posterPath,
     backdrop = baseBackdropUrl + backdropPath,
     rank = 0,
-    isBookmark = isBookmark
+    isBookmark = isBookmark,
+    type = "movie"
 )
 
 @JvmName("popularMovieNetworkToExternal")
@@ -176,7 +182,8 @@ fun NetworkPopularMovie.toLocal(
         poster = basePosterUrl + posterPath,
         backdrop = baseBackdropUrl + baseBackdropUrl,
         rank = rank,
-        isBookmark = isBookmark
+        isBookmark = isBookmark,
+        type = "movie"
     )
 
 @JvmName("popularMovieNetworkToLocal")
@@ -201,7 +208,8 @@ fun NetworkPopularSerial.toExternal(
     poster = basePosterUrl + posterPath,
     backdrop = baseBackdropUrl + backdropPath,
     rank = 0,
-    isBookmark = isBookmark
+    isBookmark = isBookmark,
+    type = "tv"
 )
 
 @JvmName("popularSerialNetworkToExternal")
@@ -220,7 +228,8 @@ fun NetworkPopularSerial.toLocal(basePosterUrl: String, baseBackdropUrl: String,
         poster = basePosterUrl + posterPath,
         backdrop = baseBackdropUrl + backdropPath,
         rank = rank,
-        isBookmark = isBookmark
+        isBookmark = isBookmark,
+        type = "tv"
     )
 
 @JvmName("popularSerialNetworkToLocal")
@@ -407,7 +416,8 @@ fun LocalBookmark.toExternal() = Bookmark(
     title = title,
     score = score,
     poster = poster,
-    backdrop = backdrop
+    backdrop = backdrop,
+    type = type
 )
 
 @JvmName("LocalBookmarkToExternal")
@@ -421,13 +431,15 @@ fun Bookmark.toLocal() = LocalBookmark(
     title = title,
     score = score,
     poster = poster,
-    backdrop = backdrop
+    backdrop = backdrop,
+    type = type
 )
 
-fun Trend.toLocalBookmark() = LocalBookmark(
+fun Trend.toBookmark() = Bookmark(
     id = id,
     title = title,
     score = score,
     poster = poster,
-    backdrop = backdrop
+    backdrop = backdrop,
+    type = type
 )

@@ -11,4 +11,5 @@ data class LocalBookmark(
     val score: Float,
     val poster: String,
     val backdrop: String,
+    val type: String
 )

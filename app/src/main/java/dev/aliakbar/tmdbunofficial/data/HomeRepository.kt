@@ -89,9 +89,9 @@ class HomeRepository(
         return null
     }
 
-    suspend fun addTrendToBookmark(trend: Trend)
+    suspend fun addTrendToBookmark(bookmark: Bookmark)
     {
-        localDataSource.bookmarkDao().insert(trend.toLocalBookmark())
+        localDataSource.bookmarkDao().insert(bookmark.toLocal())
     }
 
     suspend fun isBookmark(id: Int): Boolean

@@ -64,13 +64,9 @@ fun DetailsScreen(
         is DetailsUiState.Success -> MovieDetails(movie = uiState.movie,
             onBookmarkClick =
             {
-                viewModel.addMovieToBookmark(
-                    id = movie.id,
-                    title = movie.title,
-                    score = movie.voteAverage,
-                    poster = movie.posterPath,
-                    backdrop = movie.backdropPath
-                )
+                /*viewModel.addMovieToBookmark(
+                    movie.toTrend()
+                )*/
             }
         )
         is DetailsUiState.Error -> Text(text = "Error")

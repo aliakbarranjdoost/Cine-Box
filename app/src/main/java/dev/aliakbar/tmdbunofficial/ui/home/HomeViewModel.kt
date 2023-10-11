@@ -14,6 +14,7 @@ import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.HomeRepository
 import dev.aliakbar.tmdbunofficial.data.Trailer
 import dev.aliakbar.tmdbunofficial.data.Video
+import dev.aliakbar.tmdbunofficial.data.toBookmark
 import dev.aliakbar.tmdbunofficial.data.toExternal
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -81,7 +82,7 @@ class HomeViewModel(
     {
         viewModelScope.launch()
         {
-            homeRepository.addTrendToBookmark(trend)
+            homeRepository.addTrendToBookmark(trend.toBookmark())
         }
     }
 
