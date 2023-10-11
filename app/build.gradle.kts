@@ -99,6 +99,10 @@ dependencies {
     //implementation  ("com.google.protobuf:protobuf-kotlin-lite:3.18.0")
 
     debugImplementation(libs.ui.tooling)
+
+    implementation("androidx.paging:paging-runtime:3.2.1")
+    implementation("androidx.paging:paging-compose:3.3.0-alpha02")
+
 }
 
 protobuf {
