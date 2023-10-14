@@ -19,7 +19,7 @@ koin_compose = "1.0.4"
 com-google-protobuf-plugin = "0.9.1"
 androidx-datastore = "1.0.0"
 com-google-protobuf-lite = "3.8.0"
-material3-compose = "1.2.0-alpha04"
+material3-compose = "1.2.0-alpha09"
 
 [libraries]
 activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
