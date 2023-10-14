@@ -1,30 +1,64 @@
 package dev.aliakbar.tmdbunofficial.ui.top
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
-import dev.aliakbar.tmdbunofficial.data.HomeRepository
 import dev.aliakbar.tmdbunofficial.data.TopRepository
 import dev.aliakbar.tmdbunofficial.data.Trend
-import dev.aliakbar.tmdbunofficial.ui.home.HomeUiState
-import dev.aliakbar.tmdbunofficial.ui.home.HomeViewModel
+import dev.aliakbar.tmdbunofficial.ui.details.DetailsUiState
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 
 sealed interface TopUiState
 {
     data class Success(
         val topRatedMovies: List<Trend>,
         //val topRatedSeries: List<Trend>
-    )
+    ) : TopUiState
+
     data object Error : TopUiState
     data object Loading : TopUiState
 }
 
 private val TAG: String = TopViewModel::class.java.simpleName
 
-class TopViewModel(private val topRepository: TopRepository): ViewModel()
+class TopViewModel(private val topRepository: TopRepository) : ViewModel()
 {
+    var topUiState: TopUiState by mutableStateOf(TopUiState.Loading)
+        private set
+
+    init
+    {
+        getTopRatedMovies()
+    }
+
+    private fun getTopRatedMovies()
+    {
+        viewModelScope.launch()
+        {
+            topUiState = try
+            {
+                topRepository.getTopRatedMovies()
+                TopUiState.Success(topRepository.getTopRatedMovies())
+            }
+            catch (e: IOException)
+            {
+                TopUiState.Error
+            }
+            catch (e: HttpException)
+            {
+                TopUiState.Error
+            }
+        }
+    }
+
     companion object
     {
         val factory: ViewModelProvider.Factory = viewModelFactory()

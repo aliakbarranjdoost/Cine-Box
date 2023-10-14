@@ -33,5 +33,5 @@ interface TMDBApiService
     suspend fun getMovieVideos(@Path("id") id: Int): NetworkVideoResponse
 
     @GET("movie/top_rated?language=en-US&page=1")
-    suspend fun getTopMovies(): NetworkResponse<List<NetworkTrendingMovie>>
+    suspend fun getTopMovies(): NetworkResponse<List<NetworkPopularMovie>>
 }
