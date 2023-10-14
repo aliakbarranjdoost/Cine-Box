@@ -146,8 +146,8 @@ fun HomeScreen(
                                     modifier = Modifier.width(75.dp),
                                     selected = index == moviesSelectedTimeRangeIndex,
                                     onClick = { moviesSelectedTimeRangeIndex = index },
-                                    shape = SegmentedButtonDefaults.shape(
-                                        position = index,
+                                    shape = SegmentedButtonDefaults.itemShape(
+                                        index = index,
                                         count = timeRangeOptions.size
                                     )
                                 )
@@ -206,8 +206,8 @@ fun HomeScreen(
                                     modifier = Modifier.width(75.dp),
                                     selected = index == seriesSelectedTimeRangeIndex,
                                     onClick = { seriesSelectedTimeRangeIndex = index },
-                                    shape = SegmentedButtonDefaults.shape(
-                                        position = index,
+                                    shape = SegmentedButtonDefaults.itemShape(
+                                        index = index,
                                         count = timeRangeOptions.size
                                     )
                                 )
@@ -266,8 +266,8 @@ fun HomeScreen(
                                     modifier = Modifier.width(75.dp),
                                     selected = index == popularSelectedTypeIndex,
                                     onClick = { popularSelectedTypeIndex = index },
-                                    shape = SegmentedButtonDefaults.shape(
-                                        position = index,
+                                    shape = SegmentedButtonDefaults.itemShape(
+                                        index = index,
                                         count = timeRangeOptions.size
                                     )
                                 )
