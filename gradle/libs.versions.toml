@@ -20,6 +20,7 @@ com-google-protobuf-plugin = "0.9.1"
 androidx-datastore = "1.0.0"
 com-google-protobuf-lite = "3.8.0"
 material3-compose = "1.2.0-alpha09"
+paging = "3.2.1"
 
 [libraries]
 activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
@@ -44,6 +45,8 @@ ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview
 koin = { group = "io.insert-koin", name = "koin-android", version.ref = "koin"}
 datastore = {group = "androidx.datastore", name = "datastore", version.ref = "androidx-datastore" }
 protobuf-lite = { group = "com.google.protobuf", name = "protobuf-javalite", version.ref  = "com-google-protobuf-lite" }
+paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging"}
+paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging"}
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
