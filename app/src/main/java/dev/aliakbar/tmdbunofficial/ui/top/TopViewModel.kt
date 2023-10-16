@@ -8,10 +8,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.TopRepository
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.ui.details.DetailsUiState
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -39,7 +42,7 @@ class TopViewModel(private val topRepository: TopRepository) : ViewModel()
         getTopRatedMovies()
     }
 
-    private fun getTopRatedMovies()
+    /*private fun getTopRatedMovies()
     {
         viewModelScope.launch()
         {
@@ -57,7 +60,9 @@ class TopViewModel(private val topRepository: TopRepository) : ViewModel()
                 TopUiState.Error
             }
         }
-    }
+    }*/
+
+    fun getTopRatedMovies(): Flow<PagingData<Trend>> = topRepository.getTopRatedMovies().cachedIn(viewModelScope)
 
     companion object
     {

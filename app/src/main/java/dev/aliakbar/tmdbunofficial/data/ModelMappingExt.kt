@@ -152,14 +152,14 @@ fun List<NetworkTrendingSeries>.toLocal(
 
 fun NetworkPopularMovie.toExternal(
     basePosterUrl: String, baseBackdropUrl: String,
-    isBookmark: Boolean
+    rank: Int, isBookmark: Boolean
 ) = Trend(
     id = id,
     title = title,
     score = voteAverage,
     poster = basePosterUrl + posterPath,
     backdrop = baseBackdropUrl + backdropPath,
-    rank = 0,
+    rank = rank,
     isBookmark = isBookmark,
     type = "movie"
 )
@@ -168,8 +168,13 @@ fun NetworkPopularMovie.toExternal(
 fun List<NetworkPopularMovie>.toExternal(
     basePosterUrl: String, baseBackdropUrl: String,
     isBookmark: Boolean
-) =
-    map { it.toExternal(basePosterUrl, baseBackdropUrl, isBookmark) }
+) = mapIndexed()
+{ index, networkPopularMovie ->
+    networkPopularMovie.toExternal(
+        basePosterUrl, baseBackdropUrl,
+        index.inc(), isBookmark,
+    )
+}
 
 fun NetworkPopularMovie.toLocal(
     basePosterUrl: String, baseBackdropUrl: String,
@@ -219,8 +224,10 @@ fun List<NetworkPopularSerial>.toExternal(
 ) =
     map { it.toExternal(basePosterUrl, baseBackdropUrl, isBookmark) }
 
-fun NetworkPopularSerial.toLocal(basePosterUrl: String, baseBackdropUrl: String,
-                                 isBookmark: Boolean, rank: Int) =
+fun NetworkPopularSerial.toLocal(
+    basePosterUrl: String, baseBackdropUrl: String,
+    isBookmark: Boolean, rank: Int
+) =
     LocalTrend(
         id = id,
         title = name,
@@ -233,12 +240,16 @@ fun NetworkPopularSerial.toLocal(basePosterUrl: String, baseBackdropUrl: String,
     )
 
 @JvmName("popularSerialNetworkToLocal")
-fun List<NetworkPopularSerial>.toLocal(basePosterUrl: String, baseBackdropUrl: String,
-                                       isBookmark: Boolean) =
+fun List<NetworkPopularSerial>.toLocal(
+    basePosterUrl: String, baseBackdropUrl: String,
+    isBookmark: Boolean
+) =
     mapIndexed()
     { index, networkPopularMovie ->
-        networkPopularMovie.toLocal(basePosterUrl, baseBackdropUrl,
-            isBookmark, index.inc())
+        networkPopularMovie.toLocal(
+            basePosterUrl, baseBackdropUrl,
+            isBookmark, index.inc()
+        )
     }
 
 fun NetworkMovieDetails.toExternal(
@@ -277,7 +288,8 @@ fun NetworkMovieDetails.toExternal(
     posters = images.posters.toExternal(basePosterUrl),
     backdrops = images.backdrops.toExternal(baseBackdropUrl),
     logos = images.logos.toExternal(baseLogoUrl),
-    recommendations = recommendations.results.toExternal(basePosterUrl, baseBackdropUrl, isBookmark
+    recommendations = recommendations.results.toExternal(
+        basePosterUrl, baseBackdropUrl, isBookmark
     )
 )
 

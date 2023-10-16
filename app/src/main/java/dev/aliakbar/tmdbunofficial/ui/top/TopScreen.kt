@@ -12,10 +12,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,6 +41,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.aliakbar.tmdbunofficial.R
@@ -54,6 +60,8 @@ fun TopScreen(
 )
 {
     val uiState = viewModel.topUiState
+    val topMovies = viewModel.getTopRatedMovies().collectAsLazyPagingItems()
+
     var tabState by remember { mutableIntStateOf(0) }
     val titles = stringArrayResource(id = R.array.content_type_option)
 
@@ -75,29 +83,50 @@ fun TopScreen(
             text = "Fancy tab ${tabState + 1} selected",
             style = MaterialTheme.typography.bodyLarge
         )
-        when (uiState)
+        /*when (uiState)
         {
             is TopUiState.Loading -> Text(text = "Loading")
             is TopUiState.Success -> TopList(tops = uiState.topRatedMovies, navController)
             is TopUiState.Error   -> Text(text = "Error")
+        }*/
+
+        TopList(tops = topMovies, navController)
+
+        /*when (val state = topMovies.loadState.refresh) { //FIRST LOAD
+            is LoadState.Error   -> Text(text = "Error")
+            is LoadState.Loading -> Text(text = "Loading")
+            else -> { *//*TopList(tops = topMovies, navController)*//* }
+        }*/
+
+        /*when (val state = topMovies.loadState.append) { // Pagination
+            is LoadState.Error   -> Text(text = "Error")
+            is LoadState.Loading -> Text(text = "Loading")
+            else -> { *//*TopList(tops = topMovies, navController)*//* }
         }
+
+        TopList(tops = topMovies, navController)*/
     }
 }
 
 @Composable
-fun TopList(tops: List<Trend>, navController: NavHostController, modifier: Modifier = Modifier)
+fun TopList(tops: LazyPagingItems<Trend>, navController: NavHostController, modifier: Modifier = Modifier)
 {
     LazyColumn(
         modifier = Modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     )
     {
-        items(items = tops)
-        { trend ->
-            TopItem(
-                top = trend,
-                { navController.navigate(TmdbScreen.MovieDetails.name + "/" + trend.id.toString()) }
-            )
+        items(
+            tops.itemCount,
+            key = tops.itemKey{ it.rank }
+        )
+        { index ->
+            tops[index]?.let {
+                TopItem(
+                    top = it,
+                    { navController.navigate(TmdbScreen.MovieDetails.name + "/" + tops[index]?.id.toString()) }
+                )
+            }
         }
     }
 }
@@ -150,7 +179,7 @@ fun TopItem(top: Trend, onNavigateToDetails: () -> Unit, modifier: Modifier = Mo
             )
             {
                 Text(
-                    text = top.title,
+                    text = top.rank.toString(),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier

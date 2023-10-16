@@ -2,6 +2,7 @@ package dev.aliakbar.tmdbunofficial.data.source.network
 
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface TMDBApiService
 {
@@ -32,6 +33,6 @@ interface TMDBApiService
     @GET("movie/{id}/videos")
     suspend fun getMovieVideos(@Path("id") id: Int): NetworkVideoResponse
 
-    @GET("movie/top_rated?language=en-US&page=1")
-    suspend fun getTopMovies(): NetworkResponse<List<NetworkPopularMovie>>
+    @GET("movie/top_rated?language=en-US")
+    suspend fun getTopMovies(@Query("page") page: Int): NetworkResponse<List<NetworkPopularMovie>>
 }

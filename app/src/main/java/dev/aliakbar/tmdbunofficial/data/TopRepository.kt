@@ -1,5 +1,8 @@
 package dev.aliakbar.tmdbunofficial.data
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import dev.aliakbar.tmdbunofficial.data.source.TopMoviesPagingSource
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 
@@ -10,17 +13,30 @@ class TopRepository(
     private val localDataSource: TmdbDatabase
 ) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
 {
-    suspend fun getTopRatedMovies(): List<Trend>
-    {
-        return networkDataSource.getTopMovies().results.map()
-        {
-            it.toExternal(
+    fun getTopRatedMovies() = Pager(
+        config = PagingConfig(
+            pageSize = 20,
+        ),
+        pagingSourceFactory = {
+            TopMoviesPagingSource(
+                networkDataSource,
+                localDataSource,
                 createBasePosterUrl(),
-                createBaseBackdropUrl(),
-                isBookmark(it.id)
+                createBaseBackdropUrl()
             )
         }
-    }
+    ).flow
+
+    /*suspend fun getTopRatedMovies(): List<Trend>
+    {
+        return networkDataSource.getTopMovies().results.mapIndexed()
+        { index, networkPopularMovie ->
+            networkPopularMovie.toExternal(
+                createBasePosterUrl(), createBaseBackdropUrl(),
+                index.inc(), isBookmark(networkPopularMovie.id),
+            )
+        }
+    }*/
 
     suspend fun isBookmark(id: Int): Boolean
     {
