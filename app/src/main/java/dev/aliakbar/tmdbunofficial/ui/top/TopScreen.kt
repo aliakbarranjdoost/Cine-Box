@@ -61,6 +61,7 @@ fun TopScreen(
 {
     val uiState = viewModel.topUiState
     val topMovies = viewModel.getTopRatedMovies().collectAsLazyPagingItems()
+    val topSeries = viewModel.getTopRatedSeries().collectAsLazyPagingItems()
 
     var tabState by remember { mutableIntStateOf(0) }
     val titles = stringArrayResource(id = R.array.content_type_option)
@@ -78,11 +79,6 @@ fun TopScreen(
                 )
             }
         }
-        Text(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            text = "Fancy tab ${tabState + 1} selected",
-            style = MaterialTheme.typography.bodyLarge
-        )
         /*when (uiState)
         {
             is TopUiState.Loading -> Text(text = "Loading")
@@ -90,7 +86,11 @@ fun TopScreen(
             is TopUiState.Error   -> Text(text = "Error")
         }*/
 
-        TopList(tops = topMovies, navController)
+        when (tabState)
+        {
+            0 -> TopList(tops = topMovies, navController)
+            1 -> TopList(tops = topSeries, navController)
+        }
 
         /*when (val state = topMovies.loadState.refresh) { //FIRST LOAD
             is LoadState.Error   -> Text(text = "Error")
@@ -109,7 +109,11 @@ fun TopScreen(
 }
 
 @Composable
-fun TopList(tops: LazyPagingItems<Trend>, navController: NavHostController, modifier: Modifier = Modifier)
+fun TopList(
+    tops: LazyPagingItems<Trend>,
+    navController: NavHostController,
+    modifier: Modifier = Modifier
+)
 {
     LazyColumn(
         modifier = Modifier.padding(16.dp),
@@ -118,7 +122,7 @@ fun TopList(tops: LazyPagingItems<Trend>, navController: NavHostController, modi
     {
         items(
             tops.itemCount,
-            key = tops.itemKey{ it.rank }
+            key = tops.itemKey { it.rank }
         )
         { index ->
             tops[index]?.let {

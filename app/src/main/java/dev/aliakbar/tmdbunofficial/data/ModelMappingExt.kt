@@ -204,7 +204,9 @@ fun List<NetworkPopularMovie>.toLocal(
 }
 
 fun NetworkPopularSerial.toExternal(
-    basePosterUrl: String, baseBackdropUrl: String,
+    basePosterUrl: String,
+    baseBackdropUrl: String,
+    rank: Int,
     isBookmark: Boolean
 ) = Trend(
     id = id,
@@ -212,7 +214,7 @@ fun NetworkPopularSerial.toExternal(
     score = voteAverage,
     poster = basePosterUrl + posterPath,
     backdrop = baseBackdropUrl + backdropPath,
-    rank = 0,
+    rank = rank,
     isBookmark = isBookmark,
     type = "tv"
 )
@@ -222,7 +224,10 @@ fun List<NetworkPopularSerial>.toExternal(
     basePosterUrl: String, baseBackdropUrl: String,
     isBookmark: Boolean
 ) =
-    map { it.toExternal(basePosterUrl, baseBackdropUrl, isBookmark) }
+    mapIndexed()
+    { index, networkPopularSerial ->
+        networkPopularSerial.toExternal(basePosterUrl, baseBackdropUrl,index, isBookmark)
+    }
 
 fun NetworkPopularSerial.toLocal(
     basePosterUrl: String, baseBackdropUrl: String,

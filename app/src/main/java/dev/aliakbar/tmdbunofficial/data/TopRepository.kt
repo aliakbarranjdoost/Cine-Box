@@ -3,6 +3,7 @@ package dev.aliakbar.tmdbunofficial.data
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import dev.aliakbar.tmdbunofficial.data.source.TopMoviesPagingSource
+import dev.aliakbar.tmdbunofficial.data.source.TopSeriesPagingSource
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 
@@ -19,6 +20,20 @@ class TopRepository(
         ),
         pagingSourceFactory = {
             TopMoviesPagingSource(
+                networkDataSource,
+                localDataSource,
+                createBasePosterUrl(),
+                createBaseBackdropUrl()
+            )
+        }
+    ).flow
+
+    fun getTopRatedSeries() = Pager(
+        config = PagingConfig(
+            pageSize = 20,
+        ),
+        pagingSourceFactory = {
+            TopSeriesPagingSource(
                 networkDataSource,
                 localDataSource,
                 createBasePosterUrl(),

@@ -10,7 +10,7 @@ import dev.aliakbar.tmdbunofficial.data.toExternal
 
 private var TAG = TopMoviesPagingSource::class.java.simpleName
 
-class TopMoviesPagingSource(
+class TopSeriesPagingSource(
     private val networkDataSource: TMDBApiService,
     private val localDataSource: TmdbDatabase,
     private val basePosterUrl: String,
@@ -32,13 +32,13 @@ class TopMoviesPagingSource(
         {
             val page = params.key ?: 1
             Log.d(TAG, "load: $page")
-            val response = networkDataSource.getTopRatedMovies(page = page)
+            val response = networkDataSource.getTopRatedSeries(page = page)
             LoadResult.Page(
                 data = response.results.mapIndexed()
-                { index, networkPopularMovie ->
-                    networkPopularMovie.toExternal(
+                { index, networkPopularSerial ->
+                    networkPopularSerial.toExternal(
                         basePosterUrl, baseBackdropUrl,
-                        index.inc(), isBookmark(networkPopularMovie.id),
+                        index.inc(), isBookmark(networkPopularSerial.id),
                     )
                 },
                 prevKey = if (page == 1) null else page.minus(1),

@@ -63,6 +63,7 @@ class TopViewModel(private val topRepository: TopRepository) : ViewModel()
     }*/
 
     fun getTopRatedMovies(): Flow<PagingData<Trend>> = topRepository.getTopRatedMovies().cachedIn(viewModelScope)
+    fun getTopRatedSeries(): Flow<PagingData<Trend>> = topRepository.getTopRatedSeries().cachedIn(viewModelScope)
 
     companion object
     {
