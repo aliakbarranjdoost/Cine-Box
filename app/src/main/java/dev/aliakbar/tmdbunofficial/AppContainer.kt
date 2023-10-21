@@ -6,6 +6,7 @@ import dev.aliakbar.tmdbunofficial.data.BookmarkRepository
 import dev.aliakbar.tmdbunofficial.data.ConfigurationRepository
 import dev.aliakbar.tmdbunofficial.data.DetailsRepository
 import dev.aliakbar.tmdbunofficial.data.HomeRepository
+import dev.aliakbar.tmdbunofficial.data.SearchRepository
 import dev.aliakbar.tmdbunofficial.data.TopRepository
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
@@ -22,6 +23,7 @@ interface AppContainer
     val detailsRepository: DetailsRepository
     val bookmarkRepository: BookmarkRepository
     val topRepository: TopRepository
+    val searchRepository: SearchRepository
 }
 
 class DefaultAppContainer(private val context: Context): AppContainer
@@ -84,6 +86,13 @@ class DefaultAppContainer(private val context: Context): AppContainer
     override val topRepository: TopRepository by lazy()
     {
         TopRepository(
+            retrofitService,
+            roomDatabase
+        )
+    }
+    override val searchRepository: SearchRepository by lazy()
+    {
+        SearchRepository(
             retrofitService,
             roomDatabase
         )
