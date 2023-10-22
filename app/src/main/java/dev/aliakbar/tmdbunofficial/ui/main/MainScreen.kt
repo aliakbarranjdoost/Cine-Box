@@ -37,6 +37,7 @@ import dev.aliakbar.tmdbunofficial.ui.bookmark.BookmarkScreen
 import dev.aliakbar.tmdbunofficial.ui.details.DetailsScreen
 import dev.aliakbar.tmdbunofficial.ui.home.HomeScreen
 import dev.aliakbar.tmdbunofficial.ui.home.HomeViewModel
+import dev.aliakbar.tmdbunofficial.ui.search.SearchScreen
 import dev.aliakbar.tmdbunofficial.ui.top.TopScreen
 
 enum class TmdbScreen(@StringRes val title: Int,val icon: ImageVector? = null)
@@ -90,7 +91,7 @@ fun TmdbApp(
             }
             composable(route = TmdbScreen.Search.name)
             {
-                Text(text = stringResource(id = TmdbScreen.Search.title))
+                SearchScreen(navController = navController)
             }
             composable(route = TmdbScreen.Top.name)
             {
