@@ -62,15 +62,11 @@ fun SearchScreen(
     var active by rememberSaveable { mutableStateOf(false) }
     var expanded by rememberSaveable { mutableStateOf(false) }
 
-    Box(
-        Modifier
-            .fillMaxSize()
-            .semantics { isTraversalGroup = true })
+
+    Box(Modifier.fillMaxSize())
     {
         SearchBar(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .semantics { traversalIndex = -1f },
+            modifier = Modifier.align(Alignment.TopCenter),
             query = text,
             onQueryChange = { text = it },
             onSearch = { active = false },
@@ -135,7 +131,8 @@ fun SearchScreen(
         }
 
         LazyColumn(
-            contentPadding = PaddingValues(start = 16.dp, top = 72.dp, end = 16.dp, bottom = 16.dp),
+            modifier = Modifier.padding(top = 72.dp),
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             val list = List(100) { "Text $it" }
