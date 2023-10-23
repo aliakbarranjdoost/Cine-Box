@@ -1,4 +1,5 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
+@file:OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
     ExperimentalMaterial3Api::class
 )
 
@@ -77,9 +78,7 @@ fun SearchScreen(
             onQueryChange = { text = it },
             onSearch = { active = false },
             active = active,
-            onActiveChange = {
-                active = it
-            },
+            onActiveChange = { active = it },
             placeholder = { Text(stringResource(id = R.string.search)) },
             leadingIcon =
             {
@@ -223,31 +222,29 @@ fun CategoryItem(
     onBookmarkClick: () -> Unit,
 )
 {
-    Card(
-        onClick = onNavigateToDetails
-    )
+    Card(onClick = onNavigateToDetails)
     {
         Row(modifier = Modifier.fillMaxSize())
         {
             Poster(trend = trend, onBookmarkClick = onBookmarkClick)
 
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .height(150.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(150.dp)
+            )
             {
                 Text(
                     text = trend.title,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
+                    modifier = Modifier.align(Alignment.TopStart)
                 )
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier
-                        .align(Alignment.BottomStart)
+                    modifier = Modifier.align(Alignment.BottomStart)
                 ) {
                     Text(
                         text = trend.type,
@@ -256,21 +253,17 @@ fun CategoryItem(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
-                            //.align(Alignment.BottomStart)
                     )
 
                     IconButton(
                         onClick = onBookmarkClick,
-                        modifier = Modifier
-                            .size(48.dp)
-                            //.align(Alignment.BottomEnd)
+                        modifier = Modifier.size(48.dp)
                     )
                     {
                         Icon(
                             imageVector = if (trend.isBookmark) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
                             contentDescription = null,
-                            modifier = Modifier
-                                .fillMaxSize()
+                            modifier = Modifier.fillMaxSize()
                         )
                     }
                 }
@@ -278,7 +271,6 @@ fun CategoryItem(
         }
     }
 }
-
 
 @Composable
 fun Poster(
