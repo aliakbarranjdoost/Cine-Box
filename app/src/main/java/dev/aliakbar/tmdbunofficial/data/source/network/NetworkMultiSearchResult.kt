@@ -4,14 +4,14 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class NetworkSearchResult(
+data class NetworkMultiSearchResult(
     val id: Int,
-    val title: String,
+    val title: String? = null,
     @SerialName("original_title")
-    val originalTitle: String,
-    val overview: String,
+    val originalTitle: String? = null,
+    val overview: String? = null,
     @SerialName("original_language")
-    val originalLanguage: String,
+    val originalLanguage: String? = null,
     @SerialName("backdrop_path")
     val backdropPath: String? = null,
     @SerialName("poster_path")
@@ -19,27 +19,27 @@ data class NetworkSearchResult(
     @SerialName("media_type")
     val mediaType: String,
     @SerialName("genre_ids")
-    val genreList: List<Int>,
+    val genreList: List<Int>? = null,
     @SerialName("first_air_date")
-    val releaseDate: String,
+    val releaseDate: String? = null,
     val adult: Boolean,
     val popularity: Float,
     @SerialName("vote_average")
-    val voteAverage: Float,
+    val voteAverage: Float? = null,
     @SerialName("vote_count")
-    val voteCount: Int,
+    val voteCount: Int? = null,
 
-    val name: String,
+    val name: String? = null,
     @SerialName("original_name")
-    val originalName: String,
-    val gender: Int,
+    val originalName: String? = null,
+    val gender: Int? = null,
     @SerialName("known_for_department")
-    val knownForDepartment: String,
+    val knownForDepartment: String? = null,
     @SerialName("profile_path")
     val profilePath: String? = null,
     @SerialName("known_for")
     val knownFor: String? = null,
 
     @SerialName("origin_country")
-    val originCountryList: List<String>
+    val originCountryList: List<String>? = null
 )
