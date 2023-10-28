@@ -13,6 +13,7 @@ import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImage
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkLanguage
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkMovieDetails
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkMultiSearchResult
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularMovie
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularSerial
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingMovie
@@ -226,7 +227,7 @@ fun List<NetworkPopularSerial>.toExternal(
 ) =
     mapIndexed()
     { index, networkPopularSerial ->
-        networkPopularSerial.toExternal(basePosterUrl, baseBackdropUrl,index, isBookmark)
+        networkPopularSerial.toExternal(basePosterUrl, baseBackdropUrl, index, isBookmark)
     }
 
 fun NetworkPopularSerial.toLocal(
@@ -460,3 +461,38 @@ fun Trend.toBookmark() = Bookmark(
     backdrop = backdrop,
     type = type
 )
+
+fun NetworkMultiSearchResult.toExternal(
+    basePosterUrl: String,
+    baseBackdropUrl: String,
+    baseProfileUrl: String
+) = MultiSearchResult(
+    id = id,
+    title = title,
+    originalTitle = originalTitle,
+    overview = overview,
+    originalLanguage = originalLanguage,
+    backdropPath = if (backdropPath != null) baseBackdropUrl + backdropPath else null,
+    posterPath = if (posterPath != null) basePosterUrl + posterPath else null,
+    mediaType = mediaType,
+    genreList = genreList,
+    releaseDate = releaseDate,
+    adult = adult,
+    popularity = popularity,
+    voteAverage = voteAverage,
+    voteCount = voteCount,
+    name = name,
+    originalName = originalName,
+    gender = gender,
+    knownForDepartment = knownForDepartment,
+    profilePath = if (profilePath != null) baseProfileUrl + profilePath else null,
+    knownFor = knownFor,
+    originCountryList = originCountryList,
+)
+
+@JvmName("NetworkMultiSearchResultToExternal")
+fun List<NetworkMultiSearchResult>.toExternal(
+    basePosterUrl: String,
+    baseBackdropUrl: String,
+    baseProfileUrl: String
+) = map { it.toExternal(basePosterUrl, baseBackdropUrl, baseProfileUrl) }
