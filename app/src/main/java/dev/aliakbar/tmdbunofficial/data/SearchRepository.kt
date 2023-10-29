@@ -2,10 +2,11 @@ package dev.aliakbar.tmdbunofficial.data
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import dev.aliakbar.tmdbunofficial.data.source.MultiSearchPagingSource
-import dev.aliakbar.tmdbunofficial.data.source.TopMoviesPagingSource
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
+import kotlinx.coroutines.flow.Flow
 
 class SearchRepository(
     private val networkDataSource: TMDBApiService,
@@ -20,9 +21,9 @@ class SearchRepository(
         createBaseProfileUrl()
     )
 
-    fun search(text: String)
+    fun search(text: String): Flow<PagingData<MultiSearchResult>>
     {
         pagingSourceFactory.searchQuery = text
-        Pager(config = pagingConfig, pagingSourceFactory = { pagingSourceFactory }).flow
+        return Pager(config = pagingConfig, pagingSourceFactory = { pagingSourceFactory }).flow
     }
 }
