@@ -25,3 +25,11 @@ data class MultiSearchResult(
 
     val originCountryList: List<String>?
 )
+
+data class SearchResult(
+    val title: String,
+    val posterUrl: String,
+    val mediaType: MediaType,
+    val releaseDate: String?,
+    val knownForDepartment: String?
+)

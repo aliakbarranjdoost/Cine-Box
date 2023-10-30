@@ -6,10 +6,8 @@
 package dev.aliakbar.tmdbunofficial.ui.search
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,7 +23,6 @@ import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenu
@@ -33,7 +30,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -54,6 +50,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.aliakbar.tmdbunofficial.R
+import dev.aliakbar.tmdbunofficial.data.SearchResult
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.source.sample.recommendations
 import dev.aliakbar.tmdbunofficial.ui.home.ScoreBar
@@ -122,7 +119,7 @@ fun SearchScreen(
         )
         {
             // TODO: Find a way to show suggestion
-            repeat(4)
+            /*repeat(4)
             { idx ->
                 val resultText = "Suggestion $idx"
                 ListItem(
@@ -137,24 +134,31 @@ fun SearchScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 4.dp)
                 )
-            }
+            }*/
         }
 
-        LazyColumn(
-            modifier = Modifier.padding(top = 72.dp),
-            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            val list = List(100) { "Text $it" }
-            items(count = list.size) {
-                Text(
-                    list[it],
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
+        when(uiState)
+        {
+            is SearchUiState.Loading -> Text(text = "Loading")
+            is SearchUiState.Success ->
+            {
+                LazyColumn(
+                    modifier = Modifier.padding(16.dp).padding(top = 64.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 )
+                {
+                    items(uiState.results)
+                    {
+                        CategoryItem(result = it, onNavigateToDetails = { /*TODO*/ }) {
+                            
+                        }
+                    }
+                }
             }
+
+            is SearchUiState.Error   -> Text(text = "Error")
         }
+
     }
 }
 
@@ -202,10 +206,10 @@ fun CategorizedLazyColumn(
 
             items(category.items)
             {
-                CategoryItem(trend = it, onNavigateToDetails = { /*TODO*/ })
+                /*CategoryItem(trend = it, onNavigateToDetails = { *//*TODO*//* })
                 {
 
-                }
+                }*/
             }
         }
     }
@@ -219,7 +223,7 @@ fun CategoryHeader(text: String, modifier: Modifier = Modifier)
 
 @Composable
 fun CategoryItem(
-    trend: Trend,
+    result: SearchResult,
     onNavigateToDetails: () -> Unit,
     onBookmarkClick: () -> Unit,
 )
@@ -228,7 +232,7 @@ fun CategoryItem(
     {
         Row(modifier = Modifier.fillMaxSize())
         {
-            Poster(trend = trend, onBookmarkClick = onBookmarkClick)
+            Poster(posterPath = result.posterUrl, contentDescription = result.title, onBookmarkClick = onBookmarkClick)
 
             Box(
                 modifier = Modifier
@@ -237,10 +241,10 @@ fun CategoryItem(
             )
             {
                 Text(
-                    text = trend.title,
+                    text = result.title,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.align(Alignment.TopStart)
+                    modifier = Modifier.align(Alignment.TopStart).padding(8.dp)
                 )
 
                 Row(
@@ -249,12 +253,13 @@ fun CategoryItem(
                     modifier = Modifier.align(Alignment.BottomStart)
                 ) {
                     Text(
-                        text = trend.type,
+                        text = result.mediaType.toString(),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
+                            .padding(8.dp)
                     )
 
                     IconButton(
@@ -263,7 +268,8 @@ fun CategoryItem(
                     )
                     {
                         Icon(
-                            imageVector = if (trend.isBookmark) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
+                            //imageVector = if (trend.isBookmark) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
+                            imageVector = Icons.Default.Bookmark,
                             contentDescription = null,
                             modifier = Modifier.fillMaxSize()
                         )
@@ -277,7 +283,8 @@ fun CategoryItem(
 @Composable
 fun Poster(
     onBookmarkClick: () -> Unit,
-    trend: Trend,
+    posterPath: String,
+    contentDescription: String,
     modifier: Modifier = Modifier
 )
 {
@@ -287,18 +294,18 @@ fun Poster(
             model = ImageRequest
                 .Builder(context = LocalContext.current)
                 .placeholder(R.drawable.poster_test)
-                .data(trend.poster)
+                .data(posterPath)
                 .build(),
-            contentDescription = trend.title,
+            contentDescription = contentDescription,
             contentScale = ContentScale.FillBounds,
             modifier = Modifier.fillMaxSize()
         )
 
-        ScoreBar(
-            score = trend.score,
+        /*ScoreBar(
+            score = posterPath.score,
             modifier = Modifier
                 .align(Alignment.BottomStart)
-        )
+        )*/
     }
 }
 

@@ -1,5 +1,6 @@
 package dev.aliakbar.tmdbunofficial.data
 
+import androidx.compose.ui.text.toUpperCase
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalBookmark
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalTrend
@@ -465,29 +466,32 @@ fun NetworkMultiSearchResult.toExternal(
     basePosterUrl: String,
     baseBackdropUrl: String,
     baseProfileUrl: String
-) = MultiSearchResult(
-    id = id,
-    title = title,
-    originalTitle = originalTitle,
-    overview = overview,
-    originalLanguage = originalLanguage,
-    backdropPath = if (backdropPath != null) baseBackdropUrl + backdropPath else null,
-    posterPath = if (posterPath != null) basePosterUrl + posterPath else null,
-    mediaType = mediaType,
-    genreList = genreList,
-    releaseDate = firstAirDate,
-    adult = adult,
-    popularity = popularity,
-    voteAverage = voteAverage,
-    voteCount = voteCount,
-    name = name,
-    originalName = originalName,
-    gender = gender,
-    knownForDepartment = knownForDepartment,
-    profilePath = if (profilePath != null) baseProfileUrl + profilePath else null,
-    //knownFor = knownFor.toString(),
-    originCountryList = originCountryList,
-)
+) = when (val mediaType = MediaType.valueOf(mediaType.uppercase()))
+{
+    MediaType.MOVIE  -> SearchResult(
+        title = title!!,
+        posterUrl = basePosterUrl + posterPath!!,
+        mediaType = mediaType,
+        releaseDate = releaseDate!!,
+        knownForDepartment = null
+    )
+
+    MediaType.TV     -> SearchResult(
+        title = name!!,
+        posterUrl = basePosterUrl + posterPath!!,
+        mediaType = mediaType,
+        releaseDate = firstAirDate!!,
+        knownForDepartment = null
+    )
+
+    MediaType.PERSON -> SearchResult(
+        title = name!!,
+        posterUrl = if (profilePath != null) baseProfileUrl + profilePath!! else "",
+        mediaType = mediaType,
+        releaseDate = null,
+        knownForDepartment = knownForDepartment
+    )
+}
 
 @JvmName("NetworkMultiSearchResultToExternal")
 fun List<NetworkMultiSearchResult>.toExternal(

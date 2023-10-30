@@ -12,6 +12,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.MultiSearchResult
 import dev.aliakbar.tmdbunofficial.data.SearchRepository
+import dev.aliakbar.tmdbunofficial.data.SearchResult
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.ui.details.DetailsUiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +23,7 @@ import java.io.IOException
 
 sealed interface SearchUiState
 {
-    data class Success(val results: List<MultiSearchResult>) : SearchUiState
+    data class Success(val results: List<SearchResult>) : SearchUiState
     data object Error : SearchUiState
     data object Loading : SearchUiState
 }

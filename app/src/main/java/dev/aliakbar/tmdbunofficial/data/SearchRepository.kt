@@ -22,13 +22,13 @@ class SearchRepository(
         createBaseProfileUrl()
     )
 
-    fun search(text: String): Flow<PagingData<MultiSearchResult>>
+    fun search(text: String): Flow<PagingData<SearchResult>>
     {
         pagingSourceFactory.searchQuery = text
         return Pager(config = pagingConfig, pagingSourceFactory = { pagingSourceFactory }).flow
     }
 
-    suspend fun search(text: String = "lord", page: Int = 1): List<MultiSearchResult>
+    suspend fun search(text: String = "lord", page: Int = 1): List<SearchResult>
     {
         return networkDataSource.multiSearch(text, page).results.toExternal(
             createBasePosterUrl(),
