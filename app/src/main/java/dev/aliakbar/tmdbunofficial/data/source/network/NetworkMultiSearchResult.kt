@@ -21,7 +21,7 @@ data class NetworkMultiSearchResult(
     @SerialName("genre_ids")
     val genreList: List<Int>? = null,
     @SerialName("first_air_date")
-    val releaseDate: String? = null,
+    val firstAirDate: String? = null,
     val adult: Boolean,
     val popularity: Float,
     @SerialName("vote_average")
@@ -37,8 +37,12 @@ data class NetworkMultiSearchResult(
     val knownForDepartment: String? = null,
     @SerialName("profile_path")
     val profilePath: String? = null,
-    @SerialName("known_for")
-    val knownFor: String? = null,
+    //@SerialName("known_for")
+    //val knownFor: List<String?> = emptyList(),
+    @SerialName("release_date")
+    val releaseDate: String? = null,
+    @SerialName("video")
+    val video: Boolean = false,
 
     @SerialName("origin_country")
     val originCountryList: List<String>? = null

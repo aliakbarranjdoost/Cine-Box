@@ -66,6 +66,8 @@ fun SearchScreen(
     modifier: Modifier = Modifier
 )
 {
+    var uiState = viewModel.searchUiState
+
     var text by rememberSaveable { mutableStateOf("") }
     var active by rememberSaveable { mutableStateOf(false) }
     var expanded by rememberSaveable { mutableStateOf(false) }

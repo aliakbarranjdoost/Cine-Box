@@ -19,7 +19,6 @@ import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularSerial
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingMovie
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingSeries
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkVideo
-import dev.aliakbar.tmdbunofficial.data.source.sample.backdrop
 
 fun NetworkImageConfiguration.toExternal() = ImageConfiguration(
     baseUrl = baseUrl,
@@ -476,7 +475,7 @@ fun NetworkMultiSearchResult.toExternal(
     posterPath = if (posterPath != null) basePosterUrl + posterPath else null,
     mediaType = mediaType,
     genreList = genreList,
-    releaseDate = releaseDate,
+    releaseDate = firstAirDate,
     adult = adult,
     popularity = popularity,
     voteAverage = voteAverage,
@@ -486,7 +485,7 @@ fun NetworkMultiSearchResult.toExternal(
     gender = gender,
     knownForDepartment = knownForDepartment,
     profilePath = if (profilePath != null) baseProfileUrl + profilePath else null,
-    knownFor = knownFor,
+    //knownFor = knownFor.toString(),
     originCountryList = originCountryList,
 )
 

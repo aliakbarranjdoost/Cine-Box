@@ -40,7 +40,10 @@ class DefaultAppContainer(private val context: Context): AppContainer
     }
 
     @OptIn(ExperimentalSerializationApi::class)
-    private val json = Json { coerceInputValues = true }
+    private val json = Json {
+        coerceInputValues = true
+        ignoreUnknownKeys = true
+    }
 
     private val retrofit = Retrofit.Builder()
         .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))

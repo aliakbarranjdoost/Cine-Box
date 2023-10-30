@@ -21,7 +21,7 @@ data class MultiSearchResult(
     val gender: Int?,
     val knownForDepartment: String?,
     val profilePath: String?,
-    val knownFor: String?,
+    //val knownFor: String?,
 
     val originCountryList: List<String>?
 )

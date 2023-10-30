@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import dev.aliakbar.tmdbunofficial.data.source.MultiSearchPagingSource
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkMultiSearchResult
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 import kotlinx.coroutines.flow.Flow
 
@@ -25,5 +26,14 @@ class SearchRepository(
     {
         pagingSourceFactory.searchQuery = text
         return Pager(config = pagingConfig, pagingSourceFactory = { pagingSourceFactory }).flow
+    }
+
+    suspend fun search(text: String = "lord", page: Int = 1): List<MultiSearchResult>
+    {
+        return networkDataSource.multiSearch(text, page).results.toExternal(
+            createBasePosterUrl(),
+            createBaseBackdropUrl(),
+            createBaseProfileUrl()
+        )
     }
 }
