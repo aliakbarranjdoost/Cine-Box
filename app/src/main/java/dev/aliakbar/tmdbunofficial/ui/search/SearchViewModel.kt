@@ -9,12 +9,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.MultiSearchResult
 import dev.aliakbar.tmdbunofficial.data.SearchRepository
 import dev.aliakbar.tmdbunofficial.data.SearchResult
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.ui.details.DetailsUiState
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -38,8 +41,8 @@ class SearchViewModel(private val searchRepository: SearchRepository) : ViewMode
     private val _isSearching = MutableStateFlow(false)
     val isSearching = _isSearching.asStateFlow()
 
-    private val _searchResult = MutableStateFlow(listOf<MultiSearchResult>())
-    var searchResult = _searchResult.asStateFlow()
+    //private val _searchResult = Flow<PagingData<SearchResult>>(listOf<SearchResult>())
+    //var searchResult = _searchResult.asStateFlow()
 
     var searchUiState: SearchUiState by mutableStateOf(
         SearchUiState.Loading
@@ -64,6 +67,9 @@ class SearchViewModel(private val searchRepository: SearchRepository) : ViewMode
             }
         }
     }
+
+    fun search(query:String) = searchRepository.search(searchText.value).cachedIn(viewModelScope)
+
 
     companion object
     {

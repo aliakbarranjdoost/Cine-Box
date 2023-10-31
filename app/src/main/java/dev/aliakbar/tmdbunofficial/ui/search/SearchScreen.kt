@@ -47,9 +47,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.aliakbar.tmdbunofficial.R
+import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.SearchResult
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.source.sample.recommendations
@@ -64,6 +67,7 @@ fun SearchScreen(
 )
 {
     var uiState = viewModel.searchUiState
+    var searchResult = viewModel.search("lord").collectAsLazyPagingItems()
 
     var text by rememberSaveable { mutableStateOf("") }
     var active by rememberSaveable { mutableStateOf(false) }
@@ -137,20 +141,23 @@ fun SearchScreen(
             }*/
         }
 
-        when(uiState)
+        when (uiState)
         {
             is SearchUiState.Loading -> Text(text = "Loading")
             is SearchUiState.Success ->
             {
                 LazyColumn(
-                    modifier = Modifier.padding(16.dp).padding(top = 64.dp),
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .padding(top = 56.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 )
                 {
-                    items(uiState.results)
-                    {
-                        CategoryItem(result = it, onNavigateToDetails = { /*TODO*/ }) {
-                            
+                    items(searchResult.itemCount)
+                    { index ->
+                        searchResult[index]?.let()
+                        {
+                            CategoryItem(result = it, onNavigateToDetails = { /*TODO*/ }) {}
                         }
                     }
                 }
@@ -232,7 +239,11 @@ fun CategoryItem(
     {
         Row(modifier = Modifier.fillMaxSize())
         {
-            Poster(posterPath = result.posterUrl, contentDescription = result.title, onBookmarkClick = onBookmarkClick)
+            Poster(
+                posterPath = result.posterUrl,
+                contentDescription = result.title,
+                onBookmarkClick = onBookmarkClick
+            )
 
             Box(
                 modifier = Modifier
@@ -244,7 +255,9 @@ fun CategoryItem(
                     text = result.title,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.align(Alignment.TopStart).padding(8.dp)
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(8.dp)
                 )
 
                 Row(
@@ -253,7 +266,8 @@ fun CategoryItem(
                     modifier = Modifier.align(Alignment.BottomStart)
                 ) {
                     Text(
-                        text = result.mediaType.toString(),
+                        text = if (result.mediaType != MediaType.PERSON) result.mediaType.toString()
+                        else result.knownForDepartment!!,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
