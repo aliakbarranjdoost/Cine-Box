@@ -61,7 +61,7 @@ fun TopScreen(
     modifier: Modifier = Modifier
 )
 {
-    val uiState = viewModel.topUiState
+    //val uiState = viewModel.topUiState
     val topMovies = viewModel.getTopRatedMovies().collectAsLazyPagingItems()
     val topSeries = viewModel.getTopRatedSeries().collectAsLazyPagingItems()
 

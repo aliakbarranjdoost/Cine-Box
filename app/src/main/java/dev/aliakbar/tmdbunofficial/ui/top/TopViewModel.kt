@@ -34,12 +34,12 @@ private val TAG: String = TopViewModel::class.java.simpleName
 
 class TopViewModel(private val topRepository: TopRepository) : ViewModel()
 {
-    var topUiState: TopUiState by mutableStateOf(TopUiState.Loading)
-        private set
+    /*var topUiState: TopUiState by mutableStateOf(TopUiState.Loading)
+        private set*/
 
     init
     {
-        getTopRatedMovies()
+        //getTopRatedMovies()
     }
 
     /*private fun getTopRatedMovies()
