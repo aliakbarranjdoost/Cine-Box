@@ -13,7 +13,7 @@ data class NetworkPopularMovie(
     @SerialName("original_language")
     val originalLanguage: String,
     @SerialName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String? = null,
     @SerialName("poster_path")
     val posterPath: String,
     @SerialName("genre_ids")
