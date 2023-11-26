@@ -1,11 +1,8 @@
-import com.google.protobuf.gradle.*
-
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.com.google.plugin.protobuf)
 }
 
 android {
@@ -91,35 +88,9 @@ dependencies {
 
     implementation(libs.koin)
 
-    //implementation(libs.protobuf.lite)
-    // TODO: change to catalog when every thing is ok
-    implementation  ("androidx.datastore:datastore:1.0.0")
-    implementation  ("com.google.protobuf:protobuf-javalite:3.18.0")
-    //implementation  ("com.google.protobuf:protobuf-kotlin-lite:3.18.0")
-
     debugImplementation(libs.ui.tooling)
 
     implementation(libs.paging)
     implementation(libs.paging.compose)
 
-}
-
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:3.19.4"
-    }
-
-    // Generates the java Protobuf-lite code for the Protobufs in this project. See
-    // https://github.com/google/protobuf-gradle-plugin#customizing-protobuf-compilation
-    // for more information.
-    // TODO: enable lite later something is wrong with proto plugin now
-    generateProtoTasks {
-        all().forEach { task ->
-            task.builtins {
-                id("java") {
-                    option("lite")
-                }
-            }
-        }
-    }
 }

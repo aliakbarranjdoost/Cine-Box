@@ -16,9 +16,7 @@ retrofit-kotlinx-serialization-converter = "1.0.0"
 room = "2.6.0"
 koin = "3.4.3"
 koin_compose = "1.0.4"
-com-google-protobuf-plugin = "0.9.1"
 androidx-datastore = "1.0.0"
-com-google-protobuf-lite = "3.8.0"
 material3-compose = "1.2.0-alpha11"
 paging = "3.2.1"
 
@@ -44,7 +42,6 @@ ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 koin = { group = "io.insert-koin", name = "koin-android", version.ref = "koin"}
 datastore = {group = "androidx.datastore", name = "datastore", version.ref = "androidx-datastore" }
-protobuf-lite = { group = "com.google.protobuf", name = "protobuf-javalite", version.ref  = "com-google-protobuf-lite" }
 paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging"}
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging"}
 
@@ -53,6 +50,5 @@ com-android-application = { id = "com.android.application", version.ref = "agp" 
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
 org-jetbrains-kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "org-jetbrains-kotlin-plugin-serialization" }
-com-google-plugin-protobuf = { id = "com.google.protobuf", version.ref = "com-google-protobuf-plugin"}
 
 [bundles]
