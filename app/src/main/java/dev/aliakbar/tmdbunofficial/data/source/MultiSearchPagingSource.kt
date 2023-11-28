@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import dev.aliakbar.tmdbunofficial.data.MultiSearchResult
+import dev.aliakbar.tmdbunofficial.data.SearchRepository
 import dev.aliakbar.tmdbunofficial.data.SearchResult
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
@@ -12,13 +13,11 @@ import dev.aliakbar.tmdbunofficial.data.toExternal
 private var TAG = MultiSearchPagingSource::class.java.simpleName
 
 class MultiSearchPagingSource(
-    private val networkDataSource: TMDBApiService,
-    private val basePosterUrl: String,
-    private val baseBackdropUrl: String,
-    private val baseProfileUrl: String,
+    private val query: String,
+    private val repository: SearchRepository,
+
 ) : PagingSource<Int, SearchResult>()
 {
-    public var searchQuery: String = ""
     override fun getRefreshKey(state: PagingState<Int, SearchResult>): Int?
     {
         return state.anchorPosition?.let()
@@ -33,16 +32,17 @@ class MultiSearchPagingSource(
         return try
         {
             val page = params.key ?: 1
-            Log.d(TAG, "load: $page")
-            val response = networkDataSource.multiSearch(searchQuery, page = page)
+            val response = repository.search( query = query, page = page)
+            Log.d(TAG, "load: $response")
             LoadResult.Page(
-                data = response.results.toExternal(basePosterUrl, baseBackdropUrl, baseProfileUrl),
+                data = response,
                 prevKey = if (page == 1) null else page.minus(1),
-                nextKey = if (response.results.isEmpty()) null else page.plus(1)
+                nextKey = if (response.isEmpty()) null else page.plus(1)
             )
         }
         catch (e: Exception)
         {
+            Log.d(TAG, "load: error")
             LoadResult.Error(e)
         }
     }

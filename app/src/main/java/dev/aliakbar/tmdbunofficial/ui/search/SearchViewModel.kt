@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package dev.aliakbar.tmdbunofficial.ui.search
 
 import android.util.Log
@@ -9,67 +11,51 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
-import dev.aliakbar.tmdbunofficial.data.MultiSearchResult
 import dev.aliakbar.tmdbunofficial.data.SearchRepository
-import dev.aliakbar.tmdbunofficial.data.SearchResult
-import dev.aliakbar.tmdbunofficial.data.Trend
-import dev.aliakbar.tmdbunofficial.ui.details.DetailsUiState
-import kotlinx.coroutines.flow.Flow
+import dev.aliakbar.tmdbunofficial.data.source.MultiSearchPagingSource
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import java.io.IOException
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.stateIn
 
-sealed interface SearchUiState
-{
-    data class Success(val results: List<SearchResult>) : SearchUiState
-    data object Error : SearchUiState
-    data object Loading : SearchUiState
-}
+private const val PAGE_SIZE = 10
 
 private val TAG: String = SearchViewModel::class.java.simpleName
 
 class SearchViewModel(private val searchRepository: SearchRepository) : ViewModel()
 {
-    private val _searchText = MutableStateFlow("")
-    val searchText = _searchText.asStateFlow()
+    /*var query = mutableStateOf("")
+        private set*/
 
-    private val _isSearching = MutableStateFlow(false)
-    val isSearching = _isSearching.asStateFlow()
+    private val _query = MutableStateFlow("")
 
-    //private val _searchResult = Flow<PagingData<SearchResult>>(listOf<SearchResult>())
-    //var searchResult = _searchResult.asStateFlow()
+    val query = _query.asStateFlow()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = "",
+        )
 
-    var searchUiState: SearchUiState by mutableStateOf(
-        SearchUiState.Loading
-    )
+    private lateinit var pagingSource : MultiSearchPagingSource
 
-    init
-    {
-        viewModelScope.launch()
-        {
-            searchUiState = try
-            {
-                Log.d(TAG, searchRepository.search().toString())
-                SearchUiState.Success(searchRepository.search())
-            }
-            catch (e: IOException)
-            {
-                SearchUiState.Error
-            }
-            catch (e: HttpException)
-            {
-                SearchUiState.Error
-            }
-        }
+    val resultPager = query.flatMapLatest {
+        Pager(PagingConfig(pageSize = PAGE_SIZE)) {
+            MultiSearchPagingSource(query.value, searchRepository).also { pagingSource = it }
+        }.flow
     }
 
-    fun search(query:String) = searchRepository.search(searchText.value).cachedIn(viewModelScope)
+    fun setQuery(query: String) {
+        _query.value = query
+    }
 
+    fun invalidateDataSource() {
+        pagingSource.invalidate()
+    }
 
     companion object
     {

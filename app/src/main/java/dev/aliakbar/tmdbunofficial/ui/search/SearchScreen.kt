@@ -1,10 +1,10 @@
 @file:OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
-    ExperimentalMaterial3Api::class
+    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class
 )
 
 package dev.aliakbar.tmdbunofficial.ui.search
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,7 +19,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
@@ -47,7 +46,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.paging.compose.LazyPagingItems
+import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -56,8 +55,9 @@ import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.SearchResult
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.source.sample.recommendations
-import dev.aliakbar.tmdbunofficial.ui.home.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
+
+private val TAG: String = "SearchScreen"
 
 @Composable
 fun SearchScreen(
@@ -66,8 +66,7 @@ fun SearchScreen(
     modifier: Modifier = Modifier
 )
 {
-    var uiState = viewModel.searchUiState
-    var searchResult = viewModel.search("lord").collectAsLazyPagingItems()
+    val searchResult = viewModel.resultPager.collectAsLazyPagingItems()
 
     var text by rememberSaveable { mutableStateOf("") }
     var active by rememberSaveable { mutableStateOf(false) }
@@ -79,7 +78,10 @@ fun SearchScreen(
             modifier = Modifier.align(Alignment.TopCenter),
             query = text,
             onQueryChange = { text = it },
-            onSearch = { active = false },
+            onSearch = {
+                viewModel.setQuery(text)
+                active = false
+            },
             active = active,
             onActiveChange = { active = it },
             placeholder = { Text(stringResource(id = R.string.search)) },
@@ -141,10 +143,19 @@ fun SearchScreen(
             }*/
         }
 
-        when (uiState)
+        when (searchResult.loadState.refresh)
         {
-            is SearchUiState.Loading -> Text(text = "Loading")
-            is SearchUiState.Success ->
+            LoadState.Loading ->
+            {
+                Text(text = "Loading")
+            }
+
+            is LoadState.Error ->
+            {
+                Text(text = "Error")
+            }
+
+            else ->
             {
                 LazyColumn(
                     modifier = Modifier
@@ -157,15 +168,12 @@ fun SearchScreen(
                     { index ->
                         searchResult[index]?.let()
                         {
-                            CategoryItem(result = it, onNavigateToDetails = { /*TODO*/ }) {}
+                            CategoryItem(result = it, {}, {})
                         }
                     }
                 }
             }
-
-            is SearchUiState.Error   -> Text(text = "Error")
         }
-
     }
 }
 
