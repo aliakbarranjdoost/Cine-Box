@@ -4,7 +4,6 @@
 
 package dev.aliakbar.tmdbunofficial.ui.search
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -79,6 +78,7 @@ fun SearchScreen(
             query = text,
             onQueryChange = { text = it },
             onSearch = {
+                viewModel.invalidateDataSource()
                 viewModel.setQuery(text)
                 active = false
             },

@@ -2,10 +2,6 @@
 
 package dev.aliakbar.tmdbunofficial.ui.search
 
-import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -29,9 +25,6 @@ private val TAG: String = SearchViewModel::class.java.simpleName
 
 class SearchViewModel(private val searchRepository: SearchRepository) : ViewModel()
 {
-    /*var query = mutableStateOf("")
-        private set*/
-
     private val _query = MutableStateFlow("")
 
     val query = _query.asStateFlow()
