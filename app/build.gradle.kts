@@ -46,7 +46,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.4"
+        kotlinCompilerExtensionVersion = "1.5.5"
     }
     packaging {
         resources {
@@ -67,10 +67,9 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
-    implementation ("androidx.compose.material:material-icons-extended")
-    //implementation ("androidx.webkit:webkit:1.8.0")
+    implementation (libs.material.icons.extended)
 
-    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
+    implementation (libs.youtubeplayer)
 
     implementation(libs.navigation)
 
@@ -85,8 +84,6 @@ dependencies {
     implementation(libs.okhttp)
 
     implementation(libs.coil)
-
-    implementation(libs.koin)
 
     debugImplementation(libs.ui.tooling)
 
