@@ -6,7 +6,6 @@
 package dev.aliakbar.tmdbunofficial.ui.home
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -38,7 +37,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -58,7 +56,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -77,13 +74,12 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Trailer
 import dev.aliakbar.tmdbunofficial.data.Trend
-import dev.aliakbar.tmdbunofficial.data.source.sample.movie
-import dev.aliakbar.tmdbunofficial.data.source.sample.trailers
 import dev.aliakbar.tmdbunofficial.data.source.sample.trend
+import dev.aliakbar.tmdbunofficial.ui.components.ScoreCircularProgressIndicator
 import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
+import dev.aliakbar.tmdbunofficial.util.convertDegreeToHsvColor
 import dev.aliakbar.tmdbunofficial.util.toDegree
-import dev.aliakbar.tmdbunofficial.util.toPercent
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -585,20 +581,18 @@ fun ScoreBar(score: Float, modifier: Modifier = Modifier)
             modifier = modifier
                 .padding(4.dp)
     )
-    {
-        Text(
-            text = (score * 10).roundToInt().toString() + "%",
-            modifier = Modifier
-                .clip(CircleShape),
-        )
+        {
+            Text(
+                text = (score * 10).roundToInt().toString() + "%",
+                modifier = Modifier
+                    .clip(CircleShape),
+            )
 
-        CircularProgressIndicator(
-            modifier = Modifier,
-            color = convertPercentageToHsvColor(score.toDegree()),
-            progress = (score / 10.0).toFloat()
-        )
-    }
-
+            ScoreCircularProgressIndicator(
+                score = score,
+                modifier = Modifier
+            )
+        }
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
@@ -642,9 +636,4 @@ fun PreviewScore()
     {
         ScoreBar(score = 7.93F)
     }
-}
-
-private fun convertPercentageToHsvColor(degree: Float): Color
-{
-    return Color.hsv(degree,1F,1F)
 }

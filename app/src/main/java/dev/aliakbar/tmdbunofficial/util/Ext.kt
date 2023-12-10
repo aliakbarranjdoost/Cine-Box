@@ -1,11 +1,13 @@
 package dev.aliakbar.tmdbunofficial.util
 
-fun Float.toPercent(): Int
-{
-    return toInt() * 10
-}
+import androidx.compose.ui.graphics.Color
 
 fun Float.toDegree(): Float
 {
-    return (toInt() * 12).toFloat()
+    return this * 12
+}
+
+fun Float.convertDegreeToHsvColor(): Color
+{
+    return Color.hsv(toDegree(),1F,1F)
 }
