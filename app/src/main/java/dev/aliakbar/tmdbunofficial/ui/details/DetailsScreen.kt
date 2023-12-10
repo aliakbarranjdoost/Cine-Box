@@ -24,11 +24,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -45,15 +47,19 @@ import dev.aliakbar.tmdbunofficial.data.Movie
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.Video
 import dev.aliakbar.tmdbunofficial.data.source.sample.movie
+import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
+import dev.aliakbar.tmdbunofficial.ui.components.ScoreCircularProgressIndicator
+
+const val OVERVIEW_PREVIEW_MAX_LINE = 3
 
 @Composable
 fun DetailsScreen(
-        viewModel: DetailsViewModel = viewModel(factory = DetailsViewModel.factory)
+    viewModel: DetailsViewModel = viewModel(factory = DetailsViewModel.factory)
 )
 {
     val uiState = viewModel.detailsUiState
 
-    when(uiState)
+    when (uiState)
     {
         is DetailsUiState.Loading -> Text(text = "Loading")
         is DetailsUiState.Success -> MovieDetails(movie = uiState.movie,
@@ -64,51 +70,66 @@ fun DetailsScreen(
                 )*/
             }
         )
-        is DetailsUiState.Error -> Text(text = "Error")
+
+        is DetailsUiState.Error   -> Text(text = "Error")
     }
 }
 
 @Composable
-fun MovieDetails(movie: Movie,onBookmarkClick: () -> Unit)
+fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
 {
     val scrollState = rememberScrollState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     Scaffold(
-        topBar = { TopBar(title = movie.title, onBookmarkClick ) },
+        topBar = { TopBar(title = movie.title, onBookmarkClick) },
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-
-        )
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
+    )
     { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding))
         {
-            Box(modifier = Modifier.fillMaxWidth().height(200.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+            )
             {
                 AsyncImage(
                     model = ImageRequest
-                        .Builder( context = LocalContext.current)
+                        .Builder(context = LocalContext.current)
                         .data(movie.backdropPath)
                         .build(),
                     placeholder = painterResource(id = R.drawable.backdrop_test),
                     contentDescription = null,
+                    contentScale = ContentScale.FillBounds,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp)
+                        .height(230.dp)
                         .align(Alignment.Center)
                 )
-                Text(
-                    text = movie.voteAverage.toString(),
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .align(Alignment.TopStart)
+                ScoreBar(
+                    score = movie.voteAverage,
+                    modifier = Modifier.align(Alignment.BottomStart)
                 )
-
             }
 
-            Text(text = movie.overview)
+            Text(
+                text = movie.overview,
+                maxLines = OVERVIEW_PREVIEW_MAX_LINE,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
+            )
+
+            TextButton(
+                onClick = { /*TODO*/ },
+                modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
+            )
+            {
+                Text(text = "More Details")
+            }
 
             CastList(casts = movie.casts)
 
@@ -128,26 +149,25 @@ fun MovieDetails(movie: Movie,onBookmarkClick: () -> Unit)
 @Composable
 fun CastList(casts: List<Cast>, modifier: Modifier = Modifier)
 {
-    LazyRow( )
+    LazyRow()
     {
         items(items = casts)
-        {
-            cast ->
+        { cast ->
             CastItem(cast = cast, onCastClick = { })
         }
     }
 }
 
 @Composable
-fun CastItem(cast: Cast,onCastClick: () -> Unit, modifier: Modifier = Modifier)
+fun CastItem(cast: Cast, onCastClick: () -> Unit, modifier: Modifier = Modifier)
 {
     Card(modifier = Modifier.padding(16.dp), onClick = onCastClick)
     {
         AsyncImage(
             model = ImageRequest
-            .Builder(context = LocalContext.current)
-            .data(cast.profilePath)
-            .build(),
+                .Builder(context = LocalContext.current)
+                .data(cast.profilePath)
+                .build(),
             placeholder = painterResource(id = R.drawable.profile_test),
             contentDescription = null
         )
@@ -160,18 +180,17 @@ fun CastItem(cast: Cast,onCastClick: () -> Unit, modifier: Modifier = Modifier)
 @Composable
 fun CrewList(crews: List<Crew>, modifier: Modifier = Modifier)
 {
-    LazyRow( )
+    LazyRow()
     {
         items(items = crews)
-        {
-                crew ->
+        { crew ->
             CrewItem(crew = crew, onCastClick = { })
         }
     }
 }
 
 @Composable
-fun CrewItem(crew: Crew,onCastClick: () -> Unit, modifier: Modifier = Modifier)
+fun CrewItem(crew: Crew, onCastClick: () -> Unit, modifier: Modifier = Modifier)
 {
     Card(modifier = Modifier.padding(16.dp), onClick = onCastClick)
     {
@@ -195,8 +214,7 @@ fun VideoList(videos: List<Video>, onVideoClick: () -> Unit, modifier: Modifier 
     LazyRow()
     {
         items(videos)
-        {
-            video ->
+        { video ->
             VideoItem(video = video, onVideoClick)
         }
     }
@@ -217,11 +235,10 @@ fun VideoItem(video: Video, onVideoClick: () -> Unit, modifier: Modifier = Modif
 @Composable
 fun PosterList(posters: List<Image>, modifier: Modifier = Modifier)
 {
-    LazyRow( )
+    LazyRow()
     {
         items(items = posters)
-        {
-                poster ->
+        { poster ->
             PosterItem(poster = poster)
         }
     }
@@ -246,11 +263,10 @@ fun PosterItem(poster: Image)
 @Composable
 fun BackdropList(backdrops: List<Image>, modifier: Modifier = Modifier)
 {
-    LazyRow( )
+    LazyRow()
     {
         items(items = backdrops)
-        {
-                backdrop ->
+        { backdrop ->
             BackdropItem(backdrop = backdrop)
         }
     }
@@ -275,11 +291,10 @@ fun BackdropItem(backdrop: Image)
 @Composable
 fun RecommendationList(recommendations: List<Trend>, modifier: Modifier = Modifier)
 {
-    LazyRow( )
+    LazyRow()
     {
         items(items = recommendations)
-        {
-                recommendation ->
+        { recommendation ->
             RecommendationItem(recommendation = recommendation)
         }
     }
@@ -307,16 +322,18 @@ fun RecommendationItem(recommendation: Trend)
         }
     }
 }
+
 @Composable
 fun TopBar(title: String, onBookmarkClick: () -> Unit)
 {
-    CenterAlignedTopAppBar(title = {
-        Text(
-            text = title,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-    },
+    CenterAlignedTopAppBar(
+        title = {
+            Text(
+                text = title,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        },
         navigationIcon = {
             IconButton(onClick = { /* doSomething() */ }) {
                 Icon(
@@ -333,7 +350,7 @@ fun TopBar(title: String, onBookmarkClick: () -> Unit)
                 )
             }
 
-            IconButton(onClick = onBookmarkClick ) {
+            IconButton(onClick = onBookmarkClick) {
                 Icon(
                     imageVector = Icons.Filled.BookmarkBorder,
                     contentDescription = "Localized description"

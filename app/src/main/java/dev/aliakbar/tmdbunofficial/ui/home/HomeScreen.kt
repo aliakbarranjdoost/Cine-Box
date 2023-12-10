@@ -75,6 +75,7 @@ import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Trailer
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.source.sample.trend
+import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreCircularProgressIndicator
 import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
@@ -572,6 +573,7 @@ fun Poster(
 
     }
 }
+/*
 
 @Composable
 fun ScoreBar(score: Float, modifier: Modifier = Modifier)
@@ -594,6 +596,7 @@ fun ScoreBar(score: Float, modifier: Modifier = Modifier)
             )
         }
 }
+*/
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
