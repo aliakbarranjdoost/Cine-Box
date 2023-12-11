@@ -52,7 +52,7 @@ class DetailsViewModel(
         {
             detailsUiState = try
             {
-                Log.d(TAG, repository.getMovieDetails(id).recommendations.toString())
+                Log.d(TAG, repository.getMovieDetails(id).casts[0].profilePath!!)
                 DetailsUiState.Success(repository.getMovieDetails(id))
             }
             catch (e: IOException)

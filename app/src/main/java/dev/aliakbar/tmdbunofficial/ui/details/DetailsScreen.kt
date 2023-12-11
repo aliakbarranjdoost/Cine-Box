@@ -1,14 +1,23 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class
+)
 
 package dev.aliakbar.tmdbunofficial.ui.details
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -22,6 +31,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -47,6 +57,7 @@ import dev.aliakbar.tmdbunofficial.data.Movie
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.Video
 import dev.aliakbar.tmdbunofficial.data.source.sample.movie
+import dev.aliakbar.tmdbunofficial.ui.components.CastItem
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreCircularProgressIndicator
 
@@ -131,8 +142,12 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
                 Text(text = "More Details")
             }
 
+            ListHeader(header = "Cast", {} )
+
             CastList(casts = movie.casts)
 
+            ListHeader(header = "Crew", {} )
+            
             CrewList(crews = movie.crews)
 
             VideoList(videos = movie.videos, onVideoClick = { /*TODO*/ })
@@ -147,64 +162,65 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
 }
 
 @Composable
-fun CastList(casts: List<Cast>, modifier: Modifier = Modifier)
+fun ListHeader(header: String, onSeeAllClick: () -> Unit)
 {
-    LazyRow()
-    {
-        items(items = casts)
-        { cast ->
-            CastItem(cast = cast, onCastClick = { })
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(16.dp)
+    ) {
+        Text(
+            text = header,
+            style = MaterialTheme.typography.headlineSmall,
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        TextButton(
+            onClick = onSeeAllClick,
+        )
+        {
+            Text(text = "See All")
         }
     }
 }
 
 @Composable
-fun CastItem(cast: Cast, onCastClick: () -> Unit, modifier: Modifier = Modifier)
+fun CastList(casts: List<Cast>, modifier: Modifier = Modifier)
 {
-    Card(modifier = Modifier.padding(16.dp), onClick = onCastClick)
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+    )
     {
-        AsyncImage(
-            model = ImageRequest
-                .Builder(context = LocalContext.current)
-                .data(cast.profilePath)
-                .build(),
-            placeholder = painterResource(id = R.drawable.profile_test),
-            contentDescription = null
-        )
-
-        Text(text = cast.name)
-        Text(text = cast.character)
+        items(items = casts)
+        { cast ->
+            CastItem(
+                name = cast.name,
+                role = cast.character,
+                // TODO: Change to place holder later
+                pictureUrl = cast.profilePath!!,
+                onCastClick = { }
+            )
+        }
     }
 }
 
 @Composable
 fun CrewList(crews: List<Crew>, modifier: Modifier = Modifier)
 {
-    LazyRow()
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+    )
     {
         items(items = crews)
         { crew ->
-            CrewItem(crew = crew, onCastClick = { })
+            CastItem(
+                name = crew.name,
+                role = crew.job,
+                // TODO: Change to place holder later
+                pictureUrl = crew.profilePath!!,
+                onCastClick = { }
+            )
         }
-    }
-}
-
-@Composable
-fun CrewItem(crew: Crew, onCastClick: () -> Unit, modifier: Modifier = Modifier)
-{
-    Card(modifier = Modifier.padding(16.dp), onClick = onCastClick)
-    {
-        AsyncImage(
-            model = ImageRequest
-                .Builder(context = LocalContext.current)
-                .data(crew.profilePath)
-                .build(),
-            placeholder = painterResource(id = R.drawable.profile_test),
-            contentDescription = null
-        )
-
-        Text(text = crew.name)
-        Text(text = crew.job)
     }
 }
 
