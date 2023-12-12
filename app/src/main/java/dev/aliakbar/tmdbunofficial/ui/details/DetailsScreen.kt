@@ -5,8 +5,10 @@
 
 package dev.aliakbar.tmdbunofficial.ui.details
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,13 +44,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Cast
 import dev.aliakbar.tmdbunofficial.data.Crew
@@ -142,15 +150,19 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
                 Text(text = "More Details")
             }
 
-            ListHeader(header = "Cast", {} )
+            ListHeader(header = "Cast", {})
 
             CastList(casts = movie.casts)
 
-            ListHeader(header = "Crew", {} )
-            
+            ListHeader(header = "Crew", {})
+
             CrewList(crews = movie.crews)
 
+            ListHeader(header = "Videos", {})
+
             VideoList(videos = movie.videos, onVideoClick = { /*TODO*/ })
+
+            ListHeader(header = "Posters", {})
 
             PosterList(posters = movie.posters)
 
@@ -227,7 +239,10 @@ fun CrewList(crews: List<Crew>, modifier: Modifier = Modifier)
 @Composable
 fun VideoList(videos: List<Video>, onVideoClick: () -> Unit, modifier: Modifier = Modifier)
 {
-    LazyRow()
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+    )
     {
         items(videos)
         { video ->
@@ -239,19 +254,69 @@ fun VideoList(videos: List<Video>, onVideoClick: () -> Unit, modifier: Modifier 
 @Composable
 fun VideoItem(video: Video, onVideoClick: () -> Unit, modifier: Modifier = Modifier)
 {
-    Card(modifier = Modifier.padding(16.dp), onClick = onVideoClick)
+    Card(
+        modifier = Modifier
+            .width(300.dp)
+            .height(170.dp),
+        onClick = onVideoClick
+    )
     {
-        Image(
-            painter = painterResource(id = R.drawable.backdrop_test),
-            contentDescription = null
+        YoutubeVideoPlayerItem(
+            id = video.key,
+            lifecycleOwner = LocalLifecycleOwner.current,
         )
+        /*AsyncImage(
+            model = ImageRequest
+                .Builder(context = LocalContext.current)
+                .data("https://i.ytimg.com/vi/${video.key}/hqdefault.jpg\n")
+                .build(),
+            placeholder = painterResource(id = R.drawable.backdrop_test),
+            contentScale = ContentScale.FillBounds,
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize()
+        )*/
+
     }
+}
+
+@Composable
+fun YoutubeVideoPlayerItem(
+    id: String,
+    lifecycleOwner: LifecycleOwner,
+    modifier: Modifier = Modifier
+)
+{
+    Log.d("DetailsScreen", "YoutubeVideoPlayerItem: $id")
+
+    AndroidView(
+        factory =
+        { context ->
+            YouTubePlayerView(context = context).apply()
+            {
+                lifecycleOwner.lifecycle.addObserver(this)
+
+                addYouTubePlayerListener(object : AbstractYouTubePlayerListener()
+                {
+                    override fun onReady(youTubePlayer: YouTubePlayer)
+                    {
+                        youTubePlayer.setLoop(true)
+                        youTubePlayer.cueVideo(id, 0F)
+                    }
+                })
+
+            }
+        },
+        modifier = Modifier.fillMaxSize()
+    )
 }
 
 @Composable
 fun PosterList(posters: List<Image>, modifier: Modifier = Modifier)
 {
-    LazyRow()
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+    )
     {
         items(items = posters)
         { poster ->
@@ -263,7 +328,7 @@ fun PosterList(posters: List<Image>, modifier: Modifier = Modifier)
 @Composable
 fun PosterItem(poster: Image)
 {
-    Card(modifier = Modifier.padding(16.dp))
+    Card()
     {
         AsyncImage(
             model = ImageRequest
