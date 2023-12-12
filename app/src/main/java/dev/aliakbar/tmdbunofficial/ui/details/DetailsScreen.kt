@@ -1,6 +1,5 @@
 @file:OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
-    ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class
+    ExperimentalMaterial3Api::class
 )
 
 package dev.aliakbar.tmdbunofficial.ui.details
@@ -25,6 +24,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.Share
@@ -39,6 +39,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -99,6 +103,7 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
 {
     val scrollState = rememberScrollState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    var showDetails by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = { TopBar(title = movie.title, onBookmarkClick) },
@@ -135,19 +140,42 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
                 )
             }
 
-            Text(
-                text = movie.overview,
-                maxLines = OVERVIEW_PREVIEW_MAX_LINE,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
-            )
-
-            TextButton(
-                onClick = { /*TODO*/ },
-                modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
-            )
+            if (!showDetails)
             {
-                Text(text = "More Details")
+                Text(
+                    text = movie.overview,
+                    maxLines = OVERVIEW_PREVIEW_MAX_LINE,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
+                )
+
+                TextButton(
+                    onClick = { showDetails = true },
+                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
+                )
+                {
+                    Text(text = "More Details")
+                }
+            }
+            else
+            {
+                Column(modifier = Modifier.padding(16.dp))
+                {
+                    Text(text = movie.overview)
+                    Text(text = movie.genres.toString())
+                    Text(text = movie.originalLanguage)
+                    Text(text = movie.releaseDate)
+                    Text(text = movie.homepage)
+                    Text(text = movie.runtime.toString())
+                    Text(text = movie.status)
+                    TextButton(
+                        onClick = { showDetails = false },
+                        modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
+                    )
+                    {
+                        Text(text = "less Details")
+                    }
+                }
             }
 
             ListHeader(header = "Cast", {})
@@ -166,7 +194,11 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
 
             PosterList(posters = movie.posters)
 
+            ListHeader(header = "Backdrops", {})
+
             BackdropList(backdrops = movie.backdrops)
+
+            ListHeader(header = "Recommendations", {})
 
             RecommendationList(recommendations = movie.recommendations)
         }
@@ -328,7 +360,9 @@ fun PosterList(posters: List<Image>, modifier: Modifier = Modifier)
 @Composable
 fun PosterItem(poster: Image)
 {
-    Card()
+    Card(modifier = Modifier
+        .width(200.dp)
+        .height(300.dp))
     {
         AsyncImage(
             model = ImageRequest
@@ -344,7 +378,10 @@ fun PosterItem(poster: Image)
 @Composable
 fun BackdropList(backdrops: List<Image>, modifier: Modifier = Modifier)
 {
-    LazyRow()
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+    )
     {
         items(items = backdrops)
         { backdrop ->
@@ -356,7 +393,7 @@ fun BackdropList(backdrops: List<Image>, modifier: Modifier = Modifier)
 @Composable
 fun BackdropItem(backdrop: Image)
 {
-    Card(modifier = Modifier.padding(16.dp))
+    Card(modifier = Modifier.size(width = 300.dp, height = 170.dp))
     {
         AsyncImage(
             model = ImageRequest
@@ -372,7 +409,10 @@ fun BackdropItem(backdrop: Image)
 @Composable
 fun RecommendationList(recommendations: List<Trend>, modifier: Modifier = Modifier)
 {
-    LazyRow()
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+    )
     {
         items(items = recommendations)
         { recommendation ->
@@ -384,7 +424,7 @@ fun RecommendationList(recommendations: List<Trend>, modifier: Modifier = Modifi
 @Composable
 fun RecommendationItem(recommendation: Trend)
 {
-    Card(modifier = Modifier.padding(16.dp))
+    Card(modifier = Modifier.size(width = 200.dp, height = 325.dp))
     {
         Column()
         {
@@ -394,12 +434,16 @@ fun RecommendationItem(recommendation: Trend)
                     .data(recommendation.poster)
                     .build(),
                 placeholder = painterResource(id = R.drawable.poster_test),
-                contentDescription = null
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier.height(300.dp)
             )
 
-            Text(text = recommendation.title)
-
-            Text(text = recommendation.score.toString())
+            Text(
+                text = recommendation.title,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
         }
     }
 }
@@ -418,7 +462,7 @@ fun TopBar(title: String, onBookmarkClick: () -> Unit)
         navigationIcon = {
             IconButton(onClick = { /* doSomething() */ }) {
                 Icon(
-                    imageVector = Icons.Filled.ArrowBack,
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Localized description"
                 )
             }
