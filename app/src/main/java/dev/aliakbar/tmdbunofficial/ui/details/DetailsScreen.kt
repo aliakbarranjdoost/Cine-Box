@@ -5,9 +5,6 @@
 package dev.aliakbar.tmdbunofficial.ui.details
 
 import android.util.Log
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,7 +22,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
@@ -64,6 +60,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Cast
 import dev.aliakbar.tmdbunofficial.data.Crew
+import dev.aliakbar.tmdbunofficial.data.Genre
 import dev.aliakbar.tmdbunofficial.data.Image
 import dev.aliakbar.tmdbunofficial.data.Movie
 import dev.aliakbar.tmdbunofficial.data.Trend
@@ -71,7 +68,6 @@ import dev.aliakbar.tmdbunofficial.data.Video
 import dev.aliakbar.tmdbunofficial.data.source.sample.movie
 import dev.aliakbar.tmdbunofficial.ui.components.CastItem
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
-import dev.aliakbar.tmdbunofficial.ui.components.ScoreCircularProgressIndicator
 
 const val OVERVIEW_PREVIEW_MAX_LINE = 3
 
@@ -102,18 +98,15 @@ fun DetailsScreen(
 fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
 {
     val scrollState = rememberScrollState()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     var showDetails by remember { mutableStateOf(false) }
 
     Scaffold(
-        topBar = { TopBar(title = movie.title, onBookmarkClick) },
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-            .nestedScroll(scrollBehavior.nestedScrollConnection)
+        topBar = { TopBar(title = movie.title, onBookmarkClick) }
     )
     { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding))
+        Column(modifier = Modifier
+            .padding(innerPadding)
+            .verticalScroll(scrollState))
         {
             Box(
                 modifier = Modifier
@@ -162,11 +155,17 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
                 Column(modifier = Modifier.padding(16.dp))
                 {
                     Text(text = movie.overview)
-                    Text(text = movie.genres.toString())
+                    DetailsHeader(header = "Genres")
+                    GenreList(genres = movie.genres)
+                    DetailsHeader(header = "Original Language")
                     Text(text = movie.originalLanguage)
+                    DetailsHeader(header = "Release Date")
                     Text(text = movie.releaseDate)
+                    DetailsHeader(header = "Home Page")
                     Text(text = movie.homepage)
-                    Text(text = movie.runtime.toString())
+                    DetailsHeader(header = "Runtime")
+                    Text(text = "${movie.runtime / 60}h,${movie.runtime % 60}m")
+                    DetailsHeader(header = "Status")
                     Text(text = movie.status)
                     TextButton(
                         onClick = { showDetails = false },
@@ -188,7 +187,7 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
 
             ListHeader(header = "Videos", {})
 
-            VideoList(videos = movie.videos, onVideoClick = { /*TODO*/ })
+            VideoList(videos = movie.videos, {})
 
             ListHeader(header = "Posters", {})
 
@@ -198,11 +197,23 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
 
             BackdropList(backdrops = movie.backdrops)
 
-            ListHeader(header = "Recommendations", {})
+            if (movie.recommendations.isNotEmpty())
+            {
+                ListHeader(header = "Recommendations", {})
 
-            RecommendationList(recommendations = movie.recommendations)
+                RecommendationList(recommendations = movie.recommendations)
+            }
         }
     }
+}
+
+@Composable
+fun DetailsHeader(header: String)
+{
+    Text(
+        text = header,
+        style = MaterialTheme.typography.titleMedium,
+    )
 }
 
 @Composable
@@ -222,6 +233,28 @@ fun ListHeader(header: String, onSeeAllClick: () -> Unit)
         )
         {
             Text(text = "See All")
+        }
+    }
+}
+
+@Composable
+fun GenreList(
+    genres: List<Genre>, modifier: Modifier = Modifier
+)
+{
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+    )
+    {
+        items(items = genres)
+        { genre ->
+            //GenreItem(genre.name)
+            TextButton(
+                onClick = { },
+            )
+            {
+                Text(text = genre.name)
+            }
         }
     }
 }
@@ -360,9 +393,11 @@ fun PosterList(posters: List<Image>, modifier: Modifier = Modifier)
 @Composable
 fun PosterItem(poster: Image)
 {
-    Card(modifier = Modifier
-        .width(200.dp)
-        .height(300.dp))
+    Card(
+        modifier = Modifier
+            .width(200.dp)
+            .height(300.dp)
+    )
     {
         AsyncImage(
             model = ImageRequest

@@ -1,5 +1,5 @@
 @file:OptIn(
-    ExperimentalFoundationApi::class
+    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class
 )
 
 package dev.aliakbar.tmdbunofficial.ui.home
@@ -82,7 +82,6 @@ import dev.aliakbar.tmdbunofficial.util.convertDegreeToHsvColor
 import dev.aliakbar.tmdbunofficial.util.toDegree
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navController: NavHostController,
