@@ -70,6 +70,7 @@ import dev.aliakbar.tmdbunofficial.ui.components.CastItem
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 
 const val OVERVIEW_PREVIEW_MAX_LINE = 3
+const val MAX_LIST_ITEMS = 10
 
 @Composable
 fun DetailsScreen(
@@ -179,29 +180,29 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
 
             ListHeader(header = "Cast", {})
 
-            CastList(casts = movie.casts)
+            CastList(casts = movie.casts.subList(0, MAX_LIST_ITEMS))
 
             ListHeader(header = "Crew", {})
 
-            CrewList(crews = movie.crews)
+            CrewList(crews = movie.crews.subList(0, MAX_LIST_ITEMS))
 
             ListHeader(header = "Videos", {})
 
-            VideoList(videos = movie.videos, {})
+            VideoList(videos = movie.videos.subList(0, MAX_LIST_ITEMS), {})
 
             ListHeader(header = "Posters", {})
 
-            PosterList(posters = movie.posters)
+            PosterList(posters = movie.posters.subList(0, MAX_LIST_ITEMS))
 
             ListHeader(header = "Backdrops", {})
 
-            BackdropList(backdrops = movie.backdrops)
+            BackdropList(backdrops = movie.backdrops.subList(0, MAX_LIST_ITEMS))
 
             if (movie.recommendations.isNotEmpty())
             {
                 ListHeader(header = "Recommendations", {})
 
-                RecommendationList(recommendations = movie.recommendations)
+                RecommendationList(recommendations = movie.recommendations.subList(0, MAX_LIST_ITEMS))
             }
         }
     }
