@@ -33,7 +33,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,7 +40,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -70,7 +68,6 @@ import dev.aliakbar.tmdbunofficial.ui.components.CastItem
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 
 const val OVERVIEW_PREVIEW_MAX_LINE = 3
-const val MAX_LIST_ITEMS = 10
 
 @Composable
 fun DetailsScreen(
@@ -105,9 +102,11 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
         topBar = { TopBar(title = movie.title, onBookmarkClick) }
     )
     { innerPadding ->
-        Column(modifier = Modifier
-            .padding(innerPadding)
-            .verticalScroll(scrollState))
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .verticalScroll(scrollState)
+        )
         {
             Box(
                 modifier = Modifier
@@ -178,31 +177,31 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
                 }
             }
 
-            ListHeader(header = "Cast", {})
+            ListHeader(header = "Cast")
 
-            CastList(casts = movie.casts.subList(0, MAX_LIST_ITEMS))
+            CastList(casts = movie.casts)
 
-            ListHeader(header = "Crew", {})
+            ListHeader(header = "Crew")
 
-            CrewList(crews = movie.crews.subList(0, MAX_LIST_ITEMS))
+            CrewList(crews = movie.crews)
 
-            ListHeader(header = "Videos", {})
+            ListHeader(header = "Videos")
 
-            VideoList(videos = movie.videos.subList(0, MAX_LIST_ITEMS), {})
+            VideoList(videos = movie.videos, {})
 
-            ListHeader(header = "Posters", {})
+            ListHeader(header = "Posters")
 
-            PosterList(posters = movie.posters.subList(0, MAX_LIST_ITEMS))
+            PosterList(posters = movie.posters)
 
-            ListHeader(header = "Backdrops", {})
+            ListHeader(header = "Backdrops")
 
-            BackdropList(backdrops = movie.backdrops.subList(0, MAX_LIST_ITEMS))
+            BackdropList(backdrops = movie.backdrops)
 
             if (movie.recommendations.isNotEmpty())
             {
-                ListHeader(header = "Recommendations", {})
+                ListHeader(header = "Recommendations")
 
-                RecommendationList(recommendations = movie.recommendations.subList(0, MAX_LIST_ITEMS))
+                RecommendationList(recommendations = movie.recommendations)
             }
         }
     }
@@ -218,24 +217,12 @@ fun DetailsHeader(header: String)
 }
 
 @Composable
-fun ListHeader(header: String, onSeeAllClick: () -> Unit)
+fun ListHeader(header: String)
 {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(16.dp)
-    ) {
-        Text(
-            text = header,
-            style = MaterialTheme.typography.headlineSmall,
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        TextButton(
-            onClick = onSeeAllClick,
-        )
-        {
-            Text(text = "See All")
-        }
-    }
+    Text(
+        text = header,
+        style = MaterialTheme.typography.headlineSmall,
+    )
 }
 
 @Composable
