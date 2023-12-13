@@ -4,33 +4,36 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
+const val LANGUAGE = "language"
+const val ENGLISH = "en"
+
 interface TMDBApiService
 {
     @GET("configuration")
     suspend fun getConfiguration(): NetworkConfigurationResponse
 
-    @GET("trending/movie/day")
+    @GET("trending/movie/day?$LANGUAGE=$ENGLISH")
     suspend fun getTodayTrendingMovies(): NetworkResponse<List<NetworkTrendingMovie>>
 
-    @GET("trending/movie/week")
+    @GET("trending/movie/week?$LANGUAGE=$ENGLISH")
     suspend fun getThisWeekTrendingMovies(): NetworkResponse<List<NetworkTrendingMovie>>
 
-    @GET("trending/tv/day")
+    @GET("trending/tv/day?$LANGUAGE=$ENGLISH")
     suspend fun getTodayTrendingSeries(): NetworkResponse<List<NetworkTrendingSeries>>
 
-    @GET("trending/tv/week")
+    @GET("trending/tv/week?$LANGUAGE=$ENGLISH")
     suspend fun getThisWeekTrendingSeries(): NetworkResponse<List<NetworkTrendingSeries>>
 
-    @GET("movie/popular")
+    @GET("movie/popular?$LANGUAGE=$ENGLISH")
     suspend fun getPopularMovies(): NetworkResponse<List<NetworkPopularMovie>>
 
-    @GET("tv/popular")
+    @GET("tv/popular?$LANGUAGE=$ENGLISH")
     suspend fun getPopularSeries(): NetworkResponse<List<NetworkPopularSerial>>
 
-    @GET("movie/{id}?append_to_response=credits,videos,images,recommendations")
+    @GET("movie/{id}?append_to_response=credits,videos,images,recommendations&$LANGUAGE=$ENGLISH")
     suspend fun getMovieDetails(@Path("id") id : Int): NetworkMovieDetails
 
-    @GET("movie/{id}/videos")
+    @GET("movie/{id}/videos?$LANGUAGE=$ENGLISH")
     suspend fun getMovieVideos(@Path("id") id: Int): NetworkVideoResponse
 
     @GET("movie/top_rated?language=en-US")
