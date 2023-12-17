@@ -48,6 +48,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
@@ -66,6 +68,7 @@ import dev.aliakbar.tmdbunofficial.data.Video
 import dev.aliakbar.tmdbunofficial.data.source.sample.movie
 import dev.aliakbar.tmdbunofficial.ui.components.CastItem
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
+import dev.aliakbar.tmdbunofficial.ui.home.YoutubeVideoPlayer
 
 const val OVERVIEW_PREVIEW_MAX_LINE = 3
 
@@ -97,6 +100,8 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
 {
     val scrollState = rememberScrollState()
     var showDetails by remember { mutableStateOf(false) }
+    var showPosterFullscreen by remember { mutableStateOf(false) }
+    var selectedImagePath by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = { TopBar(title = movie.title, onBookmarkClick) }
@@ -191,11 +196,19 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
 
             ListHeader(header = "Posters")
 
-            PosterList(posters = movie.posters)
+            PosterList(posters = movie.posters,
+                {
+                    selectedImagePath = it.filePath
+                    showPosterFullscreen = true
+                })
 
             ListHeader(header = "Backdrops")
 
-            BackdropList(backdrops = movie.backdrops)
+            BackdropList(backdrops = movie.backdrops,
+                {
+                    selectedImagePath = it.filePath
+                    showPosterFullscreen = true
+                })
 
             if (movie.recommendations.isNotEmpty())
             {
@@ -203,6 +216,15 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
 
                 RecommendationList(recommendations = movie.recommendations)
             }
+
+        }
+    }
+
+    if (showPosterFullscreen)
+    {
+        ShowPosterInFullscreenDialog(posterUrl = selectedImagePath)
+        {
+            showPosterFullscreen = false
         }
     }
 }
@@ -364,7 +386,7 @@ fun YoutubeVideoPlayerItem(
 }
 
 @Composable
-fun PosterList(posters: List<Image>, modifier: Modifier = Modifier)
+fun PosterList(posters: List<Image>, onPosterClick: (Image) -> Unit, modifier: Modifier = Modifier)
 {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -373,18 +395,19 @@ fun PosterList(posters: List<Image>, modifier: Modifier = Modifier)
     {
         items(items = posters)
         { poster ->
-            PosterItem(poster = poster)
+            PosterItem(poster = poster, onPosterClick)
         }
     }
 }
 
 @Composable
-fun PosterItem(poster: Image)
+fun PosterItem(poster: Image, onPosterClick: (Image) -> Unit)
 {
     Card(
         modifier = Modifier
             .width(200.dp)
-            .height(300.dp)
+            .height(300.dp),
+        onClick = { onPosterClick(poster) }
     )
     {
         AsyncImage(
@@ -399,7 +422,7 @@ fun PosterItem(poster: Image)
 }
 
 @Composable
-fun BackdropList(backdrops: List<Image>, modifier: Modifier = Modifier)
+fun BackdropList(backdrops: List<Image>,onPosterClick: (Image) -> Unit, modifier: Modifier = Modifier)
 {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -408,15 +431,18 @@ fun BackdropList(backdrops: List<Image>, modifier: Modifier = Modifier)
     {
         items(items = backdrops)
         { backdrop ->
-            BackdropItem(backdrop = backdrop)
+            BackdropItem(backdrop = backdrop, onPosterClick)
         }
     }
 }
 
 @Composable
-fun BackdropItem(backdrop: Image)
+fun BackdropItem(backdrop: Image,onPosterClick: (Image) -> Unit)
 {
-    Card(modifier = Modifier.size(width = 300.dp, height = 170.dp))
+    Card(
+        modifier = Modifier.size(width = 300.dp, height = 170.dp),
+        onClick = { onPosterClick(backdrop) }
+    )
     {
         AsyncImage(
             model = ImageRequest
@@ -506,6 +532,30 @@ fun TopBar(title: String, onBookmarkClick: () -> Unit)
             }
         },
     )
+}
+
+@Composable
+fun ShowPosterInFullscreenDialog(
+    posterUrl: String,
+    modifier: Modifier = Modifier,
+    onDismissRequest: () -> Unit
+)
+{
+    Dialog(
+        properties = DialogProperties(usePlatformDefaultWidth = false),
+        onDismissRequest = { onDismissRequest() })
+    {
+        AsyncImage(
+            model = ImageRequest
+                .Builder(context = LocalContext.current)
+                .data(posterUrl)
+                .build(),
+            placeholder = painterResource(id = R.drawable.poster_test),
+            contentScale = ContentScale.Fit,
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize()
+        )
+    }
 }
 
 @Preview
