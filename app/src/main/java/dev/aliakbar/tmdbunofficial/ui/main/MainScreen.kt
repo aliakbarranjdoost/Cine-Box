@@ -102,8 +102,11 @@ fun TmdbApp(
                 Text(text = stringResource(id = TmdbScreen.Setting.title))
             }
             composable(
-                route = TmdbScreen.MovieDetails.name + "/{id}",
-                arguments = listOf(navArgument("id") { type = NavType.IntType})
+                route = TmdbScreen.MovieDetails.name + "/{id}" + "/{type}",
+                arguments = listOf(
+                    navArgument("id") { type = NavType.IntType },
+                    navArgument("type") { type = NavType.BoolType }
+                )
                 )
             { backStackEntry ->
                 DetailsScreen()

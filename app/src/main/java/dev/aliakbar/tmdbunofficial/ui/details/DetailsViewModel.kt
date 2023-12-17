@@ -40,10 +40,18 @@ class DetailsViewModel(
     )
 
     private val id: Int = savedStateHandle["id"] ?: 0
+    private val type: Boolean = savedStateHandle["type"] ?: true
 
     init
     {
-        getMovieDetails(id)
+        if (type)
+        {
+            getMovieDetails(id)
+        }
+        else
+        {
+            getTvDetails(id)
+        }
     }
 
     fun getMovieDetails(id: Int)
@@ -52,7 +60,6 @@ class DetailsViewModel(
         {
             detailsUiState = try
             {
-                Log.d(TAG, repository.getMovieDetails(id).casts[0].profilePath!!)
                 DetailsUiState.Success(repository.getMovieDetails(id))
             }
             catch (e: IOException)
@@ -64,6 +71,11 @@ class DetailsViewModel(
                 DetailsUiState.Error
             }
         }
+    }
+
+    fun getTvDetails(id: Int)
+    {
+
     }
 
     fun addMovieToBookmark(trend: Trend)
