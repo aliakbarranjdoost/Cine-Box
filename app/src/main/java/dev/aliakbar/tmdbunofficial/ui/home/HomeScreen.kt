@@ -313,7 +313,7 @@ fun TrendList(
         { trend ->
             TrendItem(trend = trend, onNavigateToDetails =
             {
-                navController.navigate(TmdbScreen.MovieDetails.name + "/" + trend.id.toString() + "/false")
+                navController.navigate(TmdbScreen.MovieDetails.name + "/" + trend.id.toString() + "/true")
             },
             onBookmarkClick =
             { viewModel.addToBookmark(trend) })
