@@ -8,6 +8,8 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -61,6 +63,7 @@ import dev.aliakbar.tmdbunofficial.data.Crew
 import dev.aliakbar.tmdbunofficial.data.Genre
 import dev.aliakbar.tmdbunofficial.data.Image
 import dev.aliakbar.tmdbunofficial.data.Movie
+import dev.aliakbar.tmdbunofficial.data.Season
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.TvDetails
 import dev.aliakbar.tmdbunofficial.data.Video
@@ -317,6 +320,10 @@ fun TvDetails(tv: TvDetails, onBookmarkClick: () -> Unit)
                     }
                 }
             }
+
+            ListHeader(header = "Seasons")
+
+            SeasonList(seasons = tv.seasons, onClick = {})
 
             ListHeader(header = "Cast")
 
@@ -695,6 +702,55 @@ fun ShowPosterInFullscreenDialog(
     }
 }
 
+@Composable
+fun SeasonList(seasons: List<Season>, onClick: (Int) -> Unit, modifier: Modifier = Modifier)
+{
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+    )
+    {
+        items(items = seasons)
+        { season ->
+            SeasonItem( season, onClick)
+        }
+    }
+}
+
+@Composable
+fun SeasonItem(season: Season, onClick: (Int) -> Unit)
+{
+    Card(
+        modifier = Modifier
+            .width(200.dp)
+            .height(400.dp),
+        onClick = { onClick(season.id) }
+    )
+    {
+        Column {
+            AsyncImage(
+                model = ImageRequest
+                    .Builder(context = LocalContext.current)
+                    .data(season.posterPath)
+                    .build(),
+                placeholder = painterResource(id = R.drawable.poster_test),
+                contentScale = ContentScale.FillBounds,
+                contentDescription = null,
+                modifier = Modifier
+                    .width(200.dp)
+                    .height(300.dp)
+            )
+
+            Text(text = season.name)
+
+            Row {
+                Text(text = season.airDate)
+                Spacer(modifier = Modifier.weight(1f))
+                Text(text = season.episodeCount.toString())
+            }
+        }
+    }
+}
 @Preview
 @Composable
 fun MovieDetailsPreview()
