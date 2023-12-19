@@ -19,10 +19,19 @@ class DetailsRepository(
             baseLogoUrl = createBaseLogoUrl(),
             baseProfileUrl = createBaseProfileUrl(),
             false
-
         )
     }
 
+    suspend fun getTvDetails(id: Int): TvDetails
+    {
+        return networkDataSource.getTvDetails(id).toExternal(
+            basePosterUrl = createBasePosterUrl(),
+            baseBackdropUrl = createBaseBackdropUrl(),
+            baseLogoUrl = createBaseLogoUrl(),
+            baseProfileUrl = createBaseProfileUrl(),
+            false
+        )
+    }
 
     suspend fun addMovieToBookmark(bookmark: Bookmark)
     {

@@ -17,8 +17,10 @@ import dev.aliakbar.tmdbunofficial.data.source.network.NetworkMovieDetails
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkMultiSearchResult
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularMovie
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularSerial
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkSeason
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingMovie
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingSeries
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTvDetails
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkVideo
 
 fun NetworkImageConfiguration.toExternal() = ImageConfiguration(
@@ -499,3 +501,59 @@ fun List<NetworkMultiSearchResult>.toExternal(
     baseBackdropUrl: String,
     baseProfileUrl: String
 ) = map { it.toExternal(basePosterUrl, baseBackdropUrl, baseProfileUrl) }
+
+fun NetworkTvDetails.toExternal(
+    basePosterUrl: String,
+    baseBackdropUrl: String,
+    baseLogoUrl: String,
+    baseProfileUrl: String,
+    isBookmark: Boolean
+) = TvDetails(
+    id = id,
+    name = name,
+    originalName = originalName,
+    tagline = tagline,
+    overview = overview,
+    originalLanguage = originalLanguage,
+    adult = adult,
+    popularity = popularity,
+    voteAverage = voteAverage,
+    voteCount = voteCount,
+    homepage = homepage,
+    status = status,
+    backdropPath = baseBackdropUrl + backdropPath,
+    posterPath = basePosterUrl + posterPath,
+    productionCountries = productionCountries.toExternal(),
+    genres = genres.toExternal(),
+    spokenLanguages = spokenLanguages.toExternal(),
+    productionCompanies = productionCompanies.toExternal(),
+    casts = credits.cast.toExternal(baseProfileUrl),
+    crews = credits.crew.toExternal(baseProfileUrl),
+    videos = videos.results.toExternal(),
+    posters = images.posters.toExternal(basePosterUrl),
+    backdrops = images.backdrops.toExternal(baseBackdropUrl),
+    logos = images.logos.toExternal(baseLogoUrl),
+    recommendations = recommendations.results.toExternal(
+        basePosterUrl, baseBackdropUrl, isBookmark
+    ),
+    createdBy = createdBy,
+    firstAirDate = firstAirDate,
+    isInProduction = isInProduction,
+    languages = languages,
+    lastAirDate = lastAirDate,
+    lastEpisodeToAir = lastEpisodeToAir,
+    networks = networks,
+    nextEpisodeToAir = nextEpisodeToAir,
+    numberOfEpisodes = numberOfEpisodes,
+    numberOfSeasons = numberOfSeasons,
+    originCountry = originCountry,
+    seasons = seasons.toExternal(basePosterUrl),
+    type = type
+)
+
+fun NetworkSeason.toExternal(basePosterUrl: String) = Season(
+    id, name, overview, episodeCount, airDate, seasonNumber, voteAverage, basePosterUrl + posterPath
+)
+
+@JvmName("NetworkSeasonToExternal")
+fun List<NetworkSeason>.toExternal(basePosterUrl: String) = map { it.toExternal(basePosterUrl) }

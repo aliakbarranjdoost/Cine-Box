@@ -51,7 +51,7 @@ data class NetworkTvDetails(
     @SerialName("in_production")
     val isInProduction: Boolean,
     @SerialName("spoken_languages")
-    val spokenLLanguages: List<NetworkLanguage>,
+    val spokenLanguages: List<NetworkLanguage>,
     val status: String,
     val languages: List<String>,
     val type: String,
