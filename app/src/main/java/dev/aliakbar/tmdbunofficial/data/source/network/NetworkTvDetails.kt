@@ -17,7 +17,7 @@ data class NetworkTvDetails(
     @SerialName("last_air_date")
     val lastAirDate: String,
     @SerialName("next_episode_to_air")
-    val nextEpisodeToAir: NetworkEpisode,
+    val nextEpisodeToAir: NetworkEpisode?,
     @SerialName("last_episode_to_air")
     val lastEpisodeToAir: NetworkEpisode,
     val networks: List<NetworkCompany>,

@@ -12,7 +12,7 @@ data class TvDetails(
     //episode_run_ti
     val firstAirDate: String,
     val lastAirDate: String,
-    val nextEpisodeToAir: NetworkEpisode,
+    val nextEpisodeToAir: NetworkEpisode?,
     val lastEpisodeToAir: NetworkEpisode,
     val networks: List<NetworkCompany>,
     val numberOfEpisodes: Int,
