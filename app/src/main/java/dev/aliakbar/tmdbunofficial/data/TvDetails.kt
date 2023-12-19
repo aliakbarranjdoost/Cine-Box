@@ -1,17 +1,8 @@
 package dev.aliakbar.tmdbunofficial.data
 
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCompany
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCountry
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCredit
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkEpisode
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkGenre
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImageResponse
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkLanguage
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPerson
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkResponse
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkSeason
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingMovie
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkVideoResponse
 
 data class TvDetails(
     val id: Int,
@@ -21,7 +12,7 @@ data class TvDetails(
     //episode_run_ti
     val firstAirDate: String,
     val lastAirDate: String,
-    val nextEpisodeToAir: String?,
+    val nextEpisodeToAir: NetworkEpisode,
     val lastEpisodeToAir: NetworkEpisode,
     val networks: List<NetworkCompany>,
     val numberOfEpisodes: Int,

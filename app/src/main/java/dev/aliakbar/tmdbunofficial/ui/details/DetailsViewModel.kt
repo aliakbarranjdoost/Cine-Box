@@ -16,6 +16,7 @@ import dev.aliakbar.tmdbunofficial.data.Bookmark
 import dev.aliakbar.tmdbunofficial.data.DetailsRepository
 import dev.aliakbar.tmdbunofficial.data.Movie
 import dev.aliakbar.tmdbunofficial.data.Trend
+import dev.aliakbar.tmdbunofficial.data.TvDetails
 import dev.aliakbar.tmdbunofficial.data.toBookmark
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -23,7 +24,8 @@ import java.io.IOException
 
 sealed interface DetailsUiState
 {
-    data class Success(val movie: Movie) : DetailsUiState
+    data class SuccessMovie(val movie: Movie) : DetailsUiState
+    data class SuccessTv(val tv: TvDetails) : DetailsUiState
     data object Error : DetailsUiState
     data object Loading : DetailsUiState
 }
@@ -60,7 +62,7 @@ class DetailsViewModel(
         {
             detailsUiState = try
             {
-                DetailsUiState.Success(repository.getMovieDetails(id))
+                DetailsUiState.SuccessMovie(repository.getMovieDetails(id))
             }
             catch (e: IOException)
             {
@@ -75,7 +77,23 @@ class DetailsViewModel(
 
     fun getTvDetails(id: Int)
     {
-
+        viewModelScope.launch()
+        {
+            detailsUiState = try
+            {
+                val tvDetails = repository.getTvDetails(id)
+                Log.d(TAG, "getTvDetails: $tvDetails")
+                DetailsUiState.SuccessTv(tvDetails)
+            }
+            catch (e: IOException)
+            {
+                DetailsUiState.Error
+            }
+            catch (e: HttpException)
+            {
+                DetailsUiState.Error
+            }
+        }
     }
 
     fun addMovieToBookmark(trend: Trend)

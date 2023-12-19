@@ -82,7 +82,7 @@ fun DetailsScreen(
     when (uiState)
     {
         is DetailsUiState.Loading -> Text(text = "Loading")
-        is DetailsUiState.Success -> MovieDetails(movie = uiState.movie,
+        is DetailsUiState.SuccessMovie -> MovieDetails(movie = uiState.movie,
             onBookmarkClick =
             {
                 /*viewModel.addMovieToBookmark(
@@ -90,7 +90,7 @@ fun DetailsScreen(
                 )*/
             }
         )
-
+        is DetailsUiState.SuccessTv -> Text(text = "TV") // TODO:
         is DetailsUiState.Error   -> Text(text = "Error")
     }
 }

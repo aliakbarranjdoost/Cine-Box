@@ -157,13 +157,19 @@ fun HomeScreen(
                     {
                         0 -> TrendList(
                             trends = homeUiState.todayTrendMovies,
-                            navController = navController,
+                            onNavigateToDetails =
+                            {
+                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/true")
+                            },
                             viewModel = viewModel
                         )
 
                         1 -> TrendList(
                             trends = homeUiState.thisWeekTrendMovies,
-                            navController = navController,
+                            onNavigateToDetails =
+                            {
+                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/true")
+                            },
                             viewModel = viewModel
                         )
                     }
@@ -217,13 +223,19 @@ fun HomeScreen(
                     {
                         0 -> TrendList(
                             trends = homeUiState.todayTrendSeries,
-                            navController = navController,
+                            onNavigateToDetails =
+                            {
+                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/false")
+                            },
                             viewModel = viewModel
                         )
 
                         1 -> TrendList(
                             trends = homeUiState.thisWeekTrendSeries,
-                            navController = navController,
+                            onNavigateToDetails =
+                            {
+                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/false")
+                            },
                             viewModel = viewModel
                         )
                     }
@@ -277,13 +289,19 @@ fun HomeScreen(
                     {
                         0 -> TrendList(
                             trends = homeUiState.popularMovies,
-                            navController = navController,
+                            onNavigateToDetails =
+                            {
+                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/true")
+                            },
                             viewModel = viewModel
                         )
 
                         1 -> TrendList(
                             trends = homeUiState.popularSeries,
-                            navController = navController,
+                            onNavigateToDetails =
+                            {
+                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/false")
+                            },
                             viewModel = viewModel
                         )
                     }
@@ -300,7 +318,7 @@ fun HomeScreen(
 @Composable
 fun TrendList(
     trends: List<Trend>,
-    navController: NavHostController,
+    onNavigateToDetails: (Trend) -> Unit,
     viewModel: HomeViewModel,
     modifier: Modifier = Modifier)
 {
@@ -311,26 +329,22 @@ fun TrendList(
     {
         items(items = trends, key = { trend -> trend.id })
         { trend ->
-            TrendItem(trend = trend, onNavigateToDetails =
-            {
-                navController.navigate(TmdbScreen.MovieDetails.name + "/" + trend.id.toString() + "/true")
-            },
+            TrendItem(trend = trend, onNavigateToDetails = onNavigateToDetails,
             onBookmarkClick =
             { viewModel.addToBookmark(trend) })
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrendItem(
     trend: Trend,
-    onNavigateToDetails: () -> Unit,
+    onNavigateToDetails: (Trend) -> Unit,
     onBookmarkClick: () -> Unit ,
     )
 {
     Card(
-        onClick = onNavigateToDetails
+        onClick = { onNavigateToDetails(trend) }
     )
     {
         Column()

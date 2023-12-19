@@ -17,7 +17,7 @@ data class NetworkTvDetails(
     @SerialName("last_air_date")
     val lastAirDate: String,
     @SerialName("next_episode_to_air")
-    val nextEpisodeToAir: String?,
+    val nextEpisodeToAir: NetworkEpisode,
     @SerialName("last_episode_to_air")
     val lastEpisodeToAir: NetworkEpisode,
     val networks: List<NetworkCompany>,
@@ -58,5 +58,5 @@ data class NetworkTvDetails(
     val credits: NetworkCredit,
     val videos: NetworkVideoResponse,
     val images: NetworkImageResponse,
-    val recommendations: NetworkResponse<List<NetworkTrendingMovie>>
+    val recommendations: NetworkResponse<List<NetworkTrendingSeries>>
 )

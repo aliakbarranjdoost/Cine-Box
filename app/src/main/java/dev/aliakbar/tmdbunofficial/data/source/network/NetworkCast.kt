@@ -17,7 +17,7 @@ data class NetworkCast(
     @SerialName("profile_path")
     val profilePath: String? = null,
     @SerialName("cast_id")
-    val castId: Int,
+    val castId: Int? = null,
     val character: String,
     @SerialName("credit_id")
     val creditId: String,
