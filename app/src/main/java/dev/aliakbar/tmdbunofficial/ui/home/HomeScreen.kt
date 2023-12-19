@@ -375,7 +375,10 @@ fun Slider(trailers: List<Trailer>, navController: NavHostController)
             trailer = trailers[page],
             onNavigateToDetails =
             {
-                navController.navigate(TmdbScreen.MovieDetails.name + "/" + trailers[page].trend.id.toString())
+                if (trailers[page].trend.type == "movie")
+                    navController.navigate(TmdbScreen.MovieDetails.name + "/" + trailers[page].trend.id.toString() + "/true")
+                else
+                    navController.navigate(TmdbScreen.MovieDetails.name + "/" + trailers[page].trend.id.toString() + "/false")
             })
     }
 }
