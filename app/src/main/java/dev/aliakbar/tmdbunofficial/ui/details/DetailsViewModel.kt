@@ -1,6 +1,5 @@
 package dev.aliakbar.tmdbunofficial.ui.details
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,7 +11,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
-import dev.aliakbar.tmdbunofficial.data.Bookmark
 import dev.aliakbar.tmdbunofficial.data.DetailsRepository
 import dev.aliakbar.tmdbunofficial.data.Movie
 import dev.aliakbar.tmdbunofficial.data.Trend
@@ -81,9 +79,7 @@ class DetailsViewModel(
         {
             detailsUiState = try
             {
-                val tvDetails = repository.getTvDetails(id)
-                Log.d(TAG, "getTvDetails: $tvDetails")
-                DetailsUiState.SuccessTv(tvDetails)
+                DetailsUiState.SuccessTv(repository.getTvDetails(id))
             }
             catch (e: IOException)
             {

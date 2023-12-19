@@ -8,8 +8,6 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -64,11 +62,11 @@ import dev.aliakbar.tmdbunofficial.data.Genre
 import dev.aliakbar.tmdbunofficial.data.Image
 import dev.aliakbar.tmdbunofficial.data.Movie
 import dev.aliakbar.tmdbunofficial.data.Trend
+import dev.aliakbar.tmdbunofficial.data.TvDetails
 import dev.aliakbar.tmdbunofficial.data.Video
 import dev.aliakbar.tmdbunofficial.data.source.sample.movie
 import dev.aliakbar.tmdbunofficial.ui.components.CastItem
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
-import dev.aliakbar.tmdbunofficial.ui.home.YoutubeVideoPlayer
 
 const val OVERVIEW_PREVIEW_MAX_LINE = 3
 
@@ -90,7 +88,7 @@ fun DetailsScreen(
                 )*/
             }
         )
-        is DetailsUiState.SuccessTv -> Text(text = "TV") // TODO:
+        is DetailsUiState.SuccessTv -> TvDetails(tv = uiState.tv) {}
         is DetailsUiState.Error   -> Text(text = "Error")
     }
 }
@@ -228,6 +226,145 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
         }
     }
 }
+
+@Composable
+fun TvDetails(tv: TvDetails, onBookmarkClick: () -> Unit)
+{
+    val scrollState = rememberScrollState()
+    var showDetails by remember { mutableStateOf(false) }
+    var showPosterFullscreen by remember { mutableStateOf(false) }
+    var selectedImagePath by remember { mutableStateOf("") }
+
+    Scaffold(
+        topBar = { TopBar(title = tv.name, onBookmarkClick) }
+    )
+    { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .verticalScroll(scrollState)
+        )
+        {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+            )
+            {
+                AsyncImage(
+                    model = ImageRequest
+                        .Builder(context = LocalContext.current)
+                        .data(tv.backdropPath)
+                        .build(),
+                    placeholder = painterResource(id = R.drawable.backdrop_test),
+                    contentDescription = null,
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(230.dp)
+                        .align(Alignment.Center)
+                )
+                ScoreBar(
+                    score = tv.voteAverage,
+                    modifier = Modifier.align(Alignment.BottomStart)
+                )
+            }
+
+            if (!showDetails)
+            {
+                Text(
+                    text = tv.overview,
+                    maxLines = OVERVIEW_PREVIEW_MAX_LINE,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
+                )
+
+                TextButton(
+                    onClick = { showDetails = true },
+                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
+                )
+                {
+                    Text(text = "More Details")
+                }
+            }
+            else
+            {
+                Column(modifier = Modifier.padding(16.dp))
+                {
+                    Text(text = tv.overview)
+                    DetailsHeader(header = "Genres")
+                    GenreList(genres = tv.genres)
+                    DetailsHeader(header = "Original Language")
+                    Text(text = tv.originalLanguage)
+                    DetailsHeader(header = "Release Date")
+                    Text(text = tv.firstAirDate)
+                    DetailsHeader(header = "Home Page")
+                    Text(text = tv.homepage)
+                    DetailsHeader(header = "Seasons")
+                    Text(text = tv.numberOfSeasons.toString())
+                    DetailsHeader(header = "Episodes")
+                    Text(text = tv.numberOfEpisodes.toString())
+                    DetailsHeader(header = "Status")
+                    Text(text = tv.status)
+                    DetailsHeader(header = "Type")
+                    Text(text = tv.type)
+                    TextButton(
+                        onClick = { showDetails = false },
+                        modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
+                    )
+                    {
+                        Text(text = "less Details")
+                    }
+                }
+            }
+
+            ListHeader(header = "Cast")
+
+            CastList(casts = tv.casts)
+
+            ListHeader(header = "Crew")
+
+            CrewList(crews = tv.crews)
+
+            ListHeader(header = "Videos")
+
+            VideoList(videos = tv.videos, {})
+
+            ListHeader(header = "Posters")
+
+            PosterList(posters = tv.posters,
+                {
+                    selectedImagePath = it.filePath
+                    showPosterFullscreen = true
+                })
+
+            ListHeader(header = "Backdrops")
+
+            BackdropList(backdrops = tv.backdrops,
+                {
+                    selectedImagePath = it.filePath
+                    showPosterFullscreen = true
+                })
+
+            if (tv.recommendations.isNotEmpty())
+            {
+                ListHeader(header = "Recommendations")
+
+                RecommendationList(recommendations = tv.recommendations)
+            }
+
+        }
+    }
+
+    if (showPosterFullscreen)
+    {
+        ShowPosterInFullscreenDialog(posterUrl = selectedImagePath)
+        {
+            showPosterFullscreen = false
+        }
+    }
+}
+
 
 @Composable
 fun DetailsHeader(header: String)
