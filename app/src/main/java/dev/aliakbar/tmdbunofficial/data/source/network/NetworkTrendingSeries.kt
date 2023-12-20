@@ -13,7 +13,7 @@ data class NetworkTrendingSeries(
     @SerialName("original_language")
     val originalLanguage: String,
     @SerialName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
     @SerialName("poster_path")
     val posterPath: String,
     @SerialName("media_type")

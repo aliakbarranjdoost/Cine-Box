@@ -11,11 +11,11 @@ data class NetworkSeason(
     @SerialName("episode_count")
     val episodeCount: Int,
     @SerialName("air_date")
-    val airDate: String,
+    val airDate: String?,
     @SerialName("season_number")
     val seasonNumber: Int,
     @SerialName("vote_average")
     val voteAverage: Float,
     @SerialName("poster_path")
-    val posterPath: String
+    val posterPath: String?
 )

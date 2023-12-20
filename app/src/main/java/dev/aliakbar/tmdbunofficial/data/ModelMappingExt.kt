@@ -552,7 +552,7 @@ fun NetworkTvDetails.toExternal(
 )
 
 fun NetworkSeason.toExternal(basePosterUrl: String) = Season(
-    id, name, overview, episodeCount, airDate, seasonNumber, voteAverage, basePosterUrl + posterPath
+    id, name, overview, episodeCount, airDate ?: "UnKnown", seasonNumber, voteAverage, basePosterUrl + posterPath
 )
 
 @JvmName("NetworkSeasonToExternal")
