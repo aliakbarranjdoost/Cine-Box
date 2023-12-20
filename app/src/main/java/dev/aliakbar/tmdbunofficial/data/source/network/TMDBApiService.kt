@@ -36,6 +36,9 @@ interface TMDBApiService
     @GET("tv/{id}?append_to_response=credits,videos,images,recommendations&$LANGUAGE=$ENGLISH")
     suspend fun getTvDetails(@Path("id") id : Int): NetworkTvDetails
 
+    @GET("tv/{id}/season/{seasonNumber}?$LANGUAGE=$ENGLISH")
+    suspend fun getSeasonDetails(@Path("id") id : Int, @Path("seasonNumber") seasonNumber : Int): NetworkSeasonDetails
+
     @GET("movie/{id}/videos?$LANGUAGE=$ENGLISH")
     suspend fun getMovieVideos(@Path("id") id: Int): NetworkVideoResponse
 

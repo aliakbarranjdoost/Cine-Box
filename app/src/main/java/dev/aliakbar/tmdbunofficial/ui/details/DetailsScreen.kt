@@ -237,6 +237,10 @@ fun TvDetails(tv: TvDetails, onBookmarkClick: () -> Unit)
     var showDetails by remember { mutableStateOf(false) }
     var showPosterFullscreen by remember { mutableStateOf(false) }
     var selectedImagePath by remember { mutableStateOf("") }
+    var showSeasonDetails by remember { mutableStateOf(false) }
+    //var selectedSeasonId by remember {
+    //    mutableStateOf()
+    //}
 
     Scaffold(
         topBar = { TopBar(title = tv.name, onBookmarkClick) }
