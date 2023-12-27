@@ -158,7 +158,7 @@ val bookmark = Bookmark(
     title = "The Lord of the Rings: The Two Towers",
     score = 8.384F,
     poster = "/5VTN0pR8gcqV3EPUHHfMGnJYN9L.jpg",
-    backdrop = "/bccR2CGTWVVSZAG0yqmy3DIvhTX.jpg",
+    backdropUrl = "/bccR2CGTWVVSZAG0yqmy3DIvhTX.jpg",
     type = "tv"
 )
 

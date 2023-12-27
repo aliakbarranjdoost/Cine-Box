@@ -438,7 +438,7 @@ fun LocalBookmark.toExternal() = Bookmark(
     title = title,
     score = score,
     poster = poster,
-    backdrop = backdrop,
+    backdropUrl = backdrop,
     type = type
 )
 
@@ -453,7 +453,7 @@ fun Bookmark.toLocal() = LocalBookmark(
     title = title,
     score = score,
     poster = poster,
-    backdrop = backdrop,
+    backdrop = backdropUrl,
     type = type
 )
 
@@ -462,7 +462,7 @@ fun Trend.toBookmark() = Bookmark(
     title = title,
     score = score,
     poster = poster,
-    backdrop = backdrop,
+    backdropUrl = backdrop,
     type = type
 )
 

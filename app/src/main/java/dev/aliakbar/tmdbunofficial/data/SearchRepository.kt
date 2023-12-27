@@ -14,9 +14,9 @@ class SearchRepository(
     suspend fun search(query: String, page: Int = 1): List<SearchResult>
     {
         return networkDataSource.multiSearch(query, page).results.toExternal(
-            createBasePosterUrl(),
-            createBaseBackdropUrl(),
-            createBaseProfileUrl()
+            basePosterUrl,
+            baseBackdropUrl,
+            baseProfileUrl
         )
     }
 }

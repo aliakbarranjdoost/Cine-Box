@@ -22,8 +22,8 @@ class TopRepository(
             TopMoviesPagingSource(
                 networkDataSource,
                 localDataSource,
-                createBasePosterUrl(),
-                createBaseBackdropUrl()
+                basePosterUrl,
+                baseBackdropUrl
             )
         }
     ).flow
@@ -36,8 +36,8 @@ class TopRepository(
             TopSeriesPagingSource(
                 networkDataSource,
                 localDataSource,
-                createBasePosterUrl(),
-                createBaseBackdropUrl()
+                basePosterUrl,
+                baseBackdropUrl
             )
         }
     ).flow
