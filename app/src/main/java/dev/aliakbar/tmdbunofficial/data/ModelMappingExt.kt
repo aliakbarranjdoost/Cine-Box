@@ -291,7 +291,7 @@ fun NetworkMovieDetails.toExternal(
     collection = collection?.toExternal(),
     genres = genres.toExternal(),
     spokenLanguages = spokenLanguages.toExternal(),
-    productionCompanies = productionCompanies.toExternal(),
+    productionCompanies = productionCompanies.toExternal(baseLogoUrl),
     casts = credits.cast.toExternal(baseProfileUrl),
     crews = credits.crew.toExternal(baseProfileUrl),
     videos = videos.results.toExternal(),
@@ -314,17 +314,17 @@ fun List<NetworkGenre>.toExternal() = map()
     networkGenre.toExternal()
 }
 
-fun NetworkCompany.toExternal() = Company(
+fun NetworkCompany.toExternal(baseLogoUrl: String) = Company(
     id = id,
-    logoPath = logoPath,
+    logoUrl = baseLogoUrl + logoPath,
     name = name,
     originCountry = originCountry
 )
 
 @JvmName("NetworkCompanyToExternal")
-fun List<NetworkCompany>.toExternal() = map()
+fun List<NetworkCompany>.toExternal(baseLogoUrl: String) = map()
 { networkCompany ->
-    networkCompany.toExternal()
+    networkCompany.toExternal(baseLogoUrl)
 }
 
 fun NetworkCollection.toExternal() = Collection(
@@ -468,7 +468,6 @@ fun Trend.toBookmark() = Bookmark(
 
 fun NetworkMultiSearchResult.toExternal(
     basePosterUrl: String,
-    baseBackdropUrl: String,
     baseProfileUrl: String
 ) = when (val mediaType = MediaType.valueOf(mediaType.uppercase()))
 {
@@ -490,7 +489,7 @@ fun NetworkMultiSearchResult.toExternal(
 
     MediaType.PERSON -> SearchResult(
         title = name!!,
-        posterUrl = if (profilePath != null) baseProfileUrl + profilePath!! else "",
+        posterUrl = if (profilePath != null) baseProfileUrl + profilePath else "",
         mediaType = mediaType,
         releaseDate = null,
         knownForDepartment = knownForDepartment
@@ -500,9 +499,8 @@ fun NetworkMultiSearchResult.toExternal(
 @JvmName("NetworkMultiSearchResultToExternal")
 fun List<NetworkMultiSearchResult>.toExternal(
     basePosterUrl: String,
-    baseBackdropUrl: String,
     baseProfileUrl: String
-) = map { it.toExternal(basePosterUrl, baseBackdropUrl, baseProfileUrl) }
+) = map { it.toExternal(basePosterUrl, baseProfileUrl) }
 
 fun NetworkTvDetails.toExternal(
     basePosterUrl: String,
@@ -528,7 +526,7 @@ fun NetworkTvDetails.toExternal(
     productionCountries = productionCountries.toExternal(),
     genres = genres.toExternal(),
     spokenLanguages = spokenLanguages.toExternal(),
-    productionCompanies = productionCompanies.toExternal(),
+    productionCompanies = productionCompanies.toExternal(baseLogoUrl),
     casts = credits.cast.toExternal(baseProfileUrl),
     crews = credits.crew.toExternal(baseProfileUrl),
     videos = videos.results.toExternal(),
@@ -544,7 +542,7 @@ fun NetworkTvDetails.toExternal(
     languages = languages,
     lastAirDate = lastAirDate,
     lastEpisodeToAir = lastEpisodeToAir,
-    networks = networks,
+    networks = networks.toExternal(baseLogoUrl),
     nextEpisodeToAir = nextEpisodeToAir,
     numberOfEpisodes = numberOfEpisodes,
     numberOfSeasons = numberOfSeasons,

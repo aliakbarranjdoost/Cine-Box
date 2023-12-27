@@ -1,10 +1,8 @@
 package dev.aliakbar.tmdbunofficial.data
 
-import android.util.Log
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalTrend
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
-import dev.aliakbar.tmdbunofficial.data.source.sample.backdrop
 
 private var TAG = HomeRepository::class.java.simpleName
 

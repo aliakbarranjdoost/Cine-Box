@@ -13,7 +13,7 @@ data class Tv(
     val lastAirDate: String,
     val nextEpisodeToAir: NetworkEpisode?,
     val lastEpisodeToAir: NetworkEpisode,
-    val networks: List<NetworkCompany>,
+    val networks: List<Company>,
     val numberOfEpisodes: Int,
     val numberOfSeasons: Int,
     val originCountry: List<String>,

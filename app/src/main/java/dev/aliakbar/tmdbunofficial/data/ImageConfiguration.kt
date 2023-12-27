@@ -1,7 +1,5 @@
 package dev.aliakbar.tmdbunofficial.data
 
-import kotlinx.serialization.SerialName
-
 data class ImageConfiguration(
     val baseUrl: String,
     val secureBaseUrl: String,

@@ -18,7 +18,7 @@ open class ConfigurationRepository(
     {
         runBlocking ()
         {
-            var networkImageConfiguration: LocalImageConfiguration = getConfigurationFromNetwork().toLocal( 1 )
+            val networkImageConfiguration: LocalImageConfiguration = getConfigurationFromNetwork().toLocal( 1 )
             saveConfigInLocal(networkImageConfiguration)
             imageConfiguration = getConfigurationFromLocal()
         }

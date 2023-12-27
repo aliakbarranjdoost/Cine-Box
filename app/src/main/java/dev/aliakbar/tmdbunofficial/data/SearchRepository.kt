@@ -2,7 +2,6 @@ package dev.aliakbar.tmdbunofficial.data
 
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
-import dev.aliakbar.tmdbunofficial.ui.search.SearchViewModel
 
 private val TAG: String = SearchRepository::class.java.simpleName
 
@@ -15,7 +14,6 @@ class SearchRepository(
     {
         return networkDataSource.multiSearch(query, page).results.toExternal(
             basePosterUrl,
-            baseBackdropUrl,
             baseProfileUrl
         )
     }

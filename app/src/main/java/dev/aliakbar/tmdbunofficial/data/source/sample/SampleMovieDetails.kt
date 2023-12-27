@@ -23,19 +23,19 @@ val genres = listOf(
 val companies = listOf(
     Company(
         id = 12,
-        logoPath = "/5ThIuO93vsk47oexKTSdfKEr7EC.png",
+        logoUrl = "/5ThIuO93vsk47oexKTSdfKEr7EC.png",
         name = "New Line Cinema",
         originCountry = "US"
     ),
     Company(
         id = 11,
-        logoPath = "/6FAuASQHybRkZUk08p9PzSs9ezM.png",
+        logoUrl = "/6FAuASQHybRkZUk08p9PzSs9ezM.png",
         name = "WingNut Films",
         originCountry = "NZ"
     ),
     Company(
         id = 5237,
-        logoPath = null,
+        logoUrl = null,
         name = "The Saul Zaentz Company",
         originCountry = "US"
     )
