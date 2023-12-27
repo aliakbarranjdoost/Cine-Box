@@ -64,8 +64,9 @@ import dev.aliakbar.tmdbunofficial.data.Genre
 import dev.aliakbar.tmdbunofficial.data.Image
 import dev.aliakbar.tmdbunofficial.data.Movie
 import dev.aliakbar.tmdbunofficial.data.Season
+import dev.aliakbar.tmdbunofficial.data.SeasonDetails
 import dev.aliakbar.tmdbunofficial.data.Trend
-import dev.aliakbar.tmdbunofficial.data.TvDetails
+import dev.aliakbar.tmdbunofficial.data.Tv
 import dev.aliakbar.tmdbunofficial.data.Video
 import dev.aliakbar.tmdbunofficial.data.source.sample.movie
 import dev.aliakbar.tmdbunofficial.ui.components.CastItem
@@ -91,8 +92,17 @@ fun DetailsScreen(
                 )*/
             }
         )
-        is DetailsUiState.SuccessTv -> TvDetails(tv = uiState.tv) {}
+        is DetailsUiState.SuccessTv -> Text(text = "Test")
+        
+            /*TvDetails(
+            tv = uiState.tv,
+            viewModel.,
+            onBookmarkClick = {},
+            onSeasonClick = {
+            viewModel.getSeasonDetails(uiState.tv.id,it)
+        })*/
         is DetailsUiState.Error   -> Text(text = "Error")
+        else -> Text(text = "Test")
     }
 }
 
@@ -231,7 +241,13 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
 }
 
 @Composable
-fun TvDetails(tv: TvDetails, onBookmarkClick: () -> Unit)
+fun TvDetails(
+    tv: Tv,
+    seasonDetailsUiState: SeasonDetailsUiState,
+    onBookmarkClick: () -> Unit,
+    onSeasonClick: (Int) -> Unit,
+    modifier: Modifier = Modifier
+)
 {
     val scrollState = rememberScrollState()
     var showDetails by remember { mutableStateOf(false) }
@@ -327,7 +343,7 @@ fun TvDetails(tv: TvDetails, onBookmarkClick: () -> Unit)
 
             ListHeader(header = "Seasons")
 
-            SeasonList(seasons = tv.seasons, onClick = {})
+            SeasonList(seasons = tv.seasons, onSeasonClick)
 
             ListHeader(header = "Cast")
 
@@ -707,7 +723,7 @@ fun ShowPosterInFullscreenDialog(
 }
 
 @Composable
-fun SeasonList(seasons: List<Season>, onClick: (Int) -> Unit, modifier: Modifier = Modifier)
+fun SeasonList(seasons: List<Season>, onSeasonClick: (Int) -> Unit, modifier: Modifier = Modifier)
 {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -716,19 +732,19 @@ fun SeasonList(seasons: List<Season>, onClick: (Int) -> Unit, modifier: Modifier
     {
         items(items = seasons)
         { season ->
-            SeasonItem( season, onClick)
+            SeasonItem( season, onSeasonClick)
         }
     }
 }
 
 @Composable
-fun SeasonItem(season: Season, onClick: (Int) -> Unit)
+fun SeasonItem(season: Season, onSeasonClick: (Int) -> Unit)
 {
     Card(
         modifier = Modifier
             .width(200.dp)
             .height(400.dp),
-        onClick = { onClick(season.id) }
+        onClick = { onSeasonClick(season.id) }
     )
     {
         Column {

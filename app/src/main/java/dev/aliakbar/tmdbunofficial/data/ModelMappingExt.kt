@@ -1,6 +1,5 @@
 package dev.aliakbar.tmdbunofficial.data
 
-import androidx.compose.ui.text.toUpperCase
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalBookmark
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalTrend
@@ -18,6 +17,7 @@ import dev.aliakbar.tmdbunofficial.data.source.network.NetworkMultiSearchResult
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularMovie
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularSerial
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkSeason
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkSeasonDetails
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingMovie
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingSeries
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTvDetails
@@ -508,7 +508,7 @@ fun NetworkTvDetails.toExternal(
     baseLogoUrl: String,
     baseProfileUrl: String,
     isBookmark: Boolean
-) = TvDetails(
+) = Tv(
     id = id,
     name = name,
     originalName = originalName,
@@ -557,3 +557,10 @@ fun NetworkSeason.toExternal(basePosterUrl: String) = Season(
 
 @JvmName("NetworkSeasonToExternal")
 fun List<NetworkSeason>.toExternal(basePosterUrl: String) = map { it.toExternal(basePosterUrl) }
+
+fun NetworkSeasonDetails.toExternal(basePosterUrl: String) = SeasonDetails(
+    id, _id, name, overview, episodes, airDate, seasonNumber, voteAverage, basePosterUrl + posterPath
+)
+
+@JvmName("NetworkSeasonDetailsToExternal")
+fun List<NetworkSeasonDetails>.toExternal(basePosterUrl: String) = map { it.toExternal(basePosterUrl) }

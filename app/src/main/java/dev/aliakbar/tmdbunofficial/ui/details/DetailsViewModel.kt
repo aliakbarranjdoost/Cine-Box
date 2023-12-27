@@ -13,8 +13,9 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.DetailsRepository
 import dev.aliakbar.tmdbunofficial.data.Movie
+import dev.aliakbar.tmdbunofficial.data.SeasonDetails
 import dev.aliakbar.tmdbunofficial.data.Trend
-import dev.aliakbar.tmdbunofficial.data.TvDetails
+import dev.aliakbar.tmdbunofficial.data.Tv
 import dev.aliakbar.tmdbunofficial.data.toBookmark
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -23,7 +24,14 @@ import java.io.IOException
 sealed interface DetailsUiState
 {
     data class SuccessMovie(val movie: Movie) : DetailsUiState
-    data class SuccessTv(val tv: TvDetails) : DetailsUiState
+    data class SuccessTv(val tv: Tv) : DetailsUiState
+    data object Error : DetailsUiState
+    data object Loading : DetailsUiState
+}
+
+sealed interface SeasonDetailsUiState
+{
+    data class Success(val seasonDetails: SeasonDetails): DetailsUiState
     data object Error : DetailsUiState
     data object Loading : DetailsUiState
 }
@@ -38,6 +46,10 @@ class DetailsViewModel(
     var detailsUiState: DetailsUiState by mutableStateOf(
         DetailsUiState.Loading
     )
+
+    /*var seasonDetailsUiState: SeasonDetailsUiState by mutableStateOf(
+        SeasonDetailsUiState.Loading
+    )*/
 
     private val id: Int = savedStateHandle["id"] ?: 0
     private val type: Boolean = savedStateHandle["type"] ?: true
@@ -80,6 +92,27 @@ class DetailsViewModel(
             detailsUiState = try
             {
                 DetailsUiState.SuccessTv(repository.getTvDetails(id))
+            }
+            catch (e: IOException)
+            {
+                DetailsUiState.Error
+            }
+            catch (e: HttpException)
+            {
+                DetailsUiState.Error
+            }
+        }
+    }
+
+    fun getSeasonDetails(tvId: Int, seasonNumber : Int)
+    {
+        viewModelScope.launch()
+        {
+            detailsUiState = try
+            {
+                SeasonDetailsUiState.Success(
+                    repository.getSeasonDetails(tvId, seasonNumber)
+                )
             }
             catch (e: IOException)
             {

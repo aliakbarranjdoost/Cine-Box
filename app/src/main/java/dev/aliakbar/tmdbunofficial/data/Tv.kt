@@ -4,7 +4,7 @@ import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCompany
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkEpisode
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPerson
 
-data class TvDetails(
+data class Tv(
     val id: Int,
     val name: String,
     val originalName: String,

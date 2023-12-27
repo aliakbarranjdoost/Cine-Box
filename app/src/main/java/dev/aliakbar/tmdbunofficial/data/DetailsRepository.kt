@@ -1,7 +1,6 @@
 package dev.aliakbar.tmdbunofficial.data
 
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkMovieDetails
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 
 private var TAG = DetailsRepository::class.java.simpleName
@@ -22,7 +21,7 @@ class DetailsRepository(
         )
     }
 
-    suspend fun getTvDetails(id: Int): TvDetails
+    suspend fun getTvDetails(id: Int): Tv
     {
         return networkDataSource.getTvDetails(id).toExternal(
             basePosterUrl = createBasePosterUrl(),
@@ -31,6 +30,11 @@ class DetailsRepository(
             baseProfileUrl = createBaseProfileUrl(),
             false
         )
+    }
+
+    suspend fun getSeasonDetails(id: Int, seasonNumber: Int): SeasonDetails
+    {
+        return networkDataSource.getSeasonDetails(id, seasonNumber).toExternal(createBasePosterUrl())
     }
 
     suspend fun addMovieToBookmark(bookmark: Bookmark)
