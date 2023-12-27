@@ -13,6 +13,13 @@ open class ConfigurationRepository(
 )
 {
     var imageConfiguration: LocalImageConfiguration
+
+    val basePosterUrl = createBasePosterUrl()
+    val baseBackdropUrl = createBaseBackdropUrl()
+    val baseProfileUrl = createBaseProfileUrl()
+    val baseStillUrl = createBaseStillUrl()
+    val baseLogoUrl = createBaseLogoUrl()
+
     init
     {
         runBlocking ()
@@ -43,27 +50,27 @@ open class ConfigurationRepository(
         return imageSizes[imageSizes.size - 2]
     }
 
-    protected fun createBasePosterUrl(): String
+    private fun createBasePosterUrl(): String
     {
         return imageConfiguration.secureBaseUrl + findBiggestImageSize(imageConfiguration.posterSizes)
     }
 
-    protected fun createBaseBackdropUrl(): String
+    private fun createBaseBackdropUrl(): String
     {
         return imageConfiguration.secureBaseUrl + findBiggestImageSize(imageConfiguration.backdropSizes)
     }
 
-    protected fun createBaseLogoUrl(): String
+    private fun createBaseLogoUrl(): String
     {
         return imageConfiguration.secureBaseUrl + findBiggestImageSize(imageConfiguration.logoSizes)
     }
 
-    protected fun createBaseProfileUrl(): String
+    private fun createBaseProfileUrl(): String
     {
         return imageConfiguration.secureBaseUrl + findBiggestImageSize(imageConfiguration.profileSizes)
     }
 
-    protected fun createBaseStillUrl(): String
+    private fun createBaseStillUrl(): String
     {
         return imageConfiguration.secureBaseUrl + findBiggestImageSize(imageConfiguration.stillSizes)
     }

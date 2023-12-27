@@ -560,12 +560,12 @@ fun NetworkSeason.toExternal(basePosterUrl: String) = Season(
 @JvmName("NetworkSeasonToExternal")
 fun List<NetworkSeason>.toExternal(basePosterUrl: String) = map { it.toExternal(basePosterUrl) }
 
-fun NetworkSeasonDetails.toExternal(basePosterUrl: String, baseStillPath: String) = SeasonDetails(
+fun NetworkSeasonDetails.toExternal(basePosterUrl: String, baseStillUrl: String) = SeasonDetails(
     id,
     _id,
     name,
     overview,
-    episodes.toExternal(baseStillPath),
+    episodes.toExternal(baseStillUrl),
     airDate,
     seasonNumber,
     voteAverage,

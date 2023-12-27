@@ -13,10 +13,10 @@ class DetailsRepository(
     suspend fun getMovieDetails(id: Int): Movie
     {
         return networkDataSource.getMovieDetails(id).toExternal(
-            basePosterUrl = createBasePosterUrl(),
-            baseBackdropUrl = createBaseBackdropUrl(),
-            baseLogoUrl = createBaseLogoUrl(),
-            baseProfileUrl = createBaseProfileUrl(),
+            basePosterUrl = basePosterUrl,
+            baseBackdropUrl = baseBackdropUrl,
+            baseLogoUrl = baseLogoUrl,
+            baseProfileUrl = baseProfileUrl,
             false
         )
     }
@@ -24,10 +24,10 @@ class DetailsRepository(
     suspend fun getTvDetails(id: Int): Tv
     {
         return networkDataSource.getTvDetails(id).toExternal(
-            basePosterUrl = createBasePosterUrl(),
-            baseBackdropUrl = createBaseBackdropUrl(),
-            baseLogoUrl = createBaseLogoUrl(),
-            baseProfileUrl = createBaseProfileUrl(),
+            basePosterUrl = basePosterUrl,
+            baseBackdropUrl = baseBackdropUrl,
+            baseLogoUrl = baseLogoUrl,
+            baseProfileUrl = baseProfileUrl,
             false
         )
     }
@@ -35,7 +35,7 @@ class DetailsRepository(
     suspend fun getSeasonDetails(id: Int, seasonNumber: Int): SeasonDetails
     {
         return networkDataSource.getSeasonDetails(id, seasonNumber)
-            .toExternal(createBasePosterUrl(), createBaseStillUrl())
+            .toExternal(basePosterUrl = basePosterUrl, baseStillUrl = baseStillUrl)
     }
 
     suspend fun addMovieToBookmark(bookmark: Bookmark)
