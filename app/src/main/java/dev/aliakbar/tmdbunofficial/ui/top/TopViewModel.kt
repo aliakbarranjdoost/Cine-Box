@@ -23,7 +23,6 @@ sealed interface TopUiState
 {
     data class Success(
         val topRatedMovies: List<Trend>,
-        //val topRatedSeries: List<Trend>
     ) : TopUiState
 
     data object Error : TopUiState
@@ -34,34 +33,6 @@ private val TAG: String = TopViewModel::class.java.simpleName
 
 class TopViewModel(private val topRepository: TopRepository) : ViewModel()
 {
-    /*var topUiState: TopUiState by mutableStateOf(TopUiState.Loading)
-        private set*/
-
-    init
-    {
-        //getTopRatedMovies()
-    }
-
-    /*private fun getTopRatedMovies()
-    {
-        viewModelScope.launch()
-        {
-            topUiState = try
-            {
-                topRepository.getTopRatedMovies()
-                TopUiState.Success(topRepository.getTopRatedMovies())
-            }
-            catch (e: IOException)
-            {
-                TopUiState.Error
-            }
-            catch (e: HttpException)
-            {
-                TopUiState.Error
-            }
-        }
-    }*/
-
     fun getTopRatedMovies(): Flow<PagingData<Trend>> = topRepository.getTopRatedMovies().cachedIn(viewModelScope)
     fun getTopRatedSeries(): Flow<PagingData<Trend>> = topRepository.getTopRatedSeries().cachedIn(viewModelScope)
 

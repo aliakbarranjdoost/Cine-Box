@@ -11,8 +11,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.Bookmark
 import dev.aliakbar.tmdbunofficial.data.BookmarkRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -33,18 +31,12 @@ class BookmarkViewModel(
     var bookmarkUiState: BookmarkUiState by mutableStateOf(BookmarkUiState.Loading)
         private set
 
-    /*repository.getBookmarks()
-    .map { BookmarkUiState.Success(it) }
-    .stateIn(scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = BookmarkUiState.Loading)*/
-
     init
     {
         getBookmarks()
     }
 
-    fun getBookmarks()
+    private fun getBookmarks()
     {
         viewModelScope.launch()
         {

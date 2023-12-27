@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.aliakbar.tmdbunofficial.R
-import dev.aliakbar.tmdbunofficial.data.Cast
 
 // Use for both cast and crew list item
 @Composable

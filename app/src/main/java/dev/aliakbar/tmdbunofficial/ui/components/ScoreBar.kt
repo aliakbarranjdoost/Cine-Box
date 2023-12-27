@@ -1,11 +1,9 @@
 package dev.aliakbar.tmdbunofficial.ui.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,15 +22,9 @@ fun ScoreBar(score: Float, modifier: Modifier = Modifier)
         modifier = modifier.padding(4.dp)
     )
     {
-        ScoreCircularText(
-            score = score,
-            //modifier = modifier
-        )
+        ScoreCircularText(score = score)
 
-        ScoreCircularProgressIndicator(
-            score = score,
-            //modifier = Modifier
-        )
+        ScoreCircularProgressIndicator(score = score)
     }
 }
 

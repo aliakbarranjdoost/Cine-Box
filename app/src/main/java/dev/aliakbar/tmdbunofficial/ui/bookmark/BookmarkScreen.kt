@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package dev.aliakbar.tmdbunofficial.ui.bookmark
 
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -47,9 +44,7 @@ fun BookmarkScreen(
     viewModel: BookmarkViewModel = viewModel(factory = BookmarkViewModel.factory)
 )
 {
-    val uiState = viewModel.bookmarkUiState
-
-    when (uiState)
+    when (val uiState = viewModel.bookmarkUiState)
     {
         is BookmarkUiState.Loading -> Text(text = "Loading")
         is BookmarkUiState.Success -> BookmarkList(bookmarks = uiState.bookmarks, navController)

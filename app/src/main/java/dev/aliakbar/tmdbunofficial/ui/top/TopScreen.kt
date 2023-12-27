@@ -61,7 +61,6 @@ fun TopScreen(
     modifier: Modifier = Modifier
 )
 {
-    //val uiState = viewModel.topUiState
     val topMovies = viewModel.getTopRatedMovies().collectAsLazyPagingItems()
     val topSeries = viewModel.getTopRatedSeries().collectAsLazyPagingItems()
 
@@ -81,13 +80,6 @@ fun TopScreen(
                 )
             }
         }
-        /*when (uiState)
-        {
-            is TopUiState.Loading -> Text(text = "Loading")
-            is TopUiState.Success -> TopList(tops = uiState.topRatedMovies, navController)
-            is TopUiState.Error   -> Text(text = "Error")
-        }*/
-
         when (tabState)
         {
             0 -> TopList(tops = topMovies, navController)
@@ -127,7 +119,8 @@ fun TopList(
             key = tops.itemKey { it.rank }
         )
         { index ->
-            tops[index]?.let {
+            tops[index]?.let()
+            {
                 TopItem(
                     top = it,
                     { navController.navigate(TmdbScreen.MovieDetails.name + "/" + tops[index]?.id.toString()) }

@@ -322,12 +322,6 @@ fun Poster(
             contentScale = ContentScale.FillBounds,
             modifier = Modifier.fillMaxSize()
         )
-
-        /*ScoreBar(
-            score = posterPath.score,
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-        )*/
     }
 }
 

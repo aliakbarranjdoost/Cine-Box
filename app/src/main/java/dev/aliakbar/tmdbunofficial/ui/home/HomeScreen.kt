@@ -25,14 +25,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.PlayCircleOutline
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -49,8 +47,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -75,12 +71,8 @@ import dev.aliakbar.tmdbunofficial.data.Trailer
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.source.sample.trend
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
-import dev.aliakbar.tmdbunofficial.ui.components.ScoreCircularProgressIndicator
 import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
-import dev.aliakbar.tmdbunofficial.util.convertDegreeToHsvColor
-import dev.aliakbar.tmdbunofficial.util.toDegree
-import kotlin.math.roundToInt
 
 @Composable
 fun HomeScreen(
@@ -89,9 +81,8 @@ fun HomeScreen(
     modifier: Modifier = Modifier
 )
 {
-    val homeUiState = viewModel.homeUiState
 
-    when (homeUiState)
+    when (val homeUiState = viewModel.homeUiState)
     {
         is HomeUiState.Loading -> Text(text = "Loading")
         is HomeUiState.Success ->
@@ -308,11 +299,8 @@ fun HomeScreen(
                 }
             }
         }
-
         is HomeUiState.Error   -> Text(text = "Error")
     }
-
-
 }
 
 @Composable
@@ -340,8 +328,8 @@ fun TrendList(
 fun TrendItem(
     trend: Trend,
     onNavigateToDetails: (Trend) -> Unit,
-    onBookmarkClick: () -> Unit ,
-    )
+    onBookmarkClick: () -> Unit
+)
 {
     Card(
         onClick = { onNavigateToDetails(trend) }
@@ -433,7 +421,6 @@ fun SliderItem(trailer: Trailer, onNavigateToDetails: () -> Unit)
                         }
                     }
                 }
-
             }
 
             AsyncImage(
@@ -544,7 +531,7 @@ fun VideoDialog(
 
 @Composable
 fun Poster(
-    onBookmarkClick: () -> Unit ,
+    onBookmarkClick: () -> Unit,
     trend: Trend,
     modifier: Modifier = Modifier
 )
@@ -588,39 +575,12 @@ fun Poster(
 
     }
 }
-/*
-
-@Composable
-fun ScoreBar(score: Float, modifier: Modifier = Modifier)
-{
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = modifier
-                .padding(4.dp)
-    )
-        {
-            Text(
-                text = (score * 10).roundToInt().toString() + "%",
-                modifier = Modifier
-                    .clip(CircleShape),
-            )
-
-            ScoreCircularProgressIndicator(
-                score = score,
-                modifier = Modifier
-            )
-        }
-}
-*/
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 fun PreviewSliderItem()
 {
-    TMDBUnofficialTheme()
-    {
-        //Slider(trailers = trailers,  )
-    }
+
 }
 
 //@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)

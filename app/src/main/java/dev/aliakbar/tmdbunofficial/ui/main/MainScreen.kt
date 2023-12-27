@@ -1,13 +1,11 @@
 package dev.aliakbar.tmdbunofficial.ui.main
 
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
@@ -21,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -36,7 +33,6 @@ import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.ui.bookmark.BookmarkScreen
 import dev.aliakbar.tmdbunofficial.ui.details.DetailsScreen
 import dev.aliakbar.tmdbunofficial.ui.home.HomeScreen
-import dev.aliakbar.tmdbunofficial.ui.home.HomeViewModel
 import dev.aliakbar.tmdbunofficial.ui.search.SearchScreen
 import dev.aliakbar.tmdbunofficial.ui.top.TopScreen
 
@@ -46,7 +42,7 @@ enum class TmdbScreen(@StringRes val title: Int,val icon: ImageVector? = null)
     Home(title = R.string.home,Icons.Filled.Home),
     Bookmark(title = R.string.bookmark,Icons.Filled.Favorite),
     Search(title = R.string.search,Icons.Filled.Search),
-    Top(title = R.string.top,Icons.Filled.List),
+    Top(title = R.string.top, Icons.AutoMirrored.Filled.List),
     Setting(title = R.string.setting,Icons.Filled.Settings),
     MovieDetails(title = R.string.movie_details),
     SeriesDetails(title = R.string.series_details)
@@ -54,15 +50,10 @@ enum class TmdbScreen(@StringRes val title: Int,val icon: ImageVector? = null)
 
 @Composable
 fun TmdbApp(
-    //viewModel: MainViewModel = viewModel(factory = HomeViewModel.factory),
     navController: NavHostController = rememberNavController()
 )
 {
     val backStackEntry by navController.currentBackStackEntryAsState()
-    //val currentScreen = TmdbScreen.valueOf(
-    //    backStackEntry?.destination?.route ?: TmdbScreen.Home.name
-    //)
-
 
     Scaffold(
         bottomBar =

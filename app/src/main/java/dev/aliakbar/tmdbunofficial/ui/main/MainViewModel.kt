@@ -21,10 +21,6 @@ private val TAG: String = MainViewModel::class.java.simpleName
 
 sealed interface MainUiState
 {
-    //data class ConfigurationSuccess(val imageConfiguration: ImageConfiguration) : MainUiState
-    //data class TrendingTodayMoviesSuccess(val networkTrending: NetworkTrending<NetworkTrendingMovie>) :
-    //    MainUiState
-
     data class ConfigurationSuccess(val imageConfiguration: LocalImageConfiguration) : MainUiState
 
     object Error: MainUiState
@@ -50,12 +46,6 @@ class MainViewModel(
             mainUiState = MainUiState.Loading
             mainUiState = try
             {
-                //val trendingSeries = trendingRepository.getTrendingThisWeekSeries()
-                //Log.d(TAG,trendingSeries.toString())
-
-                //val trendingMovie = trendingRepository.getTrendingThisWeekMovies()
-                //MainUiState.TrendingTodayMoviesSuccess(trendingMovie)
-
                 val imageConfiguration = configurationRepository.imageConfiguration
                 MainUiState.ConfigurationSuccess(imageConfiguration)
             }
