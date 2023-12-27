@@ -8,7 +8,7 @@ data class Tv(
     val id: Int,
     val name: String,
     val originalName: String,
-    val createdBy: List<NetworkPerson>,
+    val createdBy: List<Person>,
     //episode_run_ti
     val firstAirDate: String,
     val lastAirDate: String,

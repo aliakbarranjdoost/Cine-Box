@@ -15,6 +15,7 @@ import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkLanguage
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkMovieDetails
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkMultiSearchResult
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPerson
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularMovie
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularSerial
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkSeason
@@ -537,7 +538,7 @@ fun NetworkTvDetails.toExternal(
     recommendations = recommendations.results.toExternal(
         basePosterUrl, baseBackdropUrl, isBookmark
     ),
-    createdBy = createdBy,
+    createdBy = createdBy.toExternal(baseProfileUrl),
     firstAirDate = firstAirDate,
     isInProduction = isInProduction,
     languages = languages,
@@ -593,3 +594,10 @@ fun NetworkEpisode.toExternal(baseStillPath: String) = Episode(
 
 @JvmName("NetworkEpisodeToExternal")
 fun List<NetworkEpisode>.toExternal(baseStillPath: String) = map { it.toExternal(baseStillPath) }
+
+fun NetworkPerson.toExternal(baseProfileUrl: String) = Person(
+    id, creditId, name, gender, baseProfileUrl + profilePath
+)
+
+@JvmName("NetworkPersonToExternal")
+fun List<NetworkPerson>.toExternal(baseProfileUrl: String) = map { it.toExternal(baseProfileUrl) }
