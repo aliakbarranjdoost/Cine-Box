@@ -62,4 +62,9 @@ open class ConfigurationRepository(
     {
         return imageConfiguration.secureBaseUrl + findBiggestImageSize(imageConfiguration.profileSizes)
     }
+
+    protected fun createBaseStillUrl(): String
+    {
+        return imageConfiguration.secureBaseUrl + findBiggestImageSize(imageConfiguration.stillSizes)
+    }
 }

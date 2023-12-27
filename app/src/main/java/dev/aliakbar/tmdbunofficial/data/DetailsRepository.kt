@@ -34,7 +34,8 @@ class DetailsRepository(
 
     suspend fun getSeasonDetails(id: Int, seasonNumber: Int): SeasonDetails
     {
-        return networkDataSource.getSeasonDetails(id, seasonNumber).toExternal(createBasePosterUrl())
+        return networkDataSource.getSeasonDetails(id, seasonNumber)
+            .toExternal(createBasePosterUrl(), createBaseStillUrl())
     }
 
     suspend fun addMovieToBookmark(bookmark: Bookmark)
