@@ -559,12 +559,21 @@ fun NetworkSeason.toExternal(basePosterUrl: String) = Season(
 @JvmName("NetworkSeasonToExternal")
 fun List<NetworkSeason>.toExternal(basePosterUrl: String) = map { it.toExternal(basePosterUrl) }
 
-fun NetworkSeasonDetails.toExternal(basePosterUrl: String) = SeasonDetails(
-    id, _id, name, overview, episodes, airDate, seasonNumber, voteAverage, basePosterUrl + posterPath
+fun NetworkSeasonDetails.toExternal(basePosterUrl: String, baseStillPath: String) = SeasonDetails(
+    id,
+    _id,
+    name,
+    overview,
+    episodes.toExternal(baseStillPath),
+    airDate,
+    seasonNumber,
+    voteAverage,
+    basePosterUrl + posterPath
 )
 
 @JvmName("NetworkSeasonDetailsToExternal")
-fun List<NetworkSeasonDetails>.toExternal(basePosterUrl: String) = map { it.toExternal(basePosterUrl) }
+fun List<NetworkSeasonDetails>.toExternal(basePosterUrl: String, baseStillPath: String) =
+    map { it.toExternal(basePosterUrl, baseStillPath) }
 
 fun NetworkEpisode.toExternal(baseStillPath: String) = Episode(
     id,
@@ -579,7 +588,7 @@ fun NetworkEpisode.toExternal(baseStillPath: String) = Episode(
     episodeType,
     productionCode,
     showId,
-    stillPath
+    baseStillPath + stillPath
 )
 
 @JvmName("NetworkEpisodeToExternal")
