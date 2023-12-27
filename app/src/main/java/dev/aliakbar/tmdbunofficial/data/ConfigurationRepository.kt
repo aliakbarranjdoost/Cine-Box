@@ -14,12 +14,6 @@ open class ConfigurationRepository(
 {
     var imageConfiguration: LocalImageConfiguration
 
-    val basePosterUrl = createBasePosterUrl()
-    val baseBackdropUrl = createBaseBackdropUrl()
-    val baseProfileUrl = createBaseProfileUrl()
-    val baseStillUrl = createBaseStillUrl()
-    val baseLogoUrl = createBaseLogoUrl()
-
     init
     {
         runBlocking ()
@@ -29,6 +23,12 @@ open class ConfigurationRepository(
             imageConfiguration = getConfigurationFromLocal()
         }
     }
+
+    val basePosterUrl = createBasePosterUrl()
+    val baseBackdropUrl = createBaseBackdropUrl()
+    val baseProfileUrl = createBaseProfileUrl()
+    val baseStillUrl = createBaseStillUrl()
+    val baseLogoUrl = createBaseLogoUrl()
 
     private suspend fun getConfigurationFromNetwork(): NetworkImageConfiguration
     {
