@@ -4,7 +4,6 @@
 
 package dev.aliakbar.tmdbunofficial.ui.details
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -83,16 +82,9 @@ fun DetailsScreen(
     when (uiState)
     {
         is DetailsUiState.Loading -> Text(text = "Loading")
-        is DetailsUiState.SuccessMovie -> MovieDetails(movie = uiState.movie,
-            onBookmarkClick =
-            {
-                /*viewModel.addMovieToBookmark(
-                    movie.toTrend()
-                )*/
-            }
-        )
+        is DetailsUiState.SuccessMovie -> MovieDetails(movie = uiState.movie, onBookmarkClick = { })
+        // TODO: implement after adding season details
         is DetailsUiState.SuccessTv -> Text(text = "Test")
-        
             /*TvDetails(
             tv = uiState.tv,
             viewModel.,
@@ -226,7 +218,6 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
 
                 RecommendationList(recommendations = movie.recommendations)
             }
-
         }
     }
 
@@ -378,7 +369,6 @@ fun TvDetails(
 
                 RecommendationList(recommendations = tv.recommendations)
             }
-
         }
     }
 
@@ -513,7 +503,6 @@ fun VideoItem(video: Video, onVideoClick: () -> Unit, modifier: Modifier = Modif
             contentDescription = null,
             modifier = Modifier.fillMaxSize()
         )*/
-
     }
 }
 
@@ -524,8 +513,6 @@ fun YoutubeVideoPlayerItem(
     modifier: Modifier = Modifier
 )
 {
-    Log.d("DetailsScreen", "YoutubeVideoPlayerItem: $id")
-
     AndroidView(
         factory =
         { context ->
@@ -541,7 +528,6 @@ fun YoutubeVideoPlayerItem(
                         youTubePlayer.cueVideo(id, 0F)
                     }
                 })
-
             }
         },
         modifier = Modifier.fillMaxSize()
@@ -774,5 +760,5 @@ fun SeasonItem(season: Season, onSeasonClick: (Int) -> Unit)
 @Composable
 fun MovieDetailsPreview()
 {
-    MovieDetails(movie = movie, { /* doNothing() */ })
+    MovieDetails(movie = movie) { }
 }
