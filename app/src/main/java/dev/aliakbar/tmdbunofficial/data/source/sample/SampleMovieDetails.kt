@@ -48,8 +48,8 @@ val countries = listOf(
 val collection = Collection(
     id = 119,
     name = "The Lord of the Rings Collection",
-    posterPath = "/oENY593nKRVL2PnxXsMtlh8izb4.jpg",
-    backdropPath = "/bccR2CGTWVVSZAG0yqmy3DIvhTX.jpg"
+    posterUrl = "/oENY593nKRVL2PnxXsMtlh8izb4.jpg",
+    backdropUrl = "/bccR2CGTWVVSZAG0yqmy3DIvhTX.jpg"
 )
 
 val languages = listOf(
@@ -64,7 +64,7 @@ val cast = Cast(
     name = "Viggo Mortensen",
     originalName = "Viggo Mortensen",
     popularity = 39.757F,
-    profilePath = "/vH5gVSpHAMhDaFWfh0Q7BG61O1y.jpg",
+    profileUrl = "/vH5gVSpHAMhDaFWfh0Q7BG61O1y.jpg",
     castId = 15,
     character = "Aragorn",
     creditId = "52fe421ac3a36847f8004591",
@@ -81,7 +81,7 @@ val crew = Crew(
     name = "Barrie M. Osborne",
     originalName = "Barrie M. Osborne",
     popularity = 4.655F,
-    profilePath = "/xWtXYk6M5NFroddcQDviLlxOnkU.jpg",
+    profileUrl = "/xWtXYk6M5NFroddcQDviLlxOnkU.jpg",
     creditId = "52fe421ac3a36847f800454f",
     department = "Production",
     job = "Producer"
@@ -109,7 +109,7 @@ val poster = Image(
     aspectRatio = 0.667F,
     height = 3000,
     width = 2000,
-    filePath = "/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg",
+    fileUrl = "/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg",
     voteAverage = 6.504F,
     voteCount = 26
 )
@@ -121,7 +121,7 @@ val backdrop = Image(
     aspectRatio = 1.778F,
     height = 1080,
     width = 1920,
-    filePath = "/tqj7NKj11keFuLzPsBDMUq2dOUO.jpg",
+    fileUrl = "/tqj7NKj11keFuLzPsBDMUq2dOUO.jpg",
     voteAverage = 5.388F,
     voteCount = 4
 )
@@ -133,7 +133,7 @@ val logo = Image(
     aspectRatio = 4.751F,
     height = 442,
     width = 2100,
-    filePath = "/dMAXhf7jVsc8Qsx26wsoOmoQh3r.png",
+    fileUrl = "/dMAXhf7jVsc8Qsx26wsoOmoQh3r.png",
     voteAverage = 0F,
     voteCount = 0
 )
@@ -179,8 +179,8 @@ val movie = Movie(
             " make sure that the ring arrives at its final destination: Mt. Doom, the only place" +
             " where it can be destroyed.",
     originalLanguage = "en",
-    backdropPath = "/tqj7NKj11keFuLzPsBDMUq2dOUO.jpg",
-    posterPath = "/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg",
+    backdropUrl = "/tqj7NKj11keFuLzPsBDMUq2dOUO.jpg",
+    posterUrl = "/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg",
     genres = genres,
     releaseDate = "2001-12-18",
     adult = false,

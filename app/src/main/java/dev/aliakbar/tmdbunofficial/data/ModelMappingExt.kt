@@ -190,7 +190,7 @@ fun NetworkPopularMovie.toLocal(
         title = title,
         score = voteAverage,
         poster = basePosterUrl + posterPath,
-        backdrop = baseBackdropUrl + baseBackdropUrl,
+        backdrop = baseBackdropUrl + backdropPath,
         rank = rank,
         isBookmark = isBookmark,
         type = "movie"
@@ -285,8 +285,8 @@ fun NetworkMovieDetails.toExternal(
     revenue = revenue,
     runtime = runtime,
     status = status,
-    backdropPath = baseBackdropUrl + backdropPath,
-    posterPath = basePosterUrl + posterPath,
+    backdropUrl = baseBackdropUrl + backdropPath,
+    posterUrl = basePosterUrl + posterPath,
     productionCountries = productionCountries.toExternal(),
     collection = collection?.toExternal(),
     genres = genres.toExternal(),
@@ -330,8 +330,8 @@ fun List<NetworkCompany>.toExternal() = map()
 fun NetworkCollection.toExternal() = Collection(
     id = id,
     name = name,
-    posterPath = posterPath,
-    backdropPath = backdropPath
+    posterUrl = posterPath,
+    backdropUrl = backdropPath
 )
 
 fun NetworkCountry.toExternal() = Country(
@@ -365,7 +365,7 @@ fun NetworkCast.toExternal(baseProfileUrl: String) = Cast(
     name = name,
     originalName = originalName,
     popularity = popularity,
-    profilePath = baseProfileUrl + profilePath,
+    profileUrl = baseProfileUrl + profilePath,
     castId = castId,
     character = character,
     creditId = creditId,
@@ -386,7 +386,7 @@ fun NetworkCrew.toExternal(baseProfileUrl: String) = Crew(
     name = name,
     originalName = originalName,
     popularity = popularity,
-    profilePath = baseProfileUrl + profilePath,
+    profileUrl = baseProfileUrl + profilePath,
     creditId = creditId,
     department = department,
     job = job
@@ -422,7 +422,7 @@ fun NetworkImage.toExternal(baseUrl: String) = Image(
     aspectRatio = aspectRatio,
     height = height,
     width = width,
-    filePath = baseUrl + filePath,
+    fileUrl = baseUrl + filePath,
     voteAverage = voteAverage,
     voteCount = voteCount
 )
@@ -523,8 +523,8 @@ fun NetworkTvDetails.toExternal(
     voteCount = voteCount,
     homepage = homepage,
     status = status,
-    backdropPath = baseBackdropUrl + backdropPath,
-    posterPath = basePosterUrl + posterPath,
+    backdropUrl = baseBackdropUrl + backdropPath,
+    posterUrl = basePosterUrl + posterPath,
     productionCountries = productionCountries.toExternal(),
     genres = genres.toExternal(),
     spokenLanguages = spokenLanguages.toExternal(),
@@ -573,10 +573,10 @@ fun NetworkSeasonDetails.toExternal(basePosterUrl: String, baseStillUrl: String)
 )
 
 @JvmName("NetworkSeasonDetailsToExternal")
-fun List<NetworkSeasonDetails>.toExternal(basePosterUrl: String, baseStillPath: String) =
-    map { it.toExternal(basePosterUrl, baseStillPath) }
+fun List<NetworkSeasonDetails>.toExternal(basePosterUrl: String, baseStillUrl: String) =
+    map { it.toExternal(basePosterUrl, baseStillUrl) }
 
-fun NetworkEpisode.toExternal(baseStillPath: String) = Episode(
+fun NetworkEpisode.toExternal(baseStillUrl: String) = Episode(
     id,
     name,
     overview,
@@ -589,7 +589,7 @@ fun NetworkEpisode.toExternal(baseStillPath: String) = Episode(
     episodeType,
     productionCode,
     showId,
-    baseStillPath + stillPath
+    baseStillUrl + stillPath
 )
 
 @JvmName("NetworkEpisodeToExternal")

@@ -6,8 +6,8 @@ data class MultiSearchResult(
     val originalTitle: String?,
     val overview: String?,
     val originalLanguage: String?,
-    val backdropPath: String?,
-    val posterPath: String?,
+    val backdropUrl: String?,
+    val posterUrl: String?,
     val mediaType: String,
     val genreList: List<Int>?,
     val releaseDate: String?,
@@ -20,7 +20,7 @@ data class MultiSearchResult(
     val originalName: String?,
     val gender: Int?,
     val knownForDepartment: String?,
-    val profilePath: String?,
+    val profileUrl: String?,
     //val knownFor: String?,
 
     val originCountryList: List<String>?

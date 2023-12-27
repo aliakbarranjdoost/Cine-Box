@@ -64,7 +64,6 @@ import dev.aliakbar.tmdbunofficial.data.Genre
 import dev.aliakbar.tmdbunofficial.data.Image
 import dev.aliakbar.tmdbunofficial.data.Movie
 import dev.aliakbar.tmdbunofficial.data.Season
-import dev.aliakbar.tmdbunofficial.data.SeasonDetails
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.Tv
 import dev.aliakbar.tmdbunofficial.data.Video
@@ -133,7 +132,7 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
                 AsyncImage(
                     model = ImageRequest
                         .Builder(context = LocalContext.current)
-                        .data(movie.backdropPath)
+                        .data(movie.backdropUrl)
                         .build(),
                     placeholder = painterResource(id = R.drawable.backdrop_test),
                     contentDescription = null,
@@ -209,7 +208,7 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
 
             PosterList(posters = movie.posters,
                 {
-                    selectedImagePath = it.filePath
+                    selectedImagePath = it.fileUrl
                     showPosterFullscreen = true
                 })
 
@@ -217,7 +216,7 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
 
             BackdropList(backdrops = movie.backdrops,
                 {
-                    selectedImagePath = it.filePath
+                    selectedImagePath = it.fileUrl
                     showPosterFullscreen = true
                 })
 
@@ -277,7 +276,7 @@ fun TvDetails(
                 AsyncImage(
                     model = ImageRequest
                         .Builder(context = LocalContext.current)
-                        .data(tv.backdropPath)
+                        .data(tv.backdropUrl)
                         .build(),
                     placeholder = painterResource(id = R.drawable.backdrop_test),
                     contentDescription = null,
@@ -361,7 +360,7 @@ fun TvDetails(
 
             PosterList(posters = tv.posters,
                 {
-                    selectedImagePath = it.filePath
+                    selectedImagePath = it.fileUrl
                     showPosterFullscreen = true
                 })
 
@@ -369,7 +368,7 @@ fun TvDetails(
 
             BackdropList(backdrops = tv.backdrops,
                 {
-                    selectedImagePath = it.filePath
+                    selectedImagePath = it.fileUrl
                     showPosterFullscreen = true
                 })
 
@@ -447,7 +446,7 @@ fun CastList(casts: List<Cast>, modifier: Modifier = Modifier)
                 name = cast.name,
                 role = cast.character,
                 // TODO: Change to place holder later
-                pictureUrl = cast.profilePath!!,
+                pictureUrl = cast.profileUrl!!,
                 onCastClick = { }
             )
         }
@@ -468,7 +467,7 @@ fun CrewList(crews: List<Crew>, modifier: Modifier = Modifier)
                 name = crew.name,
                 role = crew.job,
                 // TODO: Change to place holder later
-                pictureUrl = crew.profilePath!!,
+                pictureUrl = crew.profileUrl!!,
                 onCastClick = { }
             )
         }
@@ -577,7 +576,7 @@ fun PosterItem(poster: Image, onPosterClick: (Image) -> Unit)
         AsyncImage(
             model = ImageRequest
                 .Builder(context = LocalContext.current)
-                .data(poster.filePath)
+                .data(poster.fileUrl)
                 .build(),
             placeholder = painterResource(id = R.drawable.poster_test),
             contentDescription = null
@@ -611,7 +610,7 @@ fun BackdropItem(backdrop: Image,onPosterClick: (Image) -> Unit)
         AsyncImage(
             model = ImageRequest
                 .Builder(context = LocalContext.current)
-                .data(backdrop.filePath)
+                .data(backdrop.fileUrl)
                 .build(),
             placeholder = painterResource(id = R.drawable.backdrop_test),
             contentDescription = null

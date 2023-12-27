@@ -2,7 +2,6 @@ package dev.aliakbar.tmdbunofficial.data
 
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCompany
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkEpisode
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPerson
 
 data class Tv(
     val id: Int,
@@ -21,8 +20,8 @@ data class Tv(
     val tagline: String,
     val overview: String,
     val originalLanguage: String,
-    val backdropPath: String,
-    val posterPath: String,
+    val backdropUrl: String,
+    val posterUrl: String,
     val genres: List<Genre>,
     val adult: Boolean,
     val popularity: Float,

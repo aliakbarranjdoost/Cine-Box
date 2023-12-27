@@ -5,7 +5,7 @@ data class Image(
     val aspectRatio: Float,
     val height: Int,
     val width: Int,
-    val filePath: String,
+    val fileUrl: String,
     val voteAverage: Float,
     val voteCount: Int
 )

@@ -8,7 +8,7 @@ data class Crew(
     val name: String,
     val originalName: String,
     val popularity: Float,
-    val profilePath: String? = null,
+    val profileUrl: String? = null,
     val creditId: String,
     val department: String,
     val job: String

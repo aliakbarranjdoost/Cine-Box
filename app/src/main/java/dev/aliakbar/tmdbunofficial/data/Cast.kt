@@ -8,7 +8,7 @@ data class Cast(
     val name: String,
     val originalName: String,
     val popularity: Float,
-    val profilePath: String? = null,
+    val profileUrl: String? = null,
     val castId: Int?,
     val character: String,
     val creditId: String,

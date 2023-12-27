@@ -13,5 +13,5 @@ data class Episode(
     val episodeType: String,
     val productionCode: String,
     val showId: Int,
-    val stillPath: String?,
+    val stillUrl: String?,
 )

@@ -5,5 +5,5 @@ data class Person(
     val creditId: String,
     val name: String,
     val gender: Int,
-    val profilePath: String
+    val profileUrl: String
 )

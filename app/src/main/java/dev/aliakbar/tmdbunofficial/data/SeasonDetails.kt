@@ -9,5 +9,5 @@ data class SeasonDetails(
     val airDate: String?,
     val seasonNumber: Int,
     val voteAverage: Float,
-    val posterPath: String?
+    val posterUrl: String?
 )
