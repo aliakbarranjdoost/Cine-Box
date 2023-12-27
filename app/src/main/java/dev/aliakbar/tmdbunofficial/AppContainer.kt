@@ -26,7 +26,7 @@ interface AppContainer
     val searchRepository: SearchRepository
 }
 
-class DefaultAppContainer(private val context: Context): AppContainer
+class DefaultAppContainer(context: Context): AppContainer
 {
     private val baseUrl = "https://api.themoviedb.org/3/"
     private val bearerToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNzkwYjcwMzRkOTFhODU0YmE5MmUxOTlkMWQ2MTk3MiIsInN1YiI6IjYzMGYxMTg0MTI0MjVjMDA5ZDdkMjAzZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xPKQ-BTT_SZqBtJKyQ36VoDDpqCr_BAp-b_NjOOXvhc"
