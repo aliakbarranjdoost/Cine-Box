@@ -8,6 +8,7 @@ import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCollection
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCompany
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCountry
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCrew
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkEpisode
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkGenre
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImage
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImageConfiguration
@@ -564,3 +565,22 @@ fun NetworkSeasonDetails.toExternal(basePosterUrl: String) = SeasonDetails(
 
 @JvmName("NetworkSeasonDetailsToExternal")
 fun List<NetworkSeasonDetails>.toExternal(basePosterUrl: String) = map { it.toExternal(basePosterUrl) }
+
+fun NetworkEpisode.toExternal(baseStillPath: String) = Episode(
+    id,
+    name,
+    overview,
+    voteAverage,
+    voteCount,
+    airDate,
+    runtime,
+    seasonNumber,
+    episodeNumber,
+    episodeType,
+    productionCode,
+    showId,
+    stillPath
+)
+
+@JvmName("NetworkEpisodeToExternal")
+fun List<NetworkEpisode>.toExternal(baseStillPath: String) = map { it.toExternal(baseStillPath) }
