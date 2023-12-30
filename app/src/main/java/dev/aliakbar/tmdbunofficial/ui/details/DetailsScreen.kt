@@ -83,15 +83,11 @@ fun DetailsScreen(
     {
         is DetailsUiState.Loading -> Text(text = "Loading")
         is DetailsUiState.SuccessMovie -> MovieDetails(movie = uiState.movie, onBookmarkClick = { })
-        // TODO: implement after adding season details
-        is DetailsUiState.SuccessTv -> Text(text = "Test")
-            /*TvDetails(
+        is DetailsUiState.SuccessTv ->
+            TvDetails(
             tv = uiState.tv,
-            viewModel.,
             onBookmarkClick = {},
-            onSeasonClick = {
-            viewModel.getSeasonDetails(uiState.tv.id,it)
-        })*/
+            onSeasonClick = { viewModel.getSeasonDetails(uiState.tv.id,it) })
         is DetailsUiState.Error   -> Text(text = "Error")
         else -> Text(text = "Test")
     }
@@ -233,7 +229,7 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
 @Composable
 fun TvDetails(
     tv: Tv,
-    seasonDetailsUiState: SeasonDetailsUiState,
+    //seasonDetailsUiState: SeasonDetailsUiState,
     onBookmarkClick: () -> Unit,
     onSeasonClick: (Int) -> Unit,
     modifier: Modifier = Modifier

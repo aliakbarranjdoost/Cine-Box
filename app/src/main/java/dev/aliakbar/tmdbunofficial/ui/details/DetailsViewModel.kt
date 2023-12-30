@@ -47,10 +47,6 @@ class DetailsViewModel(
         DetailsUiState.Loading
     )
 
-    /*var seasonDetailsUiState: SeasonDetailsUiState by mutableStateOf(
-        SeasonDetailsUiState.Loading
-    )*/
-
     private val id: Int = savedStateHandle["id"] ?: 0
     private val type: Boolean = savedStateHandle["type"] ?: true
 
