@@ -51,6 +51,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Trend
+import dev.aliakbar.tmdbunofficial.ui.components.Rank
 import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
@@ -143,7 +144,9 @@ fun TopItem(top: Trend, onNavigateToDetails: () -> Unit, modifier: Modifier = Mo
     {
         Column(modifier = Modifier.fillMaxSize())
         {
-            Box(modifier = Modifier.weight(0.76F).fillMaxWidth())
+            Box(modifier = Modifier
+                .weight(0.76F)
+                .fillMaxWidth())
             {
                 AsyncImage(
                     model = ImageRequest
@@ -157,25 +160,7 @@ fun TopItem(top: Trend, onNavigateToDetails: () -> Unit, modifier: Modifier = Mo
                         .fillMaxSize()
                 )
 
-                Box(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .align(Alignment.TopStart)
-                        .clip(CircleShape)
-                        .background(Color.Black),
-                    contentAlignment = Alignment.Center
-                )
-                {
-                    Text(
-                        text = top.rank.toString(),
-                        maxLines = 1,
-                        color = Color.White,
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier
-                            .padding(4.dp),
-                        textAlign = TextAlign.Center,
-                    )
-                }
+                Rank(rank = top.rank, modifier = Modifier.size(40.dp).align(Alignment.TopStart))
             }
 
             Row(
