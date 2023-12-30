@@ -51,6 +51,8 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -69,11 +71,13 @@ import dev.aliakbar.tmdbunofficial.data.Video
 import dev.aliakbar.tmdbunofficial.data.source.sample.movie
 import dev.aliakbar.tmdbunofficial.ui.components.CastItem
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
+import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 
 const val OVERVIEW_PREVIEW_MAX_LINE = 3
 
 @Composable
 fun DetailsScreen(
+    navController: NavHostController,
     viewModel: DetailsViewModel = viewModel(factory = DetailsViewModel.factory)
 )
 {
@@ -87,9 +91,9 @@ fun DetailsScreen(
             TvDetails(
             tv = uiState.tv,
             onBookmarkClick = {},
-            onSeasonClick = { viewModel.getSeasonDetails(uiState.tv.id,it) })
+            onSeasonClick = { navController.navigate(TmdbScreen.EpisodeList.name + "/" + uiState.tv.id + "/" + it)}
+            )
         is DetailsUiState.Error   -> Text(text = "Error")
-        else -> Text(text = "Test")
     }
 }
 
@@ -725,7 +729,7 @@ fun SeasonItem(season: Season, onSeasonClick: (Int) -> Unit)
         modifier = Modifier
             .width(200.dp)
             .height(400.dp),
-        onClick = { onSeasonClick(season.id) }
+        onClick = { onSeasonClick(season.seasonNumber) }
     )
     {
         Column {

@@ -32,6 +32,7 @@ import androidx.navigation.navArgument
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.ui.bookmark.BookmarkScreen
 import dev.aliakbar.tmdbunofficial.ui.details.DetailsScreen
+import dev.aliakbar.tmdbunofficial.ui.episode.EpisodeListScreen
 import dev.aliakbar.tmdbunofficial.ui.home.HomeScreen
 import dev.aliakbar.tmdbunofficial.ui.search.SearchScreen
 import dev.aliakbar.tmdbunofficial.ui.top.TopScreen
@@ -45,7 +46,8 @@ enum class TmdbScreen(@StringRes val title: Int,val icon: ImageVector? = null)
     Top(title = R.string.top, Icons.AutoMirrored.Filled.List),
     Setting(title = R.string.setting,Icons.Filled.Settings),
     MovieDetails(title = R.string.movie_details),
-    SeriesDetails(title = R.string.series_details)
+    SeriesDetails(title = R.string.series_details),
+    EpisodeList(title = R.string.episode_list)
 }
 
 @Composable
@@ -100,11 +102,20 @@ fun TmdbApp(
                 )
                 )
             { backStackEntry ->
-                DetailsScreen()
+                DetailsScreen(navController)
             }
             composable(route = TmdbScreen.SeriesDetails.name)
             {
 
+            }
+            composable(route = TmdbScreen.EpisodeList.name + "/{id}" + "/{seasonNumber}",
+                arguments = listOf(
+                    navArgument("id") {type = NavType.IntType},
+                    navArgument("seasonNumber") {type = NavType.IntType}
+                )
+            )
+            {
+                EpisodeListScreen()
             }
         }
     }

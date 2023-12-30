@@ -29,13 +29,6 @@ sealed interface DetailsUiState
     data object Loading : DetailsUiState
 }
 
-sealed interface SeasonDetailsUiState
-{
-    data class Success(val seasonDetails: SeasonDetails): DetailsUiState
-    data object Error : DetailsUiState
-    data object Loading : DetailsUiState
-}
-
 private val TAG: String = DetailsViewModel::class.java.simpleName
 
 class DetailsViewModel(
@@ -88,27 +81,6 @@ class DetailsViewModel(
             detailsUiState = try
             {
                 DetailsUiState.SuccessTv(repository.getTvDetails(id))
-            }
-            catch (e: IOException)
-            {
-                DetailsUiState.Error
-            }
-            catch (e: HttpException)
-            {
-                DetailsUiState.Error
-            }
-        }
-    }
-
-    fun getSeasonDetails(tvId: Int, seasonNumber : Int)
-    {
-        viewModelScope.launch()
-        {
-            detailsUiState = try
-            {
-                SeasonDetailsUiState.Success(
-                    repository.getSeasonDetails(tvId, seasonNumber)
-                )
             }
             catch (e: IOException)
             {

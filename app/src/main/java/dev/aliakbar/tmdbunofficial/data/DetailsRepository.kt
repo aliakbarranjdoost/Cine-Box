@@ -32,12 +32,6 @@ class DetailsRepository(
         )
     }
 
-    suspend fun getSeasonDetails(id: Int, seasonNumber: Int): SeasonDetails
-    {
-        return networkDataSource.getSeasonDetails(id, seasonNumber)
-            .toExternal(basePosterUrl = basePosterUrl, baseStillUrl = baseStillUrl)
-    }
-
     suspend fun addMovieToBookmark(bookmark: Bookmark)
     {
         localDataSource.bookmarkDao().insert(bookmark.toLocal())
