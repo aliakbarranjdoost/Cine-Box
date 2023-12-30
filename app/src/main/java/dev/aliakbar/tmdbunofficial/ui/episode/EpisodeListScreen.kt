@@ -3,10 +3,9 @@ package dev.aliakbar.tmdbunofficial.ui.episode
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
-import dev.aliakbar.tmdbunofficial.ui.details.DetailsViewModel
 
 @Composable
-fun EpisodeListScreen(
+fun SeasonDetailsScreen(
     viewModel: EpisodeListViewModel = viewModel(factory = EpisodeListViewModel.factory)
 )
 {
@@ -14,8 +13,8 @@ fun EpisodeListScreen(
 
     when(uiState)
     {
-        is EpisodeListUiState.Loading -> Text(text = "Loading")
-        is EpisodeListUiState.Success -> Text(text = uiState.seasonDetails.id.toString())
-        is EpisodeListUiState.Error -> Text(text = "Error")
+        is SeasonDetailsUiState.Loading -> Text(text = "Loading")
+        is SeasonDetailsUiState.Success -> Text(text = uiState.seasonDetails.id.toString())
+        is SeasonDetailsUiState.Error   -> Text(text = "Error")
     }
 }

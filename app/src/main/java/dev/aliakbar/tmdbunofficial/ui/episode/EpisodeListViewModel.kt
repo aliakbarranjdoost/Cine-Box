@@ -11,31 +11,27 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
-import dev.aliakbar.tmdbunofficial.data.DetailsRepository
-import dev.aliakbar.tmdbunofficial.data.Episode
-import dev.aliakbar.tmdbunofficial.data.EpisodeListRepository
+import dev.aliakbar.tmdbunofficial.data.SeasonDetailsRepository
 import dev.aliakbar.tmdbunofficial.data.SeasonDetails
-import dev.aliakbar.tmdbunofficial.ui.details.DetailsUiState
-import dev.aliakbar.tmdbunofficial.ui.details.DetailsViewModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
-sealed interface EpisodeListUiState
+sealed interface SeasonDetailsUiState
 {
-    data class Success(val seasonDetails: SeasonDetails): EpisodeListUiState
-    data object Loading: EpisodeListUiState
-    data object Error: EpisodeListUiState
+    data class Success(val seasonDetails: SeasonDetails): SeasonDetailsUiState
+    data object Loading: SeasonDetailsUiState
+    data object Error: SeasonDetailsUiState
 }
 
 private val TAG = EpisodeListViewModel:: class.java.simpleName
 class EpisodeListViewModel(
-    private val repository: EpisodeListRepository,
+    private val repository: SeasonDetailsRepository,
     private val savedStateHandle: SavedStateHandle
 ): ViewModel()
 {
-    var episodeListUiState: EpisodeListUiState by mutableStateOf(
-        EpisodeListUiState.Loading
+    var episodeListUiState: SeasonDetailsUiState by mutableStateOf(
+        SeasonDetailsUiState.Loading
     )
     private val id: Int = savedStateHandle["id"] ?: 0
     private val seasonNumber: Int = savedStateHandle["seasonNumber"] ?: 0
@@ -51,15 +47,15 @@ class EpisodeListViewModel(
         {
             episodeListUiState = try
             {
-                EpisodeListUiState.Success(repository.getSeasonDetails(id,seasonNumber))
+                SeasonDetailsUiState.Success(repository.getSeasonDetails(id,seasonNumber))
             }
             catch (e: IOException)
             {
-                EpisodeListUiState.Error
+                SeasonDetailsUiState.Error
             }
             catch (e: HttpException)
             {
-                EpisodeListUiState.Error
+                SeasonDetailsUiState.Error
             }
         }
     }
@@ -72,7 +68,7 @@ class EpisodeListViewModel(
             {
                 val application =
                     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as TmdbUnofficialApplication)
-                val repository = application.container.episodeListRepository
+                val repository = application.container.seasonDetailsRepository
                 val savedStateHandle = this.createSavedStateHandle()
                 EpisodeListViewModel(repository, savedStateHandle)
             }

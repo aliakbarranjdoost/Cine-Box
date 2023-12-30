@@ -32,7 +32,7 @@ import androidx.navigation.navArgument
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.ui.bookmark.BookmarkScreen
 import dev.aliakbar.tmdbunofficial.ui.details.DetailsScreen
-import dev.aliakbar.tmdbunofficial.ui.episode.EpisodeListScreen
+import dev.aliakbar.tmdbunofficial.ui.episode.SeasonDetailsScreen
 import dev.aliakbar.tmdbunofficial.ui.home.HomeScreen
 import dev.aliakbar.tmdbunofficial.ui.search.SearchScreen
 import dev.aliakbar.tmdbunofficial.ui.top.TopScreen
@@ -115,7 +115,7 @@ fun TmdbApp(
                 )
             )
             {
-                EpisodeListScreen()
+                SeasonDetailsScreen()
             }
         }
     }
