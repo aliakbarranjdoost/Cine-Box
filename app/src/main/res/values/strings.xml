@@ -13,6 +13,7 @@
     <string name = "Movie">Movie</string>
     <string name = "Series">Series</string>
     <string name = "episode_list">Episode List</string>
+    <string name = "episode">Episode</string>
 
     <string-array name = "date_range_options">
         <item>@string/today</item>

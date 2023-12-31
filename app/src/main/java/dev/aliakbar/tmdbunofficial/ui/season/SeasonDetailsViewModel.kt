@@ -1,4 +1,4 @@
-package dev.aliakbar.tmdbunofficial.ui.episode
+package dev.aliakbar.tmdbunofficial.ui.season
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,8 +24,8 @@ sealed interface SeasonDetailsUiState
     data object Error: SeasonDetailsUiState
 }
 
-private val TAG = EpisodeListViewModel:: class.java.simpleName
-class EpisodeListViewModel(
+private val TAG = SeasonDetailsViewModel:: class.java.simpleName
+class SeasonDetailsViewModel(
     private val repository: SeasonDetailsRepository,
     private val savedStateHandle: SavedStateHandle
 ): ViewModel()
@@ -70,7 +70,7 @@ class EpisodeListViewModel(
                     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as TmdbUnofficialApplication)
                 val repository = application.container.seasonDetailsRepository
                 val savedStateHandle = this.createSavedStateHandle()
-                EpisodeListViewModel(repository, savedStateHandle)
+                SeasonDetailsViewModel(repository, savedStateHandle)
             }
         }
     }

@@ -1,8 +1,7 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package dev.aliakbar.tmdbunofficial.ui.episode
+package dev.aliakbar.tmdbunofficial.ui.season
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,8 +16,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.BookmarkBorder
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -49,7 +46,7 @@ import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
 @Composable
 fun SeasonDetailsScreen(
-    viewModel: EpisodeListViewModel = viewModel(factory = EpisodeListViewModel.factory)
+    viewModel: SeasonDetailsViewModel = viewModel(factory = SeasonDetailsViewModel.factory)
 )
 {
     val uiState = viewModel.episodeListUiState
