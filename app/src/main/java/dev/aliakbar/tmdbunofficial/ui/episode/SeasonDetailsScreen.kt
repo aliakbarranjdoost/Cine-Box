@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -28,6 +29,8 @@ import dev.aliakbar.tmdbunofficial.data.Episode
 import dev.aliakbar.tmdbunofficial.data.SeasonDetails
 import dev.aliakbar.tmdbunofficial.data.source.sample.episode
 import dev.aliakbar.tmdbunofficial.data.source.sample.episodes
+import dev.aliakbar.tmdbunofficial.ui.components.Rank
+import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 
 @Composable
 fun SeasonDetailsScreen(
@@ -36,12 +39,14 @@ fun SeasonDetailsScreen(
 {
     val uiState = viewModel.episodeListUiState
 
-    when(uiState)
+    when (uiState)
     {
         is SeasonDetailsUiState.Loading -> Text(text = "Loading")
-        is SeasonDetailsUiState.Success -> {
+        is SeasonDetailsUiState.Success ->
+        {
             SeasonDetailsScreen(seasonDetails = uiState.seasonDetails)
         }
+
         is SeasonDetailsUiState.Error   -> Text(text = "Error")
     }
 }
@@ -73,11 +78,11 @@ fun EpisodeList(
 @Composable
 fun EpisodeItem(episode: Episode)
 {
-    Row(Modifier.height(225.dp)) {
+    Row(Modifier.height(100.dp)) {
         Box(
             modifier = Modifier
                 .width(150.dp)
-                .height(225.dp)
+                .height(100.dp)
         )
         {
             AsyncImage(
@@ -85,27 +90,29 @@ fun EpisodeItem(episode: Episode)
                     .Builder(context = LocalContext.current)
                     .data(episode.stillUrl)
                     .build(),
-                placeholder = painterResource(id = R.drawable.still_test),
+                placeholder = painterResource(id = R.drawable.backdrop_test),
                 contentScale = ContentScale.FillBounds,
                 contentDescription = null,
-                
-            )
-            Text(
-                text = episode.episodeNumber.toString(),
-                modifier = Modifier.align(Alignment.TopStart)
-            )
-            Text(text = episode.voteAverage.toString(),
-                modifier = Modifier.align(Alignment.BottomStart))
 
-            Text(text = episode.voteAverage.toString(),
-                modifier = Modifier.align(Alignment.BottomEnd))
+                )
+            Rank(
+                rank = episode.episodeNumber, modifier = Modifier
+                    .size(30.dp)
+                    .align(Alignment.TopStart)
+                    .padding(start = 2.dp, top = 2.dp)
+            )
 
+            ScoreBar(
+                score = episode.voteAverage,
+                modifier =
+                Modifier.size(40.dp)
+                    .align(Alignment.BottomStart))
         }
 
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(8.dp)) {
             Text(text = episode.episodeNumber.toString() + ". " + episode.name)
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = episode.overview, maxLines = 5)
+            Text(text = episode.overview, maxLines = 3)
         }
     }
 }
