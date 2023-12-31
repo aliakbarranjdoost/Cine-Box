@@ -10,9 +10,9 @@ data class Tv(
     val createdBy: List<Person>,
     //episode_run_ti
     val firstAirDate: String,
-    val lastAirDate: String,
+    val lastAirDate: String?,
     val nextEpisodeToAir: NetworkEpisode?,
-    val lastEpisodeToAir: NetworkEpisode,
+    val lastEpisodeToAir: NetworkEpisode?,
     val networks: List<Company>,
     val numberOfEpisodes: Int,
     val numberOfSeasons: Int,

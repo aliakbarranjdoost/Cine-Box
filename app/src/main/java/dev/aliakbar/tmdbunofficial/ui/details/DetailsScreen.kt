@@ -51,7 +51,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -91,7 +90,7 @@ fun DetailsScreen(
             TvDetails(
             tv = uiState.tv,
             onBookmarkClick = {},
-            onSeasonClick = { navController.navigate(TmdbScreen.EpisodeList.name + "/" + uiState.tv.id + "/" + it)}
+            onSeasonClick = { navController.navigate(TmdbScreen.SeasonDetails.name + "/" + uiState.tv.id + "/" + it)}
             )
         is DetailsUiState.Error   -> Text(text = "Error")
     }

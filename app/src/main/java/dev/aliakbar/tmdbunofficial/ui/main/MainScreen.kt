@@ -48,7 +48,7 @@ enum class TmdbScreen(@StringRes val title: Int,val icon: ImageVector? = null)
     Setting(title = R.string.setting,Icons.Filled.Settings),
     MovieDetails(title = R.string.movie_details),
     SeriesDetails(title = R.string.series_details),
-    EpisodeList(title = R.string.episode_list),
+    SeasonDetails(title = R.string.episode_list),
     EpisodeDetails(title = R.string.episode)
 }
 
@@ -110,17 +110,17 @@ fun TmdbApp(
             {
 
             }
-            composable(route = TmdbScreen.EpisodeList.name + "/{id}" + "/{seasonNumber}",
+            composable(route = TmdbScreen.SeasonDetails.name + "/{id}" + "/{seasonNumber}",
                 arguments = listOf(
                     navArgument("id") {type = NavType.IntType},
                     navArgument("seasonNumber") {type = NavType.IntType}
                 )
             )
             {
-                SeasonDetailsScreen()
+                SeasonDetailsScreen(navController)
             }
             composable(
-                route = TmdbScreen.EpisodeDetails.name + "episode",
+                route = TmdbScreen.EpisodeDetails.name + "/{episode}",
                 arguments = listOf(navArgument("episode") { type = NavType.StringType })
             )
             {

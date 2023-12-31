@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -32,6 +33,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.aliakbar.tmdbunofficial.R
@@ -42,10 +44,13 @@ import dev.aliakbar.tmdbunofficial.data.source.sample.episodes
 import dev.aliakbar.tmdbunofficial.data.source.sample.seasonDetails
 import dev.aliakbar.tmdbunofficial.ui.components.Rank
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
+import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
+import dev.aliakbar.tmdbunofficial.util.toJsonString
 
 @Composable
 fun SeasonDetailsScreen(
+    navController: NavHostController,
     viewModel: SeasonDetailsViewModel = viewModel(factory = SeasonDetailsViewModel.factory)
 )
 {
@@ -56,7 +61,10 @@ fun SeasonDetailsScreen(
         is SeasonDetailsUiState.Loading -> Text(text = "Loading")
         is SeasonDetailsUiState.Success ->
         {
-            SeasonDetailsScreen(seasonDetails = uiState.seasonDetails)
+            SeasonDetailsScreen(seasonDetails = uiState.seasonDetails,
+                onEpisodeClick = {
+                    navController.navigate(TmdbScreen.EpisodeDetails.name + "/" + it.toJsonString())
+                })
         }
 
         is SeasonDetailsUiState.Error   -> Text(text = "Error")
@@ -65,14 +73,15 @@ fun SeasonDetailsScreen(
 
 @Composable
 fun SeasonDetailsScreen(
-    seasonDetails: SeasonDetails
+    seasonDetails: SeasonDetails,
+    onEpisodeClick: (Episode) -> Unit
 )
 {
     Scaffold(
         topBar = { TopBar(title = seasonDetails.name) }
     )
     { innerPadding ->
-        EpisodeList(episodes = seasonDetails.episodes, modifier = Modifier.padding(innerPadding))
+        EpisodeList(episodes = seasonDetails.episodes, modifier = Modifier.padding(innerPadding), onEpisodeClick )
     }
 }
 
@@ -102,7 +111,8 @@ fun TopBar(title: String)
 @Composable
 fun EpisodeList(
     episodes: List<Episode>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onEpisodeClick: (Episode) -> Unit
 )
 {
     LazyColumn(
@@ -112,51 +122,54 @@ fun EpisodeList(
     {
         items(items = episodes)
         {
-            EpisodeItem(episode = it)
+            EpisodeItem(episode = it, onEpisodeClick)
         }
     }
 }
 
 @Composable
-fun EpisodeItem(episode: Episode)
+fun EpisodeItem(episode: Episode, onEpisodeClick: (Episode) -> Unit)
 {
-    Row(Modifier.height(100.dp)) {
-        Box(
-            modifier = Modifier
-                .width(150.dp)
-                .height(100.dp)
-        )
-        {
-            AsyncImage(
-                model = ImageRequest
-                    .Builder(context = LocalContext.current)
-                    .data(episode.stillUrl)
-                    .build(),
-                placeholder = painterResource(id = R.drawable.backdrop_test),
-                contentScale = ContentScale.FillBounds,
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize()
-                )
-            Rank(
-                rank = episode.episodeNumber, modifier = Modifier
-                    .size(30.dp)
-                    .align(Alignment.TopStart)
-                    .padding(start = 2.dp, top = 2.dp)
+    Card(onClick = { onEpisodeClick(episode) }) {
+        Row(Modifier.height(100.dp)) {
+            Box(
+                modifier = Modifier
+                    .width(150.dp)
+                    .height(100.dp)
             )
+            {
+                AsyncImage(
+                    model = ImageRequest
+                        .Builder(context = LocalContext.current)
+                        .data(episode.stillUrl)
+                        .build(),
+                    placeholder = painterResource(id = R.drawable.backdrop_test),
+                    contentScale = ContentScale.FillBounds,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize()
+                )
+                Rank(
+                    rank = episode.episodeNumber, modifier = Modifier
+                        .size(30.dp)
+                        .align(Alignment.TopStart)
+                        .padding(start = 2.dp, top = 2.dp)
+                )
 
-            ScoreBar(
-                score = episode.voteAverage,
-                modifier =
-                Modifier
-                    //.size(40.dp)
-                    .align(Alignment.BottomStart))
+                ScoreBar(
+                    score = episode.voteAverage,
+                    modifier =
+                    Modifier
+                        //.size(40.dp)
+                        .align(Alignment.BottomStart))
+            }
+
+            Column(modifier = Modifier.padding(8.dp)) {
+                Text(text = episode.episodeNumber.toString() + ". " + episode.name)
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(text = episode.overview, maxLines = 3)
+            }
         }
 
-        Column(modifier = Modifier.padding(8.dp)) {
-            Text(text = episode.episodeNumber.toString() + ". " + episode.name)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = episode.overview, maxLines = 3)
-        }
     }
 }
 
@@ -164,19 +177,19 @@ fun EpisodeItem(episode: Episode)
 @Composable
 fun PreviewEpisodeItem()
 {
-    EpisodeItem(episode = episode)
+    EpisodeItem(episode = episode, {})
 }
 
 //@Preview
 @Composable
 fun PreviewEpisodeList()
 {
-    EpisodeList(episodes = episodes)
+    EpisodeList(episodes = episodes, onEpisodeClick = {})
 }
 
 @Preview
 @Composable
 fun PreviewSeasonDetailsScreen()
 {
-    TMDBUnofficialTheme { SeasonDetailsScreen(seasonDetails) }
+    TMDBUnofficialTheme { SeasonDetailsScreen(seasonDetails, {}) }
 }

@@ -23,7 +23,7 @@ class Converters
 
 fun Episode.toJsonString(): String
 {
-    return Json.encodeToString(this.toString())
+    return Json.encodeToString(this)
 }
 
 fun String.toEpisode(): Episode
