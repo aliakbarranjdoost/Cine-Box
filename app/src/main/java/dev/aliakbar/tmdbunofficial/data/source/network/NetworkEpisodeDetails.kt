@@ -17,7 +17,7 @@ data class NetworkEpisodeDetails(
     @SerialName("episode_number")
     val episodeNumber: Int,
     @SerialName("episode_type")
-    val episodeType: String,
+    val episodeType: String? = null,
     @SerialName("production_code")
     val productionCode: String,
     val runtime: Int?,
@@ -27,5 +27,7 @@ data class NetworkEpisodeDetails(
     val stillPath: String?,
     val images : NetworkStillResponse,
     val credits : NetworkCreditAndGuestStarsResponse,
-    val videos: List<NetworkVideo>
+    val videos: NetworkVideoResponse,
+    //@SerialName("guest_stars")
+    //val guestStars: List<NetworkCast>
 )

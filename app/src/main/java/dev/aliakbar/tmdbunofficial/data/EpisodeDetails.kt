@@ -8,7 +8,7 @@ data class EpisodeDetails(
     val voteCount: Int,
     val airDate: String,
     val episodeNumber: Int,
-    val episodeType: String,
+    val episodeType: String?,
     val productionCode: String,
     val runtime: Int?,
     val seasonNumber: Int,

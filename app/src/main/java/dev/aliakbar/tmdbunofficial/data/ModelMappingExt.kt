@@ -620,6 +620,6 @@ fun NetworkEpisodeDetails.toExternal(
     stills = images.stills.toExternal(baseStillUrl),
     casts = credits.cast.toExternal(baseProfileUrl),
     crews = credits.crew.toExternal(baseProfileUrl),
-    guestStars = credits.guest.toExternal(baseProfileUrl),
-    videos = videos.toExternal()
+    guestStars = credits.guestStars.toExternal(baseProfileUrl),
+    videos = videos.results.toExternal()
 )

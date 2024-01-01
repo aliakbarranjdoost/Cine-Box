@@ -35,5 +35,6 @@ data class NetworkStillResponse(
 data class NetworkCreditAndGuestStarsResponse(
     val cast: List<NetworkCast>,
     val crew: List<NetworkCrew>,
-    val guest: List<NetworkCast>
+    @SerialName("guest_stars")
+    val guestStars: List<NetworkCast>
 )

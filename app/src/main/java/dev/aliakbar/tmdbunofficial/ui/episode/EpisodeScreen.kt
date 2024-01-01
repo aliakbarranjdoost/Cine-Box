@@ -134,8 +134,11 @@ fun EpisodeScreen(
                     Text(text = episode.seasonNumber.toString())
                     DetailsHeader(header = "Episode")
                     Text(text = episode.episodeNumber.toString())
-                    DetailsHeader(header = "Type")
-                    Text(text = episode.episodeType)
+                    if (episode.episodeType != null)
+                    {
+                        DetailsHeader(header = "Type")
+                        Text(text = episode.episodeType)
+                    }
                     TextButton(
                         onClick = { showDetails = false },
                         modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
