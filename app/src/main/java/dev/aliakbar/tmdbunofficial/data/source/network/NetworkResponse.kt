@@ -25,3 +25,15 @@ data class NetworkImageResponse(
     val logos: List<NetworkImage>,
     val posters: List<NetworkImage>
 )
+
+@Serializable
+data class NetworkStillResponse(
+    val stills: List<NetworkImage>
+)
+
+@Serializable
+data class NetworkCreditAndGuestStarsResponse(
+    val cast: List<NetworkCast>,
+    val crew: List<NetworkCrew>,
+    val guest: List<NetworkCast>
+)
