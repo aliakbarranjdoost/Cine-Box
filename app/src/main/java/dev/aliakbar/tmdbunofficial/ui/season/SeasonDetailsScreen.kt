@@ -62,8 +62,11 @@ fun SeasonDetailsScreen(
         is SeasonDetailsUiState.Success ->
         {
             SeasonDetailsScreen(seasonDetails = uiState.seasonDetails,
-                onEpisodeClick = {
-                    navController.navigate(TmdbScreen.EpisodeDetails.name + "/" + it.toJsonString())
+                onEpisodeClick =
+                {
+                    navController.navigate(
+                        TmdbScreen.EpisodeDetails.name + "/" + viewModel.id
+                                + "/" + it.seasonNumber + "/" + it.episodeNumber)
                 })
         }
 

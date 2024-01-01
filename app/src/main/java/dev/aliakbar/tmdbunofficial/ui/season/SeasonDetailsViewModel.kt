@@ -33,7 +33,7 @@ class SeasonDetailsViewModel(
     var episodeListUiState: SeasonDetailsUiState by mutableStateOf(
         SeasonDetailsUiState.Loading
     )
-    private val id: Int = savedStateHandle["id"] ?: 0
+    val id: Int = savedStateHandle["id"] ?: 0
     private val seasonNumber: Int = savedStateHandle["seasonNumber"] ?: 0
 
     init

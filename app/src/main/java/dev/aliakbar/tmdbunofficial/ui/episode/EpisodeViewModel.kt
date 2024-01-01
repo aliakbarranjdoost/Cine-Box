@@ -24,13 +24,13 @@ private val TAG = EpisodeViewModel:: class.java.simpleName
 
 class EpisodeViewModel(savedStateHandle: SavedStateHandle): ViewModel()
 {
-    private val episodeJson: String = savedStateHandle["episode"] ?: ""
-    val episode: Episode = episodeJson.toEpisode()
+    private val id: Int = savedStateHandle["seriesId"] ?: 0
+    private val seasonNumber: Int = savedStateHandle["seasonNumber"] ?: 0
+    private val episodeNumber: Int = savedStateHandle["episodeNumber"] ?: 0
 
     init
     {
-        Log.d(TAG, episodeJson)
-        Log.d(TAG, episode.toString())
+        Log.d(TAG, id.toString() + seasonNumber.toString() + episodeNumber.toString())
     }
 
     companion object

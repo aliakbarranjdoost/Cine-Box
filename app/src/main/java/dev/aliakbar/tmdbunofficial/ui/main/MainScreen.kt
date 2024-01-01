@@ -120,8 +120,12 @@ fun TmdbApp(
                 SeasonDetailsScreen(navController)
             }
             composable(
-                route = TmdbScreen.EpisodeDetails.name + "/{episode}",
-                arguments = listOf(navArgument("episode") { type = NavType.StringType })
+                route = TmdbScreen.EpisodeDetails.name + "/{seriesId}" + "/{seasonNumber}" + "/{episodeNumber}",
+                arguments = listOf(
+                    navArgument("seriesId") { type = NavType.IntType },
+                    navArgument("seasonNumber") { type = NavType.IntType },
+                    navArgument("episodeNumber") { type = NavType.IntType }
+                )
             )
             {
                 EpisodeScreen()
