@@ -5,6 +5,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import dev.aliakbar.tmdbunofficial.data.BookmarkRepository
 import dev.aliakbar.tmdbunofficial.data.ConfigurationRepository
 import dev.aliakbar.tmdbunofficial.data.DetailsRepository
+import dev.aliakbar.tmdbunofficial.data.EpisodeRepository
 import dev.aliakbar.tmdbunofficial.data.SeasonDetailsRepository
 import dev.aliakbar.tmdbunofficial.data.HomeRepository
 import dev.aliakbar.tmdbunofficial.data.SearchRepository
@@ -26,6 +27,7 @@ interface AppContainer
     val topRepository: TopRepository
     val searchRepository: SearchRepository
     val seasonDetailsRepository: SeasonDetailsRepository
+    val episodeRepository: EpisodeRepository
 }
 
 class DefaultAppContainer(context: Context): AppContainer
@@ -105,5 +107,12 @@ class DefaultAppContainer(context: Context): AppContainer
     override val seasonDetailsRepository: SeasonDetailsRepository by lazy()
     {
         SeasonDetailsRepository(retrofitService,roomDatabase)
+    }
+    override val episodeRepository: EpisodeRepository by lazy()
+    {
+        EpisodeRepository(
+            retrofitService,
+            roomDatabase
+        )
     }
 }

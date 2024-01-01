@@ -602,7 +602,6 @@ fun NetworkPerson.toExternal(baseProfileUrl: String) = Person(
 fun List<NetworkPerson>.toExternal(baseProfileUrl: String) = map { it.toExternal(baseProfileUrl) }
 
 fun NetworkEpisodeDetails.toExternal(
-    baseUrl: String,
     baseStillUrl: String,
     baseProfileUrl: String
 ) = EpisodeDetails(
@@ -618,7 +617,7 @@ fun NetworkEpisodeDetails.toExternal(
     runtime = runtime,
     seasonNumber = seasonNumber,
     stillPath = baseStillUrl + stillPath,
-    images = images.stills.toExternal(baseUrl),
+    images = images.stills.toExternal(baseStillUrl),
     casts = credits.cast.toExternal(baseProfileUrl),
     crews = credits.crew.toExternal(baseProfileUrl),
     guestStars = credits.guest.toExternal(baseProfileUrl),
