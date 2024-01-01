@@ -44,6 +44,7 @@ import dev.aliakbar.tmdbunofficial.data.source.sample.episodes
 import dev.aliakbar.tmdbunofficial.data.source.sample.seasonDetails
 import dev.aliakbar.tmdbunofficial.ui.components.Rank
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
+import dev.aliakbar.tmdbunofficial.ui.components.TopBar
 import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 import dev.aliakbar.tmdbunofficial.util.toJsonString
@@ -86,29 +87,6 @@ fun SeasonDetailsScreen(
     { innerPadding ->
         EpisodeList(episodes = seasonDetails.episodes, modifier = Modifier.padding(innerPadding), onEpisodeClick )
     }
-}
-
-@Composable
-fun TopBar(title: String)
-{
-    CenterAlignedTopAppBar(
-        title = {
-            Text(
-                text = title,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        },
-        navigationIcon = {
-            IconButton(onClick = { /* doSomething() */ })
-            {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Localized description"
-                )
-            }
-        }
-    )
 }
 
 @Composable
