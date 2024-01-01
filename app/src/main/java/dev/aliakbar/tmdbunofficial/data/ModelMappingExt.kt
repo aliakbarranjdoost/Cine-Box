@@ -9,6 +9,7 @@ import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCompany
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCountry
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCrew
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkEpisode
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkEpisodeDetails
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkGenre
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImage
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImageConfiguration
@@ -599,3 +600,27 @@ fun NetworkPerson.toExternal(baseProfileUrl: String) = Person(
 
 @JvmName("NetworkPersonToExternal")
 fun List<NetworkPerson>.toExternal(baseProfileUrl: String) = map { it.toExternal(baseProfileUrl) }
+
+fun NetworkEpisodeDetails.toExternal(
+    baseUrl: String,
+    baseStillUrl: String,
+    baseProfileUrl: String
+) = EpisodeDetails(
+    id = id,
+    name = name,
+    overview = overview,
+    voteAverage = voteAverage,
+    voteCount = voteCount,
+    airDate = airDate,
+    episodeNumber = episodeNumber,
+    episodeType = episodeType,
+    productionCode = productionCode,
+    runtime = runtime,
+    seasonNumber = seasonNumber,
+    stillPath = baseStillUrl + stillPath,
+    images = images.stills.toExternal(baseUrl),
+    casts = credits.cast.toExternal(baseProfileUrl),
+    crews = credits.crew.toExternal(baseProfileUrl),
+    guestStars = credits.guest.toExternal(baseProfileUrl),
+    videos = videos.toExternal()
+)

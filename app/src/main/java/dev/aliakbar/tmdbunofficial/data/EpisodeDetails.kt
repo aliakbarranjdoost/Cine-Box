@@ -14,12 +14,8 @@ data class EpisodeDetails(
     val seasonNumber: Int,
     val stillPath: String?,
     val images: List<Image>,
-    val credits: CreditsAndGuestStars,
-    val videos: List<Video>
-)
-
-data class CreditsAndGuestStars(
     val casts: List<Cast>,
     val crews: List<Crew>,
-    val guestStars: List<Cast>
+    val guestStars: List<Cast>,
+    val videos: List<Video>
 )
