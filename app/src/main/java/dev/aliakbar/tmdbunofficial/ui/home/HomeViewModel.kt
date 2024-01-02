@@ -84,6 +84,14 @@ class HomeViewModel(
         }
     }
 
+    fun removeFromBookmark(trend: Trend)
+    {
+        viewModelScope.launch()
+        {
+            homeRepository.removeFromBookmark(trend)
+        }
+    }
+
     companion object
     {
         val factory: ViewModelProvider.Factory = viewModelFactory()

@@ -317,9 +317,19 @@ fun TrendList(
     {
         items(items = trends, key = { trend -> trend.id })
         { trend ->
-            TrendItem(trend = trend, onNavigateToDetails = onNavigateToDetails,
-            onBookmarkClick =
-            { viewModel.addToBookmark(trend) })
+            TrendItem(
+                trend = trend,
+                onNavigateToDetails = onNavigateToDetails,
+                addToBookmark =
+                {
+                    viewModel.addToBookmark(trend)
+                    //trend.isBookmark = true
+                },
+                removeFromBookmark =
+                {
+                    viewModel.removeFromBookmark(trend)
+                }
+            )
         }
     }
 }
@@ -328,8 +338,9 @@ fun TrendList(
 fun TrendItem(
     trend: Trend,
     onNavigateToDetails: (Trend) -> Unit,
-    onBookmarkClick: () -> Unit
-)
+    addToBookmark: () -> Unit,
+    removeFromBookmark: () -> Unit
+    )
 {
     Card(
         onClick = { onNavigateToDetails(trend) }
@@ -337,7 +348,7 @@ fun TrendItem(
     {
         Column()
         {
-            Poster(trend = trend, onBookmarkClick = onBookmarkClick)
+            Poster(trend = trend, addToBookmark = addToBookmark, removeFromBookmark = removeFromBookmark)
 
             Text(
                 text = trend.title,
@@ -434,8 +445,7 @@ fun SliderItem(trailer: Trailer, onNavigateToDetails: () -> Unit)
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(230.dp)
-                    .clickable()
-                    {
+                    .clickable() {
                         isVideoFullScreen = true
                     }
             )
@@ -531,11 +541,13 @@ fun VideoDialog(
 
 @Composable
 fun Poster(
-    onBookmarkClick: () -> Unit,
+    addToBookmark: () -> Unit,
+    removeFromBookmark: () -> Unit,
     trend: Trend,
     modifier: Modifier = Modifier
 )
 {
+    var isBookmark by remember { mutableStateOf(trend.isBookmark) }
     Box(
         modifier = Modifier
             .size(width = 150.dp, height = 225.dp)
@@ -559,14 +571,26 @@ fun Poster(
         )
 
         IconButton(
-            onClick = onBookmarkClick ,
+            onClick =
+            {
+                if (isBookmark)
+                {
+                    removeFromBookmark()
+                }
+                else
+                {
+                    addToBookmark()
+                }
+
+                isBookmark = !isBookmark
+            },
             modifier = Modifier
                 .size(48.dp)
                 .align(Alignment.BottomEnd),
         )
         {
             Icon(
-                imageVector = if (trend.isBookmark) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
+                imageVector = if (isBookmark) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxSize()
@@ -602,7 +626,7 @@ fun PreviewPoster()
 {
     TMDBUnofficialTheme()
     {
-        Poster(trend = trend, onBookmarkClick = {})
+        Poster(trend = trend, addToBookmark = {}, removeFromBookmark = {})
     }
 }
 

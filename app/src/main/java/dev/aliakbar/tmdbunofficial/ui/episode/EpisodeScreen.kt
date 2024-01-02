@@ -157,7 +157,7 @@ fun EpisodeScreen(
 
             CrewList(crews = episode.crews)
 
-            ListHeader(header = "Crew")
+            ListHeader(header = "Guest Stars")
 
             CastList(casts = episode.guestStars)
 
