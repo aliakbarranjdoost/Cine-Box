@@ -15,12 +15,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
@@ -28,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -83,8 +86,18 @@ fun TopScreen(
         }
         when (tabState)
         {
-            0 -> TopList(tops = topMovies, navController)
-            1 -> TopList(tops = topSeries, navController)
+            0 -> TopList(
+                tops = topMovies,
+                navController = navController,
+                addToBookmark = { viewModel.addToBookmark(it) },
+                removeFromBookmark = { viewModel.removeFromBookmark(it) }
+            )
+            1 -> TopList(
+                tops = topSeries,
+                navController = navController,
+                addToBookmark = { viewModel.addToBookmark(it) },
+                removeFromBookmark = { viewModel.removeFromBookmark(it) }
+            )
         }
 
         /*when (val state = topMovies.loadState.refresh) { //FIRST LOAD
@@ -107,6 +120,8 @@ fun TopScreen(
 fun TopList(
     tops: LazyPagingItems<Trend>,
     navController: NavHostController,
+    addToBookmark: (Trend) -> Unit,
+    removeFromBookmark: (Trend) -> Unit,
     modifier: Modifier = Modifier
 )
 {
@@ -124,7 +139,9 @@ fun TopList(
             {
                 TopItem(
                     top = it,
-                    { navController.navigate(TmdbScreen.MovieDetails.name + "/" + tops[index]?.id.toString()) }
+                    onNavigateToDetails = { navController.navigate(TmdbScreen.MovieDetails.name + "/" + tops[index]?.id.toString()) },
+                    addToBookmark = addToBookmark,
+                    removeFromBookmark = removeFromBookmark
                 )
             }
         }
@@ -132,8 +149,13 @@ fun TopList(
 }
 
 @Composable
-fun TopItem(top: Trend, onNavigateToDetails: () -> Unit, modifier: Modifier = Modifier)
+fun TopItem(top: Trend, onNavigateToDetails: () -> Unit,
+            addToBookmark: (Trend) -> Unit,
+            removeFromBookmark: (Trend) -> Unit,
+            modifier: Modifier = Modifier)
 {
+    var isBookmark by remember { mutableStateOf(top.isBookmark) }
+
     Card(
         onClick = onNavigateToDetails,
         modifier = Modifier
@@ -160,7 +182,9 @@ fun TopItem(top: Trend, onNavigateToDetails: () -> Unit, modifier: Modifier = Mo
                         .fillMaxSize()
                 )
 
-                Rank(rank = top.rank, modifier = Modifier.size(40.dp).align(Alignment.TopStart))
+                Rank(rank = top.rank, modifier = Modifier
+                    .size(40.dp)
+                    .align(Alignment.TopStart))
             }
 
             Row(
@@ -182,15 +206,28 @@ fun TopItem(top: Trend, onNavigateToDetails: () -> Unit, modifier: Modifier = Mo
                 )
 
                 IconButton(
-                    onClick = { /* doSomething() */ },
+                    onClick =
+                    {
+                        if (isBookmark)
+                        {
+                            removeFromBookmark(top)
+                        }
+                        else
+                        {
+                            addToBookmark(top)
+                        }
+
+                        isBookmark = !isBookmark
+                    },
                     modifier = Modifier
                         .size(48.dp)
                         .padding(4.dp)
                 )
                 {
                     Icon(
-                        imageVector = Icons.Filled.BookmarkBorder,
+                        imageVector = if (isBookmark) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
                         contentDescription = null,
+                        tint = if (isBookmark) Color.Yellow else LocalContentColor.current,
                         modifier = Modifier
                             .fillMaxSize()
                     )

@@ -13,6 +13,7 @@ import androidx.paging.cachedIn
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.TopRepository
 import dev.aliakbar.tmdbunofficial.data.Trend
+import dev.aliakbar.tmdbunofficial.data.toBookmark
 import dev.aliakbar.tmdbunofficial.ui.details.DetailsUiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -35,6 +36,22 @@ class TopViewModel(private val topRepository: TopRepository) : ViewModel()
 {
     fun getTopRatedMovies(): Flow<PagingData<Trend>> = topRepository.getTopRatedMovies().cachedIn(viewModelScope)
     fun getTopRatedSeries(): Flow<PagingData<Trend>> = topRepository.getTopRatedSeries().cachedIn(viewModelScope)
+
+    fun addToBookmark(trend: Trend)
+    {
+        viewModelScope.launch()
+        {
+            topRepository.addTrendToBookmark(trend)
+        }
+    }
+
+    fun removeFromBookmark(trend: Trend)
+    {
+        viewModelScope.launch()
+        {
+            topRepository.removeFromBookmark(trend)
+        }
+    }
 
     companion object
     {

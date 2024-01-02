@@ -42,16 +42,15 @@ class TopRepository(
         }
     ).flow
 
-    /*suspend fun getTopRatedMovies(): List<Trend>
+    suspend fun addTrendToBookmark(trend: Trend)
     {
-        return networkDataSource.getTopMovies().results.mapIndexed()
-        { index, networkPopularMovie ->
-            networkPopularMovie.toExternal(
-                createBasePosterUrl(), createBaseBackdropUrl(),
-                index.inc(), isBookmark(networkPopularMovie.id),
-            )
-        }
-    }*/
+        localDataSource.bookmarkDao().insert(trend.toBookmark().toLocal())
+    }
+
+    suspend fun removeFromBookmark(trend: Trend)
+    {
+        localDataSource.bookmarkDao().delete(trend.toBookmark().toLocal())
+    }
 
     suspend fun isBookmark(id: Int): Boolean
     {
