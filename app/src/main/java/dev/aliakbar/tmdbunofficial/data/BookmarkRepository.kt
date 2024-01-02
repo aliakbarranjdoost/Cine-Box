@@ -15,6 +15,11 @@ class BookmarkRepository(
         return localDataSource.bookmarkDao().getAllBookmarksStream().map { it.toExternal() }
     }
 
+    suspend fun removeFromBookmark(bookmark: Bookmark)
+    {
+        localDataSource.bookmarkDao().delete(bookmark.toLocal())
+    }
+
     suspend fun getBookmarks() : List<Bookmark>
     {
         return localDataSource.bookmarkDao().getAllBookmarks().map { it.toExternal() }
