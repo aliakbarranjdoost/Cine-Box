@@ -31,7 +31,6 @@ class TopSeriesPagingSource(
         return try
         {
             val page = params.key ?: 1
-            Log.d(TAG, "load: $page")
             val response = networkDataSource.getTopRatedSeries(page = page)
             LoadResult.Page(
                 data = response.results.mapIndexed()

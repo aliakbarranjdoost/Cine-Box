@@ -29,7 +29,7 @@ class MultiSearchPagingSource(
         {
             val page = params.key ?: 1
             val response = repository.search( query = query, page = page)
-            Log.d(TAG, "load: $response")
+            Log.d(TAG, "load: query = $query, page = $page")
             LoadResult.Page(
                 data = response,
                 prevKey = if (page == 1) null else page.minus(1),
@@ -38,7 +38,7 @@ class MultiSearchPagingSource(
         }
         catch (e: Exception)
         {
-            Log.d(TAG, "load: error")
+            Log.d(TAG, "error = ${e.message}")
             LoadResult.Error(e)
         }
     }

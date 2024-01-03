@@ -51,6 +51,6 @@ interface TMDBApiService
     @GET("tv/top_rated?language=en-US")
     suspend fun getTopRatedSeries(@Query("page") page: Int): NetworkResponse<List<NetworkPopularSerial>>
 
-    @GET("search/multi?query=lord&include_adult=true&language=en-US&page=1")
+    @GET("search/multi?include_adult=true&$LANGUAGE=$ENGLISH")
     suspend fun multiSearch(@Query("query") query: String, @Query("page") page: Int): NetworkResponse<List<NetworkMultiSearchResult>>
 }

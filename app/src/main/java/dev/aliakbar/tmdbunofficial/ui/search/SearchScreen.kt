@@ -43,6 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.paging.LoadState
@@ -67,7 +68,7 @@ fun SearchScreen(
 {
     val searchResult = viewModel.resultPager.collectAsLazyPagingItems()
 
-    var text by rememberSaveable { mutableStateOf("") }
+    val text by viewModel.query.collectAsStateWithLifecycle()
     var active by rememberSaveable { mutableStateOf(false) }
     var expanded by rememberSaveable { mutableStateOf(false) }
 
@@ -76,9 +77,9 @@ fun SearchScreen(
         SearchBar(
             modifier = Modifier.align(Alignment.TopCenter),
             query = text,
-            onQueryChange = { text = it },
+            onQueryChange = { viewModel.setQuery(it) },
             onSearch = {
-                viewModel.invalidateDataSource()
+                //viewModel.invalidateDataSource()
                 viewModel.setQuery(text)
                 active = false
             },
@@ -107,7 +108,7 @@ fun SearchScreen(
 
                     if (active && text.isNotEmpty())
                     {
-                        IconButton(onClick = { text = "" })
+                        IconButton(onClick = { viewModel.setQuery( "" ) })
                         {
                             Icon(imageVector = Icons.Filled.Clear, contentDescription = null)
                         }
@@ -143,20 +144,13 @@ fun SearchScreen(
             }*/
         }
 
-        when (searchResult.loadState.refresh)
+        /*when (searchResult.loadState.refresh)
         {
-            LoadState.Loading ->
-            {
-                Text(text = "Loading")
-            }
-
-            is LoadState.Error ->
-            {
-                Text(text = "Error")
-            }
+            is LoadState.Loading -> Text(text = "Loading")
+            is LoadState.Error -> Text(text = "Error")
 
             else ->
-            {
+            {*/
                 LazyColumn(
                     modifier = Modifier
                         .padding(16.dp)
@@ -172,8 +166,8 @@ fun SearchScreen(
                         }
                     }
                 }
-            }
-        }
+            /*}
+        }*/
     }
 }
 

@@ -31,7 +31,6 @@ class TopMoviesPagingSource(
         return try
         {
             val page = params.key ?: 1
-            Log.d(TAG, "load: $page")
             val response = networkDataSource.getTopRatedMovies(page = page)
             LoadResult.Page(
                 data = response.results.mapIndexed()
