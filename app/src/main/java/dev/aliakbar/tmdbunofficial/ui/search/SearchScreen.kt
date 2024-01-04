@@ -59,6 +59,7 @@ import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.SearchResult
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.source.sample.recommendations
+import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
 private val TAG: String = "SearchScreen"
@@ -168,7 +169,17 @@ fun SearchScreen(
                         {
                             CategoryItem(
                                 result = it,
-                                onNavigateToDetails = {},
+                                onNavigateToDetails =
+                                {
+                                    if (it.mediaType.name == MediaType.MOVIE.name)
+                                    {
+                                        navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/true")
+                                    }
+                                    else if (it.mediaType.name == MediaType.TV.name)
+                                    {
+                                        navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/false")
+                                    }
+                                },
                                 addToBookmark =  { viewModel.addToBookmark(it)},
                                 removeFromBookmark = {viewModel.removeFromBookmark(it)}
                             )
