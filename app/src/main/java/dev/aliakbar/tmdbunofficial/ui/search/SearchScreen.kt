@@ -300,28 +300,31 @@ fun CategoryItem(
                             .padding(8.dp)
                     )
 
-                    IconButton(
-                        onClick = {
-                            if (isBookmark)
-                            {
-                                removeFromBookmark(result)
-                            }
-                            else
-                            {
-                                addToBookmark(result)
-                            }
-
-                            isBookmark = !isBookmark
-                        },
-                        modifier = Modifier.size(48.dp)
-                    )
+                    if (result.mediaType.name != MediaType.PERSON.name)
                     {
-                        Icon(
-                            imageVector = if (isBookmark) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
-                            contentDescription = null,
-                            tint = if (isBookmark) Color.Yellow else LocalContentColor.current,
-                            modifier = Modifier.fillMaxSize()
+                        IconButton(
+                            onClick = {
+                                if (isBookmark)
+                                {
+                                    removeFromBookmark(result)
+                                }
+                                else
+                                {
+                                    addToBookmark(result)
+                                }
+
+                                isBookmark = !isBookmark
+                            },
+                            modifier = Modifier.size(48.dp)
                         )
+                        {
+                            Icon(
+                                imageVector = if (isBookmark) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
+                                contentDescription = null,
+                                tint = if (isBookmark) Color.Yellow else LocalContentColor.current,
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
                     }
                 }
             }
