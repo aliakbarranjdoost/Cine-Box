@@ -469,39 +469,55 @@ fun Trend.toBookmark() = Bookmark(
 
 fun NetworkMultiSearchResult.toExternal(
     basePosterUrl: String,
-    baseProfileUrl: String
+    baseBackdropUrl: String,
+    baseProfileUrl: String,
+    isBookmark: Boolean
 ) = when (val mediaType = MediaType.valueOf(mediaType.uppercase()))
 {
     MediaType.MOVIE  -> SearchResult(
+        id = id,
         title = title!!,
         posterUrl = basePosterUrl + posterPath!!,
         mediaType = mediaType,
         releaseDate = releaseDate!!,
-        knownForDepartment = null
+        knownForDepartment = null,
+        isBookmark = isBookmark,
+        backdropUrl = baseBackdropUrl + baseBackdropUrl,
+        score = voteAverage!!
     )
 
     MediaType.TV     -> SearchResult(
+        id = id,
         title = name!!,
         posterUrl = basePosterUrl + posterPath!!,
         mediaType = mediaType,
         releaseDate = firstAirDate!!,
-        knownForDepartment = null
+        knownForDepartment = null,
+        isBookmark = isBookmark ,
+        backdropUrl = baseBackdropUrl + baseBackdropUrl,
+        score = voteAverage!!
     )
 
     MediaType.PERSON -> SearchResult(
+        id = id,
         title = name!!,
         posterUrl = if (profilePath != null) baseProfileUrl + profilePath else "",
         mediaType = mediaType,
         releaseDate = null,
-        knownForDepartment = knownForDepartment
+        knownForDepartment = knownForDepartment,
+        isBookmark = isBookmark,
+        backdropUrl = "",
+        score = null
     )
 }
 
 @JvmName("NetworkMultiSearchResultToExternal")
 fun List<NetworkMultiSearchResult>.toExternal(
     basePosterUrl: String,
-    baseProfileUrl: String
-) = map { it.toExternal(basePosterUrl, baseProfileUrl) }
+    baseBackdropUrl: String,
+    baseProfileUrl: String,
+    isBookmark: Boolean
+) = map { it.toExternal(basePosterUrl, baseProfileUrl,baseProfileUrl, isBookmark) }
 
 fun NetworkTvDetails.toExternal(
     basePosterUrl: String,
@@ -622,4 +638,8 @@ fun NetworkEpisodeDetails.toExternal(
     crews = credits.crew.toExternal(baseProfileUrl),
     guestStars = credits.guestStars.toExternal(baseProfileUrl),
     videos = videos.results.toExternal()
+)
+
+fun SearchResult.toBookmark() = Bookmark(
+    id, title, score!!, posterUrl, backdropUrl, mediaType.name
 )

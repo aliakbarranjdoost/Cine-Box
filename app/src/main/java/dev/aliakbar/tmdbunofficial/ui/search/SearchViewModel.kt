@@ -12,13 +12,17 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.SearchRepository
+import dev.aliakbar.tmdbunofficial.data.SearchResult
+import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.source.MultiSearchPagingSource
+import dev.aliakbar.tmdbunofficial.data.toBookmark
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 private const val PAGE_SIZE = 20
 
@@ -52,6 +56,22 @@ class SearchViewModel(private val searchRepository: SearchRepository) : ViewMode
 
     fun invalidateDataSource() {
         pagingSource.invalidate()
+    }
+
+    fun addToBookmark(result: SearchResult)
+    {
+        viewModelScope.launch()
+        {
+            searchRepository.addTrendToBookmark(result.toBookmark())
+        }
+    }
+
+    fun removeFromBookmark(result: SearchResult)
+    {
+        viewModelScope.launch()
+        {
+            searchRepository.removeFromBookmark(result.toBookmark())
+        }
     }
 
     companion object

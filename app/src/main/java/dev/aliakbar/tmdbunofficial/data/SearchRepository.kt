@@ -12,9 +12,22 @@ class SearchRepository(
 {
     suspend fun search(query: String, page: Int = 1): List<SearchResult>
     {
-        return networkDataSource.multiSearch(query, page).results.toExternal(
-            basePosterUrl,
-            baseProfileUrl
-        )
+        return networkDataSource.multiSearch(query, page).results.map()
+        { it.toExternal(basePosterUrl, baseProfileUrl,baseProfileUrl, isBookmark(it.id)) }
+    }
+
+    suspend fun addTrendToBookmark(bookmark: Bookmark)
+    {
+        localDataSource.bookmarkDao().insert(bookmark.toLocal())
+    }
+
+    suspend fun removeFromBookmark(bookmark: Bookmark)
+    {
+        localDataSource.bookmarkDao().delete(bookmark.toLocal())
+    }
+
+    suspend fun isBookmark(id: Int): Boolean
+    {
+        return localDataSource.bookmarkDao().isBookmark(id)
     }
 }
