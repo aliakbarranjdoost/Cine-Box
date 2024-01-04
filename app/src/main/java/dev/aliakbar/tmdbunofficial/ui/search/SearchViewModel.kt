@@ -40,7 +40,7 @@ class SearchViewModel(private val searchRepository: SearchRepository) : ViewMode
     @OptIn(ExperimentalCoroutinesApi::class)
     val resultPager = query.flatMapLatest()
     {
-        Pager(PagingConfig(pageSize = PAGE_SIZE))
+        Pager(PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false))
         {
             MultiSearchPagingSource(query.value, searchRepository).also { pagingSource = it }
         }.flow.cachedIn(viewModelScope)
