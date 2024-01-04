@@ -37,6 +37,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Bookmark
+import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.source.sample.bookmarks
 import dev.aliakbar.tmdbunofficial.data.source.sample.trend
@@ -72,7 +73,17 @@ fun BookmarkList(bookmarks: List<Bookmark>,navController: NavHostController,
         { trend ->
             BookmarkItem(
                 bookmark = trend,
-                { navController.navigate(TmdbScreen.MovieDetails.name + "/" + trend.id.toString()) },
+                onNavigateToDetails =
+                {
+                    if (trend.type == "movie")
+                    {
+                        navController.navigate(TmdbScreen.MovieDetails.name + "/" + trend.id.toString() + "/true")
+                    }
+                    else if (trend.type == "tv")
+                    {
+                        navController.navigate(TmdbScreen.MovieDetails.name + "/" + trend.id.toString() + "/false")
+                    }
+                },
                 removeBookmark = removeBookmark
             )
         }
