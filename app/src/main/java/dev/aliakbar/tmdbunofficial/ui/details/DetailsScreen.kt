@@ -39,10 +39,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -52,12 +49,9 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Cast
 import dev.aliakbar.tmdbunofficial.data.Crew
 import dev.aliakbar.tmdbunofficial.data.Genre
@@ -70,6 +64,7 @@ import dev.aliakbar.tmdbunofficial.data.Video
 import dev.aliakbar.tmdbunofficial.data.source.sample.movie
 import dev.aliakbar.tmdbunofficial.ui.components.CastItem
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
+import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 
@@ -121,15 +116,8 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
                     .height(200.dp)
             )
             {
-                AsyncImage(
-                    model = ImageRequest
-                        .Builder(context = LocalContext.current)
-                        .data(movie.backdropUrl)
-                        .build(),
-                    placeholder = painterResource(id = R.drawable.backdrop_test),
-                    contentDescription = null,
-                    contentScale = ContentScale.FillBounds,
-                    modifier = Modifier
+                Image(
+                    url = movie.backdropUrl, modifier = Modifier
                         .fillMaxWidth()
                         .height(230.dp)
                         .align(Alignment.Center)
@@ -264,15 +252,8 @@ fun TvDetails(
                     .height(200.dp)
             )
             {
-                AsyncImage(
-                    model = ImageRequest
-                        .Builder(context = LocalContext.current)
-                        .data(tv.backdropUrl)
-                        .build(),
-                    placeholder = painterResource(id = R.drawable.backdrop_test),
-                    contentDescription = null,
-                    contentScale = ContentScale.FillBounds,
-                    modifier = Modifier
+                Image(
+                    url = tv.backdropUrl, modifier = Modifier
                         .fillMaxWidth()
                         .height(230.dp)
                         .align(Alignment.Center)
@@ -559,14 +540,7 @@ fun PosterItem(poster: Image, onPosterClick: (Image) -> Unit)
         onClick = { onPosterClick(poster) }
     )
     {
-        AsyncImage(
-            model = ImageRequest
-                .Builder(context = LocalContext.current)
-                .data(poster.fileUrl)
-                .build(),
-            placeholder = painterResource(id = R.drawable.poster_test),
-            contentDescription = null
-        )
+        Image(url = poster.fileUrl)
     }
 }
 
@@ -593,14 +567,7 @@ fun BackdropItem(backdrop: Image,onPosterClick: (Image) -> Unit)
         onClick = { onPosterClick(backdrop) }
     )
     {
-        AsyncImage(
-            model = ImageRequest
-                .Builder(context = LocalContext.current)
-                .data(backdrop.fileUrl)
-                .build(),
-            placeholder = painterResource(id = R.drawable.backdrop_test),
-            contentDescription = null
-        )
+        Image(url = backdrop.fileUrl)
     }
 }
 
@@ -626,17 +593,7 @@ fun RecommendationItem(recommendation: Trend)
     {
         Column()
         {
-            AsyncImage(
-                model = ImageRequest
-                    .Builder(context = LocalContext.current)
-                    .data(recommendation.poster)
-                    .build(),
-                placeholder = painterResource(id = R.drawable.poster_test),
-                contentDescription = null,
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier.height(300.dp)
-            )
-
+            Image(url = recommendation.poster, modifier = Modifier.height(300.dp))
             Text(
                 text = recommendation.title,
                 maxLines = 1,
@@ -694,16 +651,7 @@ fun ShowPosterInFullscreenDialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),
         onDismissRequest = { onDismissRequest() })
     {
-        AsyncImage(
-            model = ImageRequest
-                .Builder(context = LocalContext.current)
-                .data(posterUrl)
-                .build(),
-            placeholder = painterResource(id = R.drawable.poster_test),
-            contentScale = ContentScale.Fit,
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize()
-        )
+        Image(url = posterUrl,modifier = Modifier.fillMaxSize())
     }
 }
 
@@ -732,20 +680,13 @@ fun SeasonItem(season: Season, onSeasonClick: (Int) -> Unit)
         onClick = { onSeasonClick(season.seasonNumber) }
     )
     {
-        Column {
-            AsyncImage(
-                model = ImageRequest
-                    .Builder(context = LocalContext.current)
-                    .data(season.posterPath)
-                    .build(),
-                placeholder = painterResource(id = R.drawable.poster_test),
-                contentScale = ContentScale.FillBounds,
-                contentDescription = null,
+        Column()
+        {
+            Image(url = season.posterPath,
                 modifier = Modifier
                     .width(200.dp)
                     .height(300.dp)
             )
-
             Text(text = season.name)
 
             Row {

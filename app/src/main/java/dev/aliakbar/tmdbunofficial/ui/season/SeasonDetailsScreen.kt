@@ -43,6 +43,7 @@ import dev.aliakbar.tmdbunofficial.data.source.sample.episode
 import dev.aliakbar.tmdbunofficial.data.source.sample.episodes
 import dev.aliakbar.tmdbunofficial.data.source.sample.seasonDetails
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
+import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.Rank
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.components.TopBar
@@ -120,16 +121,8 @@ fun EpisodeItem(episode: Episode, onEpisodeClick: (Episode) -> Unit)
                     .height(100.dp)
             )
             {
-                AsyncImage(
-                    model = ImageRequest
-                        .Builder(context = LocalContext.current)
-                        .data(episode.stillUrl)
-                        .build(),
-                    placeholder = painterResource(id = R.drawable.backdrop_test),
-                    contentScale = ContentScale.FillBounds,
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize()
-                )
+                Image(url = episode.stillUrl!!, modifier = Modifier.fillMaxSize())
+
                 Rank(
                     rank = episode.episodeNumber, modifier = Modifier
                         .size(30.dp)

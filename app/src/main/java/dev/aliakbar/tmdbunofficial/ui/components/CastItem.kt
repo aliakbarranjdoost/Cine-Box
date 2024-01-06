@@ -22,16 +22,8 @@ fun CastItem(name: String,role: String, pictureUrl: String, onCastClick: () -> U
 {
     Card(modifier = Modifier.width(150.dp), onClick = onCastClick)
     {
-        AsyncImage(
-            model = ImageRequest
-                .Builder(context = LocalContext.current)
-                .data(pictureUrl)
-                .build(),
-            placeholder = painterResource(id = R.drawable.profile_test),
-            contentScale = ContentScale.FillBounds,
-            contentDescription = null,
-            modifier = Modifier.size(width = 150.dp, height = 225.dp)
-        )
+
+        Image(url = pictureUrl, modifier = Modifier.size(width = 150.dp, height = 225.dp))
 
         Text(
             text = name,

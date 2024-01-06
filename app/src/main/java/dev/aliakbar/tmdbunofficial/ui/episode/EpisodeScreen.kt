@@ -17,29 +17,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.EpisodeDetails
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
+import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.components.TopBar
-import dev.aliakbar.tmdbunofficial.ui.details.BackdropList
 import dev.aliakbar.tmdbunofficial.ui.details.CastList
 import dev.aliakbar.tmdbunofficial.ui.details.CrewList
 import dev.aliakbar.tmdbunofficial.ui.details.DetailsHeader
-import dev.aliakbar.tmdbunofficial.ui.details.GenreList
 import dev.aliakbar.tmdbunofficial.ui.details.ListHeader
 import dev.aliakbar.tmdbunofficial.ui.details.OVERVIEW_PREVIEW_MAX_LINE
 import dev.aliakbar.tmdbunofficial.ui.details.PosterList
-import dev.aliakbar.tmdbunofficial.ui.details.RecommendationList
-import dev.aliakbar.tmdbunofficial.ui.details.SeasonList
 import dev.aliakbar.tmdbunofficial.ui.details.VideoList
 
 @Composable
@@ -86,15 +77,8 @@ fun EpisodeScreen(
                     .height(200.dp)
             )
             {
-                AsyncImage(
-                    model = ImageRequest
-                        .Builder(context = LocalContext.current)
-                        .data(episode.stillUrl)
-                        .build(),
-                    placeholder = painterResource(id = R.drawable.backdrop_test),
-                    contentDescription = null,
-                    contentScale = ContentScale.FillBounds,
-                    modifier = Modifier
+                Image(
+                    url = episode.stillUrl!!, modifier = Modifier
                         .fillMaxWidth()
                         .height(230.dp)
                         .align(Alignment.Center)
