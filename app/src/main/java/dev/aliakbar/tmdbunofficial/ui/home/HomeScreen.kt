@@ -1,17 +1,12 @@
 @file:OptIn(
-    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class,
-    ExperimentalAnimationGraphicsApi::class, ExperimentalAnimationGraphicsApi::class
+    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class
 )
 
 package dev.aliakbar.tmdbunofficial.ui.home
 
 import android.content.res.Configuration
 import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
-import androidx.compose.animation.graphics.res.animatedVectorResource
-import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
-import androidx.compose.animation.graphics.vector.AnimatedImageVector
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -37,7 +32,6 @@ import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.PlayCircleOutline
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -56,9 +50,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -70,12 +62,6 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import coil.compose.AsyncImage
-import coil.compose.AsyncImagePainter
-import coil.compose.AsyncImagePainter.State.Empty.painter
-import coil.compose.SubcomposeAsyncImage
-import coil.compose.SubcomposeAsyncImageContent
-import coil.request.ImageRequest
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -84,6 +70,7 @@ import dev.aliakbar.tmdbunofficial.data.Trailer
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.source.sample.trend
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
+import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
@@ -95,7 +82,6 @@ fun HomeScreen(
     modifier: Modifier = Modifier
 )
 {
-
     when (val homeUiState = viewModel.homeUiState)
     {
         is HomeUiState.Loading -> CircularIndicator()
@@ -448,20 +434,11 @@ fun SliderItem(trailer: Trailer, onNavigateToDetails: () -> Unit)
                 }
             }
 
-            AsyncImage(
-                model = ImageRequest
-                    .Builder(context = LocalContext.current)
-                    .data(trailer.trend.backdrop)
-                    .placeholder( R.drawable.backdrop_test)
-                    .build(),
-                contentDescription = null,
-                contentScale = ContentScale.FillBounds,
+            Image(url = trailer.trend.backdrop,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(230.dp)
-                    .clickable() {
-                        isVideoFullScreen = true
-                    }
+                    .clickable { isVideoFullScreen = true }
             )
 
             Icon(
@@ -473,21 +450,13 @@ fun SliderItem(trailer: Trailer, onNavigateToDetails: () -> Unit)
             )
         }
 
-        AsyncImage(
-            model = ImageRequest
-                .Builder(context = LocalContext.current)
-                .data(trailer.trend.poster)
-                .placeholder(drawableResId = R.drawable.poster_test)
-                .build(),
-            contentDescription = null,
-            contentScale = ContentScale.FillBounds,
+        Image(url = trailer.trend.poster,
             modifier = Modifier
                 .width(150.dp)
                 .height(225.dp)
                 .padding(start = 16.dp, bottom = 16.dp)
                 .align(Alignment.BottomStart)
-                .clickable { onNavigateToDetails() }
-        )
+                .clickable { onNavigateToDetails() })
 
         Text(
             text = trailer.trend.title,
@@ -567,42 +536,8 @@ fun Poster(
             .size(width = 150.dp, height = 225.dp)
     )
     {
-        SubcomposeAsyncImage(
-            model = ImageRequest
-                .Builder(context = LocalContext.current)
-                .placeholder(R.drawable.ic_hourglass_animated)
-                .data(trend.poster)
-                .build(),
-            contentDescription = trend.title,
-            contentScale = ContentScale.FillBounds,
-            modifier = Modifier.fillMaxSize()
-        )
-        {
-            val state = painter.state
-            var atEnd by remember { mutableStateOf(false) }
 
-            if (state is AsyncImagePainter.State.Loading)
-            {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    Image(
-                        painter = rememberAnimatedVectorPainter(
-                            animatedImageVector = AnimatedImageVector.animatedVectorResource(
-                                R.drawable.ic_hourglass_animated
-                            ), atEnd = atEnd
-                        ),
-                        contentDescription = null,
-                        contentScale = ContentScale.FillBounds,
-                        modifier = Modifier
-                            .size(50.dp, 50.dp).align(Alignment.Center)
-                    )
-                }
-            atEnd = true
-            }
-            else
-            {
-                SubcomposeAsyncImageContent()
-            }
-        }
+        Image(url = trend.poster, modifier = Modifier.fillMaxSize())
 
         ScoreBar(
             score = trend.score,
