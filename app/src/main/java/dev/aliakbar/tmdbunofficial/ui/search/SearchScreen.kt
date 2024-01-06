@@ -59,6 +59,7 @@ import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.SearchResult
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.source.sample.recommendations
+import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
@@ -149,13 +150,13 @@ fun SearchScreen(
             }*/
         }
 
-        /*when (searchResult.loadState.refresh)
+        when (searchResult.loadState.refresh)
         {
-            is LoadState.Loading -> Text(text = "Loading")
+            is LoadState.Loading -> CircularIndicator()
             is LoadState.Error -> Text(text = "Error")
 
             else ->
-            {*/
+            {
                 LazyColumn(
                     modifier = Modifier
                         .padding(16.dp)
@@ -186,8 +187,8 @@ fun SearchScreen(
                         }
                     }
                 }
-            /*}
-        }*/
+            }
+        }
     }
 }
 

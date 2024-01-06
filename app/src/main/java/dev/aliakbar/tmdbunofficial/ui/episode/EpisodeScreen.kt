@@ -27,6 +27,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.EpisodeDetails
+import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.components.TopBar
 import dev.aliakbar.tmdbunofficial.ui.details.BackdropList
@@ -50,7 +51,7 @@ fun EpisodeScreen(
 
     when(uiState)
     {
-        is EpisodeUiState.Loading -> Text(text = "Loading")
+        is EpisodeUiState.Loading -> CircularIndicator()
         is EpisodeUiState.Error -> Text(text = "Error")
         is EpisodeUiState.Success ->
         {

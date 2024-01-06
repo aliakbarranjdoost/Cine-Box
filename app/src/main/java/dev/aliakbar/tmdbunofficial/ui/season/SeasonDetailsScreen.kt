@@ -42,6 +42,7 @@ import dev.aliakbar.tmdbunofficial.data.SeasonDetails
 import dev.aliakbar.tmdbunofficial.data.source.sample.episode
 import dev.aliakbar.tmdbunofficial.data.source.sample.episodes
 import dev.aliakbar.tmdbunofficial.data.source.sample.seasonDetails
+import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.Rank
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.components.TopBar
@@ -59,7 +60,7 @@ fun SeasonDetailsScreen(
 
     when (uiState)
     {
-        is SeasonDetailsUiState.Loading -> Text(text = "Loading")
+        is SeasonDetailsUiState.Loading -> CircularIndicator()
         is SeasonDetailsUiState.Success ->
         {
             SeasonDetailsScreen(seasonDetails = uiState.seasonDetails,

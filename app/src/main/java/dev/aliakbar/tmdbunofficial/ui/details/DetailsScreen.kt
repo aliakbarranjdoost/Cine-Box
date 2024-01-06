@@ -69,6 +69,7 @@ import dev.aliakbar.tmdbunofficial.data.Tv
 import dev.aliakbar.tmdbunofficial.data.Video
 import dev.aliakbar.tmdbunofficial.data.source.sample.movie
 import dev.aliakbar.tmdbunofficial.ui.components.CastItem
+import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 
@@ -84,7 +85,7 @@ fun DetailsScreen(
 
     when (uiState)
     {
-        is DetailsUiState.Loading -> Text(text = "Loading")
+        is DetailsUiState.Loading -> CircularIndicator()
         is DetailsUiState.SuccessMovie -> MovieDetails(movie = uiState.movie, onBookmarkClick = { })
         is DetailsUiState.SuccessTv ->
             TvDetails(

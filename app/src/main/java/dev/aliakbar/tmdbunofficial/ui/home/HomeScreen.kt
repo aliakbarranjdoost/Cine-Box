@@ -72,6 +72,7 @@ import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Trailer
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.source.sample.trend
+import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
@@ -86,7 +87,7 @@ fun HomeScreen(
 
     when (val homeUiState = viewModel.homeUiState)
     {
-        is HomeUiState.Loading -> Text(text = "Loading")
+        is HomeUiState.Loading -> CircularIndicator()
         is HomeUiState.Success ->
         {
 
