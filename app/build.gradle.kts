@@ -75,6 +75,7 @@ dependencies {
 
     implementation(libs.room.runtime)
     implementation(libs.room)
+    implementation(libs.animation.graphics.android)
     ksp(libs.room.compiler)
 
     implementation(libs.kotlinx.serialization.json)

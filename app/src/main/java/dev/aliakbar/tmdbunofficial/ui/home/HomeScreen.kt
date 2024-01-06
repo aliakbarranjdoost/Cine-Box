@@ -1,11 +1,17 @@
 @file:OptIn(
-    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class
+    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalAnimationGraphicsApi::class, ExperimentalAnimationGraphicsApi::class
 )
 
 package dev.aliakbar.tmdbunofficial.ui.home
 
 import android.content.res.Configuration
+import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
+import androidx.compose.animation.graphics.res.animatedVectorResource
+import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
+import androidx.compose.animation.graphics.vector.AnimatedImageVector
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +37,7 @@ import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.PlayCircleOutline
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -64,6 +71,10 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.AsyncImagePainter.State.Empty.painter
+import coil.compose.SubcomposeAsyncImage
+import coil.compose.SubcomposeAsyncImageContent
 import coil.request.ImageRequest
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -441,7 +452,7 @@ fun SliderItem(trailer: Trailer, onNavigateToDetails: () -> Unit)
                 model = ImageRequest
                     .Builder(context = LocalContext.current)
                     .data(trailer.trend.backdrop)
-                    .placeholder(drawableResId = R.drawable.backdrop_test)
+                    .placeholder( R.drawable.backdrop_test)
                     .build(),
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds,
@@ -556,16 +567,42 @@ fun Poster(
             .size(width = 150.dp, height = 225.dp)
     )
     {
-        AsyncImage(
+        SubcomposeAsyncImage(
             model = ImageRequest
                 .Builder(context = LocalContext.current)
-                .placeholder(R.drawable.poster_test)
+                .placeholder(R.drawable.ic_hourglass_animated)
                 .data(trend.poster)
                 .build(),
             contentDescription = trend.title,
             contentScale = ContentScale.FillBounds,
             modifier = Modifier.fillMaxSize()
         )
+        {
+            val state = painter.state
+            var atEnd by remember { mutableStateOf(false) }
+
+            if (state is AsyncImagePainter.State.Loading)
+            {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Image(
+                        painter = rememberAnimatedVectorPainter(
+                            animatedImageVector = AnimatedImageVector.animatedVectorResource(
+                                R.drawable.ic_hourglass_animated
+                            ), atEnd = atEnd
+                        ),
+                        contentDescription = null,
+                        contentScale = ContentScale.FillBounds,
+                        modifier = Modifier
+                            .size(50.dp, 50.dp).align(Alignment.Center)
+                    )
+                }
+            atEnd = true
+            }
+            else
+            {
+                SubcomposeAsyncImageContent()
+            }
+        }
 
         ScoreBar(
             score = trend.score,
