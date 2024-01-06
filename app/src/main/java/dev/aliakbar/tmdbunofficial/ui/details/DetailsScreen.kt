@@ -221,7 +221,6 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
 @Composable
 fun TvDetails(
     tv: Tv,
-    //seasonDetailsUiState: SeasonDetailsUiState,
     onBookmarkClick: () -> Unit,
     onSeasonClick: (Int) -> Unit,
     modifier: Modifier = Modifier
@@ -231,10 +230,6 @@ fun TvDetails(
     var showDetails by remember { mutableStateOf(false) }
     var showPosterFullscreen by remember { mutableStateOf(false) }
     var selectedImagePath by remember { mutableStateOf("") }
-    var showSeasonDetails by remember { mutableStateOf(false) }
-    //var selectedSeasonId by remember {
-    //    mutableStateOf()
-    //}
 
     Scaffold(
         topBar = { TopBar(title = tv.name, onBookmarkClick) }
@@ -392,7 +387,6 @@ fun GenreList(
     {
         items(items = genres)
         { genre ->
-            //GenreItem(genre.name)
             TextButton(
                 onClick = { },
             )
@@ -437,7 +431,6 @@ fun CrewList(crews: List<Crew>, modifier: Modifier = Modifier)
             CastItem(
                 name = crew.name,
                 role = crew.job,
-                // TODO: Change to place holder later
                 pictureUrl = crew.profileUrl!!,
                 onCastClick = { }
             )
@@ -651,7 +644,7 @@ fun ShowPosterInFullscreenDialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),
         onDismissRequest = { onDismissRequest() })
     {
-        Image(url = posterUrl,modifier = Modifier.fillMaxSize())
+        Image(url = posterUrl)
     }
 }
 
