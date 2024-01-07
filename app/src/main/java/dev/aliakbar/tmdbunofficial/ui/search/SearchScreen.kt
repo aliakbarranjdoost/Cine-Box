@@ -57,10 +57,9 @@ import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.source.sample.recommendations
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.Image
-import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
-private val TAG: String = "SearchScreen"
+private val TAG: String = "Search"
 
 @Composable
 fun SearchScreen(
@@ -171,11 +170,11 @@ fun SearchScreen(
                                 {
                                     if (it.mediaType.name == MediaType.MOVIE.name)
                                     {
-                                        navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/true")
+//                                        navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/true")
                                     }
                                     else if (it.mediaType.name == MediaType.TV.name)
                                     {
-                                        navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/false")
+//                                        navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/false")
                                     }
                                 },
                                 addToBookmark =  { viewModel.addToBookmark(it)},

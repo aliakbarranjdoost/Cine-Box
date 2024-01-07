@@ -41,7 +41,6 @@ import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.source.sample.bookmarks
 import dev.aliakbar.tmdbunofficial.data.source.sample.trend
-import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
 @Composable
@@ -77,11 +76,11 @@ fun BookmarkList(bookmarks: List<Bookmark>,navController: NavHostController,
                 {
                     if (trend.type == "movie")
                     {
-                        navController.navigate(TmdbScreen.MovieDetails.name + "/" + trend.id.toString() + "/true")
+                        //navController.navigate(TmdbScreen.MovieDetails.name + "/" + trend.id.toString() + "/true")
                     }
                     else if (trend.type == "tv")
                     {
-                        navController.navigate(TmdbScreen.MovieDetails.name + "/" + trend.id.toString() + "/false")
+                        //navController.navigate(TmdbScreen.MovieDetails.name + "/" + trend.id.toString() + "/false")
                     }
                 },
                 removeBookmark = removeBookmark

@@ -47,7 +47,6 @@ import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.Rank
-import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
 @Composable
@@ -131,7 +130,9 @@ fun TopList(
             {
                 TopItem(
                     top = it,
-                    onNavigateToDetails = { navController.navigate(TmdbScreen.MovieDetails.name + "/" + tops[index]?.id.toString()) },
+                    onNavigateToDetails = {
+//                        navController.navigate(TmdbScreen.MovieDetails.name + "/" + tops[index]?.id.toString())
+                                          },
                     addToBookmark = addToBookmark,
                     removeFromBookmark = removeFromBookmark
                 )
@@ -227,6 +228,6 @@ fun TopScreenPreview()
 {
     TMDBUnofficialTheme()
     {
-        //TopScreen()
+        //Top()
     }
 }

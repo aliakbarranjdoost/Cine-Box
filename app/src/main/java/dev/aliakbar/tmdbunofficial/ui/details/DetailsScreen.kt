@@ -66,7 +66,6 @@ import dev.aliakbar.tmdbunofficial.ui.components.CastItem
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
-import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 
 const val OVERVIEW_PREVIEW_MAX_LINE = 3
 
@@ -86,7 +85,7 @@ fun DetailsScreen(
             TvDetails(
             tv = uiState.tv,
             onBookmarkClick = {},
-            onSeasonClick = { navController.navigate(TmdbScreen.SeasonDetails.name + "/" + uiState.tv.id + "/" + it)}
+            onSeasonClick = { /*navController.navigate(TmdbScreen.SeasonDetails.name + "/" + uiState.tv.id + "/" + it)*/}
             )
         is DetailsUiState.Error   -> Text(text = "Error")
     }

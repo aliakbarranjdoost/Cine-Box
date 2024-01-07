@@ -5,7 +5,6 @@
 package dev.aliakbar.tmdbunofficial.ui.home
 
 import android.content.res.Configuration
-import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -72,7 +71,6 @@ import dev.aliakbar.tmdbunofficial.data.source.sample.trend
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
-import dev.aliakbar.tmdbunofficial.ui.main.TmdbScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
 @Composable
@@ -150,7 +148,7 @@ fun HomeScreen(
                             trends = homeUiState.todayTrendMovies,
                             onNavigateToDetails =
                             {
-                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/true")
+//                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/true")
                             },
                             viewModel = viewModel
                         )
@@ -159,7 +157,7 @@ fun HomeScreen(
                             trends = homeUiState.thisWeekTrendMovies,
                             onNavigateToDetails =
                             {
-                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/true")
+//                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/true")
                             },
                             viewModel = viewModel
                         )
@@ -216,7 +214,7 @@ fun HomeScreen(
                             trends = homeUiState.todayTrendSeries,
                             onNavigateToDetails =
                             {
-                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/false")
+//                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/false")
                             },
                             viewModel = viewModel
                         )
@@ -225,7 +223,7 @@ fun HomeScreen(
                             trends = homeUiState.thisWeekTrendSeries,
                             onNavigateToDetails =
                             {
-                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/false")
+//                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/false")
                             },
                             viewModel = viewModel
                         )
@@ -282,7 +280,7 @@ fun HomeScreen(
                             trends = homeUiState.popularMovies,
                             onNavigateToDetails =
                             {
-                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/true")
+//                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/true")
                             },
                             viewModel = viewModel
                         )
@@ -291,7 +289,7 @@ fun HomeScreen(
                             trends = homeUiState.popularSeries,
                             onNavigateToDetails =
                             {
-                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/false")
+//                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/false")
                             },
                             viewModel = viewModel
                         )
@@ -375,9 +373,9 @@ fun Slider(trailers: List<Trailer>, navController: NavHostController)
             onNavigateToDetails =
             {
                 if (trailers[page].trend.type == "movie")
-                    navController.navigate(TmdbScreen.MovieDetails.name + "/" + trailers[page].trend.id.toString() + "/true")
-                else
-                    navController.navigate(TmdbScreen.MovieDetails.name + "/" + trailers[page].trend.id.toString() + "/false")
+//                    navController.navigate(TmdbScreen.MovieDetails.name + "/" + trailers[page].trend.id.toString() + "/true")
+                else {}
+//                    navController.navigate(TmdbScreen.MovieDetails.name + "/" + trailers[page].trend.id.toString() + "/false")
             })
     }
 }
