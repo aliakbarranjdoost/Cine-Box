@@ -60,7 +60,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -75,9 +74,10 @@ import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
 @Composable
 fun HomeScreen(
-    navController: NavHostController,
-    viewModel: HomeViewModel = viewModel(factory = HomeViewModel.factory),
-    modifier: Modifier = Modifier
+    onNavigateToMovie: (Int) -> Unit,
+    onNavigateToTv: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = viewModel(factory = HomeViewModel.factory)
 )
 {
     when (val homeUiState = viewModel.homeUiState)
@@ -96,7 +96,8 @@ fun HomeScreen(
             {
                 Slider(
                     trailers = homeUiState.todayTrendingMoviesTrailers,
-                    navController = navController
+                    onNavigateToMovie = onNavigateToMovie,
+                    onNavigateToTv = onNavigateToTv
                 )
 
                 val timeRangeOptions = stringArrayResource(R.array.date_range_options)
@@ -146,19 +147,13 @@ fun HomeScreen(
                     {
                         0 -> TrendList(
                             trends = homeUiState.todayTrendMovies,
-                            onNavigateToDetails =
-                            {
-//                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/true")
-                            },
+                            onNavigate = { onNavigateToMovie(it) },
                             viewModel = viewModel
                         )
 
                         1 -> TrendList(
                             trends = homeUiState.thisWeekTrendMovies,
-                            onNavigateToDetails =
-                            {
-//                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/true")
-                            },
+                            onNavigate = { onNavigateToMovie(it) },
                             viewModel = viewModel
                         )
                     }
@@ -212,19 +207,13 @@ fun HomeScreen(
                     {
                         0 -> TrendList(
                             trends = homeUiState.todayTrendSeries,
-                            onNavigateToDetails =
-                            {
-//                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/false")
-                            },
+                            onNavigate = { onNavigateToTv(it) },
                             viewModel = viewModel
                         )
 
                         1 -> TrendList(
                             trends = homeUiState.thisWeekTrendSeries,
-                            onNavigateToDetails =
-                            {
-//                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/false")
-                            },
+                            onNavigate = { onNavigateToTv(it) },
                             viewModel = viewModel
                         )
                     }
@@ -278,19 +267,13 @@ fun HomeScreen(
                     {
                         0 -> TrendList(
                             trends = homeUiState.popularMovies,
-                            onNavigateToDetails =
-                            {
-//                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/true")
-                            },
+                            onNavigate = { onNavigateToMovie(it) },
                             viewModel = viewModel
                         )
 
                         1 -> TrendList(
                             trends = homeUiState.popularSeries,
-                            onNavigateToDetails =
-                            {
-//                                navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/false")
-                            },
+                            onNavigate = { onNavigateToTv(it) },
                             viewModel = viewModel
                         )
                     }
@@ -304,7 +287,7 @@ fun HomeScreen(
 @Composable
 fun TrendList(
     trends: List<Trend>,
-    onNavigateToDetails: (Trend) -> Unit,
+    onNavigate: (Int) -> Unit,
     viewModel: HomeViewModel,
     modifier: Modifier = Modifier)
 {
@@ -317,7 +300,7 @@ fun TrendList(
         { trend ->
             TrendItem(
                 trend = trend,
-                onNavigateToDetails = onNavigateToDetails,
+                onNavigate = onNavigate,
                 addToBookmark =
                 {
                     viewModel.addToBookmark(trend)
@@ -335,13 +318,13 @@ fun TrendList(
 @Composable
 fun TrendItem(
     trend: Trend,
-    onNavigateToDetails: (Trend) -> Unit,
+    onNavigate: (Int) -> Unit,
     addToBookmark: () -> Unit,
     removeFromBookmark: () -> Unit
     )
 {
     Card(
-        onClick = { onNavigateToDetails(trend) }
+        onClick = { onNavigate(trend.id) }
     )
     {
         Column()
@@ -360,7 +343,11 @@ fun TrendItem(
 }
 
 @Composable
-fun Slider(trailers: List<Trailer>, navController: NavHostController)
+fun Slider(
+    trailers: List<Trailer>,
+    onNavigateToMovie: (Int) -> Unit,
+    onNavigateToTv: (Int) -> Unit,
+)
 {
     val pagerState = rememberPagerState(pageCount = {
         trailers.size
@@ -370,18 +357,22 @@ fun Slider(trailers: List<Trailer>, navController: NavHostController)
     { page ->
         SliderItem(
             trailer = trailers[page],
-            onNavigateToDetails =
+            onNavigate =
             {
-                if (trailers[page].trend.type == "movie")
-//                    navController.navigate(TmdbScreen.MovieDetails.name + "/" + trailers[page].trend.id.toString() + "/true")
-                else {}
-//                    navController.navigate(TmdbScreen.MovieDetails.name + "/" + trailers[page].trend.id.toString() + "/false")
-            })
+                val item = trailers[page]
+                val itemId = item.trend.id
+                when (item.trend.type)
+                {
+                    "movie" -> onNavigateToMovie(itemId)
+                    else    -> onNavigateToTv(itemId)
+                }
+            }
+        )
     }
 }
 
 @Composable
-fun SliderItem(trailer: Trailer, onNavigateToDetails: () -> Unit)
+fun SliderItem(trailer: Trailer, onNavigate: () -> Unit)
 {
     var isVideoFullScreen by remember { mutableStateOf(false) }
 
@@ -454,7 +445,7 @@ fun SliderItem(trailer: Trailer, onNavigateToDetails: () -> Unit)
                 .height(225.dp)
                 .padding(start = 16.dp, bottom = 16.dp)
                 .align(Alignment.BottomStart)
-                .clickable { onNavigateToDetails() })
+                .clickable { onNavigate() })
 
         Text(
             text = trailer.trend.title,
