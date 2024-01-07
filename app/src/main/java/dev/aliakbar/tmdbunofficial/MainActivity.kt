@@ -104,7 +104,10 @@ fun TmdbNavHost(
         }
         composable(route = Bookmark.route)
         {
-            BookmarkScreen(navController = navController)
+            BookmarkScreen(
+                onNavigateToMovie = { navController.navigateToMovie(it) },
+                onNavigateToTv = { navController.navigateToTv(it) }
+            )
         }
         composable(route = Season.route)
         {
