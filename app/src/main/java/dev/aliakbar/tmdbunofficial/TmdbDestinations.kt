@@ -101,7 +101,7 @@ object Episode: TmdbDestination
 val bottomNavigationItems = listOf(
     Home,
     Bookmark,
-    Season,
+    Search,
     Top,
     Setting
 )

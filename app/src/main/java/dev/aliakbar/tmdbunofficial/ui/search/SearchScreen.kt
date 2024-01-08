@@ -1,10 +1,9 @@
 @file:OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class
+    ExperimentalMaterial3Api::class
 )
 
 package dev.aliakbar.tmdbunofficial.ui.search
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Bookmark
@@ -43,29 +41,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.SearchResult
-import dev.aliakbar.tmdbunofficial.data.Trend
-import dev.aliakbar.tmdbunofficial.data.source.sample.recommendations
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.Image
-import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
 private val TAG: String = "Search"
 
 @Composable
 fun SearchScreen(
-    navController: NavHostController,
-    viewModel: SearchViewModel = viewModel(factory = SearchViewModel.factory),
-    modifier: Modifier = Modifier
+    onNavigateToMovie: (Int) -> Unit,
+    onNavigateToTv: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: SearchViewModel = viewModel(factory = SearchViewModel.factory)
 )
 {
     val searchResult = viewModel.resultPager.collectAsLazyPagingItems()
@@ -163,18 +157,17 @@ fun SearchScreen(
                     items(searchResult.itemCount)
                     { index ->
                         searchResult[index]?.let()
-                        {
+                        { searchResult->
                             CategoryItem(
-                                result = it,
-                                onNavigateToDetails =
+                                result = searchResult,
+                                onNavigate =
                                 {
-                                    if (it.mediaType.name == MediaType.MOVIE.name)
+                                    val searchResultId = searchResult.id
+                                    when (searchResult.mediaType)
                                     {
-//                                        navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/true")
-                                    }
-                                    else if (it.mediaType.name == MediaType.TV.name)
-                                    {
-//                                        navController.navigate(TmdbScreen.MovieDetails.name + "/" + it.id.toString() + "/false")
+                                        MediaType.MOVIE   -> onNavigateToMovie(searchResultId)
+                                        MediaType.TV -> onNavigateToTv(searchResultId)
+                                        MediaType.PERSON -> { }
                                     }
                                 },
                                 addToBookmark =  { viewModel.addToBookmark(it)},
@@ -207,57 +200,17 @@ fun SearchMenu(expanded: Boolean, onDismissRequest: () -> Unit, modifier: Modifi
     }
 }
 
-data class Category<T>(
-    val name: String,
-    val items: List<T>
-)
-
-@Composable
-fun CategorizedLazyColumn(
-    categories: List<Category<Trend>>,
-    modifier: Modifier = Modifier
-)
-{
-    LazyColumn(
-        modifier = Modifier.padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    )
-    {
-        categories.forEach()
-        { category ->
-            stickyHeader()
-            {
-                CategoryHeader(text = category.name)
-            }
-
-            items(category.items)
-            {
-                /*CategoryItem(trend = it, onNavigateToDetails = { *//*TODO*//* })
-                {
-
-                }*/
-            }
-        }
-    }
-}
-
-@Composable
-fun CategoryHeader(text: String, modifier: Modifier = Modifier)
-{
-    Text(text = text)
-}
-
 @Composable
 fun CategoryItem(
     result: SearchResult,
-    onNavigateToDetails: () -> Unit,
+    onNavigate: () -> Unit,
     addToBookmark: (SearchResult) -> Unit,
     removeFromBookmark: (SearchResult) -> Unit,
 )
 {
     var isBookmark by remember { mutableStateOf(result.isBookmark) }
 
-    Card(onClick = onNavigateToDetails)
+    Card(onClick = onNavigate)
     {
         Row(modifier = Modifier.fillMaxSize())
         {
@@ -339,22 +292,5 @@ fun Poster(
     Box(modifier = Modifier.size(width = 100.dp, height = 150.dp))
     {
         Image(url = posterPath, modifier = Modifier.fillMaxSize())
-    }
-}
-
-@Preview
-@Composable
-fun PreviewCategorizedList()
-{
-    TMDBUnofficialTheme()
-    {
-        CategorizedLazyColumn(
-            categories = listOf(
-                Category("Movie", recommendations),
-                Category("TVs", recommendations),
-                Category("People", recommendations),
-                Category("Collection", recommendations)
-            )
-        )
     }
 }

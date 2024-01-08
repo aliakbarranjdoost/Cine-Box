@@ -109,15 +109,18 @@ fun TmdbNavHost(
                 onNavigateToTv = { navController.navigateToTv(it) }
             )
         }
-        composable(route = Season.route)
+        composable(route = Search.route)
         {
-            SearchScreen(navController = navController)
+            SearchScreen(
+                onNavigateToMovie = { navController.navigateToMovie(it) },
+                onNavigateToTv = { navController.navigateToTv(it) },
+            )
         }
         composable(route = Top.route)
         {
             TopScreen(navController)
         }
-        composable(route = Search.route)
+        composable(route = Setting.route)
         {
             Text(text = stringResource(id = R.string.setting))
         }
