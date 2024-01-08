@@ -167,39 +167,42 @@ fun TvDetails(
             }
 
             ListHeader(header = "Seasons")
-
             SeasonList(
                 seasons = tv.seasons,
                 onNavigateToSeason = { onNavigateToSeason(tv.id, it) }
             )
 
             ListHeader(header = "Cast")
-
             CastList(casts = tv.casts)
 
             ListHeader(header = "Crew")
-
             CrewList(crews = tv.crews)
 
-            ListHeader(header = "Videos")
+            if (tv.videos.isNotEmpty())
+            {
+                ListHeader(header = "Videos")
+                VideoList(videos = tv.videos, {})
+            }
 
-            VideoList(videos = tv.videos, {})
+            if (tv.posters.isNotEmpty())
+            {
+                ListHeader(header = "Posters")
+                PosterList(posters = tv.posters,
+                    {
+                        selectedImagePath = it.fileUrl
+                        showPosterFullscreen = true
+                    })
+            }
 
-            ListHeader(header = "Posters")
-
-            PosterList(posters = tv.posters,
-                {
-                    selectedImagePath = it.fileUrl
-                    showPosterFullscreen = true
-                })
-
-            ListHeader(header = "Backdrops")
-
-            BackdropList(backdrops = tv.backdrops,
-                {
-                    selectedImagePath = it.fileUrl
-                    showPosterFullscreen = true
-                })
+            if (tv.backdrops.isNotEmpty())
+            {
+                ListHeader(header = "Backdrops")
+                BackdropList(backdrops = tv.backdrops,
+                    {
+                        selectedImagePath = it.fileUrl
+                        showPosterFullscreen = true
+                    })
+            }
 
             if (tv.recommendations.isNotEmpty())
             {
