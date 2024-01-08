@@ -1,7 +1,7 @@
 package dev.aliakbar.tmdbunofficial.data
 
-import dev.aliakbar.tmdbunofficial.data.source.local.LocalConfigurationDao
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalImageConfiguration
+import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 import kotlinx.coroutines.runBlocking
@@ -9,7 +9,7 @@ import kotlinx.coroutines.runBlocking
 private var TAG = ConfigurationRepository::class.java.simpleName
 open class ConfigurationRepository(
     private val networkDataSource: TMDBApiService,
-    private val localDataSource: LocalConfigurationDao
+    private val localDataSource: TmdbDatabase
 )
 {
     var imageConfiguration: LocalImageConfiguration
@@ -37,12 +37,12 @@ open class ConfigurationRepository(
 
     private suspend fun saveConfigInLocal(imageConfiguration: LocalImageConfiguration)
     {
-        localDataSource.insert(imageConfiguration)
+        localDataSource.configurationDao().insert(imageConfiguration)
     }
 
     private suspend fun getConfigurationFromLocal(): LocalImageConfiguration
     {
-        return localDataSource.getConfiguration()
+        return localDataSource.configurationDao().getConfiguration()
     }
 
     private fun findBiggestImageSize(imageSizes: List<String>): String
@@ -73,5 +73,10 @@ open class ConfigurationRepository(
     private fun createBaseStillUrl(): String
     {
         return imageConfiguration.secureBaseUrl + findBiggestImageSize(imageConfiguration.stillSizes)
+    }
+
+    suspend fun isBookmark(id: Int): Boolean
+    {
+        return localDataSource.bookmarkDao().isBookmark(id)
     }
 }

@@ -12,7 +12,7 @@ private var TAG = HomeRepository::class.java.simpleName
 class TopRepository(
     private val networkDataSource: TMDBApiService,
     private val localDataSource: TmdbDatabase
-) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
+) : ConfigurationRepository(networkDataSource, localDataSource)
 {
     fun getTopRatedMovies() = Pager(
         config = PagingConfig(
@@ -50,10 +50,5 @@ class TopRepository(
     suspend fun removeFromBookmark(trend: Trend)
     {
         localDataSource.bookmarkDao().delete(trend.toBookmark().toLocal())
-    }
-
-    suspend fun isBookmark(id: Int): Boolean
-    {
-        return localDataSource.bookmarkDao().isBookmark(id)
     }
 }

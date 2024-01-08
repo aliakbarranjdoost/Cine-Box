@@ -6,7 +6,7 @@ import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 class EpisodeRepository(
     private val networkDataSource: TMDBApiService,
     private val localDataSource: TmdbDatabase
-) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
+) : ConfigurationRepository(networkDataSource, localDataSource)
 {
     suspend fun getEpisodeDetails(tvId: Int, seasonNumber: Int, episodeNumber: Int): EpisodeDetails
     {

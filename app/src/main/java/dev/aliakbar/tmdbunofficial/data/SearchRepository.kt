@@ -8,7 +8,7 @@ private val TAG: String = SearchRepository::class.java.simpleName
 class SearchRepository(
     private val networkDataSource: TMDBApiService,
     private val localDataSource: TmdbDatabase
-) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
+) : ConfigurationRepository(networkDataSource, localDataSource)
 {
     suspend fun search(query: String, page: Int = 1): List<SearchResult>
     {
@@ -24,10 +24,5 @@ class SearchRepository(
     suspend fun removeFromBookmark(bookmark: Bookmark)
     {
         localDataSource.bookmarkDao().delete(bookmark.toLocal())
-    }
-
-    suspend fun isBookmark(id: Int): Boolean
-    {
-        return localDataSource.bookmarkDao().isBookmark(id)
     }
 }

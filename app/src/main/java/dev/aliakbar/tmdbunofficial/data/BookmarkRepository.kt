@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 class BookmarkRepository(
     private val networkDataSource: TMDBApiService,
     private val localDataSource: TmdbDatabase
-): ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
+): ConfigurationRepository(networkDataSource, localDataSource)
 {
     fun getBookmarksStream() : Flow<List<Bookmark>>
     {

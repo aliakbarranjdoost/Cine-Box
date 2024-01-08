@@ -8,7 +8,7 @@ private var TAG = DetailsRepository::class.java.simpleName
 class DetailsRepository(
     private val networkDataSource: TMDBApiService,
     private val localDataSource: TmdbDatabase
-): ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
+): ConfigurationRepository(networkDataSource, localDataSource)
 {
     suspend fun getMovieDetails(id: Int): Movie
     {

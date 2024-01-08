@@ -9,7 +9,7 @@ private var TAG = HomeRepository::class.java.simpleName
 class HomeRepository(
     private val networkDataSource: TMDBApiService,
     private val localDataSource: TmdbDatabase
-) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
+) : ConfigurationRepository(networkDataSource, localDataSource)
 {
     suspend fun getTodayTrendingMovies(): List<Trend>
     {
@@ -120,10 +120,5 @@ class HomeRepository(
     suspend fun removeFromBookmark(trend: Trend)
     {
         localDataSource.bookmarkDao().delete(trend.toBookmark().toLocal())
-    }
-
-    suspend fun isBookmark(id: Int): Boolean
-    {
-        return localDataSource.bookmarkDao().isBookmark(id)
     }
 }

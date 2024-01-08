@@ -6,7 +6,7 @@ import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 class SeasonDetailsRepository(
     private val networkDataSource: TMDBApiService,
     private val localDataSource: TmdbDatabase
-) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
+) : ConfigurationRepository(networkDataSource, localDataSource)
 {
     suspend fun getSeasonDetails(id: Int, seasonNumber: Int): SeasonDetails
     {
