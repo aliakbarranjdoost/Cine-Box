@@ -2,7 +2,7 @@
     ExperimentalMaterial3Api::class
 )
 
-package dev.aliakbar.tmdbunofficial.ui.details
+package dev.aliakbar.tmdbunofficial.ui.movie
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -70,7 +70,7 @@ import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 const val OVERVIEW_PREVIEW_MAX_LINE = 3
 
 @Composable
-fun DetailsScreen(
+fun MovieScreen(
     navController: NavHostController,
     viewModel: DetailsViewModel = viewModel(factory = DetailsViewModel.factory)
 )

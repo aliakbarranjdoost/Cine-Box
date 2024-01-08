@@ -25,13 +25,13 @@ import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.components.TopBar
-import dev.aliakbar.tmdbunofficial.ui.details.CastList
-import dev.aliakbar.tmdbunofficial.ui.details.CrewList
-import dev.aliakbar.tmdbunofficial.ui.details.DetailsHeader
-import dev.aliakbar.tmdbunofficial.ui.details.ListHeader
-import dev.aliakbar.tmdbunofficial.ui.details.OVERVIEW_PREVIEW_MAX_LINE
-import dev.aliakbar.tmdbunofficial.ui.details.PosterList
-import dev.aliakbar.tmdbunofficial.ui.details.VideoList
+import dev.aliakbar.tmdbunofficial.ui.movie.CastList
+import dev.aliakbar.tmdbunofficial.ui.movie.CrewList
+import dev.aliakbar.tmdbunofficial.ui.movie.DetailsHeader
+import dev.aliakbar.tmdbunofficial.ui.movie.ListHeader
+import dev.aliakbar.tmdbunofficial.ui.movie.OVERVIEW_PREVIEW_MAX_LINE
+import dev.aliakbar.tmdbunofficial.ui.movie.PosterList
+import dev.aliakbar.tmdbunofficial.ui.movie.VideoList
 
 @Composable
 fun EpisodeScreen(

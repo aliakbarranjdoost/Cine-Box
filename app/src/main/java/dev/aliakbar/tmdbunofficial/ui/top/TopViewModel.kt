@@ -1,8 +1,5 @@
 package dev.aliakbar.tmdbunofficial.ui.top
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -13,12 +10,8 @@ import androidx.paging.cachedIn
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.TopRepository
 import dev.aliakbar.tmdbunofficial.data.Trend
-import dev.aliakbar.tmdbunofficial.data.toBookmark
-import dev.aliakbar.tmdbunofficial.ui.details.DetailsUiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import java.io.IOException
 
 sealed interface TopUiState
 {

@@ -1,4 +1,4 @@
-package dev.aliakbar.tmdbunofficial.ui.details
+package dev.aliakbar.tmdbunofficial.ui.movie
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,7 +13,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.DetailsRepository
 import dev.aliakbar.tmdbunofficial.data.Movie
-import dev.aliakbar.tmdbunofficial.data.SeasonDetails
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.Tv
 import dev.aliakbar.tmdbunofficial.data.toBookmark
