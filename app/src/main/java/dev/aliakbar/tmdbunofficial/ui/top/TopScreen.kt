@@ -39,7 +39,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
@@ -51,9 +50,10 @@ import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
 @Composable
 fun TopScreen(
-    navController: NavHostController,
-    viewModel: TopViewModel = viewModel(factory = TopViewModel.factory),
-    modifier: Modifier = Modifier
+    onNavigateToMovie: (Int) -> Unit,
+    onNavigateToTv: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: TopViewModel = viewModel(factory = TopViewModel.factory)
 )
 {
     val topMovies = viewModel.getTopRatedMovies().collectAsLazyPagingItems()
@@ -79,13 +79,13 @@ fun TopScreen(
         {
             0 -> TopList(
                 tops = topMovies,
-                navController = navController,
+                onNavigate = onNavigateToMovie,
                 addToBookmark = { viewModel.addToBookmark(it) },
                 removeFromBookmark = { viewModel.removeFromBookmark(it) }
             )
             1 -> TopList(
                 tops = topSeries,
-                navController = navController,
+                onNavigate = onNavigateToTv,
                 addToBookmark = { viewModel.addToBookmark(it) },
                 removeFromBookmark = { viewModel.removeFromBookmark(it) }
             )
@@ -110,7 +110,7 @@ fun TopScreen(
 @Composable
 fun TopList(
     tops: LazyPagingItems<Trend>,
-    navController: NavHostController,
+    onNavigate: (Int) -> Unit,
     addToBookmark: (Trend) -> Unit,
     removeFromBookmark: (Trend) -> Unit,
     modifier: Modifier = Modifier
@@ -130,9 +130,7 @@ fun TopList(
             {
                 TopItem(
                     top = it,
-                    onNavigateToDetails = {
-//                        navController.navigate(TmdbScreen.MovieDetails.name + "/" + tops[index]?.id.toString())
-                                          },
+                    onNavigateToDetails = { onNavigate(it.id) },
                     addToBookmark = addToBookmark,
                     removeFromBookmark = removeFromBookmark
                 )

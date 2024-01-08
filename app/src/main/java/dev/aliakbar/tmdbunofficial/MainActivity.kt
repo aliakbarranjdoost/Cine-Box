@@ -118,7 +118,10 @@ fun TmdbNavHost(
         }
         composable(route = Top.route)
         {
-            TopScreen(navController)
+            TopScreen(
+                onNavigateToMovie = { navController.navigateToMovie(it) },
+                onNavigateToTv = { navController.navigateToTv(it) },
+            )
         }
         composable(route = Setting.route)
         {
