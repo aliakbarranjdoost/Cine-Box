@@ -146,17 +146,21 @@ fun EpisodeScreen(
 
             CastList(casts = episode.guestStars)
 
-            ListHeader(header = "Stills")
+            if (episode.stills.isNotEmpty())
+            {
+                ListHeader(header = "Stills")
+                PosterList(posters = episode.stills,
+                    {
+                        selectedImagePath = it.fileUrl
+                        showPosterFullscreen = true
+                    })
+            }
 
-            PosterList(posters = episode.stills,
-                {
-                    selectedImagePath = it.fileUrl
-                    showPosterFullscreen = true
-                })
-
-            ListHeader(header = "Videos")
-
-            VideoList(videos = episode.videos, {})
+            if (episode.videos.isNotEmpty())
+            {
+                ListHeader(header = "Videos")
+                VideoList(videos = episode.videos, {})
+            }
         }
     }
 }
