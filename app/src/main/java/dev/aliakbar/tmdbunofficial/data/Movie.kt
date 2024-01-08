@@ -22,6 +22,7 @@ data class Movie(
     val runtime: Int,
     val status: String,
     val collection: Collection?,
+    val isBookmark: Boolean,
     val productionCountries: List<Country>,
     val spokenLanguages: List<Language>,
     val casts: List<Cast>,

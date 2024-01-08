@@ -300,8 +300,9 @@ fun NetworkMovieDetails.toExternal(
     backdrops = images.backdrops.toExternal(baseBackdropUrl),
     logos = images.logos.toExternal(baseLogoUrl),
     recommendations = recommendations.results.toExternal(
-        basePosterUrl, baseBackdropUrl, isBookmark
-    )
+        basePosterUrl, baseBackdropUrl, false
+    ),
+    isBookmark = isBookmark
 )
 
 fun NetworkGenre.toExternal() = Genre(

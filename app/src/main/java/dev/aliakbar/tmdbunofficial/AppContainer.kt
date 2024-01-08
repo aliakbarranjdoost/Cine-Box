@@ -6,9 +6,9 @@ import dev.aliakbar.tmdbunofficial.data.BookmarkRepository
 import dev.aliakbar.tmdbunofficial.data.ConfigurationRepository
 import dev.aliakbar.tmdbunofficial.data.DetailsRepository
 import dev.aliakbar.tmdbunofficial.data.EpisodeRepository
-import dev.aliakbar.tmdbunofficial.data.SeasonDetailsRepository
 import dev.aliakbar.tmdbunofficial.data.HomeRepository
 import dev.aliakbar.tmdbunofficial.data.SearchRepository
+import dev.aliakbar.tmdbunofficial.data.SeasonDetailsRepository
 import dev.aliakbar.tmdbunofficial.data.TopRepository
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
@@ -63,10 +63,7 @@ class DefaultAppContainer(context: Context): AppContainer
 
     override val configurationRepository: ConfigurationRepository by lazy()
     {
-        ConfigurationRepository(
-            retrofitService,
-            roomDatabase.configurationDao()
-        )
+        ConfigurationRepository(retrofitService, roomDatabase)
     }
 
     override val homeRepository: HomeRepository by lazy()

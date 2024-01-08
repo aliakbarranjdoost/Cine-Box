@@ -17,7 +17,7 @@ class DetailsRepository(
             baseBackdropUrl = baseBackdropUrl,
             baseLogoUrl = baseLogoUrl,
             baseProfileUrl = baseProfileUrl,
-            false
+            isBookmark = isBookmark(id)
         )
     }
 
