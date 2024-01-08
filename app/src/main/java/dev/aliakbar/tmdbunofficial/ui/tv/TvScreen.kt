@@ -1,12 +1,19 @@
 package dev.aliakbar.tmdbunofficial.ui.tv
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -20,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import dev.aliakbar.tmdbunofficial.data.Season
 import dev.aliakbar.tmdbunofficial.data.Tv
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.Image
@@ -33,7 +41,6 @@ import dev.aliakbar.tmdbunofficial.ui.movie.ListHeader
 import dev.aliakbar.tmdbunofficial.ui.movie.OVERVIEW_PREVIEW_MAX_LINE
 import dev.aliakbar.tmdbunofficial.ui.movie.PosterList
 import dev.aliakbar.tmdbunofficial.ui.movie.RecommendationList
-import dev.aliakbar.tmdbunofficial.ui.movie.SeasonList
 import dev.aliakbar.tmdbunofficial.ui.movie.ShowPosterInFullscreenDialog
 import dev.aliakbar.tmdbunofficial.ui.movie.TopBar
 import dev.aliakbar.tmdbunofficial.ui.movie.VideoList
@@ -211,6 +218,53 @@ fun TvDetails(
         ShowPosterInFullscreenDialog(posterUrl = selectedImagePath)
         {
             showPosterFullscreen = false
+        }
+    }
+}
+
+@Composable
+fun SeasonList(
+    seasons: List<Season>,
+    onNavigateToSeason: (Int) -> Unit,
+    modifier: Modifier = Modifier
+)
+{
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+    )
+    {
+        items(items = seasons)
+        { season ->
+            SeasonItem(season = season, onNavigateToSeason = onNavigateToSeason)
+        }
+    }
+}
+
+@Composable
+fun SeasonItem(season: Season, onNavigateToSeason: (Int) -> Unit)
+{
+    Card(
+        modifier = Modifier
+            .width(200.dp)
+            .height(400.dp),
+        onClick = { onNavigateToSeason(season.seasonNumber) }
+    )
+    {
+        Column()
+        {
+            Image(url = season.posterPath,
+                modifier = Modifier
+                    .width(200.dp)
+                    .height(300.dp)
+            )
+            Text(text = season.name)
+
+            Row {
+                Text(text = season.airDate)
+                Spacer(modifier = Modifier.weight(1f))
+                Text(text = season.episodeCount.toString())
+            }
         }
     }
 }

@@ -10,10 +10,10 @@ import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import dev.aliakbar.tmdbunofficial.ID_ARG
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.DetailsRepository
 import dev.aliakbar.tmdbunofficial.data.Movie
-import dev.aliakbar.tmdbunofficial.data.Tv
 import dev.aliakbar.tmdbunofficial.data.toBookmark
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -21,8 +21,7 @@ import java.io.IOException
 
 sealed interface MovieUiState
 {
-    data class SuccessMovie(val movie: Movie) : MovieUiState
-    data class SuccessTv(val tv: Tv) : MovieUiState
+    data class Success(val movie: Movie) : MovieUiState
     data object Error : MovieUiState
     data object Loading : MovieUiState
 }
@@ -38,47 +37,20 @@ class MovieViewModel(
         MovieUiState.Loading
     )
 
-    private val id: Int = savedStateHandle["id"] ?: 0
-    private val type: Boolean = savedStateHandle["type"] ?: true
+    private val id: Int = savedStateHandle[ID_ARG] ?: 0
 
     init
     {
-        if (type)
-        {
-            getMovieDetails(id)
-        }
-        else
-        {
-            getTvDetails(id)
-        }
+        getMovieDetails(id)
     }
 
-    fun getMovieDetails(id: Int)
+    private fun getMovieDetails(id: Int)
     {
         viewModelScope.launch()
         {
             movieUiState = try
             {
-                MovieUiState.SuccessMovie(repository.getMovieDetails(id))
-            }
-            catch (e: IOException)
-            {
-                MovieUiState.Error
-            }
-            catch (e: HttpException)
-            {
-                MovieUiState.Error
-            }
-        }
-    }
-
-    fun getTvDetails(id: Int)
-    {
-        viewModelScope.launch()
-        {
-            movieUiState = try
-            {
-                MovieUiState.SuccessTv(repository.getTvDetails(id))
+                MovieUiState.Success(repository.getMovieDetails(id))
             }
             catch (e: IOException)
             {

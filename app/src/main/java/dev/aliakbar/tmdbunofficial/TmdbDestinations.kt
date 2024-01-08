@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 
+const val ID_ARG = "id"
 interface TmdbDestination
 {
     val route: String
@@ -52,7 +53,7 @@ object Movie: TmdbDestination
 {
     override val route = "movie"
     override val icon = Icons.Filled.Movie
-    const val idArg = "id"
+    const val idArg = ID_ARG
     val routeWithArgs = "${route}/{${idArg}}"
     val arguments = listOf(
         navArgument(idArg) { type = NavType.IntType}
@@ -63,7 +64,7 @@ object Tv: TmdbDestination
 {
     override val route = "tv"
     override val icon = Icons.Filled.Tv
-    const val idArg = "id"
+    const val idArg = ID_ARG
     val routeWithArgs = "${route}/{${idArg}}"
     val arguments = listOf(
         navArgument(idArg) { type = NavType.IntType}
@@ -74,7 +75,7 @@ object Season: TmdbDestination
 {
     override val route = "season"
     override val icon = Icons.Filled.Tv
-    const val idArg = "id"
+    const val idArg = ID_ARG
     const val seasonNumberArg = "season_number"
     val routeWithArgs = "${route}/{${idArg}}/{${seasonNumberArg}}"
     val arguments = listOf(
@@ -87,7 +88,7 @@ object Episode: TmdbDestination
 {
     override val route = "episode"
     override val icon = Icons.Filled.Tv
-    const val idArg = "id"
+    const val idArg = ID_ARG
     const val seasonNumberArg = "season_number"
     const val episodeNumberArg = "episode_number"
     val routeWithArgs = "${route}/{${idArg}}/{${seasonNumberArg}}/{${episodeNumberArg}}"

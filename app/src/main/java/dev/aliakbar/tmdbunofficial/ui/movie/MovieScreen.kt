@@ -7,8 +7,6 @@ package dev.aliakbar.tmdbunofficial.ui.movie
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -59,9 +57,7 @@ import dev.aliakbar.tmdbunofficial.data.Crew
 import dev.aliakbar.tmdbunofficial.data.Genre
 import dev.aliakbar.tmdbunofficial.data.Image
 import dev.aliakbar.tmdbunofficial.data.Movie
-import dev.aliakbar.tmdbunofficial.data.Season
 import dev.aliakbar.tmdbunofficial.data.Trend
-import dev.aliakbar.tmdbunofficial.data.Tv
 import dev.aliakbar.tmdbunofficial.data.Video
 import dev.aliakbar.tmdbunofficial.data.source.sample.movie
 import dev.aliakbar.tmdbunofficial.ui.components.CastItem
@@ -82,22 +78,15 @@ fun MovieScreen(
 
     when (uiState)
     {
-        is MovieUiState.Loading      -> CircularIndicator()
-        is MovieUiState.SuccessMovie -> MovieDetails(
+        is MovieUiState.Loading -> CircularIndicator()
+        is MovieUiState.Success -> MovieDetails(
             movie = uiState.movie,
             onNavigateToMovie = onNavigateToMovie,
             addToBookmark = { viewModel.addToBookmark(it) },
-            removeFromBookmark = { viewModel.removeFromBookmark(it)}
-            )
-        is MovieUiState.SuccessTv    -> Text(text = "Tv")
-            /*TvDetails(
-                tv = uiState.tv,
-                onNavigateToMovie = onNavigateToMovie,
-                addToBookmark = addToBookmark,
-                removeFromBookmark = removeFromBookmark,
-                onSeasonClick = { *//*navController.navigate(TmdbScreen.SeasonDetails.name + "/" + uiState.tv.id + "/" + it)*//* }
-            )*/
-        is MovieUiState.Error        -> Text(text = "Error")
+            removeFromBookmark = { viewModel.removeFromBookmark(it) }
+        )
+
+        is MovieUiState.Error   -> Text(text = "Error")
     }
 }
 
@@ -241,156 +230,6 @@ fun MovieDetails(
         }
     }
 }
-
-@Composable
-fun TvDetails(
-    tv: Tv,
-    onNavigateToMovie: (Int) -> Unit,
-    onSeasonClick: (Int) -> Unit,
-    addToBookmark: () -> Unit,
-    removeFromBookmark: () -> Unit,
-    modifier: Modifier = Modifier
-)
-{
-    val scrollState = rememberScrollState()
-    var showDetails by remember { mutableStateOf(false) }
-    var showPosterFullscreen by remember { mutableStateOf(false) }
-    var selectedImagePath by remember { mutableStateOf("") }
-
-    Scaffold(
-        topBar = { TopBar(title = tv.name,
-            // TODO: add isBookmark property to tv model later
-            isBookmarkAlready = false,
-            addToBookmark = addToBookmark,
-            removeFromBookmark = removeFromBookmark
-            ) }
-    )
-    { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .verticalScroll(scrollState)
-        )
-        {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-            )
-            {
-                Image(
-                    url = tv.backdropUrl, modifier = Modifier
-                        .fillMaxWidth()
-                        .height(230.dp)
-                        .align(Alignment.Center)
-                )
-                ScoreBar(
-                    score = tv.voteAverage,
-                    modifier = Modifier.align(Alignment.BottomStart)
-                )
-            }
-
-            if (!showDetails)
-            {
-                Text(
-                    text = tv.overview,
-                    maxLines = OVERVIEW_PREVIEW_MAX_LINE,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
-                )
-
-                TextButton(
-                    onClick = { showDetails = true },
-                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
-                )
-                {
-                    Text(text = "More Details")
-                }
-            }
-            else
-            {
-                Column(modifier = Modifier.padding(16.dp))
-                {
-                    Text(text = tv.overview)
-                    DetailsHeader(header = "Genres")
-                    GenreList(genres = tv.genres)
-                    DetailsHeader(header = "Original Language")
-                    Text(text = tv.originalLanguage)
-                    DetailsHeader(header = "Release Date")
-                    Text(text = tv.firstAirDate)
-                    DetailsHeader(header = "Home Page")
-                    Text(text = tv.homepage)
-                    DetailsHeader(header = "Seasons")
-                    Text(text = tv.numberOfSeasons.toString())
-                    DetailsHeader(header = "Episodes")
-                    Text(text = tv.numberOfEpisodes.toString())
-                    DetailsHeader(header = "Status")
-                    Text(text = tv.status)
-                    DetailsHeader(header = "Type")
-                    Text(text = tv.type)
-                    TextButton(
-                        onClick = { showDetails = false },
-                        modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
-                    )
-                    {
-                        Text(text = "less Details")
-                    }
-                }
-            }
-
-            ListHeader(header = "Seasons")
-
-            SeasonList(seasons = tv.seasons, onSeasonClick)
-
-            ListHeader(header = "Cast")
-
-            CastList(casts = tv.casts)
-
-            ListHeader(header = "Crew")
-
-            CrewList(crews = tv.crews)
-
-            ListHeader(header = "Videos")
-
-            VideoList(videos = tv.videos, {})
-
-            ListHeader(header = "Posters")
-
-            PosterList(posters = tv.posters,
-                {
-                    selectedImagePath = it.fileUrl
-                    showPosterFullscreen = true
-                })
-
-            ListHeader(header = "Backdrops")
-
-            BackdropList(backdrops = tv.backdrops,
-                {
-                    selectedImagePath = it.fileUrl
-                    showPosterFullscreen = true
-                })
-
-            if (tv.recommendations.isNotEmpty())
-            {
-                ListHeader(header = "Recommendations")
-
-                RecommendationList(
-                    recommendations = tv.recommendations,
-                    onNavigateToMovie = onNavigateToMovie
-                )
-            }
-        }
-    }
-
-    if (showPosterFullscreen)
-    {
-        ShowPosterInFullscreenDialog(posterUrl = selectedImagePath)
-        {
-            showPosterFullscreen = false
-        }
-    }
-}
-
 
 @Composable
 fun DetailsHeader(header: String)
@@ -709,52 +548,6 @@ fun ShowPosterInFullscreenDialog(
     }
 }
 
-@Composable
-fun SeasonList(
-    seasons: List<Season>,
-    onNavigateToSeason: (Int) -> Unit,
-    modifier: Modifier = Modifier
-)
-{
-    LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
-    )
-    {
-        items(items = seasons)
-        { season ->
-            SeasonItem(season = season, onNavigateToSeason = onNavigateToSeason)
-        }
-    }
-}
-
-@Composable
-fun SeasonItem(season: Season, onNavigateToSeason: (Int) -> Unit)
-{
-    Card(
-        modifier = Modifier
-            .width(200.dp)
-            .height(400.dp),
-        onClick = { onNavigateToSeason(season.seasonNumber) }
-    )
-    {
-        Column()
-        {
-            Image(url = season.posterPath,
-                modifier = Modifier
-                    .width(200.dp)
-                    .height(300.dp)
-            )
-            Text(text = season.name)
-
-            Row {
-                Text(text = season.airDate)
-                Spacer(modifier = Modifier.weight(1f))
-                Text(text = season.episodeCount.toString())
-            }
-        }
-    }
-}
 @Preview
 @Composable
 fun MovieDetailsPreview()

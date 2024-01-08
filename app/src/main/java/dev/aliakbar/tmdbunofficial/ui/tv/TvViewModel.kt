@@ -10,6 +10,7 @@ import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import dev.aliakbar.tmdbunofficial.ID_ARG
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.DetailsRepository
 import dev.aliakbar.tmdbunofficial.data.Tv
@@ -34,7 +35,7 @@ class TvViewModel(
 {
     var tvUiState: TvUiState by mutableStateOf(TvUiState.Loading)
 
-    private val id: Int = savedStateHandle["id"] ?: 0
+    private val id: Int = savedStateHandle[ID_ARG] ?: 0
 
     init
     {
