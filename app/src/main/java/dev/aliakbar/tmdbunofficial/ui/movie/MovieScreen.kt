@@ -190,25 +190,31 @@ fun MovieDetails(
 
             CrewList(crews = movie.crews)
 
-            ListHeader(header = "Videos")
+            if (movie.videos.isNotEmpty())
+            {
+                ListHeader(header = "Videos")
+                VideoList(videos = movie.videos, {})
+            }
 
-            VideoList(videos = movie.videos, {})
+            if (movie.posters.isNotEmpty())
+            {
+                ListHeader(header = "Posters")
+                PosterList(posters = movie.posters,
+                    {
+                        selectedImagePath = it.fileUrl
+                        showPosterFullscreen = true
+                    })
+            }
 
-            ListHeader(header = "Posters")
-
-            PosterList(posters = movie.posters,
-                {
-                    selectedImagePath = it.fileUrl
-                    showPosterFullscreen = true
-                })
-
-            ListHeader(header = "Backdrops")
-
-            BackdropList(backdrops = movie.backdrops,
-                {
-                    selectedImagePath = it.fileUrl
-                    showPosterFullscreen = true
-                })
+            if (movie.backdrops.isNotEmpty())
+            {
+                ListHeader(header = "Backdrops")
+                BackdropList(backdrops = movie.backdrops,
+                    {
+                        selectedImagePath = it.fileUrl
+                        showPosterFullscreen = true
+                    })
+            }
 
             if (movie.recommendations.isNotEmpty())
             {
@@ -283,7 +289,6 @@ fun CastList(casts: List<Cast>, modifier: Modifier = Modifier)
             CastItem(
                 name = cast.name,
                 role = cast.character,
-                // TODO: Change to place holder later
                 pictureUrl = cast.profileUrl!!,
                 onCastClick = { }
             )
