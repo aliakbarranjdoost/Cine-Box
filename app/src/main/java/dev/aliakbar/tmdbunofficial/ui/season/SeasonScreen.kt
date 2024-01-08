@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package dev.aliakbar.tmdbunofficial.ui.season
 
 import androidx.compose.foundation.layout.Arrangement
@@ -15,7 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,19 +35,19 @@ import dev.aliakbar.tmdbunofficial.ui.components.TopBar
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
 @Composable
-fun SeasonDetailsScreen(
+fun SeasonScreen(
     navController: NavHostController,
-    viewModel: SeasonDetailsViewModel = viewModel(factory = SeasonDetailsViewModel.factory)
+    viewModel: SeasonViewModel = viewModel(factory = SeasonViewModel.factory)
 )
 {
     val uiState = viewModel.episodeListUiState
 
     when (uiState)
     {
-        is SeasonDetailsUiState.Loading -> CircularIndicator()
-        is SeasonDetailsUiState.Success ->
+        is SeasonUiState.Loading -> CircularIndicator()
+        is SeasonUiState.Success ->
         {
-            SeasonDetailsScreen(seasonDetails = uiState.seasonDetails,
+            SeasonScreen(seasonDetails = uiState.seasonDetails,
                 onEpisodeClick =
                 {
 /*
@@ -61,12 +58,12 @@ fun SeasonDetailsScreen(
                 })
         }
 
-        is SeasonDetailsUiState.Error   -> Text(text = "Error")
+        is SeasonUiState.Error   -> Text(text = "Error")
     }
 }
 
 @Composable
-fun SeasonDetailsScreen(
+fun SeasonScreen(
     seasonDetails: SeasonDetails,
     onEpisodeClick: (Episode) -> Unit
 )
@@ -154,5 +151,5 @@ fun PreviewEpisodeList()
 @Composable
 fun PreviewSeasonDetailsScreen()
 {
-    TMDBUnofficialTheme { SeasonDetailsScreen(seasonDetails, {}) }
+    TMDBUnofficialTheme { SeasonScreen(seasonDetails, {}) }
 }

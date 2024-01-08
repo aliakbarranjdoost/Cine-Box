@@ -23,7 +23,7 @@ import dev.aliakbar.tmdbunofficial.ui.episode.EpisodeScreen
 import dev.aliakbar.tmdbunofficial.ui.home.HomeScreen
 import dev.aliakbar.tmdbunofficial.ui.movie.MovieScreen
 import dev.aliakbar.tmdbunofficial.ui.search.SearchScreen
-import dev.aliakbar.tmdbunofficial.ui.season.SeasonDetailsScreen
+import dev.aliakbar.tmdbunofficial.ui.season.SeasonScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 import dev.aliakbar.tmdbunofficial.ui.top.TopScreen
 import dev.aliakbar.tmdbunofficial.ui.tv.TvScreen
@@ -153,7 +153,7 @@ fun TmdbNavHost(
             arguments = Season.arguments
         )
         {
-            SeasonDetailsScreen(navController)
+            SeasonScreen(navController)
         }
         composable(
             route = Episode.routeWithArgs,
