@@ -75,21 +75,21 @@ const val OVERVIEW_PREVIEW_MAX_LINE = 3
 fun MovieScreen(
     onNavigateToMovie: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: DetailsViewModel = viewModel(factory = DetailsViewModel.factory)
+    viewModel: MovieViewModel = viewModel(factory = MovieViewModel.factory)
 )
 {
-    val uiState = viewModel.detailsUiState
+    val uiState = viewModel.movieUiState
 
     when (uiState)
     {
-        is DetailsUiState.Loading -> CircularIndicator()
-        is DetailsUiState.SuccessMovie -> MovieDetails(
+        is MovieUiState.Loading      -> CircularIndicator()
+        is MovieUiState.SuccessMovie -> MovieDetails(
             movie = uiState.movie,
             onNavigateToMovie = onNavigateToMovie,
             addToBookmark = { viewModel.addToBookmark(it) },
             removeFromBookmark = { viewModel.removeFromBookmark(it)}
             )
-        is DetailsUiState.SuccessTv -> Text(text = "Tv")
+        is MovieUiState.SuccessTv    -> Text(text = "Tv")
             /*TvDetails(
                 tv = uiState.tv,
                 onNavigateToMovie = onNavigateToMovie,
@@ -97,7 +97,7 @@ fun MovieScreen(
                 removeFromBookmark = removeFromBookmark,
                 onSeasonClick = { *//*navController.navigate(TmdbScreen.SeasonDetails.name + "/" + uiState.tv.id + "/" + it)*//* }
             )*/
-        is DetailsUiState.Error   -> Text(text = "Error")
+        is MovieUiState.Error        -> Text(text = "Error")
     }
 }
 

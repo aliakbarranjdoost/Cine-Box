@@ -1,4 +1,4 @@
-package dev.aliakbar.tmdbunofficial.ui.movie
+package dev.aliakbar.tmdbunofficial.ui.tv
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,12 +19,11 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
-sealed interface MovieUiState
+sealed interface TvUiState
 {
-    data class SuccessMovie(val movie: Movie) : MovieUiState
-    data class SuccessTv(val tv: Tv) : MovieUiState
-    data object Error : MovieUiState
-    data object Loading : MovieUiState
+    data class Success(val tv: Tv) : TvUiState
+    data object Error : TvUiState
+    data object Loading : TvUiState
 }
 
 private val TAG: String = MovieViewModel::class.java.simpleName
@@ -34,59 +33,30 @@ class MovieViewModel(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel()
 {
-    var movieUiState: MovieUiState by mutableStateOf(
-        MovieUiState.Loading
-    )
+    var tvUiState: TvUiState by mutableStateOf(TvUiState.Loading)
 
     private val id: Int = savedStateHandle["id"] ?: 0
-    private val type: Boolean = savedStateHandle["type"] ?: true
 
     init
     {
-        if (type)
-        {
-            getMovieDetails(id)
-        }
-        else
-        {
-            getTvDetails(id)
-        }
-    }
-
-    fun getMovieDetails(id: Int)
-    {
-        viewModelScope.launch()
-        {
-            movieUiState = try
-            {
-                MovieUiState.SuccessMovie(repository.getMovieDetails(id))
-            }
-            catch (e: IOException)
-            {
-                MovieUiState.Error
-            }
-            catch (e: HttpException)
-            {
-                MovieUiState.Error
-            }
-        }
+        getTvDetails(id)
     }
 
     fun getTvDetails(id: Int)
     {
         viewModelScope.launch()
         {
-            movieUiState = try
+            tvUiState = try
             {
-                MovieUiState.SuccessTv(repository.getTvDetails(id))
+                TvUiState.Success(repository.getTvDetails(id))
             }
             catch (e: IOException)
             {
-                MovieUiState.Error
+                TvUiState.Error
             }
             catch (e: HttpException)
             {
-                MovieUiState.Error
+                TvUiState.Error
             }
         }
     }
