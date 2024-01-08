@@ -28,11 +28,8 @@ import dev.aliakbar.tmdbunofficial.ui.movie.BackdropList
 import dev.aliakbar.tmdbunofficial.ui.movie.CastList
 import dev.aliakbar.tmdbunofficial.ui.movie.CrewList
 import dev.aliakbar.tmdbunofficial.ui.movie.DetailsHeader
-import dev.aliakbar.tmdbunofficial.ui.movie.MovieUiState
-import dev.aliakbar.tmdbunofficial.ui.movie.MovieViewModel
 import dev.aliakbar.tmdbunofficial.ui.movie.GenreList
 import dev.aliakbar.tmdbunofficial.ui.movie.ListHeader
-import dev.aliakbar.tmdbunofficial.ui.movie.MovieDetails
 import dev.aliakbar.tmdbunofficial.ui.movie.OVERVIEW_PREVIEW_MAX_LINE
 import dev.aliakbar.tmdbunofficial.ui.movie.PosterList
 import dev.aliakbar.tmdbunofficial.ui.movie.RecommendationList
@@ -46,37 +43,32 @@ fun TvScreen(
     onNavigateToTv: (Int) -> Unit,
     onNavigateToSeason: (Int, Int) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: MovieViewModel = viewModel(factory = MovieViewModel.factory)
+    viewModel: TvViewModel = viewModel(factory = TvViewModel.factory)
 )
 {
-    val uiState = viewModel.movieUiState
+    val uiState = viewModel.tvUiState
 
     when (uiState)
     {
-        is MovieUiState.Loading      -> CircularIndicator()
-        is MovieUiState.SuccessMovie -> MovieDetails(
-            movie = uiState.movie,
-            onNavigateToMovie = onNavigateToMovie,
-            addToBookmark = { viewModel.addToBookmark(it) },
-            removeFromBookmark = { viewModel.removeFromBookmark(it)}
-        )
-        is MovieUiState.SuccessTv    -> Text(text = "Tv")
-        /*TvDetails(
-            tv = uiState.tv,
-            onNavigateToMovie = onNavigateToMovie,
-            addToBookmark = addToBookmark,
-            removeFromBookmark = removeFromBookmark,
-            onSeasonClick = { *//*navController.navigate(TmdbScreen.SeasonDetails.name + "/" + uiState.tv.id + "/" + it)*//* }
-            )*/
-        is MovieUiState.Error        -> Text(text = "Error")
+        is TvUiState.Loading -> CircularIndicator()
+        is TvUiState.Success ->
+            TvDetails(
+                tv = uiState.tv,
+                onNavigateToTv = onNavigateToTv,
+                onNavigateToSeason = onNavigateToSeason,
+                addToBookmark = { viewModel.addToBookmark(uiState.tv) },
+                removeFromBookmark = { viewModel.removeFromBookmark(uiState.tv) },
+            )
+
+        is TvUiState.Error   -> Text(text = "Error")
     }
 }
 
 @Composable
 fun TvDetails(
     tv: Tv,
-    onNavigateToMovie: (Int) -> Unit,
-    onSeasonClick: (Int) -> Unit,
+    onNavigateToTv: (Int) -> Unit,
+    onNavigateToSeason: (Int, Int) -> Unit,
     addToBookmark: () -> Unit,
     removeFromBookmark: () -> Unit,
     modifier: Modifier = Modifier
@@ -89,7 +81,6 @@ fun TvDetails(
 
     Scaffold(
         topBar = { TopBar(title = tv.name,
-            // TODO: add isBookmark property to tv model later
             isBookmarkAlready = false,
             addToBookmark = addToBookmark,
             removeFromBookmark = removeFromBookmark
@@ -170,7 +161,10 @@ fun TvDetails(
 
             ListHeader(header = "Seasons")
 
-            SeasonList(seasons = tv.seasons, onSeasonClick)
+            SeasonList(
+                seasons = tv.seasons,
+                onNavigateToSeason = { onNavigateToSeason(tv.id, it) }
+            )
 
             ListHeader(header = "Cast")
 
@@ -206,7 +200,7 @@ fun TvDetails(
 
                 RecommendationList(
                     recommendations = tv.recommendations,
-                    onNavigateToMovie = onNavigateToMovie
+                    onNavigateToMovie = onNavigateToTv
                 )
             }
         }

@@ -1,6 +1,5 @@
 package dev.aliakbar.tmdbunofficial.data
 
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCompany
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkEpisode
 
 data class Tv(
@@ -36,6 +35,7 @@ data class Tv(
     val status: String,
     val languages: List<String>,
     val type: String,
+    val isBookmark: Boolean,
     val casts: List<Cast>,
     val crews: List<Crew>,
     val videos: List<Video>,

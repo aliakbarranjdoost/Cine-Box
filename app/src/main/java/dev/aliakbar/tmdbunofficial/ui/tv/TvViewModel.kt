@@ -12,7 +12,6 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.DetailsRepository
-import dev.aliakbar.tmdbunofficial.data.Movie
 import dev.aliakbar.tmdbunofficial.data.Tv
 import dev.aliakbar.tmdbunofficial.data.toBookmark
 import kotlinx.coroutines.launch
@@ -26,9 +25,9 @@ sealed interface TvUiState
     data object Loading : TvUiState
 }
 
-private val TAG: String = MovieViewModel::class.java.simpleName
+private val TAG: String = TvViewModel::class.java.simpleName
 
-class MovieViewModel(
+class TvViewModel(
     private val repository: DetailsRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel()
@@ -61,19 +60,19 @@ class MovieViewModel(
         }
     }
 
-    fun addToBookmark(movie: Movie)
+    fun addToBookmark(tv: Tv)
     {
         viewModelScope.launch()
         {
-            repository.addTrendToBookmark(movie.toBookmark())
+            repository.addTrendToBookmark(tv.toBookmark())
         }
     }
 
-    fun removeFromBookmark(movie: Movie)
+    fun removeFromBookmark(tv: Tv)
     {
         viewModelScope.launch()
         {
-            repository.removeFromBookmark(movie.toBookmark())
+            repository.removeFromBookmark(tv.toBookmark())
         }
     }
 
@@ -87,7 +86,7 @@ class MovieViewModel(
                     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as TmdbUnofficialApplication)
                 val repository = application.container.detailsRepository
                 val savedStateHandle = this.createSavedStateHandle()
-                MovieViewModel(repository, savedStateHandle)
+                TvViewModel(repository, savedStateHandle)
             }
         }
     }

@@ -26,6 +26,7 @@ import dev.aliakbar.tmdbunofficial.ui.search.SearchScreen
 import dev.aliakbar.tmdbunofficial.ui.season.SeasonDetailsScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 import dev.aliakbar.tmdbunofficial.ui.top.TopScreen
+import dev.aliakbar.tmdbunofficial.ui.tv.TvScreen
 
 class MainActivity : ComponentActivity()
 {
@@ -141,8 +142,11 @@ fun TmdbNavHost(
             arguments = Tv.arguments
         )
         {
-            // TODO: Separate Movie and tv screen
-            // Tv()
+            TvScreen(
+                onNavigateToTv = { navController.navigateToTv(it) },
+                onNavigateToSeason = { tvId, seasonNumber ->
+                    navController.navigateToSeason(tvId, seasonNumber)
+                })
         }
         composable(
             route = Season.routeWithArgs,

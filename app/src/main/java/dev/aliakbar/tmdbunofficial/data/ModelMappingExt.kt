@@ -552,7 +552,7 @@ fun NetworkTvDetails.toExternal(
     backdrops = images.backdrops.toExternal(baseBackdropUrl),
     logos = images.logos.toExternal(baseLogoUrl),
     recommendations = recommendations.results.toExternal(
-        basePosterUrl, baseBackdropUrl, isBookmark
+        basePosterUrl, baseBackdropUrl, false
     ),
     createdBy = createdBy.toExternal(baseProfileUrl),
     firstAirDate = firstAirDate,
@@ -566,7 +566,8 @@ fun NetworkTvDetails.toExternal(
     numberOfSeasons = numberOfSeasons,
     originCountry = originCountry,
     seasons = seasons.toExternal(basePosterUrl),
-    type = type
+    type = type,
+    isBookmark = isBookmark
 )
 
 fun NetworkSeason.toExternal(basePosterUrl: String) = Season(
@@ -652,4 +653,13 @@ fun Movie.toBookmark() = Bookmark(
     poster = posterUrl,
     backdropUrl = backdropUrl,
     type = "movie"
+)
+
+fun Tv.toBookmark() = Bookmark(
+    id = id,
+    title = name,
+    score = voteAverage,
+    poster = posterUrl,
+    backdropUrl = backdropUrl,
+    type = "tv"
 )

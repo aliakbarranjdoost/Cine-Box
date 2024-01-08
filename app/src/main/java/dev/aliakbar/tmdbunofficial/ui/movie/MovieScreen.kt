@@ -710,7 +710,11 @@ fun ShowPosterInFullscreenDialog(
 }
 
 @Composable
-fun SeasonList(seasons: List<Season>, onSeasonClick: (Int) -> Unit, modifier: Modifier = Modifier)
+fun SeasonList(
+    seasons: List<Season>,
+    onNavigateToSeason: (Int) -> Unit,
+    modifier: Modifier = Modifier
+)
 {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -719,19 +723,19 @@ fun SeasonList(seasons: List<Season>, onSeasonClick: (Int) -> Unit, modifier: Mo
     {
         items(items = seasons)
         { season ->
-            SeasonItem( season, onSeasonClick)
+            SeasonItem(season = season, onNavigateToSeason = onNavigateToSeason)
         }
     }
 }
 
 @Composable
-fun SeasonItem(season: Season, onSeasonClick: (Int) -> Unit)
+fun SeasonItem(season: Season, onNavigateToSeason: (Int) -> Unit)
 {
     Card(
         modifier = Modifier
             .width(200.dp)
             .height(400.dp),
-        onClick = { onSeasonClick(season.seasonNumber) }
+        onClick = { onNavigateToSeason(season.seasonNumber) }
     )
     {
         Column()
