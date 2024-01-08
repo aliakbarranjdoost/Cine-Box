@@ -153,7 +153,11 @@ fun TmdbNavHost(
             arguments = Season.arguments
         )
         {
-            SeasonScreen(navController)
+            SeasonScreen(
+                { tvId, seasonNumber, episodeNumber ->
+                    navController.navigateToEpisode(tvId, seasonNumber, episodeNumber)
+                }
+            )
         }
         composable(
             route = Episode.routeWithArgs,
@@ -180,7 +184,7 @@ fun NavHostController.navigateToSeason(id: Int, seasonNumber: Int)
     this.navigate("${Season.route}/$id/$seasonNumber")
 }
 
-fun NavHostController.navigateToSeason(id: Int, seasonNumber: Int, episodeNumber: Int)
+fun NavHostController.navigateToEpisode(id: Int, seasonNumber: Int, episodeNumber: Int)
 {
-    this.navigate("${Season.route}/$id/$seasonNumber/$episodeNumber")
+    this.navigate("${Episode.route}/$id/$seasonNumber/$episodeNumber")
 }

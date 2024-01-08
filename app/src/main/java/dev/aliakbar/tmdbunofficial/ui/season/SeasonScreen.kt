@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
 import dev.aliakbar.tmdbunofficial.data.Episode
 import dev.aliakbar.tmdbunofficial.data.SeasonDetails
 import dev.aliakbar.tmdbunofficial.data.source.sample.episode
@@ -36,7 +35,7 @@ import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 
 @Composable
 fun SeasonScreen(
-    navController: NavHostController,
+    onNavigateToEpisode: (Int,Int,Int) -> Unit,
     viewModel: SeasonViewModel = viewModel(factory = SeasonViewModel.factory)
 )
 {
@@ -47,15 +46,13 @@ fun SeasonScreen(
         is SeasonUiState.Loading -> CircularIndicator()
         is SeasonUiState.Success ->
         {
-            SeasonScreen(seasonDetails = uiState.seasonDetails,
-                onEpisodeClick =
-                {
-/*
-                    navController.navigate(
-                        TmdbScreen.EpisodeDetails.name + "/" + viewModel.id
-                                + "/" + it.seasonNumber + "/" + it.episodeNumber)
-*/
-                })
+            SeasonScreen(
+                seasonDetails = uiState.seasonDetails,
+                onNavigateToEpisode =
+                { seasonNumber, episodeNumber ->
+                    onNavigateToEpisode(viewModel.id, seasonNumber, episodeNumber)
+                }
+            )
         }
 
         is SeasonUiState.Error   -> Text(text = "Error")
@@ -65,14 +62,16 @@ fun SeasonScreen(
 @Composable
 fun SeasonScreen(
     seasonDetails: SeasonDetails,
-    onEpisodeClick: (Episode) -> Unit
+    onNavigateToEpisode: (Int, Int) -> Unit
 )
 {
-    Scaffold(
-        topBar = { TopBar(title = seasonDetails.name) }
-    )
+    Scaffold(topBar = { TopBar(title = seasonDetails.name) })
     { innerPadding ->
-        EpisodeList(episodes = seasonDetails.episodes, modifier = Modifier.padding(innerPadding), onEpisodeClick )
+        EpisodeList(
+            episodes = seasonDetails.episodes,
+            modifier = Modifier.padding(innerPadding),
+            onNavigateToEpisode = onNavigateToEpisode
+        )
     }
 }
 
@@ -80,7 +79,7 @@ fun SeasonScreen(
 fun EpisodeList(
     episodes: List<Episode>,
     modifier: Modifier = Modifier,
-    onEpisodeClick: (Episode) -> Unit
+    onNavigateToEpisode: (Int, Int) -> Unit
 )
 {
     LazyColumn(
@@ -90,15 +89,15 @@ fun EpisodeList(
     {
         items(items = episodes)
         {
-            EpisodeItem(episode = it, onEpisodeClick)
+            EpisodeItem(episode = it, onNavigateToEpisode = onNavigateToEpisode)
         }
     }
 }
 
 @Composable
-fun EpisodeItem(episode: Episode, onEpisodeClick: (Episode) -> Unit)
+fun EpisodeItem(episode: Episode, onNavigateToEpisode: (Int, Int) -> Unit)
 {
-    Card(onClick = { onEpisodeClick(episode) }) {
+    Card(onClick = { onNavigateToEpisode(episode.seasonNumber, episode.episodeNumber) }) {
         Row(Modifier.height(100.dp)) {
             Box(
                 modifier = Modifier
@@ -137,19 +136,22 @@ fun EpisodeItem(episode: Episode, onEpisodeClick: (Episode) -> Unit)
 @Composable
 fun PreviewEpisodeItem()
 {
-    EpisodeItem(episode = episode, {})
+    EpisodeItem(episode = episode, onNavigateToEpisode = { _, _ -> } )
 }
 
 //@Preview
 @Composable
 fun PreviewEpisodeList()
 {
-    EpisodeList(episodes = episodes, onEpisodeClick = {})
+    EpisodeList(episodes = episodes, onNavigateToEpisode = { _, _ -> })
 }
 
 @Preview
 @Composable
 fun PreviewSeasonDetailsScreen()
 {
-    TMDBUnofficialTheme { SeasonScreen(seasonDetails, {}) }
+    TMDBUnofficialTheme()
+    {
+        SeasonScreen(seasonDetails = seasonDetails, onNavigateToEpisode = { _, _ -> })
+    }
 }
