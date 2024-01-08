@@ -48,7 +48,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -71,7 +70,8 @@ const val OVERVIEW_PREVIEW_MAX_LINE = 3
 
 @Composable
 fun MovieScreen(
-    navController: NavHostController,
+    onNavigateToMovie: (Int) -> Unit,
+    modifier: Modifier = Modifier,
     viewModel: DetailsViewModel = viewModel(factory = DetailsViewModel.factory)
 )
 {
@@ -80,19 +80,26 @@ fun MovieScreen(
     when (uiState)
     {
         is DetailsUiState.Loading -> CircularIndicator()
-        is DetailsUiState.SuccessMovie -> MovieDetails(movie = uiState.movie, onBookmarkClick = { })
+        is DetailsUiState.SuccessMovie -> MovieDetails(
+            movie = uiState.movie,
+            onNavigateToMovie = onNavigateToMovie,
+            onBookmarkClick = { })
         is DetailsUiState.SuccessTv ->
             TvDetails(
-            tv = uiState.tv,
-            onBookmarkClick = {},
-            onSeasonClick = { /*navController.navigate(TmdbScreen.SeasonDetails.name + "/" + uiState.tv.id + "/" + it)*/}
+                tv = uiState.tv,
+                onNavigateToMovie = onNavigateToMovie,
+                onBookmarkClick = {},
+                onSeasonClick = { /*navController.navigate(TmdbScreen.SeasonDetails.name + "/" + uiState.tv.id + "/" + it)*/ }
             )
         is DetailsUiState.Error   -> Text(text = "Error")
     }
 }
 
 @Composable
-fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
+fun MovieDetails(
+    movie: Movie,
+    onNavigateToMovie: (Int) -> Unit,
+    onBookmarkClick: () -> Unit)
 {
     val scrollState = rememberScrollState()
     var showDetails by remember { mutableStateOf(false) }
@@ -203,7 +210,10 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
             {
                 ListHeader(header = "Recommendations")
 
-                RecommendationList(recommendations = movie.recommendations)
+                RecommendationList(
+                    recommendations = movie.recommendations,
+                    onNavigateToMovie = onNavigateToMovie
+                )
             }
         }
     }
@@ -220,6 +230,7 @@ fun MovieDetails(movie: Movie, onBookmarkClick: () -> Unit)
 @Composable
 fun TvDetails(
     tv: Tv,
+    onNavigateToMovie: (Int) -> Unit,
     onBookmarkClick: () -> Unit,
     onSeasonClick: (Int) -> Unit,
     modifier: Modifier = Modifier
@@ -342,7 +353,10 @@ fun TvDetails(
             {
                 ListHeader(header = "Recommendations")
 
-                RecommendationList(recommendations = tv.recommendations)
+                RecommendationList(
+                    recommendations = tv.recommendations,
+                    onNavigateToMovie = onNavigateToMovie
+                )
             }
         }
     }
@@ -564,7 +578,10 @@ fun BackdropItem(backdrop: Image,onPosterClick: (Image) -> Unit)
 }
 
 @Composable
-fun RecommendationList(recommendations: List<Trend>, modifier: Modifier = Modifier)
+fun RecommendationList(
+    recommendations: List<Trend>,
+    onNavigateToMovie: (Int) -> Unit,
+    modifier: Modifier = Modifier)
 {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -573,15 +590,20 @@ fun RecommendationList(recommendations: List<Trend>, modifier: Modifier = Modifi
     {
         items(items = recommendations)
         { recommendation ->
-            RecommendationItem(recommendation = recommendation)
+            RecommendationItem(
+                recommendation = recommendation,
+                onNavigateToMovie = onNavigateToMovie
+            )
         }
     }
 }
 
 @Composable
-fun RecommendationItem(recommendation: Trend)
+fun RecommendationItem(recommendation: Trend, onNavigateToMovie: (Int) -> Unit)
 {
-    Card(modifier = Modifier.size(width = 200.dp, height = 325.dp))
+    Card(
+        onClick = { onNavigateToMovie(recommendation.id) },
+        modifier = Modifier.size(width = 200.dp, height = 325.dp))
     {
         Column()
         {
@@ -693,5 +715,5 @@ fun SeasonItem(season: Season, onSeasonClick: (Int) -> Unit)
 @Composable
 fun MovieDetailsPreview()
 {
-    MovieDetails(movie = movie) { }
+    MovieDetails(movie = movie, {}, {})
 }

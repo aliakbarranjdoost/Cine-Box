@@ -19,9 +19,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dev.aliakbar.tmdbunofficial.ui.bookmark.BookmarkScreen
 import dev.aliakbar.tmdbunofficial.ui.components.TmdbBottomAppBar
-import dev.aliakbar.tmdbunofficial.ui.movie.MovieScreen
 import dev.aliakbar.tmdbunofficial.ui.episode.EpisodeScreen
 import dev.aliakbar.tmdbunofficial.ui.home.HomeScreen
+import dev.aliakbar.tmdbunofficial.ui.movie.MovieScreen
 import dev.aliakbar.tmdbunofficial.ui.search.SearchScreen
 import dev.aliakbar.tmdbunofficial.ui.season.SeasonDetailsScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
@@ -132,8 +132,9 @@ fun TmdbNavHost(
             arguments = Movie.arguments
         )
         {
-            // TODO: change this screen name to Movie
-            MovieScreen(navController)
+            MovieScreen(
+                onNavigateToMovie = { navController.navigateToMovie(it) },
+            )
         }
         composable(
             route = Tv.routeWithArgs,
