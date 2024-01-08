@@ -32,8 +32,13 @@ class DetailsRepository(
         )
     }
 
-    suspend fun addMovieToBookmark(bookmark: Bookmark)
+    suspend fun addTrendToBookmark(bookmark: Bookmark)
     {
         localDataSource.bookmarkDao().insert(bookmark.toLocal())
+    }
+
+    suspend fun removeFromBookmark(bookmark: Bookmark)
+    {
+        localDataSource.bookmarkDao().delete(bookmark.toLocal())
     }
 }

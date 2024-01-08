@@ -644,3 +644,12 @@ fun NetworkEpisodeDetails.toExternal(
 fun SearchResult.toBookmark() = Bookmark(
     id, title, score!!, posterUrl, backdropUrl, mediaType.name
 )
+
+fun Movie.toBookmark() = Bookmark(
+    id = id,
+    title = title,
+    score = voteAverage,
+    poster = posterUrl,
+    backdropUrl = backdropUrl,
+    type = "movie"
+)

@@ -21,6 +21,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
@@ -28,6 +29,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -39,6 +41,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -83,14 +86,17 @@ fun MovieScreen(
         is DetailsUiState.SuccessMovie -> MovieDetails(
             movie = uiState.movie,
             onNavigateToMovie = onNavigateToMovie,
-            onBookmarkClick = { })
-        is DetailsUiState.SuccessTv ->
-            TvDetails(
+            addToBookmark = { viewModel.addToBookmark(it) },
+            removeFromBookmark = { viewModel.removeFromBookmark(it)}
+            )
+        is DetailsUiState.SuccessTv -> Text(text = "Tv")
+            /*TvDetails(
                 tv = uiState.tv,
                 onNavigateToMovie = onNavigateToMovie,
-                onBookmarkClick = {},
-                onSeasonClick = { /*navController.navigate(TmdbScreen.SeasonDetails.name + "/" + uiState.tv.id + "/" + it)*/ }
-            )
+                addToBookmark = addToBookmark,
+                removeFromBookmark = removeFromBookmark,
+                onSeasonClick = { *//*navController.navigate(TmdbScreen.SeasonDetails.name + "/" + uiState.tv.id + "/" + it)*//* }
+            )*/
         is DetailsUiState.Error   -> Text(text = "Error")
     }
 }
@@ -99,7 +105,9 @@ fun MovieScreen(
 fun MovieDetails(
     movie: Movie,
     onNavigateToMovie: (Int) -> Unit,
-    onBookmarkClick: () -> Unit)
+    addToBookmark: (Movie) -> Unit,
+    removeFromBookmark: (Movie) -> Unit
+)
 {
     val scrollState = rememberScrollState()
     var showDetails by remember { mutableStateOf(false) }
@@ -107,7 +115,14 @@ fun MovieDetails(
     var selectedImagePath by remember { mutableStateOf("") }
 
     Scaffold(
-        topBar = { TopBar(title = movie.title, onBookmarkClick) }
+        topBar = {
+            TopBar(
+                title = movie.title,
+                isBookmarkAlready = movie.isBookmark,
+                addToBookmark = { addToBookmark(movie) },
+                removeFromBookmark = { removeFromBookmark(movie) }
+            )
+        }
     )
     { innerPadding ->
         Column(
@@ -231,8 +246,9 @@ fun MovieDetails(
 fun TvDetails(
     tv: Tv,
     onNavigateToMovie: (Int) -> Unit,
-    onBookmarkClick: () -> Unit,
     onSeasonClick: (Int) -> Unit,
+    addToBookmark: () -> Unit,
+    removeFromBookmark: () -> Unit,
     modifier: Modifier = Modifier
 )
 {
@@ -242,7 +258,12 @@ fun TvDetails(
     var selectedImagePath by remember { mutableStateOf("") }
 
     Scaffold(
-        topBar = { TopBar(title = tv.name, onBookmarkClick) }
+        topBar = { TopBar(title = tv.name,
+            // TODO: add isBookmark property to tv model later
+            isBookmarkAlready = false,
+            addToBookmark = addToBookmark,
+            removeFromBookmark = removeFromBookmark
+            ) }
     )
     { innerPadding ->
         Column(
@@ -618,8 +639,14 @@ fun RecommendationItem(recommendation: Trend, onNavigateToMovie: (Int) -> Unit)
 }
 
 @Composable
-fun TopBar(title: String, onBookmarkClick: () -> Unit)
+fun TopBar(
+    title: String,
+    isBookmarkAlready: Boolean,
+    addToBookmark: () -> Unit,
+    removeFromBookmark: () -> Unit)
 {
+    var isBookmark by remember { mutableStateOf(isBookmarkAlready) }
+
     CenterAlignedTopAppBar(
         title = {
             Text(
@@ -644,10 +671,23 @@ fun TopBar(title: String, onBookmarkClick: () -> Unit)
                 )
             }
 
-            IconButton(onClick = onBookmarkClick) {
+            IconButton(onClick =
+            {
+                if (isBookmark)
+                {
+                    removeFromBookmark()
+                }
+                else
+                {
+                    addToBookmark()
+                }
+                isBookmark = !isBookmark
+            }
+            ) {
                 Icon(
-                    imageVector = Icons.Filled.BookmarkBorder,
-                    contentDescription = "Localized description"
+                    imageVector = if (isBookmark) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
+                    tint = if (isBookmark) Color.Yellow else LocalContentColor.current,
+                    contentDescription = null
                 )
             }
         },
@@ -715,5 +755,5 @@ fun SeasonItem(season: Season, onSeasonClick: (Int) -> Unit)
 @Composable
 fun MovieDetailsPreview()
 {
-    MovieDetails(movie = movie, {}, {})
+    MovieDetails(movie = movie, {}, {}, {})
 }

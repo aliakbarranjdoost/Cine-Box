@@ -202,5 +202,6 @@ val movie = Movie(
     posters = posters,
     backdrops = backdrops,
     logos = logos,
-    recommendations = recommendations
+    recommendations = recommendations,
+    isBookmark = true
 )

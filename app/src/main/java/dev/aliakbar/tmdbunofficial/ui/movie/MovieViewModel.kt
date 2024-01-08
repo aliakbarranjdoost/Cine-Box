@@ -13,7 +13,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.DetailsRepository
 import dev.aliakbar.tmdbunofficial.data.Movie
-import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.Tv
 import dev.aliakbar.tmdbunofficial.data.toBookmark
 import kotlinx.coroutines.launch
@@ -92,11 +91,19 @@ class DetailsViewModel(
         }
     }
 
-    fun addMovieToBookmark(trend: Trend)
+    fun addToBookmark(movie: Movie)
     {
         viewModelScope.launch()
         {
-            repository.addMovieToBookmark(trend.toBookmark())
+            repository.addTrendToBookmark(movie.toBookmark())
+        }
+    }
+
+    fun removeFromBookmark(movie: Movie)
+    {
+        viewModelScope.launch()
+        {
+            repository.removeFromBookmark(movie.toBookmark())
         }
     }
 
