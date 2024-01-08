@@ -10,6 +10,7 @@ import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import dev.aliakbar.tmdbunofficial.ID_ARG
 import dev.aliakbar.tmdbunofficial.Season
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.SeasonDetails
@@ -34,7 +35,7 @@ class SeasonViewModel(
     var episodeListUiState: SeasonUiState by mutableStateOf(
         SeasonUiState.Loading
     )
-    val id: Int = savedStateHandle[Season.idArg] ?: 0
+    val id: Int = savedStateHandle[ID_ARG] ?: 0
     private val seasonNumber: Int = savedStateHandle[Season.seasonNumberArg] ?: 0
 
     init
