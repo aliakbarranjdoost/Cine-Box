@@ -71,6 +71,8 @@ import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
+import dev.aliakbar.tmdbunofficial.util.YOUTUBE_THUMBNAIL_BASE_URL
+import dev.aliakbar.tmdbunofficial.util.YoutubeThumbnailSize
 
 @Composable
 fun HomeScreen(
@@ -423,20 +425,28 @@ fun SliderItem(trailer: Trailer, onNavigate: () -> Unit)
                 }
             }
 
-            Image(url = trailer.trend.backdrop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(230.dp)
-                    .clickable { isVideoFullScreen = true }
-            )
 
-            Icon(
-                imageVector = Icons.Default.PlayCircleOutline,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(64.dp)
-                    .align(Alignment.Center)
-            )
+            Box(
+                Modifier
+                    .height(230.dp)
+                    .fillMaxHeight())
+            {
+                Image(
+                    url = "$YOUTUBE_THUMBNAIL_BASE_URL${trailer.video.key}${YoutubeThumbnailSize.MAX.size}",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(230.dp)
+                        .clickable { isVideoFullScreen = true }
+                )
+
+                Icon(
+                    imageVector = Icons.Default.PlayCircleOutline,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(64.dp)
+                        .align(Alignment.Center)
+                )
+            }
         }
 
         Image(url = trailer.trend.poster,
