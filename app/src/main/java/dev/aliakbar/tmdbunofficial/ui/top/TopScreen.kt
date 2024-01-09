@@ -5,7 +5,6 @@ package dev.aliakbar.tmdbunofficial.ui.top
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,6 +47,7 @@ import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.Rank
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
+import kotlin.math.roundToInt
 
 @Composable
 fun TopScreen(
@@ -146,19 +147,22 @@ fun TopItem(top: Trend, onNavigateToDetails: () -> Unit,
             modifier: Modifier = Modifier)
 {
     var isBookmark by remember { mutableStateOf(top.isBookmark) }
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp
+    val backdropHeight = (screenWidth * 0.5625).roundToInt()
 
     Card(
         onClick = onNavigateToDetails,
         modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp),
+            .height(backdropHeight.dp + 46.dp),
         shape = CardDefaults.shape
     )
     {
         Column(modifier = Modifier.fillMaxSize())
         {
             Box(modifier = Modifier
-                .weight(0.76F)
+                .height(backdropHeight.dp)
                 .fillMaxWidth())
             {
                 Image(
@@ -168,26 +172,6 @@ fun TopItem(top: Trend, onNavigateToDetails: () -> Unit,
                 Rank(rank = top.rank, modifier = Modifier
                     .size(40.dp)
                     .align(Alignment.TopStart))
-            }
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .weight(0.24F)
-                    .fillMaxWidth()
-            )
-            {
-                Text(
-                    text = top.title,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .weight(1F)
-                        .fillMaxWidth(),
-                    style = MaterialTheme.typography.headlineSmall
-                )
-
                 IconButton(
                     onClick =
                     {
@@ -205,6 +189,7 @@ fun TopItem(top: Trend, onNavigateToDetails: () -> Unit,
                     modifier = Modifier
                         .size(48.dp)
                         .padding(4.dp)
+                        .align(Alignment.BottomEnd)
                 )
                 {
                     Icon(
@@ -215,7 +200,18 @@ fun TopItem(top: Trend, onNavigateToDetails: () -> Unit,
                             .fillMaxSize()
                     )
                 }
+
             }
+
+            Text(
+                text = top.title,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .weight(1F)
+                    .fillMaxWidth(),
+                style = MaterialTheme.typography.headlineSmall
+            )
         }
     }
 }
