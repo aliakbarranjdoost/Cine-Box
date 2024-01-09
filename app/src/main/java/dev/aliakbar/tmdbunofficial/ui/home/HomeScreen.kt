@@ -535,7 +535,7 @@ fun VideoDialog(
 )
 {
     Dialog(
-        properties = DialogProperties(usePlatformDefaultWidth = false),
+        properties = DialogProperties(usePlatformDefaultWidth = true),
         onDismissRequest = { onDismissRequest() })
     {
         Card(
