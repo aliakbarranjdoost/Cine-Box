@@ -131,7 +131,7 @@ fun HomeScreen(
                                 .weight(1f)
                                 .fillMaxHeight()
                         )
-                        SingleChoiceSegmentedButtonRow(modifier = Modifier.width(200.dp))
+                        SingleChoiceSegmentedButtonRow(modifier = Modifier.width(220.dp))
                         {
                             timeRangeOptions.forEachIndexed()
                             { index, label ->
@@ -191,7 +191,7 @@ fun HomeScreen(
                                 .weight(1f)
                                 .fillMaxHeight()
                         )
-                        SingleChoiceSegmentedButtonRow(modifier = Modifier.width(200.dp))
+                        SingleChoiceSegmentedButtonRow(modifier = Modifier.width(220.dp))
                         {
                             timeRangeOptions.forEachIndexed()
                             { index, label ->
@@ -251,7 +251,7 @@ fun HomeScreen(
                                 .weight(1f)
                                 .fillMaxHeight()
                         )
-                        SingleChoiceSegmentedButtonRow(modifier = Modifier.width(200.dp))
+                        SingleChoiceSegmentedButtonRow(modifier = Modifier.width(220.dp))
                         {
                             timeRangeOptions.forEachIndexed()
                             { index, label ->
@@ -301,7 +301,7 @@ fun TrendList(
 {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier.padding(16.dp)
+        modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
     )
     {
         items(items = trends, key = { trend -> trend.id })
