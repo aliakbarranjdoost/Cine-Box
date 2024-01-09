@@ -45,10 +45,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringArrayResource
@@ -60,6 +62,9 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImagePainter
+import coil.compose.SubcomposeAsyncImage
+import coil.compose.SubcomposeAsyncImageContent
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -69,6 +74,7 @@ import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.source.sample.trend
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.Image
+import dev.aliakbar.tmdbunofficial.ui.components.ImageLoadingAnimation
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 import dev.aliakbar.tmdbunofficial.util.YOUTUBE_THUMBNAIL_BASE_URL
@@ -425,27 +431,47 @@ fun SliderItem(trailer: Trailer, onNavigate: () -> Unit)
                 }
             }
 
-
             Box(
                 Modifier
                     .height(230.dp)
                     .fillMaxHeight())
             {
-                Image(
-                    url = "$YOUTUBE_THUMBNAIL_BASE_URL${trailer.video.key}${YoutubeThumbnailSize.MAX.size}",
+                var imageLoadingState by rememberSaveable {
+                    mutableStateOf(true)
+                }
+                SubcomposeAsyncImage(
+                    model = "$YOUTUBE_THUMBNAIL_BASE_URL${trailer.video.key}${YoutubeThumbnailSize.MAX.size}",
+                    contentDescription = null,
+                    contentScale = ContentScale.FillBounds,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(230.dp)
                         .clickable { isVideoFullScreen = true }
                 )
+                {
+                    val state = painter.state
 
-                Icon(
-                    imageVector = Icons.Default.PlayCircleOutline,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(64.dp)
-                        .align(Alignment.Center)
-                )
+                    if (state is AsyncImagePainter.State.Loading)
+                    {
+                        ImageLoadingAnimation()
+                    }
+                    else
+                    {
+                        SubcomposeAsyncImageContent()
+                        imageLoadingState = false
+                    }
+                }
+
+                if (!imageLoadingState)
+                {
+                    Icon(
+                        imageVector = Icons.Default.PlayCircleOutline,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(64.dp)
+                            .align(Alignment.Center)
+                    )
+                }
             }
         }
 
