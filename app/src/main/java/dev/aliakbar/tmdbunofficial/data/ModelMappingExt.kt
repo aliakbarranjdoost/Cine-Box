@@ -478,7 +478,7 @@ fun NetworkMultiSearchResult.toExternal(
     MediaType.MOVIE  -> SearchResult(
         id = id,
         title = title!!,
-        posterUrl = basePosterUrl + posterPath!!,
+        posterUrl = if (posterPath != null) basePosterUrl + posterPath else "",
         mediaType = mediaType,
         releaseDate = releaseDate!!,
         knownForDepartment = null,
@@ -490,7 +490,7 @@ fun NetworkMultiSearchResult.toExternal(
     MediaType.TV     -> SearchResult(
         id = id,
         title = name!!,
-        posterUrl = basePosterUrl + posterPath!!,
+        posterUrl = if (posterPath != null) basePosterUrl + posterPath else "",
         mediaType = mediaType,
         releaseDate = firstAirDate!!,
         knownForDepartment = null,

@@ -12,7 +12,6 @@ import dev.aliakbar.tmdbunofficial.data.SeasonDetailsRepository
 import dev.aliakbar.tmdbunofficial.data.TopRepository
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -43,7 +42,6 @@ class DefaultAppContainer(context: Context): AppContainer
         chain.proceed(newRequest)
     }
 
-    @OptIn(ExperimentalSerializationApi::class)
     private val json = Json {
         coerceInputValues = true
         ignoreUnknownKeys = true

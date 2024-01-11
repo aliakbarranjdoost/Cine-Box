@@ -77,6 +77,7 @@ fun SearchScreen(
             onSearch = {
                 //viewModel.invalidateDataSource()
                 viewModel.setQuery(text)
+                viewModel.search()
                 active = false
             },
             active = active,
