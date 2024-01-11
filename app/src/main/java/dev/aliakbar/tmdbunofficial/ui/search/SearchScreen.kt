@@ -44,12 +44,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.SearchResult
-import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 
 private val TAG: String = "Search"
@@ -141,13 +139,13 @@ fun SearchScreen(
             }*/
         }
 
-        when (searchResult.loadState.refresh)
+        /*when (searchResult.loadState.refresh)
         {
             is LoadState.Loading -> CircularIndicator()
             is LoadState.Error -> Text(text = "Error")
 
             else ->
-            {
+            {*/
                 LazyColumn(
                     modifier = Modifier
                         .padding(16.dp)
@@ -178,8 +176,8 @@ fun SearchScreen(
                     }
                 }
             }
-        }
-    }
+        /*}
+    }*/
 }
 
 @Composable
