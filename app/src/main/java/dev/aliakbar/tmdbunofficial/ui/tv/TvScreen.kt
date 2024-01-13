@@ -51,6 +51,7 @@ import dev.aliakbar.tmdbunofficial.ui.movie.VideoList
 fun TvScreen(
     onNavigateToTv: (Int) -> Unit,
     onNavigateToSeason: (Int, Int) -> Unit,
+    onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: TvViewModel = viewModel(factory = TvViewModel.factory)
 )
@@ -65,6 +66,7 @@ fun TvScreen(
                 tv = uiState.tv,
                 onNavigateToTv = onNavigateToTv,
                 onNavigateToSeason = onNavigateToSeason,
+                onNavigateBack = onNavigateBack,
                 addToBookmark = { viewModel.addToBookmark(uiState.tv) },
                 removeFromBookmark = { viewModel.removeFromBookmark(uiState.tv) },
             )
@@ -78,6 +80,7 @@ fun TvDetails(
     tv: Tv,
     onNavigateToTv: (Int) -> Unit,
     onNavigateToSeason: (Int, Int) -> Unit,
+    onNavigateBack: () -> Unit,
     addToBookmark: () -> Unit,
     removeFromBookmark: () -> Unit,
     modifier: Modifier = Modifier
@@ -91,6 +94,7 @@ fun TvDetails(
     Scaffold(
         topBar = { TopBar(title = tv.name,
             isBookmarkAlready = false,
+            onNavigateBack = onNavigateBack,
             addToBookmark = addToBookmark,
             removeFromBookmark = removeFromBookmark
         ) }

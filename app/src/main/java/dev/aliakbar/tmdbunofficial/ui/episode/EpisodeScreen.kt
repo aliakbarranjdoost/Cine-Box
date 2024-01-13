@@ -35,6 +35,7 @@ import dev.aliakbar.tmdbunofficial.ui.movie.VideoList
 
 @Composable
 fun EpisodeScreen(
+    onNavigateBack: () -> Unit,
     viewModel: EpisodeViewModel = viewModel(factory = EpisodeViewModel.factory),
 )
 {
@@ -46,14 +47,15 @@ fun EpisodeScreen(
         is EpisodeUiState.Error -> Text(text = "Error")
         is EpisodeUiState.Success ->
         {
-            EpisodeScreen(uiState.episode)
+            EpisodeScreen(episode = uiState.episode, onNavigateBack = onNavigateBack)
         }
     }
 }
 
 @Composable
 fun EpisodeScreen(
-    episode: EpisodeDetails
+    episode: EpisodeDetails,
+    onNavigateBack: () -> Unit
 )
 {
     val scrollState = rememberScrollState()
@@ -62,7 +64,7 @@ fun EpisodeScreen(
     var selectedImagePath by remember { mutableStateOf("") }
 
     Scaffold(
-        topBar = { TopBar(title = episode.name) }
+        topBar = { TopBar(title = episode.name, onNavigateBack = onNavigateBack) }
     )
     { innerPadding ->
         Column(

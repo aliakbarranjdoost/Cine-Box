@@ -36,6 +36,7 @@ import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 @Composable
 fun SeasonScreen(
     onNavigateToEpisode: (Int,Int,Int) -> Unit,
+    onNavigateBack: () -> Unit,
     viewModel: SeasonViewModel = viewModel(factory = SeasonViewModel.factory)
 )
 {
@@ -51,7 +52,8 @@ fun SeasonScreen(
                 onNavigateToEpisode =
                 { seasonNumber, episodeNumber ->
                     onNavigateToEpisode(viewModel.id, seasonNumber, episodeNumber)
-                }
+                },
+                onNavigateBack = onNavigateBack
             )
         }
 
@@ -62,10 +64,11 @@ fun SeasonScreen(
 @Composable
 fun SeasonScreen(
     seasonDetails: SeasonDetails,
-    onNavigateToEpisode: (Int, Int) -> Unit
+    onNavigateToEpisode: (Int, Int) -> Unit,
+    onNavigateBack: () -> Unit
 )
 {
-    Scaffold(topBar = { TopBar(title = seasonDetails.name) })
+    Scaffold(topBar = { TopBar(title = seasonDetails.name, onNavigateBack = onNavigateBack) })
     { innerPadding ->
         EpisodeList(
             episodes = seasonDetails.episodes,
@@ -152,6 +155,6 @@ fun PreviewSeasonDetailsScreen()
 {
     TMDBUnofficialTheme()
     {
-        SeasonScreen(seasonDetails = seasonDetails, onNavigateToEpisode = { _, _ -> })
+        SeasonScreen(seasonDetails = seasonDetails, onNavigateToEpisode = { _, _ -> }, onNavigateBack = {})
     }
 }

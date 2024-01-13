@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.style.TextOverflow
 
 @Composable
-fun TopBar(title: String)
+fun TopBar(title: String, onNavigateBack: () -> Unit)
 {
     CenterAlignedTopAppBar(
         title = {
@@ -24,7 +24,7 @@ fun TopBar(title: String)
             )
         },
         navigationIcon = {
-            IconButton(onClick = { /* doSomething() */ })
+            IconButton(onClick = onNavigateBack)
             {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,

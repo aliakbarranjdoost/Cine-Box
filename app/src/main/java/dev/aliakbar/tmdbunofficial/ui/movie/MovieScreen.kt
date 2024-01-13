@@ -73,6 +73,7 @@ const val OVERVIEW_PREVIEW_MAX_LINE = 3
 @Composable
 fun MovieScreen(
     onNavigateToMovie: (Int) -> Unit,
+    onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MovieViewModel = viewModel(factory = MovieViewModel.factory)
 )
@@ -85,6 +86,7 @@ fun MovieScreen(
         is MovieUiState.Success -> MovieDetails(
             movie = uiState.movie,
             onNavigateToMovie = onNavigateToMovie,
+            onNavigateBack = onNavigateBack,
             addToBookmark = { viewModel.addToBookmark(it) },
             removeFromBookmark = { viewModel.removeFromBookmark(it) }
         )
@@ -97,6 +99,7 @@ fun MovieScreen(
 fun MovieDetails(
     movie: Movie,
     onNavigateToMovie: (Int) -> Unit,
+    onNavigateBack: () -> Unit,
     addToBookmark: (Movie) -> Unit,
     removeFromBookmark: (Movie) -> Unit
 )
@@ -111,6 +114,7 @@ fun MovieDetails(
             TopBar(
                 title = movie.title,
                 isBookmarkAlready = movie.isBookmark,
+                onNavigateBack = onNavigateBack,
                 addToBookmark = { addToBookmark(movie) },
                 removeFromBookmark = { removeFromBookmark(movie) }
             )
@@ -528,6 +532,7 @@ fun RecommendationItem(recommendation: Trend, onNavigateToMovie: (Int) -> Unit)
 fun TopBar(
     title: String,
     isBookmarkAlready: Boolean,
+    onNavigateBack: () -> Unit,
     addToBookmark: () -> Unit,
     removeFromBookmark: () -> Unit)
 {
@@ -542,7 +547,7 @@ fun TopBar(
             )
         },
         navigationIcon = {
-            IconButton(onClick = { /* doSomething() */ }) {
+            IconButton(onClick = onNavigateBack ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Localized description"
@@ -599,5 +604,5 @@ fun ShowPosterInFullscreenDialog(
 @Composable
 fun MovieDetailsPreview()
 {
-    MovieDetails(movie = movie, {}, {}, {})
+    MovieDetails(movie = movie, {}, {}, {}, {})
 }

@@ -135,6 +135,7 @@ fun TmdbNavHost(
         {
             MovieScreen(
                 onNavigateToMovie = { navController.navigateToMovie(it) },
+                onNavigateBack = { navController.navigateUp() }
             )
         }
         composable(
@@ -146,7 +147,9 @@ fun TmdbNavHost(
                 onNavigateToTv = { navController.navigateToTv(it) },
                 onNavigateToSeason = { tvId, seasonNumber ->
                     navController.navigateToSeason(tvId, seasonNumber)
-                })
+                },
+                onNavigateBack = { navController.navigateUp() }
+            )
         }
         composable(
             route = Season.routeWithArgs,
@@ -156,7 +159,8 @@ fun TmdbNavHost(
             SeasonScreen(
                 { tvId, seasonNumber, episodeNumber ->
                     navController.navigateToEpisode(tvId, seasonNumber, episodeNumber)
-                }
+                },
+                onNavigateBack = { navController.navigateUp() }
             )
         }
         composable(
@@ -164,7 +168,9 @@ fun TmdbNavHost(
             arguments = Episode.arguments
         )
         {
-            EpisodeScreen()
+            EpisodeScreen(
+                onNavigateBack = { navController.navigateUp() }
+            )
         }
     }
 }
