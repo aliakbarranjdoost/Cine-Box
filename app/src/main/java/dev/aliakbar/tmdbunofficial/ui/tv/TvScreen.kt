@@ -1,5 +1,6 @@
 package dev.aliakbar.tmdbunofficial.ui.tv
 
+import Carousel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
@@ -232,8 +234,11 @@ fun SeasonList(
     modifier: Modifier = Modifier
 )
 {
+    val scrollState = rememberLazyListState()
+
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
+        state = scrollState,
         modifier = Modifier.padding(start = 16.dp, end = 16.dp)
     )
     {
@@ -242,6 +247,7 @@ fun SeasonList(
             SeasonItem(season = season, onNavigateToSeason = onNavigateToSeason)
         }
     }
+    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
 }
 
 @Composable
