@@ -4,6 +4,7 @@
 
 package dev.aliakbar.tmdbunofficial.ui.home
 
+import Carousel
 import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -22,6 +23,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -300,8 +302,11 @@ fun TrendList(
     viewModel: HomeViewModel,
     modifier: Modifier = Modifier)
 {
+    val scrollState = rememberLazyListState()
+
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
+        state = scrollState,
         modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
     )
     {
@@ -322,6 +327,8 @@ fun TrendList(
             )
         }
     }
+    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth(a))
+
 }
 
 @Composable
