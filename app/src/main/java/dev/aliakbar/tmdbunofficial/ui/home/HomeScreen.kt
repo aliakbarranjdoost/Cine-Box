@@ -119,13 +119,14 @@ fun HomeScreen(
                 Column(
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.surfaceVariant)
+                        .padding(start = 16.dp, end = 16.dp)
                 )
                 {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(12.dp)
+                            .padding(4.dp)
                     )
                     {
                         Text(text = "Trending Movies")
@@ -179,13 +180,14 @@ fun HomeScreen(
                 Column(
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.surfaceVariant)
+                        .padding(start = 16.dp, end = 16.dp)
                 )
                 {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(12.dp)
+                            .padding(4.dp)
                     )
                     {
                         Text(text = "Trending Series")
@@ -239,13 +241,14 @@ fun HomeScreen(
                 Column(
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.surfaceVariant)
+                        .padding(start = 16.dp, end = 16.dp)
                 )
                 {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(12.dp)
+                            .padding(4.dp)
                     )
                     {
                         Text(text = "Popular")
@@ -307,7 +310,7 @@ fun TrendList(
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         state = scrollState,
-        modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
+        modifier = modifier.padding(bottom = 8.dp)
     )
     {
         items(items = trends, key = { trend -> trend.id })
@@ -328,7 +331,6 @@ fun TrendList(
         }
     }
     Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
-
 }
 
 @Composable
