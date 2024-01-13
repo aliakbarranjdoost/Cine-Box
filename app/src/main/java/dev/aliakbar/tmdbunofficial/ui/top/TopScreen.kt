@@ -29,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,13 +58,10 @@ fun TopScreen(
     viewModel: TopViewModel = viewModel(factory = TopViewModel.factory)
 )
 {
-    val topMovies = viewModel.getTopRatedMovies().collectAsLazyPagingItems()
-    val topSeries = viewModel.getTopRatedSeries().collectAsLazyPagingItems()
-
-    var tabState by remember { mutableIntStateOf(0) }
+    var tabState by rememberSaveable { mutableIntStateOf(0) }
     val titles = stringArrayResource(id = R.array.content_type_option)
 
-    Column()
+    Column(Modifier.fillMaxSize())
     {
         PrimaryTabRow(selectedTabIndex = tabState)
         {
@@ -78,18 +76,24 @@ fun TopScreen(
         }
         when (tabState)
         {
-            0 -> TopList(
-                tops = topMovies,
-                onNavigate = onNavigateToMovie,
-                addToBookmark = { viewModel.addToBookmark(it) },
-                removeFromBookmark = { viewModel.removeFromBookmark(it) }
-            )
-            1 -> TopList(
-                tops = topSeries,
-                onNavigate = onNavigateToTv,
-                addToBookmark = { viewModel.addToBookmark(it) },
-                removeFromBookmark = { viewModel.removeFromBookmark(it) }
-            )
+            0 ->
+            {
+                TopList(
+                    tops = viewModel.getTopRatedMovies().collectAsLazyPagingItems(),
+                    onNavigate = onNavigateToMovie,
+                    addToBookmark = { viewModel.addToBookmark(it) },
+                    removeFromBookmark = { viewModel.removeFromBookmark(it) }
+                )
+            }
+            1 ->
+            {
+                TopList(
+                    tops = viewModel.getTopRatedSeries().collectAsLazyPagingItems(),
+                    onNavigate = onNavigateToTv,
+                    addToBookmark = { viewModel.addToBookmark(it) },
+                    removeFromBookmark = { viewModel.removeFromBookmark(it) }
+                )
+            }
         }
 
         /*when (val state = topMovies.loadState.refresh) { //FIRST LOAD

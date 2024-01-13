@@ -75,6 +75,7 @@ import dev.aliakbar.tmdbunofficial.data.source.sample.trend
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ImageLoadingAnimation
+import dev.aliakbar.tmdbunofficial.ui.components.IndicatorList
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 import dev.aliakbar.tmdbunofficial.util.YOUTUBE_THUMBNAIL_BASE_URL
@@ -377,6 +378,8 @@ fun Slider(
             }
         )
     }
+    IndicatorList(itemCount = trailers.size, selectedItem = pagerState.currentPage)
+    Spacer(modifier = Modifier.height(8.dp))
 }
 
 @Composable
