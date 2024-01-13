@@ -4,6 +4,7 @@
 
 package dev.aliakbar.tmdbunofficial.ui.movie
 
+import Carousel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -279,8 +281,11 @@ fun GenreList(
 @Composable
 fun CastList(casts: List<Cast>, modifier: Modifier = Modifier)
 {
+    val scrollState = rememberLazyListState()
+
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
+        state = scrollState,
         modifier = Modifier.padding(start = 16.dp, end = 16.dp)
     )
     {
@@ -294,13 +299,17 @@ fun CastList(casts: List<Cast>, modifier: Modifier = Modifier)
             )
         }
     }
+    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
 }
 
 @Composable
 fun CrewList(crews: List<Crew>, modifier: Modifier = Modifier)
 {
+    val scrollState = rememberLazyListState()
+
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
+        state = scrollState,
         modifier = Modifier.padding(start = 16.dp, end = 16.dp)
     )
     {
@@ -314,13 +323,17 @@ fun CrewList(crews: List<Crew>, modifier: Modifier = Modifier)
             )
         }
     }
+    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
 }
 
 @Composable
 fun VideoList(videos: List<Video>, onVideoClick: () -> Unit, modifier: Modifier = Modifier)
 {
+    val scrollState = rememberLazyListState()
+
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
+        state = scrollState,
         modifier = Modifier.padding(start = 16.dp, end = 16.dp)
     )
     {
@@ -329,6 +342,7 @@ fun VideoList(videos: List<Video>, onVideoClick: () -> Unit, modifier: Modifier 
             VideoItem(video = video, onVideoClick)
         }
     }
+    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
 }
 
 @Composable
@@ -389,8 +403,11 @@ fun YoutubeVideoPlayerItem(
 @Composable
 fun PosterList(posters: List<Image>, onPosterClick: (Image) -> Unit, modifier: Modifier = Modifier)
 {
+    val scrollState = rememberLazyListState()
+
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
+        state = scrollState,
         modifier = Modifier.padding(start = 16.dp, end = 16.dp)
     )
     {
@@ -399,6 +416,8 @@ fun PosterList(posters: List<Image>, onPosterClick: (Image) -> Unit, modifier: M
             PosterItem(poster = poster, onPosterClick)
         }
     }
+
+    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
 }
 
 @Composable
@@ -418,8 +437,11 @@ fun PosterItem(poster: Image, onPosterClick: (Image) -> Unit)
 @Composable
 fun BackdropList(backdrops: List<Image>,onPosterClick: (Image) -> Unit, modifier: Modifier = Modifier)
 {
+    val scrollState = rememberLazyListState()
+
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
+        state = scrollState,
         modifier = Modifier.padding(start = 16.dp, end = 16.dp)
     )
     {
@@ -428,6 +450,8 @@ fun BackdropList(backdrops: List<Image>,onPosterClick: (Image) -> Unit, modifier
             BackdropItem(backdrop = backdrop, onPosterClick)
         }
     }
+
+    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
 }
 
 @Composable
@@ -448,8 +472,11 @@ fun RecommendationList(
     onNavigateToMovie: (Int) -> Unit,
     modifier: Modifier = Modifier)
 {
+    val scrollState = rememberLazyListState()
+
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
+        state = scrollState,
         modifier = Modifier.padding(start = 16.dp, end = 16.dp)
     )
     {
@@ -461,6 +488,8 @@ fun RecommendationList(
             )
         }
     }
+
+    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
 }
 
 @Composable

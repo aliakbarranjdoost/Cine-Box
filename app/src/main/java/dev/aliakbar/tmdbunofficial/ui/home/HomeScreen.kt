@@ -327,7 +327,7 @@ fun TrendList(
             )
         }
     }
-    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth(a))
+    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
 
 }
 
