@@ -4,23 +4,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import dev.aliakbar.tmdbunofficial.R
 
 // Use for both cast and crew list item
 @Composable
 fun CastItem(name: String,role: String, pictureUrl: String, onCastClick: () -> Unit, modifier: Modifier = Modifier)
 {
-    Card(modifier = Modifier.width(150.dp), onClick = onCastClick)
+    Card(
+        onClick = onCastClick,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+        ),
+        modifier = Modifier.width(150.dp),
+    )
     {
 
         Image(url = pictureUrl, modifier = Modifier.size(width = 150.dp, height = 225.dp))

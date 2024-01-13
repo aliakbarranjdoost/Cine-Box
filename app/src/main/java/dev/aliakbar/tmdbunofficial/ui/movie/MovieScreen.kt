@@ -5,6 +5,7 @@
 package dev.aliakbar.tmdbunofficial.ui.movie
 
 import Carousel
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -184,7 +185,6 @@ fun MovieDetails(
                 }
             }
 
-            ListHeader(header = "Cast")
 
             CastList(casts = movie.casts)
 
@@ -249,11 +249,12 @@ fun DetailsHeader(header: String)
 }
 
 @Composable
-fun ListHeader(header: String)
+fun ListHeader(header: String, modifier: Modifier = Modifier)
 {
     Text(
         text = header,
         style = MaterialTheme.typography.headlineSmall,
+        modifier = modifier
     )
 }
 
@@ -281,25 +282,37 @@ fun GenreList(
 @Composable
 fun CastList(casts: List<Cast>, modifier: Modifier = Modifier)
 {
-    val scrollState = rememberLazyListState()
-
-    LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        state = scrollState,
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+    Column(
+        modifier = Modifier
+            .padding(start = 16.dp, end = 16.dp)
+            .background(
+                MaterialTheme.colorScheme.primaryContainer,
+            ),
     )
     {
-        items(items = casts)
-        { cast ->
-            CastItem(
-                name = cast.name,
-                role = cast.character,
-                pictureUrl = cast.profileUrl!!,
-                onCastClick = { }
-            )
+        val scrollState = rememberLazyListState()
+
+        ListHeader(header = "Cast")
+
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            state = scrollState,
+            modifier = Modifier.padding(8.dp),
+        )
+        {
+            items(items = casts)
+            { cast ->
+                CastItem(
+                    name = cast.name,
+                    role = cast.character,
+                    pictureUrl = cast.profileUrl!!,
+                    onCastClick = { }
+                )
+            }
         }
+
+        Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
     }
-    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
 }
 
 @Composable
