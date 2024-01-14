@@ -6,6 +6,11 @@ import retrofit2.http.Query
 
 const val LANGUAGE = "language"
 const val ENGLISH = "en"
+const val INCLUDE_ADULTS = "include_adults"
+const val INCLUDE_VIDEO = "include_video"
+const val SORT_BY = "sort_by"
+const val VOTE_COUNT = "vote_count"
+const val MIN_VOTE_COUNT = 1000
 
 interface TMDBApiService
 {
@@ -53,4 +58,7 @@ interface TMDBApiService
 
     @GET("search/multi?include_adult=true&$LANGUAGE=$ENGLISH")
     suspend fun multiSearch(@Query("query") query: String, @Query("page") page: Int): NetworkResponse<List<NetworkMultiSearchResult>>
+
+    @GET("discover/movie?$INCLUDE_ADULTS=false&$INCLUDE_VIDEO=false&$LANGUAGE=$ENGLISH&$SORT_BY=vote_average.desc&$VOTE_COUNT.gte=$MIN_VOTE_COUNT")
+    suspend fun getTopRatedInGenre(@Query("with_genres") genre: String, @Query("page") page: Int): NetworkResponse<List<NetworkTrendingMovie>>
 }
