@@ -30,6 +30,7 @@ class GenreTopViewModel(
 ) : ViewModel()
 {
     val genreId = savedStateHandle[GenreTop.genreIdArg] ?: 0
+    val genreName = savedStateHandle[GenreTop.genreNameArg] ?: ""
     val type = savedStateHandle[GenreTop.typeArg] ?: true
 
     private lateinit var pagingSource : GenreTopPagingSource

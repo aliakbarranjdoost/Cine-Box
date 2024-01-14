@@ -73,7 +73,7 @@ const val OVERVIEW_PREVIEW_MAX_LINE = 3
 @Composable
 fun MovieScreen(
     onNavigateToMovie: (Int) -> Unit,
-    onNavigateToGenreTop: (Int, Boolean) -> Unit,
+    onNavigateToGenreTop: (Int,String, Boolean) -> Unit,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MovieViewModel = viewModel(factory = MovieViewModel.factory)
@@ -87,7 +87,7 @@ fun MovieScreen(
         is MovieUiState.Success -> MovieDetails(
             movie = uiState.movie,
             onNavigateToMovie = onNavigateToMovie,
-            onNavigateToGenreTop = { genreId, type -> onNavigateToGenreTop(genreId,type) },
+            onNavigateToGenreTop = { genreId,genreName, type -> onNavigateToGenreTop(genreId,genreName, type) },
             onNavigateBack = onNavigateBack,
             addToBookmark = { viewModel.addToBookmark(it) },
             removeFromBookmark = { viewModel.removeFromBookmark(it) }
@@ -101,7 +101,7 @@ fun MovieScreen(
 fun MovieDetails(
     movie: Movie,
     onNavigateToMovie: (Int) -> Unit,
-    onNavigateToGenreTop: (Int, Boolean) -> Unit,
+    onNavigateToGenreTop: (Int,String, Boolean) -> Unit,
     onNavigateBack: () -> Unit,
     addToBookmark: (Movie) -> Unit,
     removeFromBookmark: (Movie) -> Unit
@@ -269,7 +269,7 @@ fun ListHeader(header: String, modifier: Modifier = Modifier)
 fun GenreList(
     genres: List<Genre>,
     type: Boolean,
-    onNavigateToGenreTop: (Int, Boolean) -> Unit,
+    onNavigateToGenreTop: (Int, String, Boolean) -> Unit,
     modifier: Modifier = Modifier
 )
 {
@@ -281,7 +281,7 @@ fun GenreList(
         { genre ->
             // TODO: change true to some kind of enum later
             TextButton(
-                onClick = { onNavigateToGenreTop(genre.id, type) },
+                onClick = { onNavigateToGenreTop(genre.id,genre.name, type) },
             )
             {
                 Text(text = genre.name)
@@ -611,5 +611,5 @@ fun ShowPosterInFullscreenDialog(
 @Composable
 fun MovieDetailsPreview()
 {
-    MovieDetails(movie = movie, {}, {_,_ -> }, {}, {}, {})
+    MovieDetails(movie = movie, {}, {_,_,_ -> }, {}, {}, {})
 }

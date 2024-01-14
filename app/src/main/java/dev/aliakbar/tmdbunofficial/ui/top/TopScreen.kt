@@ -82,7 +82,8 @@ fun TopScreen(
                     tops = viewModel.getTopRatedMovies().collectAsLazyPagingItems(),
                     onNavigate = onNavigateToMovie,
                     addToBookmark = { viewModel.addToBookmark(it) },
-                    removeFromBookmark = { viewModel.removeFromBookmark(it) }
+                    removeFromBookmark = { viewModel.removeFromBookmark(it) },
+                    modifier = Modifier.padding(16.dp)
                 )
             }
             1 ->
@@ -91,7 +92,8 @@ fun TopScreen(
                     tops = viewModel.getTopRatedSeries().collectAsLazyPagingItems(),
                     onNavigate = onNavigateToTv,
                     addToBookmark = { viewModel.addToBookmark(it) },
-                    removeFromBookmark = { viewModel.removeFromBookmark(it) }
+                    removeFromBookmark = { viewModel.removeFromBookmark(it) },
+                    modifier = Modifier.padding(16.dp)
                 )
             }
         }
@@ -122,7 +124,7 @@ fun TopList(
 )
 {
     LazyColumn(
-        modifier = Modifier.padding(16.dp),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     )
     {
