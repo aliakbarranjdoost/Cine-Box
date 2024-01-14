@@ -3,6 +3,7 @@ package dev.aliakbar.tmdbunofficial
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material.icons.filled.Search
@@ -96,6 +97,19 @@ object Episode: TmdbDestination
         navArgument(idArg) { type = NavType.IntType},
         navArgument(seasonNumberArg) { type = NavType.IntType},
         navArgument(episodeNumberArg) { type = NavType.IntType}
+    )
+}
+
+object GenreTop: TmdbDestination
+{
+    override val route = "genreTop"
+    override val icon = Icons.Filled.Category
+    const val genreArg = "genre"
+    const val typeArg = "type"
+    val routeWithArgs = "$route/{$genreArg}/{$typeArg}"
+    val arguments = listOf(
+        navArgument(genreArg) { type = NavType.StringType},
+        navArgument(typeArg) { type = NavType.BoolType},
     )
 }
 

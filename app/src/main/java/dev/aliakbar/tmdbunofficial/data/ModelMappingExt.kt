@@ -50,16 +50,18 @@ fun NetworkImageConfiguration.toLocal(id: Int) = LocalImageConfiguration(
 fun NetworkTrendingMovie.toExternal(
     basePosterUrl: String,
     baseBackdropUrl: String,
-    isBookmark: Boolean
+    isBookmark: Boolean,
+    mediaType: String? = null,
+    rank: Int = 0
 ) = Trend(
     id = id,
     title = title,
     score = voteAverage,
     poster = basePosterUrl + posterPath,
     backdrop = baseBackdropUrl + backdropPath,
-    rank = 0,
+    rank = rank,
     isBookmark = isBookmark,
-    type = mediaType
+    type = mediaType ?: this.mediaType!!
 )
 
 @JvmName("trendingMovieNetworkToExternal")
@@ -81,7 +83,7 @@ fun NetworkTrendingMovie.toLocal(
     backdrop = baseBackdropUrl + backdropPath,
     rank = rank,
     isBookmark = isBookmark,
-    type = mediaType
+    type = mediaType!!
 )
 
 @JvmName("trendingMovieNetworkToLocal")

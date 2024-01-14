@@ -20,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import dev.aliakbar.tmdbunofficial.ui.bookmark.BookmarkScreen
 import dev.aliakbar.tmdbunofficial.ui.components.TmdbBottomAppBar
 import dev.aliakbar.tmdbunofficial.ui.episode.EpisodeScreen
+import dev.aliakbar.tmdbunofficial.ui.genreTop.GenreTopScreen
 import dev.aliakbar.tmdbunofficial.ui.home.HomeScreen
 import dev.aliakbar.tmdbunofficial.ui.movie.MovieScreen
 import dev.aliakbar.tmdbunofficial.ui.search.SearchScreen
@@ -135,7 +136,10 @@ fun TmdbNavHost(
         {
             MovieScreen(
                 onNavigateToMovie = { navController.navigateToMovie(it) },
-                onNavigateBack = { navController.navigateUp() }
+                onNavigateBack = { navController.navigateUp() },
+                onNavigateToGenreTop = { genre, type ->
+                    navController.navigateToGenreTop(genre, type)
+                }
             )
         }
         composable(
@@ -172,6 +176,16 @@ fun TmdbNavHost(
                 onNavigateBack = { navController.navigateUp() }
             )
         }
+        composable(
+            route = GenreTop.routeWithArgs,
+            arguments = GenreTop.arguments
+        )
+        {
+            GenreTopScreen(
+                onNavigateToMovie = { navController.navigateToMovie(it) },
+                onNavigateToTv = { navController.navigateToTv(it) },
+            )
+        }
     }
 }
 
@@ -193,4 +207,9 @@ fun NavHostController.navigateToSeason(id: Int, seasonNumber: Int)
 fun NavHostController.navigateToEpisode(id: Int, seasonNumber: Int, episodeNumber: Int)
 {
     this.navigate("${Episode.route}/$id/$seasonNumber/$episodeNumber")
+}
+
+fun NavHostController.navigateToGenreTop(genre: String, type: Boolean)
+{
+    this.navigate("${GenreTop.route}/$genre/$type")
 }

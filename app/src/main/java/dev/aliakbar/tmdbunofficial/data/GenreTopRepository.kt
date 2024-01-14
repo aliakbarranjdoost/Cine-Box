@@ -10,8 +10,8 @@ class GenreTopRepository(
 {
     suspend fun getGenreTopMovies(genre: String, page: Int = 1): List<Trend>
     {
-        return networkDataSource.getTopRatedInGenre(genre, page).results.map()
-        { it.toExternal(basePosterUrl, baseProfileUrl, isBookmark(it.id)) }
+        return networkDataSource.getTopRatedInGenre(genre, page).results.mapIndexed()
+        { index, trend -> trend.toExternal(basePosterUrl, baseProfileUrl, isBookmark(trend.id), "movie", index.inc()) }
     }
 
     suspend fun addTrendToBookmark(bookmark: Bookmark)

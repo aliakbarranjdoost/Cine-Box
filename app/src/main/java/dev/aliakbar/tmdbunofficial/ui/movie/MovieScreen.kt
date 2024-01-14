@@ -74,6 +74,7 @@ const val OVERVIEW_PREVIEW_MAX_LINE = 3
 fun MovieScreen(
     onNavigateToMovie: (Int) -> Unit,
     onNavigateBack: () -> Unit,
+    onNavigateToGenreTop: (String, Boolean) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MovieViewModel = viewModel(factory = MovieViewModel.factory)
 )
@@ -86,6 +87,7 @@ fun MovieScreen(
         is MovieUiState.Success -> MovieDetails(
             movie = uiState.movie,
             onNavigateToMovie = onNavigateToMovie,
+            onNavigateToGenreTop = { genre, type -> onNavigateToGenreTop(genre,type) },
             onNavigateBack = onNavigateBack,
             addToBookmark = { viewModel.addToBookmark(it) },
             removeFromBookmark = { viewModel.removeFromBookmark(it) }
@@ -99,6 +101,7 @@ fun MovieScreen(
 fun MovieDetails(
     movie: Movie,
     onNavigateToMovie: (Int) -> Unit,
+    onNavigateToGenreTop: (String, Boolean) -> Unit,
     onNavigateBack: () -> Unit,
     addToBookmark: (Movie) -> Unit,
     removeFromBookmark: (Movie) -> Unit
@@ -168,7 +171,7 @@ fun MovieDetails(
                 {
                     Text(text = movie.overview)
                     DetailsHeader(header = "Genres")
-                    GenreList(genres = movie.genres)
+                    GenreList(genres = movie.genres, onNavigateToGenreTop = onNavigateToGenreTop)
                     DetailsHeader(header = "Original Language")
                     Text(text = movie.originalLanguage)
                     DetailsHeader(header = "Release Date")
@@ -264,7 +267,9 @@ fun ListHeader(header: String, modifier: Modifier = Modifier)
 
 @Composable
 fun GenreList(
-    genres: List<Genre>, modifier: Modifier = Modifier
+    genres: List<Genre>,
+    onNavigateToGenreTop: (String, Boolean) -> Unit,
+    modifier: Modifier = Modifier
 )
 {
     LazyRow(
@@ -273,8 +278,9 @@ fun GenreList(
     {
         items(items = genres)
         { genre ->
+            // TODO: change true to some kind of enum later
             TextButton(
-                onClick = { },
+                onClick = { onNavigateToGenreTop(genre.name, true) },
             )
             {
                 Text(text = genre.name)
@@ -604,5 +610,5 @@ fun ShowPosterInFullscreenDialog(
 @Composable
 fun MovieDetailsPreview()
 {
-    MovieDetails(movie = movie, {}, {}, {}, {})
+    MovieDetails(movie = movie, {}, {_,_ -> }, {}, {}, {})
 }

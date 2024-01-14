@@ -18,7 +18,7 @@ data class NetworkTrendingMovie(
     @SerialName("poster_path")
     val posterPath: String? = null,
     @SerialName("media_type")
-    val mediaType: String,
+    val mediaType: String? = null,
     @SerialName("genre_ids")
     val genreList: List<Int>,
     @SerialName("release_date")

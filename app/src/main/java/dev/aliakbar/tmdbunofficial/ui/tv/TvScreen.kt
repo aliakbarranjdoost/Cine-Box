@@ -147,7 +147,7 @@ fun TvDetails(
                 {
                     Text(text = tv.overview)
                     DetailsHeader(header = "Genres")
-                    GenreList(genres = tv.genres)
+                    GenreList(genres = tv.genres, { _,_ ->})
                     DetailsHeader(header = "Original Language")
                     Text(text = tv.originalLanguage)
                     DetailsHeader(header = "Release Date")
