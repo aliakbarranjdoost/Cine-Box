@@ -9,7 +9,7 @@ import dev.aliakbar.tmdbunofficial.data.Trend
 private var TAG = GenreTopPagingSource::class.java.simpleName
 
 class GenreTopPagingSource(
-    private val genre: String,
+    private val genreId: Int,
     private val repository: GenreTopRepository,
 
     ) : PagingSource<Int, Trend>()
@@ -28,7 +28,7 @@ class GenreTopPagingSource(
         return try
         {
             val page = params.key ?: 1
-            val response = repository.getGenreTopMovies(genre, page)
+            val response = repository.getGenreTopMovies(genreId, page)
             LoadResult.Page(
                 data = response,
                 prevKey = if (page == 1) null else page.minus(1),

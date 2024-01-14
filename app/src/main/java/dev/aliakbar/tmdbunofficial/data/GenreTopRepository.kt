@@ -8,9 +8,9 @@ class GenreTopRepository(
     private val localDataSource: TmdbDatabase
 ) : ConfigurationRepository(networkDataSource, localDataSource)
 {
-    suspend fun getGenreTopMovies(genre: String, page: Int = 1): List<Trend>
+    suspend fun getGenreTopMovies(genreId: Int, page: Int = 1): List<Trend>
     {
-        return networkDataSource.getTopRatedInGenre(genre, page).results.mapIndexed()
+        return networkDataSource.getTopRatedInGenre(genreId, page).results.mapIndexed()
         { index, trend -> trend.toExternal(basePosterUrl, baseProfileUrl, isBookmark(trend.id), "movie", index.inc()) }
     }
 

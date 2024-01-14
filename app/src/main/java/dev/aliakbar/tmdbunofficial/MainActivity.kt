@@ -137,8 +137,8 @@ fun TmdbNavHost(
             MovieScreen(
                 onNavigateToMovie = { navController.navigateToMovie(it) },
                 onNavigateBack = { navController.navigateUp() },
-                onNavigateToGenreTop = { genre, type ->
-                    navController.navigateToGenreTop(genre, type)
+                onNavigateToGenreTop = { genreId, type ->
+                    navController.navigateToGenreTop(genreId, type)
                 }
             )
         }
@@ -209,7 +209,7 @@ fun NavHostController.navigateToEpisode(id: Int, seasonNumber: Int, episodeNumbe
     this.navigate("${Episode.route}/$id/$seasonNumber/$episodeNumber")
 }
 
-fun NavHostController.navigateToGenreTop(genre: String, type: Boolean)
+fun NavHostController.navigateToGenreTop(genreId: Int, type: Boolean)
 {
-    this.navigate("${GenreTop.route}/$genre/$type")
+    this.navigate("${GenreTop.route}/$genreId/$type")
 }

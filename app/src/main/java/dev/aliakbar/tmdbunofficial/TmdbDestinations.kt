@@ -104,11 +104,11 @@ object GenreTop: TmdbDestination
 {
     override val route = "genreTop"
     override val icon = Icons.Filled.Category
-    const val genreArg = "genre"
+    const val genreIdArg = "genreId"
     const val typeArg = "type"
-    val routeWithArgs = "$route/{$genreArg}/{$typeArg}"
+    val routeWithArgs = "$route/{$genreIdArg}/{$typeArg}"
     val arguments = listOf(
-        navArgument(genreArg) { type = NavType.StringType},
+        navArgument(genreIdArg) { type = NavType.IntType},
         navArgument(typeArg) { type = NavType.BoolType},
     )
 }

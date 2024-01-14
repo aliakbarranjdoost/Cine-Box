@@ -60,5 +60,5 @@ interface TMDBApiService
     suspend fun multiSearch(@Query("query") query: String, @Query("page") page: Int): NetworkResponse<List<NetworkMultiSearchResult>>
 
     @GET("discover/movie?$INCLUDE_ADULTS=false&$INCLUDE_VIDEO=false&$LANGUAGE=$ENGLISH&$SORT_BY=vote_average.desc&$VOTE_COUNT.gte=$MIN_VOTE_COUNT")
-    suspend fun getTopRatedInGenre(@Query("with_genres") genre: String, @Query("page") page: Int): NetworkResponse<List<NetworkTrendingMovie>>
+    suspend fun getTopRatedInGenre(@Query("with_genres") genreId: Int, @Query("page") page: Int): NetworkResponse<List<NetworkTrendingMovie>>
 }

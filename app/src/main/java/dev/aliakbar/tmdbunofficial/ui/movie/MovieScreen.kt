@@ -74,7 +74,7 @@ const val OVERVIEW_PREVIEW_MAX_LINE = 3
 fun MovieScreen(
     onNavigateToMovie: (Int) -> Unit,
     onNavigateBack: () -> Unit,
-    onNavigateToGenreTop: (String, Boolean) -> Unit,
+    onNavigateToGenreTop: (Int, Boolean) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MovieViewModel = viewModel(factory = MovieViewModel.factory)
 )
@@ -87,7 +87,7 @@ fun MovieScreen(
         is MovieUiState.Success -> MovieDetails(
             movie = uiState.movie,
             onNavigateToMovie = onNavigateToMovie,
-            onNavigateToGenreTop = { genre, type -> onNavigateToGenreTop(genre,type) },
+            onNavigateToGenreTop = { genreId, type -> onNavigateToGenreTop(genreId,type) },
             onNavigateBack = onNavigateBack,
             addToBookmark = { viewModel.addToBookmark(it) },
             removeFromBookmark = { viewModel.removeFromBookmark(it) }
@@ -101,7 +101,7 @@ fun MovieScreen(
 fun MovieDetails(
     movie: Movie,
     onNavigateToMovie: (Int) -> Unit,
-    onNavigateToGenreTop: (String, Boolean) -> Unit,
+    onNavigateToGenreTop: (Int, Boolean) -> Unit,
     onNavigateBack: () -> Unit,
     addToBookmark: (Movie) -> Unit,
     removeFromBookmark: (Movie) -> Unit
@@ -268,7 +268,7 @@ fun ListHeader(header: String, modifier: Modifier = Modifier)
 @Composable
 fun GenreList(
     genres: List<Genre>,
-    onNavigateToGenreTop: (String, Boolean) -> Unit,
+    onNavigateToGenreTop: (Int, Boolean) -> Unit,
     modifier: Modifier = Modifier
 )
 {
@@ -280,7 +280,7 @@ fun GenreList(
         { genre ->
             // TODO: change true to some kind of enum later
             TextButton(
-                onClick = { onNavigateToGenreTop(genre.name, true) },
+                onClick = { onNavigateToGenreTop(genre.id, true) },
             )
             {
                 Text(text = genre.name)

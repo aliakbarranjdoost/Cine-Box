@@ -29,7 +29,7 @@ class GenreTopViewModel(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel()
 {
-    val genre = savedStateHandle[GenreTop.genreArg] ?: "action"
+    val genreId = savedStateHandle[GenreTop.genreIdArg] ?: 0
 
     private lateinit var pagingSource : GenreTopPagingSource
 
@@ -50,7 +50,7 @@ class GenreTopViewModel(
     {
         movies = Pager(PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false))
         {
-            GenreTopPagingSource(genre, repository).also { pagingSource = it }
+            GenreTopPagingSource(genreId, repository).also { pagingSource = it }
         }.flow.cachedIn(viewModelScope)
     }
 
