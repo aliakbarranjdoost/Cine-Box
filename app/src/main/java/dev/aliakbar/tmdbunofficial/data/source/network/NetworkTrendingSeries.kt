@@ -17,12 +17,12 @@ data class NetworkTrendingSeries(
     @SerialName("poster_path")
     val posterPath: String,
     @SerialName("media_type")
-    val mediaType: String,
+    val mediaType: String? = null,
     @SerialName("genre_ids")
     val genreList: List<Int>,
     @SerialName("first_air_date")
     val firstAirDate: String,
-    val adult: Boolean,
+    val adult: Boolean? = true,
     val popularity: Float,
     @SerialName("vote_average")
     val voteAverage: Float,

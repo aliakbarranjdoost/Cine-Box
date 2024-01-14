@@ -15,7 +15,7 @@ fun GenreTopScreen(
     viewModel: GenreTopViewModel = viewModel(factory = GenreTopViewModel.factory)
 )
 {
-    val movies = viewModel.movies.collectAsLazyPagingItems()
+    val movies = viewModel.result.collectAsLazyPagingItems()
 //    val genre = viewModel.genre.collectAsStateWithLifecycle()
     
     TopList(tops = movies, onNavigate = {}, addToBookmark = {}, removeFromBookmark = {})

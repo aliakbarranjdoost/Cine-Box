@@ -51,6 +51,7 @@ import dev.aliakbar.tmdbunofficial.ui.movie.VideoList
 fun TvScreen(
     onNavigateToTv: (Int) -> Unit,
     onNavigateToSeason: (Int, Int) -> Unit,
+    onNavigateToGenreTop: (Int, Boolean) -> Unit,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: TvViewModel = viewModel(factory = TvViewModel.factory)
@@ -66,6 +67,7 @@ fun TvScreen(
                 tv = uiState.tv,
                 onNavigateToTv = onNavigateToTv,
                 onNavigateToSeason = onNavigateToSeason,
+                onNavigateToGenreTop = { genreId, type -> onNavigateToGenreTop(genreId,type) },
                 onNavigateBack = onNavigateBack,
                 addToBookmark = { viewModel.addToBookmark(uiState.tv) },
                 removeFromBookmark = { viewModel.removeFromBookmark(uiState.tv) },
@@ -80,6 +82,7 @@ fun TvDetails(
     tv: Tv,
     onNavigateToTv: (Int) -> Unit,
     onNavigateToSeason: (Int, Int) -> Unit,
+    onNavigateToGenreTop: (Int, Boolean) -> Unit,
     onNavigateBack: () -> Unit,
     addToBookmark: () -> Unit,
     removeFromBookmark: () -> Unit,
@@ -147,7 +150,7 @@ fun TvDetails(
                 {
                     Text(text = tv.overview)
                     DetailsHeader(header = "Genres")
-                    GenreList(genres = tv.genres, { _,_ ->})
+                    GenreList(genres = tv.genres, onNavigateToGenreTop = onNavigateToGenreTop, type = false)
                     DetailsHeader(header = "Original Language")
                     Text(text = tv.originalLanguage)
                     DetailsHeader(header = "Release Date")

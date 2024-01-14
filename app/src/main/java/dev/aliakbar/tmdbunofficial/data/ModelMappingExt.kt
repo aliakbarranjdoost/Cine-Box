@@ -114,16 +114,18 @@ fun List<LocalTrend>.toExternal() = map()
 
 fun NetworkTrendingSeries.toExternal(
     basePosterUrl: String, baseBackdropUrl: String,
-    isBookmark: Boolean
+    isBookmark: Boolean,
+    mediaType: String? = null,
+    rank: Int = 0
 ) = Trend(
     id = id,
     title = name,
     score = voteAverage,
     poster = basePosterUrl + posterPath,
     backdrop = baseBackdropUrl + backdropPath,
-    rank = 0,
+    rank = rank,
     isBookmark = isBookmark,
-    type = mediaType
+    type = mediaType ?: this.mediaType!!
 )
 
 @JvmName("trendingSerialNetworkToExternal")
@@ -145,7 +147,7 @@ fun NetworkTrendingSeries.toLocal(
         backdrop = baseBackdropUrl + backdropPath,
         rank = rank,
         isBookmark = isBookmark,
-        type = mediaType
+        type = mediaType!!
     )
 
 @JvmName("trendingSerialNetworkToLocal")

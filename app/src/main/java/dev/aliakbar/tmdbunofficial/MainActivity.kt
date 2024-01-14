@@ -152,6 +152,9 @@ fun TmdbNavHost(
                 onNavigateToSeason = { tvId, seasonNumber ->
                     navController.navigateToSeason(tvId, seasonNumber)
                 },
+                onNavigateToGenreTop = { genreId, type ->
+                    navController.navigateToGenreTop(genreId, type)
+                },
                 onNavigateBack = { navController.navigateUp() }
             )
         }

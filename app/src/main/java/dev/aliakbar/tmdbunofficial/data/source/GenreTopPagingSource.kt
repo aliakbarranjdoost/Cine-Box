@@ -10,6 +10,7 @@ private var TAG = GenreTopPagingSource::class.java.simpleName
 
 class GenreTopPagingSource(
     private val genreId: Int,
+    private val type: Boolean,
     private val repository: GenreTopRepository,
 
     ) : PagingSource<Int, Trend>()
@@ -28,7 +29,11 @@ class GenreTopPagingSource(
         return try
         {
             val page = params.key ?: 1
-            val response = repository.getGenreTopMovies(genreId, page)
+            val response =
+                if (type)
+                    repository.getGenreTopMovies(genreId, page)
+                else
+                    repository.getGenreTopTvs(genreId, page)
             LoadResult.Page(
                 data = response,
                 prevKey = if (page == 1) null else page.minus(1),

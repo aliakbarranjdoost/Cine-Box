@@ -30,10 +30,11 @@ class GenreTopViewModel(
 ) : ViewModel()
 {
     val genreId = savedStateHandle[GenreTop.genreIdArg] ?: 0
+    val type = savedStateHandle[GenreTop.typeArg] ?: true
 
     private lateinit var pagingSource : GenreTopPagingSource
 
-    lateinit var movies : Flow<PagingData<Trend>>
+    lateinit var result : Flow<PagingData<Trend>>
     /*= query.flatMapLatest()
     {
         Pager(PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false))
@@ -44,13 +45,28 @@ class GenreTopViewModel(
 
     init
     {
-        getGenreTopRatedMovies()
+        if (type)
+        {
+            getGenreTopRatedMovies()
+        }
+        else
+        {
+            getGenreTopRatedTvs()
+        }
     }
     private fun getGenreTopRatedMovies()
     {
-        movies = Pager(PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false))
+        result = Pager(PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false))
         {
-            GenreTopPagingSource(genreId, repository).also { pagingSource = it }
+            GenreTopPagingSource(genreId, type, repository ).also { pagingSource = it }
+        }.flow.cachedIn(viewModelScope)
+    }
+
+    private fun getGenreTopRatedTvs()
+    {
+        result = Pager(PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false))
+        {
+            GenreTopPagingSource(genreId, type, repository ).also { pagingSource = it }
         }.flow.cachedIn(viewModelScope)
     }
 

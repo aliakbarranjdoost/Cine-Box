@@ -73,8 +73,8 @@ const val OVERVIEW_PREVIEW_MAX_LINE = 3
 @Composable
 fun MovieScreen(
     onNavigateToMovie: (Int) -> Unit,
-    onNavigateBack: () -> Unit,
     onNavigateToGenreTop: (Int, Boolean) -> Unit,
+    onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MovieViewModel = viewModel(factory = MovieViewModel.factory)
 )
@@ -171,7 +171,7 @@ fun MovieDetails(
                 {
                     Text(text = movie.overview)
                     DetailsHeader(header = "Genres")
-                    GenreList(genres = movie.genres, onNavigateToGenreTop = onNavigateToGenreTop)
+                    GenreList(genres = movie.genres, onNavigateToGenreTop = onNavigateToGenreTop, type = true)
                     DetailsHeader(header = "Original Language")
                     Text(text = movie.originalLanguage)
                     DetailsHeader(header = "Release Date")
@@ -268,6 +268,7 @@ fun ListHeader(header: String, modifier: Modifier = Modifier)
 @Composable
 fun GenreList(
     genres: List<Genre>,
+    type: Boolean,
     onNavigateToGenreTop: (Int, Boolean) -> Unit,
     modifier: Modifier = Modifier
 )
@@ -280,7 +281,7 @@ fun GenreList(
         { genre ->
             // TODO: change true to some kind of enum later
             TextButton(
-                onClick = { onNavigateToGenreTop(genre.id, true) },
+                onClick = { onNavigateToGenreTop(genre.id, type) },
             )
             {
                 Text(text = genre.name)
