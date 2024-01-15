@@ -53,6 +53,8 @@ class NetworkPersonMoviesAndTvs(
     val department: String,
     val job: String,
 
+    val order: Int? = 0,
+
     @SerialName("origin_country")
-    val originCountryList: List<String>? = null
+    val originCountries: List<String>? = null
 )

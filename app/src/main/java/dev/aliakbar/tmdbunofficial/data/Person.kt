@@ -23,9 +23,9 @@ data class PersonDetails(
     val placeOfBirth: String,
     val popularity: Float,
     val profileUrl: String,
-    val asMovieCast: PersonMovieAsCast,
-    val asTvCast: PersonTvAsCast,
-    val asMovieCrew: PersonAsMovieCrew,
-    val asTvCrew: PersonAsTvCrew,
+    val asMovieCast: List<PersonMovieAsCast>,
+    val asTvCast: List<PersonTvAsCast>,
+    val asMovieCrew: List<PersonMovieAsCrew>,
+    val asTvCrew: List<PersonTvAsCrew>,
     val images: List<Image>
 )

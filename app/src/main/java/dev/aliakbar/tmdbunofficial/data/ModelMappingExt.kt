@@ -17,6 +17,8 @@ import dev.aliakbar.tmdbunofficial.data.source.network.NetworkLanguage
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkMovieDetails
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkMultiSearchResult
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPerson
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPersonDetails
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPersonMoviesAndTvs
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularMovie
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularSerial
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkSeason
@@ -25,6 +27,8 @@ import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingMovie
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingSeries
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTvDetails
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkVideo
+import dev.aliakbar.tmdbunofficial.util.separateMoviesAndTvsCast
+import dev.aliakbar.tmdbunofficial.util.separateMoviesAndTvsCrew
 
 fun NetworkImageConfiguration.toExternal() = ImageConfiguration(
     baseUrl = baseUrl,
@@ -666,4 +670,123 @@ fun Tv.toBookmark() = Bookmark(
     poster = posterUrl,
     backdropUrl = backdropUrl,
     type = "tv"
+)
+
+fun NetworkPersonDetails.toExternal(
+    baseUrl: String,
+    baseProfileUrl: String,
+    baseBackdropUrl: String,
+    basePosterUrl: String,
+) = PersonDetails(
+    adult = adult,
+    alsoKnownAs = alsoKnownAs,
+    biography =biography,
+    birthday = birthday,
+    deathDay = deathDay,
+    gender = gender,
+    homepage = homepage,
+    id = id,
+    imdbId = imdbId,
+    knownForDepartment = knownForDepartment,
+    name = name,
+    placeOfBirth = placeOfBirth,
+    popularity = popularity,
+    profileUrl = baseProfileUrl + profilePath,
+    images = images.profiles.toExternal(baseUrl),
+    // TODO: find a way to call this method once
+    asMovieCast = combinedCredits.cast.separateMoviesAndTvsCast(baseBackdropUrl, basePosterUrl).first,
+    asTvCast = combinedCredits.cast.separateMoviesAndTvsCast(baseBackdropUrl, basePosterUrl).second,
+    asMovieCrew = combinedCredits.crew.separateMoviesAndTvsCrew(baseBackdropUrl, basePosterUrl).first,
+    asTvCrew = combinedCredits.crew.separateMoviesAndTvsCrew(baseBackdropUrl, basePosterUrl).second
+)
+
+fun NetworkPersonMoviesAndTvs.toExternalMovieCast(
+    baseBackdropUrl: String,
+    basePosterUrl: String,
+) = PersonMovieAsCast(
+    adult = adult,
+    backdropUrl = baseBackdropUrl + backdropPath,
+    id = id,
+    originalLanguage = originalLanguage,
+    overview = overview,
+    popularity = popularity,
+    posterUrl = basePosterUrl + posterPath,
+    voteAverage = voteAverage,
+    voteCount = voteCount,
+    originalTitle = originalTitle,
+    releaseDate = releaseDate,
+    title = title!!,
+    video = video,
+    character = character,
+    creditId = creditId,
+    order = order
+)
+
+fun NetworkPersonMoviesAndTvs.toExternalTvCast(
+    baseBackdropUrl: String,
+    basePosterUrl: String,
+) = PersonTvAsCast(
+    adult = adult,
+    backdropUrl = baseBackdropUrl + backdropPath,
+    id = id,
+    originalLanguage = originalLanguage,
+    overview = overview,
+    popularity = popularity,
+    posterUrl = basePosterUrl + posterPath,
+    voteAverage = voteAverage,
+    voteCount = voteCount,
+    originCountry = originCountries,
+    originalName = originalName,
+    firstAirDate = firstAirDate,
+    name = name!!,
+    character = character,
+    creditId = creditId,
+    episodeCount = episodeCount
+)
+
+fun NetworkPersonMoviesAndTvs.toExternalMovieCrew(
+    baseBackdropUrl: String,
+    basePosterUrl: String,
+) = PersonMovieAsCrew(
+    adult = adult,
+    backdropUrl = baseBackdropUrl + backdropPath,
+    id = id,
+    originalLanguage = originalLanguage,
+    overview = overview,
+    popularity = popularity,
+    posterUrl = basePosterUrl + posterPath,
+    voteAverage = voteAverage,
+    voteCount = voteCount,
+    originalTitle = originalTitle,
+    releaseDate = releaseDate,
+    title = title!!,
+    video = video,
+    character = character,
+    creditId = creditId,
+    department = department,
+    job = job
+)
+
+
+fun NetworkPersonMoviesAndTvs.toExternalTvCrew(
+    baseBackdropUrl: String,
+    basePosterUrl: String,
+) = PersonTvAsCrew(
+    adult = adult,
+    backdropUrl = baseBackdropUrl + backdropPath,
+    id = id,
+    originalLanguage = originalLanguage,
+    overview = overview,
+    popularity = popularity,
+    posterUrl = basePosterUrl + posterPath,
+    voteAverage = voteAverage,
+    voteCount = voteCount,
+    originCountry = originCountries,
+    originalName = originalName,
+    firstAirDate = firstAirDate,
+    name = name!!,
+    creditId = creditId,
+    episodeCount = episodeCount,
+    job = job,
+    department = department
 )
