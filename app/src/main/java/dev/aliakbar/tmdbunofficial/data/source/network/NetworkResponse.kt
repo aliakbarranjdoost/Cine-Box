@@ -32,9 +32,20 @@ data class NetworkStillResponse(
 )
 
 @Serializable
+data class NetworkProfileResponse(
+    val profiles: List<NetworkImage>
+)
+
+@Serializable
 data class NetworkCreditAndGuestStarsResponse(
     val cast: List<NetworkCast>,
     val crew: List<NetworkCrew>,
     @SerialName("guest_stars")
     val guestStars: List<NetworkCast>
+)
+
+@Serializable
+data class NetworkCombinedCreditsResponse(
+    val cast: List<NetworkPersonMoviesAndTvs>,
+    val crew: List<NetworkPersonMoviesAndTvs>
 )

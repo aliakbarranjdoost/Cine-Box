@@ -63,4 +63,7 @@ interface TMDBApiService
     suspend fun getTopRatedMoviesInGenre(@Query("with_genres") genreId: Int, @Query("page") page: Int): NetworkResponse<List<NetworkTrendingMovie>>
     @GET("discover/tv?$INCLUDE_ADULTS=false&$INCLUDE_VIDEO=false&$LANGUAGE=$ENGLISH&$SORT_BY=vote_average.desc&$VOTE_COUNT.gte=$MIN_VOTE_COUNT")
     suspend fun getTopRatedTvsInGenre(@Query("with_genres") genreId: Int, @Query("page") page: Int): NetworkResponse<List<NetworkTrendingSeries>>
+
+    @GET("person/{id}?append_to_response=combined_credits,images&$LANGUAGE=$ENGLISH")
+    suspend fun getPerson(@Path("id") id: Int)
 }
