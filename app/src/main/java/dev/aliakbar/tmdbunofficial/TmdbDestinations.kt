@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Movie
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Tv
@@ -112,6 +113,17 @@ object GenreTop: TmdbDestination
         navArgument(genreIdArg) { type = NavType.IntType},
         navArgument(genreNameArg) { type = NavType.StringType},
         navArgument(typeArg) { type = NavType.BoolType},
+    )
+}
+
+object Person: TmdbDestination
+{
+    override val route = "person"
+    override val icon = Icons.Filled.Person
+    const val idArg = ID_ARG
+    val routeWithArg = "$route/{$idArg}"
+    val arguments = listOf(
+        navArgument(idArg) { type = NavType.IntType }
     )
 }
 

@@ -7,12 +7,16 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.createSavedStateHandle
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import dev.aliakbar.tmdbunofficial.ID_ARG
 import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.PersonDetails
 import dev.aliakbar.tmdbunofficial.data.PersonRepository
-import dev.aliakbar.tmdbunofficial.ui.movie.MovieUiState
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 
 sealed interface PersonUiState
 {
@@ -28,9 +32,35 @@ class PersonViewModel(
     private val savedStateHandle: SavedStateHandle
 ): ViewModel()
 {
-    var movieUiState: MovieUiState by mutableStateOf(
-        MovieUiState.Loading
+    var personUiState: PersonUiState by mutableStateOf(
+        PersonUiState.Loading
     )
+
+    private val id: Int = savedStateHandle[ID_ARG] ?: 0
+
+    init
+    {
+        getPerson()
+    }
+
+    private fun getPerson()
+    {
+        viewModelScope.launch()
+        {
+            personUiState = try
+            {
+                PersonUiState.Success(repository.getPerson(id))
+            }
+            catch (e: IOException)
+            {
+                PersonUiState.Error
+            }
+            catch (e: HttpException)
+            {
+                PersonUiState.Error
+            }
+        }
+    }
 
     companion object
     {

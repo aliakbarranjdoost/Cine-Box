@@ -23,6 +23,7 @@ import dev.aliakbar.tmdbunofficial.ui.episode.EpisodeScreen
 import dev.aliakbar.tmdbunofficial.ui.genreTop.GenreTopScreen
 import dev.aliakbar.tmdbunofficial.ui.home.HomeScreen
 import dev.aliakbar.tmdbunofficial.ui.movie.MovieScreen
+import dev.aliakbar.tmdbunofficial.ui.person.PersonScreen
 import dev.aliakbar.tmdbunofficial.ui.search.SearchScreen
 import dev.aliakbar.tmdbunofficial.ui.season.SeasonScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
@@ -185,6 +186,17 @@ fun TmdbNavHost(
         )
         {
             GenreTopScreen(
+                onNavigateToMovie = { navController.navigateToMovie(it) },
+                onNavigateToTv = { navController.navigateToTv(it) },
+                onNavigateBack = { navController.navigateUp() }
+            )
+        }
+        composable(
+            route = Person.routeWithArg,
+            arguments = Person.arguments
+        )
+        {
+            PersonScreen(
                 onNavigateToMovie = { navController.navigateToMovie(it) },
                 onNavigateToTv = { navController.navigateToTv(it) },
                 onNavigateBack = { navController.navigateUp() }
