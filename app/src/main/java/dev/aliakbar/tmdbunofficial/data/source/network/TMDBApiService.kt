@@ -65,5 +65,5 @@ interface TMDBApiService
     suspend fun getTopRatedTvsInGenre(@Query("with_genres") genreId: Int, @Query("page") page: Int): NetworkResponse<List<NetworkTrendingSeries>>
 
     @GET("person/{id}?append_to_response=combined_credits,images&$LANGUAGE=$ENGLISH")
-    suspend fun getPerson(@Path("id") id: Int): NetworkPerson
+    suspend fun getPerson(@Path("id") id: Int): NetworkPersonDetails
 }

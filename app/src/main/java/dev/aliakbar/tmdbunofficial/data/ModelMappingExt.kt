@@ -673,7 +673,6 @@ fun Tv.toBookmark() = Bookmark(
 )
 
 fun NetworkPersonDetails.toExternal(
-    baseUrl: String,
     baseProfileUrl: String,
     baseBackdropUrl: String,
     basePosterUrl: String,
@@ -692,7 +691,7 @@ fun NetworkPersonDetails.toExternal(
     placeOfBirth = placeOfBirth,
     popularity = popularity,
     profileUrl = baseProfileUrl + profilePath,
-    images = images.profiles.toExternal(baseUrl),
+    images = images.profiles.toExternal(baseProfileUrl),
     // TODO: find a way to call this method once
     asMovieCast = combinedCredits.cast.separateMoviesAndTvsCast(baseBackdropUrl, basePosterUrl).first,
     asTvCast = combinedCredits.cast.separateMoviesAndTvsCast(baseBackdropUrl, basePosterUrl).second,

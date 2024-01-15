@@ -8,6 +8,7 @@ import dev.aliakbar.tmdbunofficial.data.DetailsRepository
 import dev.aliakbar.tmdbunofficial.data.EpisodeRepository
 import dev.aliakbar.tmdbunofficial.data.GenreTopRepository
 import dev.aliakbar.tmdbunofficial.data.HomeRepository
+import dev.aliakbar.tmdbunofficial.data.PersonRepository
 import dev.aliakbar.tmdbunofficial.data.SearchRepository
 import dev.aliakbar.tmdbunofficial.data.SeasonDetailsRepository
 import dev.aliakbar.tmdbunofficial.data.TopRepository
@@ -29,6 +30,7 @@ interface AppContainer
     val seasonDetailsRepository: SeasonDetailsRepository
     val episodeRepository: EpisodeRepository
     val genreTopRepository: GenreTopRepository
+    val personRepository: PersonRepository
 }
 
 class DefaultAppContainer(context: Context): AppContainer
@@ -115,6 +117,13 @@ class DefaultAppContainer(context: Context): AppContainer
     override val genreTopRepository: GenreTopRepository by lazy()
     {
         GenreTopRepository(
+            retrofitService,
+            roomDatabase
+        )
+    }
+    override val personRepository: PersonRepository by lazy()
+    {
+        PersonRepository(
             retrofitService,
             roomDatabase
         )
