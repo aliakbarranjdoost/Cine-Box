@@ -73,6 +73,7 @@ const val OVERVIEW_PREVIEW_MAX_LINE = 3
 @Composable
 fun MovieScreen(
     onNavigateToMovie: (Int) -> Unit,
+    onNavigateToPerson: (Int) -> Unit,
     onNavigateToGenreTop: (Int,String, Boolean) -> Unit,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
@@ -87,6 +88,7 @@ fun MovieScreen(
         is MovieUiState.Success -> MovieDetails(
             movie = uiState.movie,
             onNavigateToMovie = onNavigateToMovie,
+            onNavigateToPerson = onNavigateToPerson,
             onNavigateToGenreTop = { genreId,genreName, type -> onNavigateToGenreTop(genreId,genreName, type) },
             onNavigateBack = onNavigateBack,
             addToBookmark = { viewModel.addToBookmark(it) },
@@ -101,6 +103,7 @@ fun MovieScreen(
 fun MovieDetails(
     movie: Movie,
     onNavigateToMovie: (Int) -> Unit,
+    onNavigateToPerson: (Int) -> Unit,
     onNavigateToGenreTop: (Int,String, Boolean) -> Unit,
     onNavigateBack: () -> Unit,
     addToBookmark: (Movie) -> Unit,
@@ -193,11 +196,11 @@ fun MovieDetails(
             }
 
 
-            CastList(casts = movie.casts)
+            CastList(casts = movie.casts, onNavigateToPerson = onNavigateToPerson)
 
             ListHeader(header = "Crew")
 
-            CrewList(crews = movie.crews)
+            CrewList(crews = movie.crews, onNavigateToPerson = onNavigateToPerson)
 
             if (movie.videos.isNotEmpty())
             {
@@ -291,7 +294,11 @@ fun GenreList(
 }
 
 @Composable
-fun CastList(casts: List<Cast>, modifier: Modifier = Modifier)
+fun CastList(
+    casts: List<Cast>,
+    onNavigateToPerson: (Int) -> Unit,
+    modifier: Modifier = Modifier
+)
 {
     Column(
         modifier = Modifier
@@ -314,10 +321,11 @@ fun CastList(casts: List<Cast>, modifier: Modifier = Modifier)
             items(items = casts)
             { cast ->
                 CastItem(
+                    id = cast.id,
                     name = cast.name,
                     role = cast.character,
                     pictureUrl = cast.profileUrl!!,
-                    onCastClick = { }
+                    onNavigateToPerson = onNavigateToPerson
                 )
             }
         }
@@ -327,7 +335,11 @@ fun CastList(casts: List<Cast>, modifier: Modifier = Modifier)
 }
 
 @Composable
-fun CrewList(crews: List<Crew>, modifier: Modifier = Modifier)
+fun CrewList(
+    crews: List<Crew>,
+    onNavigateToPerson: (Int) -> Unit,
+    modifier: Modifier = Modifier
+)
 {
     val scrollState = rememberLazyListState()
 
@@ -340,10 +352,11 @@ fun CrewList(crews: List<Crew>, modifier: Modifier = Modifier)
         items(items = crews)
         { crew ->
             CastItem(
+                id = crew.id,
                 name = crew.name,
                 role = crew.job,
                 pictureUrl = crew.profileUrl!!,
-                onCastClick = { }
+                onNavigateToPerson = onNavigateToPerson
             )
         }
     }
@@ -611,5 +624,5 @@ fun ShowPosterInFullscreenDialog(
 @Composable
 fun MovieDetailsPreview()
 {
-    MovieDetails(movie = movie, {}, {_,_,_ -> }, {}, {}, {})
+    MovieDetails(movie = movie, {}, {}, { _, _, _ -> }, {}, {}, {})
 }

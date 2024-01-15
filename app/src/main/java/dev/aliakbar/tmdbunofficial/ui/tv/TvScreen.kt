@@ -51,6 +51,7 @@ import dev.aliakbar.tmdbunofficial.ui.movie.VideoList
 fun TvScreen(
     onNavigateToTv: (Int) -> Unit,
     onNavigateToSeason: (Int, Int) -> Unit,
+    onNavigateToPerson: (Int) -> Unit,
     onNavigateToGenreTop: (Int, String, Boolean) -> Unit,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
@@ -67,6 +68,7 @@ fun TvScreen(
                 tv = uiState.tv,
                 onNavigateToTv = onNavigateToTv,
                 onNavigateToSeason = onNavigateToSeason,
+                onNavigateToPerson = onNavigateToPerson,
                 onNavigateToGenreTop = { genreId, genreName, type -> onNavigateToGenreTop(genreId, genreName, type) },
                 onNavigateBack = onNavigateBack,
                 addToBookmark = { viewModel.addToBookmark(uiState.tv) },
@@ -82,6 +84,7 @@ fun TvDetails(
     tv: Tv,
     onNavigateToTv: (Int) -> Unit,
     onNavigateToSeason: (Int, Int) -> Unit,
+    onNavigateToPerson: (Int) -> Unit,
     onNavigateToGenreTop: (Int,String, Boolean) -> Unit,
     onNavigateBack: () -> Unit,
     addToBookmark: () -> Unit,
@@ -182,10 +185,10 @@ fun TvDetails(
             )
 
             ListHeader(header = "Cast")
-            CastList(casts = tv.casts)
+            CastList(casts = tv.casts, onNavigateToPerson = onNavigateToPerson)
 
             ListHeader(header = "Crew")
-            CrewList(crews = tv.crews)
+            CrewList(crews = tv.crews, onNavigateToPerson = onNavigateToPerson)
 
             if (tv.videos.isNotEmpty())
             {

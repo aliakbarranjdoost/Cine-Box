@@ -137,6 +137,7 @@ fun TmdbNavHost(
         {
             MovieScreen(
                 onNavigateToMovie = { navController.navigateToMovie(it) },
+                onNavigateToPerson = { navController.navigateToPerson(it) },
                 onNavigateBack = { navController.navigateUp() },
                 onNavigateToGenreTop = { genreId, genreName, type ->
                     navController.navigateToGenreTop(genreId,genreName, type)
@@ -153,6 +154,7 @@ fun TmdbNavHost(
                 onNavigateToSeason = { tvId, seasonNumber ->
                     navController.navigateToSeason(tvId, seasonNumber)
                 },
+                onNavigateToPerson = { navController.navigateToPerson(it) },
                 onNavigateToGenreTop = { genreId, genreName, type ->
                     navController.navigateToGenreTop(genreId,genreName, type)
                 },
@@ -177,6 +179,7 @@ fun TmdbNavHost(
         )
         {
             EpisodeScreen(
+                onNavigateToPerson = { navController.navigateToPerson(it) },
                 onNavigateBack = { navController.navigateUp() }
             )
         }
@@ -228,4 +231,9 @@ fun NavHostController.navigateToEpisode(id: Int, seasonNumber: Int, episodeNumbe
 fun NavHostController.navigateToGenreTop(genreId: Int,genreName: String, type: Boolean)
 {
     this.navigate("${GenreTop.route}/$genreId/$genreName/$type")
+}
+
+fun NavHostController.navigateToPerson(id: Int)
+{
+    this.navigate("${Person.route}/$id")
 }

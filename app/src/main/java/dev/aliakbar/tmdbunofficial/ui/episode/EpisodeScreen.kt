@@ -35,6 +35,7 @@ import dev.aliakbar.tmdbunofficial.ui.movie.VideoList
 
 @Composable
 fun EpisodeScreen(
+    onNavigateToPerson: (Int) -> Unit,
     onNavigateBack: () -> Unit,
     viewModel: EpisodeViewModel = viewModel(factory = EpisodeViewModel.factory),
 )
@@ -47,7 +48,10 @@ fun EpisodeScreen(
         is EpisodeUiState.Error -> Text(text = "Error")
         is EpisodeUiState.Success ->
         {
-            EpisodeScreen(episode = uiState.episode, onNavigateBack = onNavigateBack)
+            EpisodeScreen(
+                episode = uiState.episode,
+                onNavigateToPerson = onNavigateToPerson,
+                onNavigateBack = onNavigateBack)
         }
     }
 }
@@ -55,6 +59,7 @@ fun EpisodeScreen(
 @Composable
 fun EpisodeScreen(
     episode: EpisodeDetails,
+    onNavigateToPerson: (Int) -> Unit,
     onNavigateBack: () -> Unit
 )
 {
@@ -138,15 +143,15 @@ fun EpisodeScreen(
 
             ListHeader(header = "Cast")
 
-            CastList(casts = episode.casts)
+            CastList(casts = episode.casts, onNavigateToPerson = onNavigateToPerson)
 
             ListHeader(header = "Crew")
 
-            CrewList(crews = episode.crews)
+            CrewList(crews = episode.crews, onNavigateToPerson = onNavigateToPerson)
 
             ListHeader(header = "Guest Stars")
 
-            CastList(casts = episode.guestStars)
+            CastList(casts = episode.guestStars, onNavigateToPerson = onNavigateToPerson)
 
             if (episode.stills.isNotEmpty())
             {

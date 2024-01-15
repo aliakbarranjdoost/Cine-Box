@@ -14,10 +14,16 @@ import androidx.compose.ui.unit.dp
 
 // Use for both cast and crew list item
 @Composable
-fun CastItem(name: String,role: String, pictureUrl: String, onCastClick: () -> Unit, modifier: Modifier = Modifier)
+fun CastItem(
+    id: Int,
+    name: String,
+    role: String,
+    pictureUrl: String,
+    onNavigateToPerson: (Int) -> Unit,
+    modifier: Modifier = Modifier)
 {
     Card(
-        onClick = onCastClick,
+        onClick = {onNavigateToPerson(id)},
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
         ),
