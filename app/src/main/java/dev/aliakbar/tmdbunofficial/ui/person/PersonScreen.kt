@@ -89,7 +89,7 @@ fun PersonScreen(
     )
     { innerPadding ->
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.Start,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
@@ -100,7 +100,7 @@ fun PersonScreen(
                 modifier = Modifier
                     .size(200.dp)
                     .clip(CircleShape)
-                    //.align(Alignment.CenterHorizontally)
+                    .align(Alignment.CenterHorizontally)
             )
 
             if (!showDetails)
