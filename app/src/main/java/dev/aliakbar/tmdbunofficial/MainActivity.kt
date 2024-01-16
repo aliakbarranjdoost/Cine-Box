@@ -5,11 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -26,6 +24,7 @@ import dev.aliakbar.tmdbunofficial.ui.movie.MovieScreen
 import dev.aliakbar.tmdbunofficial.ui.person.PersonScreen
 import dev.aliakbar.tmdbunofficial.ui.search.SearchScreen
 import dev.aliakbar.tmdbunofficial.ui.season.SeasonScreen
+import dev.aliakbar.tmdbunofficial.ui.setting.SettingScreen
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 import dev.aliakbar.tmdbunofficial.ui.top.TopScreen
 import dev.aliakbar.tmdbunofficial.ui.tv.TvScreen
@@ -128,7 +127,7 @@ fun TmdbNavHost(
         }
         composable(route = Setting.route)
         {
-            Text(text = stringResource(id = R.string.setting))
+            SettingScreen()
         }
         composable(
             route = Movie.routeWithArgs,

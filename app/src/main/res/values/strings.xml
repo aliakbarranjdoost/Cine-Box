@@ -14,6 +14,11 @@
     <string name = "Series">Series</string>
     <string name = "episode_list">Episode List</string>
     <string name = "episode">Episode</string>
+    <string name = "yes">Yes</string>
+    <string name = "no">No</string>
+    <string name = "system_default">System Default</string>
+    <string name = "light">Light</string>
+    <string name = "dark">Dark</string>
 
     <string-array name = "date_range_options">
         <item>@string/today</item>
