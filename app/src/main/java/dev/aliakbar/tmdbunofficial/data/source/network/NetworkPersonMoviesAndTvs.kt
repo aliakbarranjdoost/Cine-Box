@@ -50,8 +50,8 @@ class NetworkPersonMoviesAndTvs(
     @SerialName("episode_count")
     val episodeCount: Int? = null,
 
-    val department: String,
-    val job: String,
+    val department: String? = null,
+    val job: String? = null,
 
     val order: Int? = 0,
 

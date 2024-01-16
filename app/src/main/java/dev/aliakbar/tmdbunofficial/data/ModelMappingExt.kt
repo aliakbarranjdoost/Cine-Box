@@ -762,8 +762,8 @@ fun NetworkPersonMoviesAndTvs.toExternalMovieCrew(
     video = video,
     character = character,
     creditId = creditId,
-    department = department,
-    job = job
+    department = department!!,
+    job = job!!
 )
 
 
@@ -786,6 +786,6 @@ fun NetworkPersonMoviesAndTvs.toExternalTvCrew(
     name = name!!,
     creditId = creditId,
     episodeCount = episodeCount,
-    job = job,
-    department = department
+    job = job!!,
+    department = department!!
 )
