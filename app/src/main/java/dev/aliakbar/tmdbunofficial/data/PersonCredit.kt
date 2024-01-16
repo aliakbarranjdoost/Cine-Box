@@ -58,7 +58,7 @@ data class PersonMovieAsCrew(
     val releaseDate: String?,
     val title: String,
     val video: Boolean,
-    val character: String,
+//    val character: String,
     val creditId: String,
     val department: String,
     val job: String,

@@ -716,7 +716,7 @@ fun NetworkPersonMoviesAndTvs.toExternalMovieCast(
     releaseDate = releaseDate,
     title = title!!,
     video = video,
-    character = character,
+    character = character!!,
     creditId = creditId,
     order = order
 )
@@ -738,7 +738,7 @@ fun NetworkPersonMoviesAndTvs.toExternalTvCast(
     originalName = originalName,
     firstAirDate = firstAirDate,
     name = name!!,
-    character = character,
+    character = character!!,
     creditId = creditId,
     episodeCount = episodeCount
 )
@@ -760,12 +760,10 @@ fun NetworkPersonMoviesAndTvs.toExternalMovieCrew(
     releaseDate = releaseDate,
     title = title!!,
     video = video,
-    character = character,
     creditId = creditId,
     department = department!!,
     job = job!!
 )
-
 
 fun NetworkPersonMoviesAndTvs.toExternalTvCrew(
     baseBackdropUrl: String,

@@ -45,7 +45,7 @@ class NetworkPersonMoviesAndTvs(
     val video: Boolean = false,
     @SerialName("credit_id")
     val creditId: String,
-    val character: String,
+    val character: String? = null,
 
     @SerialName("episode_count")
     val episodeCount: Int? = null,
