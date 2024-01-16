@@ -1,12 +1,20 @@
 package dev.aliakbar.tmdbunofficial.ui.person
 
+import Carousel
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -22,6 +30,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.aliakbar.tmdbunofficial.data.PersonDetails
+import dev.aliakbar.tmdbunofficial.data.PersonMovieAsCast
+import dev.aliakbar.tmdbunofficial.data.PersonMovieAsCrew
+import dev.aliakbar.tmdbunofficial.data.PersonTvAsCast
+import dev.aliakbar.tmdbunofficial.data.PersonTvAsCrew
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.TopBar
@@ -135,11 +147,86 @@ fun PersonScreen(
             }
 
             ListHeader(header = "Movies as Cast")
-            //RecommendationList
+            CreditList(credits = person.asMovieCast, onNavigateToMovie = onNavigateToMovie)
             ListHeader(header = "Tvs as Cast")
+            CreditList(credits = person.asTvCast, onNavigateToMovie = onNavigateToMovie)
             ListHeader(header = "Movies as Crew")
+            CreditList(credits = person.asMovieCrew, onNavigateToMovie = onNavigateToMovie)
             ListHeader(header = "Tvs as Crew")
+            CreditList(credits = person.asTvCrew, onNavigateToMovie = onNavigateToMovie)
 
+        }
+    }
+}
+
+@Composable
+fun <T> CreditList(
+    credits : List<T>,
+    onNavigateToMovie: (Int) -> Unit,
+    modifier: Modifier = Modifier)
+{
+    val scrollState = rememberLazyListState()
+
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        state = scrollState,
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+    )
+    {
+        items(items = credits)
+        { credit ->
+            when(credit)
+            {
+                is PersonMovieAsCast ->
+                    CreditItem(
+                        id = credit.id,
+                        title = credit.title,
+                        poster = credit.posterUrl,
+                        onNavigateToMovie = onNavigateToMovie
+                    )
+                is PersonTvAsCast ->
+                    CreditItem(
+                        id = credit.id,
+                        title = credit.name,
+                        poster = credit.posterUrl,
+                        onNavigateToMovie = onNavigateToMovie
+                    )
+                is PersonMovieAsCrew ->
+                    CreditItem(
+                        id = credit.id,
+                        title = credit.title,
+                        poster = credit.posterUrl,
+                        onNavigateToMovie = onNavigateToMovie
+                    )
+                is PersonTvAsCrew ->
+                    CreditItem(
+                        id = credit.id,
+                        title = credit.name,
+                        poster = credit.posterUrl,
+                        onNavigateToMovie = onNavigateToMovie
+                    )
+            }
+        }
+    }
+
+    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
+}
+
+@Composable
+fun CreditItem(id: Int, title: String, poster: String, onNavigateToMovie: (Int) -> Unit)
+{
+    Card(
+        onClick = { onNavigateToMovie(id) },
+        modifier = Modifier.size(width = 200.dp, height = 325.dp))
+    {
+        Column()
+        {
+            Image(url = poster, modifier = Modifier.height(300.dp))
+            Text(
+                text = title,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
         }
     }
 }

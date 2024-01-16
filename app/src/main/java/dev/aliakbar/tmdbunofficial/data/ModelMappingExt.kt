@@ -787,3 +787,50 @@ fun NetworkPersonMoviesAndTvs.toExternalTvCrew(
     job = job!!,
     department = department!!
 )
+/*
+
+fun PersonMovieAsCast.toTrend() = Trend(
+    id = id,
+    title = title,
+    score = voteAverage ?: 0.0f,
+    poster = posterUrl,
+    backdrop = backdropUrl,
+    rank = 0,
+    isBookmark = false,
+    type = "movie"
+)
+
+fun PersonTvAsCast.toTrend() = Trend(
+    id = id,
+    title = name,
+    score = voteAverage ?: 0.0f,
+    poster = posterUrl,
+    backdrop = backdropUrl,
+    rank = 0,
+    isBookmark = false,
+    type = "movie"
+)
+
+fun PersonMovieAsCrew.toTrend() = Trend(
+    id = id,
+    title = title,
+    score = voteAverage ?: 0.0f,
+    poster = posterUrl,
+    backdrop = backdropUrl,
+    rank = 0,
+    isBookmark = false,
+    type = "movie"
+)
+
+fun PersonTvAsCrew.toTrend() = Trend(
+    id = id,
+    title = name,
+    score = voteAverage ?: 0.0f,
+    poster = posterUrl,
+    backdrop = backdropUrl,
+    rank = 0,
+    isBookmark = false,
+    type = "movie"
+)
+
+*/
