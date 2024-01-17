@@ -3,11 +3,14 @@ package dev.aliakbar.tmdbunofficial
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -15,7 +18,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import dev.aliakbar.tmdbunofficial.data.source.datastore.ThemeOptions
 import dev.aliakbar.tmdbunofficial.ui.bookmark.BookmarkScreen
+import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.TmdbBottomAppBar
 import dev.aliakbar.tmdbunofficial.ui.episode.EpisodeScreen
 import dev.aliakbar.tmdbunofficial.ui.genreTop.GenreTopScreen
@@ -25,20 +30,35 @@ import dev.aliakbar.tmdbunofficial.ui.person.PersonScreen
 import dev.aliakbar.tmdbunofficial.ui.search.SearchScreen
 import dev.aliakbar.tmdbunofficial.ui.season.SeasonScreen
 import dev.aliakbar.tmdbunofficial.ui.setting.SettingScreen
+import dev.aliakbar.tmdbunofficial.ui.setting.SettingsUiState
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 import dev.aliakbar.tmdbunofficial.ui.top.TopScreen
 import dev.aliakbar.tmdbunofficial.ui.tv.TvScreen
 
 class MainActivity : ComponentActivity()
 {
+    val viewModel: MainViewModel by viewModels() { MainViewModel.factory }
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
+
         setContent()
         {
-            TMDBUnofficialTheme(darkTheme = false, dynamicColor = false)
+            val settingUiState by viewModel.settingsUiState.collectAsStateWithLifecycle()
+
+            when (settingUiState)
             {
-                TmdbApp()
+                is SettingsUiState.Loading -> CircularIndicator()
+
+                is SettingsUiState.Success ->
+                {
+                    TMDBUnofficialTheme(
+                        darkTheme = shouldUseDarkTheme(uiState = settingUiState),
+                        dynamicColor = ((settingUiState as SettingsUiState.Success).settings.useDynamicColor))
+                    {
+                        TmdbApp()
+                    }
+                }
             }
         }
     }
@@ -235,4 +255,22 @@ fun NavHostController.navigateToGenreTop(genreId: Int,genreName: String, type: B
 fun NavHostController.navigateToPerson(id: Int)
 {
     this.navigate("${Person.route}/$id")
+}
+
+/**
+ * Returns `true` if dark theme should be used, as a function of the [uiState] and the
+ * current system context.
+ */
+@Composable
+private fun shouldUseDarkTheme(
+    uiState: SettingsUiState,
+): Boolean = when (uiState)
+{
+    SettingsUiState.Loading    -> isSystemInDarkTheme()
+    is SettingsUiState.Success -> when (uiState.settings.theme)
+    {
+        ThemeOptions.SYSTEM_DEFAULT -> isSystemInDarkTheme()
+        ThemeOptions.LIGHT          -> false
+        ThemeOptions.DARK           -> true
+    }
 }
