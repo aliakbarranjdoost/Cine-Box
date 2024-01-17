@@ -91,4 +91,5 @@ dependencies {
     implementation(libs.paging)
     implementation(libs.paging.compose)
 
+    implementation(libs.datastore)
 }

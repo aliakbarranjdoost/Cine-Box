@@ -45,6 +45,7 @@ paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "pa
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging"}
 youtubeplayer = { group = "com.pierfrancescosoffritti.androidyoutubeplayer", name = "core", version.ref = "youtubeplayer"}
 animation-graphics-android = { group = "androidx.compose.animation", name = "animation-graphics-android", version.ref = "animation-graphics-android" }
+datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidx-datastore" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
