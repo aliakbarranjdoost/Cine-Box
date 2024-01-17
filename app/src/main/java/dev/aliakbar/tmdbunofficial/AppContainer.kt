@@ -1,6 +1,9 @@
 package dev.aliakbar.tmdbunofficial
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dev.aliakbar.tmdbunofficial.data.BookmarkRepository
 import dev.aliakbar.tmdbunofficial.data.ConfigurationRepository
@@ -12,6 +15,7 @@ import dev.aliakbar.tmdbunofficial.data.PersonRepository
 import dev.aliakbar.tmdbunofficial.data.SearchRepository
 import dev.aliakbar.tmdbunofficial.data.SeasonDetailsRepository
 import dev.aliakbar.tmdbunofficial.data.TopRepository
+import dev.aliakbar.tmdbunofficial.data.source.datastore.UserPreferencesRepository
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 import kotlinx.serialization.json.Json
@@ -31,12 +35,15 @@ interface AppContainer
     val episodeRepository: EpisodeRepository
     val genreTopRepository: GenreTopRepository
     val personRepository: PersonRepository
+    val userPersonRepository: UserPreferencesRepository
 }
+
 
 class DefaultAppContainer(context: Context): AppContainer
 {
     private val baseUrl = "https://api.themoviedb.org/3/"
     private val bearerToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNzkwYjcwMzRkOTFhODU0YmE5MmUxOTlkMWQ2MTk3MiIsInN1YiI6IjYzMGYxMTg0MTI0MjVjMDA5ZDdkMjAzZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xPKQ-BTT_SZqBtJKyQ36VoDDpqCr_BAp-b_NjOOXvhc"
+    private val setting = "setting"
 
     private val okhttp = OkHttpClient.Builder().addInterceptor()
     {   chain ->
@@ -126,6 +133,15 @@ class DefaultAppContainer(context: Context): AppContainer
         PersonRepository(
             retrofitService,
             roomDatabase
+        )
+    }
+
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = setting)
+
+    override val userPersonRepository: UserPreferencesRepository by lazy()
+    {
+        UserPreferencesRepository(
+            context.dataStore
         )
     }
 }

@@ -11,28 +11,47 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.aliakbar.tmdbunofficial.R
+import dev.aliakbar.tmdbunofficial.data.source.datastore.ThemeOptions
+import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 
 @Composable
-fun SettingScreen()
+fun SettingScreen(
+    modifier: Modifier = Modifier,
+    viewModel: SettingViewModel = viewModel(factory = SettingViewModel.factory)
+)
 {
-    Column(Modifier.padding(16.dp))
-    {
-        SettingHeader(title = "Use Dynamic Color")
-        DynamicThemeSettingList()
-        SettingHeader(title = "Dark Mode Preference")
-        DarkThemeSettingList()
+    val uiState by viewModel.settingsUiState.collectAsStateWithLifecycle()
+
+    when (uiState) {
+        is SettingsUiState.Loading -> CircularIndicator()
+
+        is SettingsUiState.Success -> {
+            Column(Modifier.padding(16.dp))
+            {
+                SettingHeader(title = "Use Dynamic Color")
+                DynamicThemeSettingList(
+                    (uiState as SettingsUiState.Success).settings.useDynamicColor,
+                    onClick = {
+                        viewModel.enableDynamicTheme(it)
+                    })
+                SettingHeader(title = "Dark Mode Preference")
+                DarkThemeSettingList((uiState as SettingsUiState.Success).settings.theme,
+                    onClick = { viewModel.changeTheme(it)}
+                )
+            }
+        }
     }
+
+
 }
 
 @Composable
@@ -45,46 +64,43 @@ fun SettingHeader(title: String)
 }
 
 @Composable
-fun DynamicThemeSettingList()
+fun DynamicThemeSettingList(useDynamicColor: Boolean, onClick: (Boolean) -> Unit)
 {
-    var state by remember { mutableStateOf(true) }
-
     Column(Modifier.selectableGroup()) {
 
         OptionItem(
             description = stringResource(R.string.yes),
-            selected = state,
-            onClick = { state = !state }
+            selected = useDynamicColor,
+            onClick = { onClick(true) }
         )
         OptionItem(
             description = stringResource(R.string.no),
-            selected = !state,
-            onClick = { state = !state }
+            selected = !useDynamicColor,
+            onClick = { onClick(false) }
         )
     }
 }
 
 @Composable
-fun DarkThemeSettingList()
+fun DarkThemeSettingList(themeOptions: ThemeOptions, onClick: (Int) -> Unit)
 {
-    var state by remember { mutableIntStateOf(0) }
+    //var state by remember { mutableIntStateOf(0) }
 
     Column(Modifier.selectableGroup()) {
-
         OptionItem(
             description = stringResource(R.string.system_default),
-            selected = state == 0,
-            onClick = { state = 0 }
+            selected = themeOptions == ThemeOptions.SYSTEM_DEFAULT,
+            onClick = { onClick(0) }
         )
         OptionItem(
             description = stringResource(R.string.light),
-            selected = state == 1,
-            onClick = { state = 1 }
+            selected = themeOptions == ThemeOptions.LIGHT,
+            onClick = { onClick(1) }
         )
         OptionItem(
             description = stringResource(R.string.dark),
-            selected = state == 2,
-            onClick = { state = 2 }
+            selected = themeOptions == ThemeOptions.DARK,
+            onClick = { onClick(2) }
         )
     }
 }
