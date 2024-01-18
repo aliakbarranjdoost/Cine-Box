@@ -43,7 +43,8 @@ class MainViewModel(
 
     val settingsUiState: StateFlow<SettingsUiState> =
         userPreferencesRepository.userPreferencesFlow
-            .map { userData ->
+            .map()
+            { userData ->
                 SettingsUiState.Success(
                     settings = UserEditableSettings(
                         useDynamicColor = userData.dynamicTheme,

@@ -1,5 +1,6 @@
 package dev.aliakbar.tmdbunofficial.ui.setting
 
+import android.os.Build
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,12 +38,15 @@ fun SettingScreen(
         is SettingsUiState.Success -> {
             Column(Modifier.padding(16.dp))
             {
-                SettingHeader(title = "Use Dynamic Color")
-                DynamicThemeSettingList(
-                    (uiState as SettingsUiState.Success).settings.useDynamicColor,
-                    onClick = {
-                        viewModel.enableDynamicTheme(it)
-                    })
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                {
+                    SettingHeader(title = "Use Dynamic Color")
+                    DynamicThemeSettingList(
+                        (uiState as SettingsUiState.Success).settings.useDynamicColor,
+                        onClick = {
+                            viewModel.enableDynamicTheme(it)
+                        })
+                }
                 SettingHeader(title = "Dark Mode Preference")
                 DarkThemeSettingList((uiState as SettingsUiState.Success).settings.theme,
                     onClick = { viewModel.changeTheme(it)}
