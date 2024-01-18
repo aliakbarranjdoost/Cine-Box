@@ -146,15 +146,29 @@ fun PersonScreen(
                 }
             }
 
-            ListHeader(header = "Movies as Cast")
-            CreditList(credits = person.asMovieCast, onNavigateToMovie = onNavigateToMovie)
-            ListHeader(header = "Tvs as Cast")
-            CreditList(credits = person.asTvCast, onNavigateToMovie = onNavigateToMovie)
-            ListHeader(header = "Movies as Crew")
-            CreditList(credits = person.asMovieCrew, onNavigateToMovie = onNavigateToMovie)
-            ListHeader(header = "Tvs as Crew")
-            CreditList(credits = person.asTvCrew, onNavigateToMovie = onNavigateToMovie)
+            if (person.asMovieCast.isNotEmpty())
+            {
+                ListHeader(header = "Movies as Cast")
+                CreditList(credits = person.asMovieCast, onNavigateToMovie = onNavigateToMovie)
+            }
 
+            if (person.asTvCast.isNotEmpty())
+            {
+                ListHeader(header = "Tvs as Cast")
+                CreditList(credits = person.asTvCast, onNavigateToMovie = onNavigateToMovie)
+            }
+
+            if (person.asMovieCrew.isNotEmpty())
+            {
+                ListHeader(header = "Movies as Crew")
+                CreditList(credits = person.asMovieCrew, onNavigateToMovie = onNavigateToMovie)
+            }
+
+            if (person.asTvCrew.isNotEmpty())
+            {
+                ListHeader(header = "Tvs as Crew")
+                CreditList(credits = person.asTvCrew, onNavigateToMovie = onNavigateToMovie)
+            }
         }
     }
 }
