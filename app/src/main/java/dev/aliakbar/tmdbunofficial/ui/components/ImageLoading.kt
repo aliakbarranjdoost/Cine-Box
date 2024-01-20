@@ -2,7 +2,6 @@
 
 package dev.aliakbar.tmdbunofficial.ui.components
 
-import android.media.Image
 import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
 import androidx.compose.animation.graphics.res.animatedVectorResource
 import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
@@ -11,10 +10,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BrokenImage
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -36,15 +36,15 @@ fun Image(url: String,modifier: Modifier = Modifier)
         modifier = modifier
     )
     {
-        val state = painter.state
 
-        if (state is AsyncImagePainter.State.Loading)
+        when (painter.state)
         {
-            ImageLoadingAnimation()
-        }
-        else
-        {
-            SubcomposeAsyncImageContent()
+            is AsyncImagePainter.State.Loading   -> ImageLoadingAnimation()
+            is AsyncImagePainter.State.Error ->
+            {
+                Image(imageVector = Icons.Default.BrokenImage, contentDescription = null)
+            }
+            else                         -> SubcomposeAsyncImageContent()
         }
     }
 
