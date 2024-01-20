@@ -5,7 +5,9 @@
 package dev.aliakbar.tmdbunofficial.ui.movie
 
 import Carousel
+import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +26,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
+import androidx.compose.material.icons.filled.PlayCircleOutline
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -39,22 +42,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import coil.compose.AsyncImagePainter
+import coil.compose.SubcomposeAsyncImage
+import coil.compose.SubcomposeAsyncImageContent
 import dev.aliakbar.tmdbunofficial.data.Cast
 import dev.aliakbar.tmdbunofficial.data.Crew
 import dev.aliakbar.tmdbunofficial.data.Genre
@@ -66,7 +71,11 @@ import dev.aliakbar.tmdbunofficial.data.source.sample.movie
 import dev.aliakbar.tmdbunofficial.ui.components.CastItem
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.Image
+import dev.aliakbar.tmdbunofficial.ui.components.ImageLoadingAnimation
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
+import dev.aliakbar.tmdbunofficial.ui.home.VideoDialog
+import dev.aliakbar.tmdbunofficial.util.YOUTUBE_THUMBNAIL_BASE_URL
+import dev.aliakbar.tmdbunofficial.util.YoutubeThumbnailSize
 
 const val OVERVIEW_PREVIEW_MAX_LINE = 3
 
@@ -416,7 +425,7 @@ fun YoutubeVideoPlayerItem(
     modifier: Modifier = Modifier
 )
 {
-    AndroidView(
+    /*AndroidView(
         factory =
         { context ->
             YouTubePlayerView(context = context).apply()
@@ -434,7 +443,77 @@ fun YoutubeVideoPlayerItem(
             }
         },
         modifier = Modifier.fillMaxSize()
-    )
+    )*/
+    var isVideoFullScreen by remember { mutableStateOf(false) }
+    var imageLoadingState by rememberSaveable { mutableStateOf(true) }
+
+    Box {
+        SubcomposeAsyncImage(
+            model = "$YOUTUBE_THUMBNAIL_BASE_URL$id${YoutubeThumbnailSize.MAX.size}",
+            contentDescription = null,
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(230.dp)
+                .clickable { isVideoFullScreen = true }
+        )
+        {
+            val state = painter.state
+
+            if (state is AsyncImagePainter.State.Loading)
+            {
+                ImageLoadingAnimation()
+            }
+            else
+            {
+                SubcomposeAsyncImageContent()
+                imageLoadingState = false
+            }
+        }
+
+        Icon(
+            imageVector = Icons.Default.PlayCircleOutline,
+            contentDescription = null,
+            modifier = Modifier
+                .size(64.dp)
+                .align(Alignment.Center)
+        )
+    }
+
+    if (isVideoFullScreen)
+    {
+        val configuration = LocalConfiguration.current
+
+        when (configuration.orientation)
+        {
+            Configuration.ORIENTATION_LANDSCAPE ->
+            {
+                VideoDialog(
+                    videoId = id,
+                    LocalLifecycleOwner.current,
+                    modifier = Modifier.fillMaxSize()
+                )
+                {
+                    isVideoFullScreen = false
+                }
+            }
+
+            else                                ->
+            {
+                VideoDialog(
+                    videoId = id,
+                    LocalLifecycleOwner.current,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp)
+                )
+                {
+                    isVideoFullScreen = false
+                }
+            }
+        }
+
+    }
 }
 
 @Composable
