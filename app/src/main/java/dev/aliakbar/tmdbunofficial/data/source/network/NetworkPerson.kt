@@ -11,7 +11,7 @@ data class NetworkPerson(
     val name: String,
     val gender: Int,
     @SerialName("profile_path")
-    val profilePath: String
+    val profilePath: String? = null
 )
 
 @Serializable
