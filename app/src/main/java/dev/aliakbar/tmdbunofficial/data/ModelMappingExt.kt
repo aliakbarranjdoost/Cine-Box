@@ -369,17 +369,17 @@ fun List<NetworkLanguage>.toExternal() = map()
 
 fun NetworkCast.toExternal(baseProfileUrl: String) = Cast(
     id = id,
-    adult = adult,
-    gender = gender,
-    knownFor = knownFor,
+//    adult = adult,
+//    gender = gender,
+//    knownFor = knownFor,
     name = name,
-    originalName = originalName,
-    popularity = popularity,
+//    originalName = originalName,
+//    popularity = popularity,
     profileUrl = baseProfileUrl + profilePath,
-    castId = castId,
+//    castId = castId,
     character = character,
-    creditId = creditId,
-    order = order
+//    creditId = creditId,
+//    order = order
 )
 
 @JvmName("NetworkCastToExternal")
@@ -390,14 +390,14 @@ fun List<NetworkCast>.toExternal(baseProfileUrl: String) = map()
 
 fun NetworkCrew.toExternal(baseProfileUrl: String) = Crew(
     id = id,
-    adult = adult,
-    gender = gender,
+//    adult = adult,
+//    gender = gender,
     knownForDepartment = knownForDepartment,
     name = name,
-    originalName = originalName,
-    popularity = popularity,
+//    originalName = originalName,
+//    popularity = popularity,
     profileUrl = baseProfileUrl + profilePath,
-    creditId = creditId,
+//    creditId = creditId,
     department = department,
     job = job
 )
@@ -409,16 +409,16 @@ fun List<NetworkCrew>.toExternal(baseProfileUrl: String) = map()
 }
 
 fun NetworkVideo.toExternal() = Video(
-    iso6391 = iso6391,
-    iso31661 = iso31661,
+//    iso6391 = iso6391,
+//    iso31661 = iso31661,
     name = name,
     key = key,
     site = site,
-    size = size,
+//    size = size,
     type = type,
     official = official,
-    publishedAt = publishedAt,
-    id = id
+//    publishedAt = publishedAt,
+//    id = id
 )
 
 @JvmName("NetworkVideoToExternal")
@@ -428,13 +428,13 @@ fun List<NetworkVideo>.toExternal() = map()
 }
 
 fun NetworkImage.toExternal(baseUrl: String) = Image(
-    iso6391 = iso6391,
-    aspectRatio = aspectRatio,
-    height = height,
-    width = width,
+//    iso6391 = iso6391,
+//    aspectRatio = aspectRatio,
+//    height = height,
+//    width = width,
     fileUrl = baseUrl + filePath,
-    voteAverage = voteAverage,
-    voteCount = voteCount
+//    voteAverage = voteAverage,
+//    voteCount = voteCount
 )
 
 @JvmName("NetworkImageToExternal")
@@ -537,7 +537,7 @@ fun NetworkTvDetails.toExternal(
 ) = Tv(
     id = id,
     name = name,
-    originalName = originalName,
+//    originalName = originalName,
     tagline = tagline,
     overview = overview,
     originalLanguage = originalLanguage,
@@ -549,30 +549,30 @@ fun NetworkTvDetails.toExternal(
     status = status,
     backdropUrl = baseBackdropUrl + backdropPath,
     posterUrl = basePosterUrl + posterPath,
-    productionCountries = productionCountries.toExternal(),
+//    productionCountries = productionCountries.toExternal(),
     genres = genres.toExternal(),
-    spokenLanguages = spokenLanguages.toExternal(),
-    productionCompanies = productionCompanies.toExternal(baseLogoUrl),
+//    spokenLanguages = spokenLanguages.toExternal(),
+//    productionCompanies = productionCompanies.toExternal(baseLogoUrl),
     casts = credits.cast.toExternal(baseProfileUrl),
     crews = credits.crew.toExternal(baseProfileUrl),
     videos = videos.results.toExternal(),
     posters = images.posters.toExternal(basePosterUrl),
     backdrops = images.backdrops.toExternal(baseBackdropUrl),
-    logos = images.logos.toExternal(baseLogoUrl),
+//    logos = images.logos.toExternal(baseLogoUrl),
     recommendations = recommendations.results.toExternal(
         basePosterUrl, baseBackdropUrl, false
     ),
     createdBy = createdBy.toExternal(baseProfileUrl),
     firstAirDate = firstAirDate,
     isInProduction = isInProduction,
-    languages = languages,
+//    languages = languages,
     lastAirDate = lastAirDate,
-    lastEpisodeToAir = lastEpisodeToAir,
-    networks = networks.toExternal(baseLogoUrl),
-    nextEpisodeToAir = nextEpisodeToAir,
+//    lastEpisodeToAir = lastEpisodeToAir,
+//    networks = networks.toExternal(baseLogoUrl),
+//    nextEpisodeToAir = nextEpisodeToAir,
     numberOfEpisodes = numberOfEpisodes,
     numberOfSeasons = numberOfSeasons,
-    originCountry = originCountry,
+//    originCountry = originCountry,
     seasons = seasons.toExternal(basePosterUrl),
     type = type,
     isBookmark = isBookmark
@@ -587,7 +587,7 @@ fun List<NetworkSeason>.toExternal(basePosterUrl: String) = map { it.toExternal(
 
 fun NetworkSeasonDetails.toExternal(basePosterUrl: String, baseStillUrl: String) = SeasonDetails(
     id,
-    _id,
+//    _id,
     name,
     overview,
     episodes.toExternal(baseStillUrl),
@@ -607,12 +607,12 @@ fun NetworkEpisode.toExternal(baseStillUrl: String) = Episode(
     overview,
     voteAverage,
     voteCount,
-    airDate,
-    runtime,
+//    airDate,
+//    runtime,
     seasonNumber,
     episodeNumber,
     episodeType,
-    productionCode,
+//    productionCode,
     showId,
     baseStillUrl + stillPath
 )
@@ -639,7 +639,7 @@ fun NetworkEpisodeDetails.toExternal(
     airDate = airDate,
     episodeNumber = episodeNumber,
     episodeType = episodeType,
-    productionCode = productionCode,
+//    productionCode = productionCode,
     runtime = runtime,
     seasonNumber = seasonNumber,
     stillUrl = baseStillUrl + stillPath,
@@ -703,64 +703,64 @@ fun NetworkPersonMoviesAndTvs.toExternalMovieCast(
     baseBackdropUrl: String,
     basePosterUrl: String,
 ) = PersonMovieAsCast(
-    adult = adult,
+//    adult = adult,
     backdropUrl = baseBackdropUrl + backdropPath,
     id = id,
-    originalLanguage = originalLanguage,
-    overview = overview,
-    popularity = popularity,
+//    originalLanguage = originalLanguage,
+//    overview = overview,
+//    popularity = popularity,
     posterUrl = basePosterUrl + posterPath,
     voteAverage = voteAverage,
     voteCount = voteCount,
-    originalTitle = originalTitle,
-    releaseDate = releaseDate,
+//    originalTitle = originalTitle,
+//    releaseDate = releaseDate,
     title = title!!,
-    video = video,
+//    video = video,
     character = character!!,
-    creditId = creditId,
-    order = order
+//    creditId = creditId,
+//    order = order
 )
 
 fun NetworkPersonMoviesAndTvs.toExternalTvCast(
     baseBackdropUrl: String,
     basePosterUrl: String,
 ) = PersonTvAsCast(
-    adult = adult,
+//    adult = adult,
     backdropUrl = baseBackdropUrl + backdropPath,
     id = id,
-    originalLanguage = originalLanguage,
-    overview = overview,
-    popularity = popularity,
+//    originalLanguage = originalLanguage,
+//    overview = overview,
+//    popularity = popularity,
     posterUrl = basePosterUrl + posterPath,
     voteAverage = voteAverage,
     voteCount = voteCount,
-    originCountry = originCountries,
-    originalName = originalName,
+//    originCountry = originCountries,
+//    originalName = originalName,
     firstAirDate = firstAirDate,
     name = name!!,
     character = character!!,
-    creditId = creditId,
-    episodeCount = episodeCount
+//    creditId = creditId,
+//    episodeCount = episodeCount
 )
 
 fun NetworkPersonMoviesAndTvs.toExternalMovieCrew(
     baseBackdropUrl: String,
     basePosterUrl: String,
 ) = PersonMovieAsCrew(
-    adult = adult,
+//    adult = adult,
     backdropUrl = baseBackdropUrl + backdropPath,
     id = id,
-    originalLanguage = originalLanguage,
-    overview = overview,
-    popularity = popularity,
+//    originalLanguage = originalLanguage,
+//    overview = overview,
+//    popularity = popularity,
     posterUrl = basePosterUrl + posterPath,
     voteAverage = voteAverage,
     voteCount = voteCount,
-    originalTitle = originalTitle,
+//    originalTitle = originalTitle,
     releaseDate = releaseDate,
     title = title!!,
-    video = video,
-    creditId = creditId,
+//    video = video,
+//    creditId = creditId,
     department = department!!,
     job = job!!
 )
@@ -769,21 +769,21 @@ fun NetworkPersonMoviesAndTvs.toExternalTvCrew(
     baseBackdropUrl: String,
     basePosterUrl: String,
 ) = PersonTvAsCrew(
-    adult = adult,
+//    adult = adult,
     backdropUrl = baseBackdropUrl + backdropPath,
     id = id,
-    originalLanguage = originalLanguage,
-    overview = overview,
-    popularity = popularity,
+//    originalLanguage = originalLanguage,
+//    overview = overview,
+//    popularity = popularity,
     posterUrl = basePosterUrl + posterPath,
     voteAverage = voteAverage,
     voteCount = voteCount,
-    originCountry = originCountries,
-    originalName = originalName,
+//    originCountry = originCountries,
+//    originalName = originalName,
     firstAirDate = firstAirDate,
     name = name!!,
-    creditId = creditId,
-    episodeCount = episodeCount,
+//    creditId = creditId,
+//    episodeCount = episodeCount,
     job = job!!,
     department = department!!
 )

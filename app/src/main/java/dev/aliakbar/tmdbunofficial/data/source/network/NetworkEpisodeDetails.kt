@@ -18,8 +18,8 @@ data class NetworkEpisodeDetails(
     val episodeNumber: Int,
     @SerialName("episode_type")
     val episodeType: String? = null,
-    @SerialName("production_code")
-    val productionCode: String,
+    /*@SerialName("production_code")
+    val productionCode: String,*/
     val runtime: Int?,
     @SerialName("season_number")
     val seasonNumber: Int,

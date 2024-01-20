@@ -1,11 +1,11 @@
 package dev.aliakbar.tmdbunofficial.data
 
 data class Image(
-    val iso6391 : String? = null,
-    val aspectRatio: Float,
-    val height: Int,
-    val width: Int,
+//    val iso6391 : String? = null,
+//    val aspectRatio: Float,
+//    val height: Int,
+//    val width: Int,
     val fileUrl: String,
-    val voteAverage: Float,
-    val voteCount: Int
+//    val voteAverage: Float,
+//    val voteCount: Int
 )

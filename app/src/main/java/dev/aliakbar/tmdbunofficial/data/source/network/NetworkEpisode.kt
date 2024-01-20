@@ -13,14 +13,14 @@ data class NetworkEpisode(
     @SerialName("vote_count")
     val voteCount: Int,
     @SerialName("air_date")
-    val airDate: String,
-    @SerialName("episode_number")
+    /*val airDate: String,
+    @SerialName("episode_number")*/
     val episodeNumber: Int,
     @SerialName("episode_type")
     val episodeType: String,
-    @SerialName("production_code")
-    val productionCode: String,
-    val runtime: Int?,
+    /*@SerialName("production_code")
+    val productionCode: String,*/
+//    val runtime: Int?,
     @SerialName("season_number")
     val seasonNumber: Int,
     @SerialName("show_id")

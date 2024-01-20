@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class NetworkSeasonDetails(
     val id: Int,
-    val _id: String,
+//    val _id: String,
     val name: String,
     val overview: String,
     val episodes: List<NetworkEpisode>,
