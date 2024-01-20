@@ -89,6 +89,7 @@ fun TmdbApp(
                         popUpTo(navController.graph.findStartDestination().id)
                         {
                             saveState = true
+                            inclusive = true
                         }
                         // Avoid multiple copies of the same destination when
                         // reselecting the same item
@@ -227,34 +228,41 @@ fun TmdbNavHost(
     }
 }
 
+fun NavHostController.navigateSingleTop(route: String)
+{
+    this.navigate(route)
+    {
+        launchSingleTop = true
+    }
+}
 fun NavHostController.navigateToMovie(id: Int)
 {
-    this.navigate("${Movie.route}/$id")
+    this.navigateSingleTop("${Movie.route}/$id")
 }
 
 fun NavHostController.navigateToTv(id: Int)
 {
-    this.navigate("${Tv.route}/$id")
+    this.navigateSingleTop("${Tv.route}/$id")
 }
 
 fun NavHostController.navigateToSeason(id: Int, seasonNumber: Int)
 {
-    this.navigate("${Season.route}/$id/$seasonNumber")
+    this.navigateSingleTop("${Season.route}/$id/$seasonNumber")
 }
 
 fun NavHostController.navigateToEpisode(id: Int, seasonNumber: Int, episodeNumber: Int)
 {
-    this.navigate("${Episode.route}/$id/$seasonNumber/$episodeNumber")
+    this.navigateSingleTop("${Episode.route}/$id/$seasonNumber/$episodeNumber")
 }
 
 fun NavHostController.navigateToGenreTop(genreId: Int,genreName: String, type: Boolean)
 {
-    this.navigate("${GenreTop.route}/$genreId/$genreName/$type")
+    this.navigateSingleTop("${GenreTop.route}/$genreId/$genreName/$type")
 }
 
 fun NavHostController.navigateToPerson(id: Int)
 {
-    this.navigate("${Person.route}/$id")
+    this.navigateSingleTop("${Person.route}/$id")
 }
 
 /**
