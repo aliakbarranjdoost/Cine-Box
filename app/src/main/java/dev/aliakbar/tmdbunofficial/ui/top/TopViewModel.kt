@@ -11,7 +11,6 @@ import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.TopRepository
 import dev.aliakbar.tmdbunofficial.data.Trend
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 
 sealed interface TopUiState
 {
@@ -29,22 +28,6 @@ class TopViewModel(private val topRepository: TopRepository) : ViewModel()
 {
     fun getTopRatedMovies(): Flow<PagingData<Trend>> = topRepository.getTopRatedMovies().cachedIn(viewModelScope)
     fun getTopRatedSeries(): Flow<PagingData<Trend>> = topRepository.getTopRatedSeries().cachedIn(viewModelScope)
-
-    fun addToBookmark(trend: Trend)
-    {
-        viewModelScope.launch()
-        {
-            topRepository.addTrendToBookmark(trend)
-        }
-    }
-
-    fun removeFromBookmark(trend: Trend)
-    {
-        viewModelScope.launch()
-        {
-            topRepository.removeFromBookmark(trend)
-        }
-    }
 
     companion object
     {

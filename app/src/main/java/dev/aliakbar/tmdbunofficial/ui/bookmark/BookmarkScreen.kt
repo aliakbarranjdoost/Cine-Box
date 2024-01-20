@@ -7,21 +7,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,8 +43,7 @@ fun BookmarkScreen(
             BookmarkList(
                 bookmarks = uiState.bookmarks,
                 onNavigateToMovie = onNavigateToMovie,
-                onNavigateToTv = onNavigateToTv,
-                removeBookmark = { viewModel.removeFromBookmark(it) }
+                onNavigateToTv = onNavigateToTv
             )
         }
 
@@ -64,7 +56,6 @@ fun BookmarkList(
     bookmarks: List<Bookmark>,
     onNavigateToMovie: (Int) -> Unit,
     onNavigateToTv: (Int) -> Unit,
-    removeBookmark: (Bookmark) -> Unit,
     modifier: Modifier = Modifier
 )
 {
@@ -85,8 +76,7 @@ fun BookmarkList(
                         "movie" -> onNavigateToMovie(trendId)
                         else    -> onNavigateToTv(trendId)
                     }
-                },
-                removeBookmark = removeBookmark
+                }
             )
         }
     }
@@ -95,9 +85,7 @@ fun BookmarkList(
 @Composable
 fun BookmarkItem(
     bookmark: Bookmark,
-    onNavigate: (Int) -> Unit,
-    removeBookmark: (Bookmark) -> Unit,
-    modifier: Modifier = Modifier
+    onNavigate: (Int) -> Unit
 )
 {
     val configuration = LocalConfiguration.current
@@ -124,24 +112,9 @@ fun BookmarkItem(
             )
             {
                 Image(
-                    url = bookmark.backdropUrl, modifier = Modifier.fillMaxSize()
+                    url = bookmark.backdropUrl,
+                    modifier = Modifier.fillMaxSize()
                 )
-                IconButton(
-                    onClick = { removeBookmark(bookmark) },
-                    modifier = Modifier
-                        .size(48.dp)
-                        .padding(4.dp)
-                        .align(Alignment.BottomEnd)
-                )
-                {
-                    Icon(
-                        imageVector = Icons.Default.Bookmark,
-                        tint = Color.Yellow,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .fillMaxSize()
-                    )
-                }
             }
 
             Text(
@@ -163,6 +136,6 @@ fun BookmarkScreenPreview()
 {
     TMDBUnofficialTheme()
     {
-        BookmarkList(bookmarks = bookmarks, {}, {}, {})
+        BookmarkList(bookmarks = bookmarks, {}, {})
     }
 }

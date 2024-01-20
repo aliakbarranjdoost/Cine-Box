@@ -29,14 +29,10 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.PlayCircleOutline
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -51,7 +47,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -159,14 +154,12 @@ fun HomeScreen(
                     {
                         0 -> TrendList(
                             trends = homeUiState.todayTrendMovies,
-                            onNavigate = { onNavigateToMovie(it) },
-                            viewModel = viewModel
+                            onNavigate = { onNavigateToMovie(it) }
                         )
 
                         1 -> TrendList(
                             trends = homeUiState.thisWeekTrendMovies,
-                            onNavigate = { onNavigateToMovie(it) },
-                            viewModel = viewModel
+                            onNavigate = { onNavigateToMovie(it) }
                         )
                     }
                 }
@@ -220,14 +213,12 @@ fun HomeScreen(
                     {
                         0 -> TrendList(
                             trends = homeUiState.todayTrendSeries,
-                            onNavigate = { onNavigateToTv(it) },
-                            viewModel = viewModel
+                            onNavigate = { onNavigateToTv(it) }
                         )
 
                         1 -> TrendList(
                             trends = homeUiState.thisWeekTrendSeries,
-                            onNavigate = { onNavigateToTv(it) },
-                            viewModel = viewModel
+                            onNavigate = { onNavigateToTv(it) }
                         )
                     }
                 }
@@ -281,14 +272,12 @@ fun HomeScreen(
                     {
                         0 -> TrendList(
                             trends = homeUiState.popularMovies,
-                            onNavigate = { onNavigateToMovie(it) },
-                            viewModel = viewModel
+                            onNavigate = { onNavigateToMovie(it) }
                         )
 
                         1 -> TrendList(
                             trends = homeUiState.popularSeries,
-                            onNavigate = { onNavigateToTv(it) },
-                            viewModel = viewModel
+                            onNavigate = { onNavigateToTv(it) }
                         )
                     }
                 }
@@ -302,7 +291,6 @@ fun HomeScreen(
 fun TrendList(
     trends: List<Trend>,
     onNavigate: (Int) -> Unit,
-    viewModel: HomeViewModel,
     modifier: Modifier = Modifier)
 {
     val scrollState = rememberLazyListState()
@@ -317,16 +305,7 @@ fun TrendList(
         { trend ->
             TrendItem(
                 trend = trend,
-                onNavigate = onNavigate,
-                addToBookmark =
-                {
-                    viewModel.addToBookmark(trend)
-                    //trend.isBookmark = true
-                },
-                removeFromBookmark =
-                {
-                    viewModel.removeFromBookmark(trend)
-                }
+                onNavigate = onNavigate
             )
         }
     }
@@ -336,10 +315,8 @@ fun TrendList(
 @Composable
 fun TrendItem(
     trend: Trend,
-    onNavigate: (Int) -> Unit,
-    addToBookmark: () -> Unit,
-    removeFromBookmark: () -> Unit
-    )
+    onNavigate: (Int) -> Unit
+)
 {
     Card(
         onClick = { onNavigate(trend.id) }
@@ -347,7 +324,7 @@ fun TrendItem(
     {
         Column()
         {
-            Poster(trend = trend, addToBookmark = addToBookmark, removeFromBookmark = removeFromBookmark)
+            Poster(trend = trend)
 
             Text(
                 text = trend.title,
@@ -561,19 +538,15 @@ fun VideoDialog(
 
 @Composable
 fun Poster(
-    addToBookmark: () -> Unit,
-    removeFromBookmark: () -> Unit,
     trend: Trend,
     modifier: Modifier = Modifier
 )
 {
-    var isBookmark by remember { mutableStateOf(trend.isBookmark) }
     Box(
         modifier = Modifier
             .size(width = 150.dp, height = 225.dp)
     )
     {
-
         Image(url = trend.poster, modifier = Modifier.fillMaxSize())
 
         ScoreBar(
@@ -581,35 +554,6 @@ fun Poster(
             modifier = Modifier.
                 align(Alignment.BottomStart)
         )
-
-        IconButton(
-            onClick =
-            {
-                if (isBookmark)
-                {
-                    removeFromBookmark()
-                }
-                else
-                {
-                    addToBookmark()
-                }
-
-                isBookmark = !isBookmark
-            },
-            modifier = Modifier
-                .size(48.dp)
-                .align(Alignment.BottomEnd),
-        )
-        {
-            Icon(
-                imageVector = if (isBookmark) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
-                contentDescription = null,
-                tint = if (isBookmark) Color.Yellow else LocalContentColor.current,
-                modifier = Modifier
-                    .fillMaxSize()
-            )
-        }
-
     }
 }
 
@@ -639,7 +583,7 @@ fun PreviewPoster()
 {
     TMDBUnofficialTheme()
     {
-        Poster(trend = trend, addToBookmark = {}, removeFromBookmark = {})
+        Poster(trend = trend)
     }
 }
 

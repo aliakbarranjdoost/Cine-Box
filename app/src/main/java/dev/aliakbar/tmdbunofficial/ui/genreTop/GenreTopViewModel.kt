@@ -16,9 +16,7 @@ import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.GenreTopRepository
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.source.GenreTopPagingSource
-import dev.aliakbar.tmdbunofficial.data.toBookmark
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 
 private const val PAGE_SIZE = 20
 
@@ -73,22 +71,6 @@ class GenreTopViewModel(
 
     fun invalidateDataSource() {
         pagingSource.invalidate()
-    }
-
-    fun addToBookmark(movie: Trend)
-    {
-        viewModelScope.launch()
-        {
-            repository.addTrendToBookmark(movie.toBookmark())
-        }
-    }
-
-    fun removeFromBookmark(movie: Trend)
-    {
-        viewModelScope.launch()
-        {
-            repository.removeFromBookmark(movie.toBookmark())
-        }
     }
 
     companion object

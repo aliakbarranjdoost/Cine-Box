@@ -11,15 +11,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
@@ -27,13 +21,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -81,8 +72,6 @@ fun TopScreen(
                 TopList(
                     tops = viewModel.getTopRatedMovies().collectAsLazyPagingItems(),
                     onNavigate = onNavigateToMovie,
-                    addToBookmark = { viewModel.addToBookmark(it) },
-                    removeFromBookmark = { viewModel.removeFromBookmark(it) },
                     modifier = Modifier.padding(16.dp)
                 )
             }
@@ -91,8 +80,6 @@ fun TopScreen(
                 TopList(
                     tops = viewModel.getTopRatedSeries().collectAsLazyPagingItems(),
                     onNavigate = onNavigateToTv,
-                    addToBookmark = { viewModel.addToBookmark(it) },
-                    removeFromBookmark = { viewModel.removeFromBookmark(it) },
                     modifier = Modifier.padding(16.dp)
                 )
             }
@@ -118,8 +105,6 @@ fun TopScreen(
 fun TopList(
     tops: LazyPagingItems<Trend>,
     onNavigate: (Int) -> Unit,
-    addToBookmark: (Trend) -> Unit,
-    removeFromBookmark: (Trend) -> Unit,
     modifier: Modifier = Modifier
 )
 {
@@ -137,9 +122,7 @@ fun TopList(
             {
                 TopItem(
                     top = it,
-                    onNavigateToDetails = { onNavigate(it.id) },
-                    addToBookmark = addToBookmark,
-                    removeFromBookmark = removeFromBookmark
+                    onNavigateToDetails = { onNavigate(it.id) }
                 )
             }
         }
@@ -148,11 +131,8 @@ fun TopList(
 
 @Composable
 fun TopItem(top: Trend, onNavigateToDetails: () -> Unit,
-            addToBookmark: (Trend) -> Unit,
-            removeFromBookmark: (Trend) -> Unit,
             modifier: Modifier = Modifier)
 {
-    var isBookmark by remember { mutableStateOf(top.isBookmark) }
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp
     val backdropHeight = (screenWidth * 0.5625).roundToInt()
@@ -178,35 +158,6 @@ fun TopItem(top: Trend, onNavigateToDetails: () -> Unit,
                 Rank(rank = top.rank, modifier = Modifier
                     .size(40.dp)
                     .align(Alignment.TopStart))
-                IconButton(
-                    onClick =
-                    {
-                        if (isBookmark)
-                        {
-                            removeFromBookmark(top)
-                        }
-                        else
-                        {
-                            addToBookmark(top)
-                        }
-
-                        isBookmark = !isBookmark
-                    },
-                    modifier = Modifier
-                        .size(48.dp)
-                        .padding(4.dp)
-                        .align(Alignment.BottomEnd)
-                )
-                {
-                    Icon(
-                        imageVector = if (isBookmark) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
-                        contentDescription = null,
-                        tint = if (isBookmark) Color.Yellow else LocalContentColor.current,
-                        modifier = Modifier
-                            .fillMaxSize()
-                    )
-                }
-
             }
 
             Text(

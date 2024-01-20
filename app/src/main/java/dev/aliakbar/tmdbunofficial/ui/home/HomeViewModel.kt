@@ -12,7 +12,6 @@ import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.HomeRepository
 import dev.aliakbar.tmdbunofficial.data.Trailer
 import dev.aliakbar.tmdbunofficial.data.Trend
-import dev.aliakbar.tmdbunofficial.data.toBookmark
 import dev.aliakbar.tmdbunofficial.data.toExternal
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -73,22 +72,6 @@ class HomeViewModel(
             {
                 HomeUiState.Error
             }
-        }
-    }
-
-    fun addToBookmark(trend: Trend)
-    {
-        viewModelScope.launch()
-        {
-            homeRepository.addTrendToBookmark(trend.toBookmark())
-        }
-    }
-
-    fun removeFromBookmark(trend: Trend)
-    {
-        viewModelScope.launch()
-        {
-            homeRepository.removeFromBookmark(trend)
         }
     }
 

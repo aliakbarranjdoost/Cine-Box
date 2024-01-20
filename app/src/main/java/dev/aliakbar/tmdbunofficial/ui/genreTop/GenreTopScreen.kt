@@ -38,8 +38,6 @@ fun GenreTopScreen(
                     onNavigateToTv(it)
                 }
             },
-            addToBookmark = {},
-            removeFromBookmark = {},
             modifier = Modifier.padding(start = 16.dp, end = 16.dp, top =  innerPadding.calculateTopPadding() + 16.dp)
         )
     }
