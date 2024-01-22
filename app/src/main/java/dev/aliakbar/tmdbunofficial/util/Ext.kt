@@ -1,6 +1,10 @@
 package dev.aliakbar.tmdbunofficial.util
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.ui.graphics.Color
+import dev.aliakbar.tmdbunofficial.R
+import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.PersonMovieAsCast
 import dev.aliakbar.tmdbunofficial.data.PersonMovieAsCrew
 import dev.aliakbar.tmdbunofficial.data.PersonTvAsCast
@@ -65,4 +69,17 @@ fun List<NetworkPersonMoviesAndTvs>.separateMoviesAndTvsCrew(
     }
 
     return Pair<List<PersonMovieAsCrew>,List<PersonTvAsCrew>>(movies,tvs)
+}
+
+fun Context.share(mediaType: MediaType, id: Int)
+{
+    val shareMessage = getString(R.string.share_message, mediaType.name.lowercase(), id)
+    val sendIntent: Intent = Intent().apply()
+    {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TEXT, shareMessage)
+        type = "text/plain"
+    }
+    val shareIntent = Intent.createChooser(sendIntent, "Share")
+    startActivity(shareIntent)
 }

@@ -49,6 +49,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -64,6 +65,7 @@ import dev.aliakbar.tmdbunofficial.data.Cast
 import dev.aliakbar.tmdbunofficial.data.Crew
 import dev.aliakbar.tmdbunofficial.data.Genre
 import dev.aliakbar.tmdbunofficial.data.Image
+import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.Movie
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.Video
@@ -76,6 +78,7 @@ import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.home.VideoDialog
 import dev.aliakbar.tmdbunofficial.util.YOUTUBE_THUMBNAIL_BASE_URL
 import dev.aliakbar.tmdbunofficial.util.YoutubeThumbnailSize
+import dev.aliakbar.tmdbunofficial.util.share
 
 const val OVERVIEW_PREVIEW_MAX_LINE = 3
 
@@ -123,6 +126,7 @@ fun MovieDetails(
     var showDetails by remember { mutableStateOf(false) }
     var showPosterFullscreen by remember { mutableStateOf(false) }
     var selectedImagePath by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -130,6 +134,7 @@ fun MovieDetails(
                 title = movie.title,
                 isBookmarkAlready = movie.isBookmark,
                 onNavigateBack = onNavigateBack,
+                onShare = { context.share(MediaType.MOVIE, movie.id) },
                 addToBookmark = { addToBookmark(movie) },
                 removeFromBookmark = { removeFromBookmark(movie) }
             )
@@ -632,6 +637,7 @@ fun TopBar(
     title: String,
     isBookmarkAlready: Boolean,
     onNavigateBack: () -> Unit,
+    onShare: () -> Unit,
     addToBookmark: () -> Unit,
     removeFromBookmark: () -> Unit)
 {
@@ -654,7 +660,7 @@ fun TopBar(
             }
         },
         actions = {
-            IconButton(onClick = { /* doSomething() */ }) {
+            IconButton(onClick = { onShare() }) {
                 Icon(
                     imageVector = Icons.Filled.Share,
                     contentDescription = "Localized description"

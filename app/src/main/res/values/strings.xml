@@ -20,6 +20,9 @@
     <string name = "light">Light</string>
     <string name = "dark">Dark</string>
 
+    <string name = "share_message">Lets Watch it together
+    https://www.themoviedb.org/%1$s/%2$d</string>
+
     <string-array name = "date_range_options">
         <item>@string/today</item>
         <item>@string/this_week</item>

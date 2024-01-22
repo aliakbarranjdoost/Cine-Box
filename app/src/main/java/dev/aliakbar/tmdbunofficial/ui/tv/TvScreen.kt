@@ -26,9 +26,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.Season
 import dev.aliakbar.tmdbunofficial.data.Tv
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
@@ -46,6 +48,7 @@ import dev.aliakbar.tmdbunofficial.ui.movie.RecommendationList
 import dev.aliakbar.tmdbunofficial.ui.movie.ShowPosterInFullscreenDialog
 import dev.aliakbar.tmdbunofficial.ui.movie.TopBar
 import dev.aliakbar.tmdbunofficial.ui.movie.VideoList
+import dev.aliakbar.tmdbunofficial.util.share
 
 @Composable
 fun TvScreen(
@@ -96,11 +99,13 @@ fun TvDetails(
     var showDetails by remember { mutableStateOf(false) }
     var showPosterFullscreen by remember { mutableStateOf(false) }
     var selectedImagePath by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     Scaffold(
         topBar = { TopBar(title = tv.name,
             isBookmarkAlready = false,
             onNavigateBack = onNavigateBack,
+            onShare = { context.share(MediaType.TV, tv.id) },
             addToBookmark = addToBookmark,
             removeFromBookmark = removeFromBookmark
         ) }
