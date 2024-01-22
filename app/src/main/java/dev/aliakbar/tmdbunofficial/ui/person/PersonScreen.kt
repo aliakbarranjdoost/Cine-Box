@@ -41,6 +41,7 @@ import dev.aliakbar.tmdbunofficial.ui.movie.DetailsHeader
 import dev.aliakbar.tmdbunofficial.ui.movie.ListHeader
 import dev.aliakbar.tmdbunofficial.ui.movie.OVERVIEW_PREVIEW_MAX_LINE
 
+// TODO: make backdrop path optional
 @Composable
 fun PersonScreen(
     onNavigateToMovie: (Int) -> Unit,
@@ -60,9 +61,9 @@ fun PersonScreen(
         {
             PersonScreen(
                 person = uiState.person,
-                onNavigateToMovie = {},
-                onNavigateToTv = {},
-                onNavigateBack = { /*TODO*/ })
+                onNavigateToMovie = { onNavigateToMovie(it) },
+                onNavigateToTv = { onNavigateToTv(it) },
+                onNavigateBack = { onNavigateBack() })
         }
     }
 }
@@ -149,25 +150,25 @@ fun PersonScreen(
             if (person.asMovieCast.isNotEmpty())
             {
                 ListHeader(header = "Movies as Cast")
-                CreditList(credits = person.asMovieCast, onNavigateToMovie = onNavigateToMovie)
+                CreditList(credits = person.asMovieCast, onNavigate = onNavigateToMovie)
             }
 
             if (person.asTvCast.isNotEmpty())
             {
                 ListHeader(header = "Tvs as Cast")
-                CreditList(credits = person.asTvCast, onNavigateToMovie = onNavigateToMovie)
+                CreditList(credits = person.asTvCast, onNavigate = onNavigateToTv)
             }
 
             if (person.asMovieCrew.isNotEmpty())
             {
                 ListHeader(header = "Movies as Crew")
-                CreditList(credits = person.asMovieCrew, onNavigateToMovie = onNavigateToMovie)
+                CreditList(credits = person.asMovieCrew, onNavigate = onNavigateToMovie)
             }
 
             if (person.asTvCrew.isNotEmpty())
             {
                 ListHeader(header = "Tvs as Crew")
-                CreditList(credits = person.asTvCrew, onNavigateToMovie = onNavigateToMovie)
+                CreditList(credits = person.asTvCrew, onNavigate = onNavigateToTv)
             }
         }
     }
@@ -176,7 +177,7 @@ fun PersonScreen(
 @Composable
 fun <T> CreditList(
     credits : List<T>,
-    onNavigateToMovie: (Int) -> Unit,
+    onNavigate: (Int) -> Unit,
     modifier: Modifier = Modifier)
 {
     val scrollState = rememberLazyListState()
@@ -196,28 +197,28 @@ fun <T> CreditList(
                         id = credit.id,
                         title = credit.title,
                         poster = credit.posterUrl,
-                        onNavigateToMovie = onNavigateToMovie
+                        onNavigate = onNavigate
                     )
                 is PersonTvAsCast ->
                     CreditItem(
                         id = credit.id,
                         title = credit.name,
                         poster = credit.posterUrl,
-                        onNavigateToMovie = onNavigateToMovie
+                        onNavigate = onNavigate
                     )
                 is PersonMovieAsCrew ->
                     CreditItem(
                         id = credit.id,
                         title = credit.title,
                         poster = credit.posterUrl,
-                        onNavigateToMovie = onNavigateToMovie
+                        onNavigate = onNavigate
                     )
                 is PersonTvAsCrew ->
                     CreditItem(
                         id = credit.id,
                         title = credit.name,
                         poster = credit.posterUrl,
-                        onNavigateToMovie = onNavigateToMovie
+                        onNavigate = onNavigate
                     )
             }
         }
@@ -227,10 +228,15 @@ fun <T> CreditList(
 }
 
 @Composable
-fun CreditItem(id: Int, title: String, poster: String, onNavigateToMovie: (Int) -> Unit)
+fun CreditItem(
+    id: Int,
+    title: String,
+    poster: String,
+    onNavigate: (Int) -> Unit
+)
 {
     Card(
-        onClick = { onNavigateToMovie(id) },
+        onClick = { onNavigate(id) },
         modifier = Modifier.size(width = 200.dp, height = 325.dp))
     {
         Column()
