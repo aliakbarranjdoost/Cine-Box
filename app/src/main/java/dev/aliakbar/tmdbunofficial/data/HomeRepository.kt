@@ -82,7 +82,7 @@ class HomeRepository(
         {
             val movieTrailers = networkDataSource.getMovieVideos(it.id).results.toExternal()
 
-            if (movieTrailers.isNotEmpty())
+            if (movieTrailers.isNotEmpty() && todayTrendingMovieTrailers.size <= 10)
             {
                 val trailer = findOfficialTrailerFromYoutube(movieTrailers)
                 if (trailer != null)

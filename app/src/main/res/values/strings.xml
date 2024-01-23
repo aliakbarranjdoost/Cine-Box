@@ -10,8 +10,8 @@
     <string name = "series_details">Series Details</string>
     <string name = "today">Today</string>
     <string name = "this_week">This Week</string>
-    <string name = "Movie">Movie</string>
-    <string name = "Series">Series</string>
+    <string name = "movie">Movie</string>
+    <string name = "series">Series</string>
     <string name = "episode_list">Episode List</string>
     <string name = "episode">Episode</string>
     <string name = "yes">Yes</string>
@@ -22,6 +22,9 @@
 
     <string name = "share_message">Lets Watch it together
     https://www.themoviedb.org/%1$s/%2$d</string>
+    <string name = "trending_movies">Trending Movies</string>
+    <string name = "trending_tvs">Trending Tvs</string>
+    <string name = "popular">Popular</string>
 
     <string-array name = "date_range_options">
         <item>@string/today</item>
@@ -29,7 +32,7 @@
     </string-array>
 
     <string-array name = "content_type_option">
-        <item>@string/Movie</item>
-        <item>@string/Series</item>
+        <item>@string/movie</item>
+        <item>@string/series</item>
     </string-array>
 </resources>

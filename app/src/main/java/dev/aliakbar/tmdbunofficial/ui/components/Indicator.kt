@@ -20,7 +20,7 @@ fun IndicatorList(itemCount: Int, selectedItem: Int, modifier: Modifier = Modifi
 {
     Row(
         horizontalArrangement = Arrangement.Center,
-        modifier = modifier.fillMaxWidth())
+        modifier = modifier.fillMaxWidth(0.5f).padding(bottom = 8.dp))
     {
         for( i in 0..<itemCount)
         {
