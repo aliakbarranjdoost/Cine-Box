@@ -35,5 +35,6 @@ data class SearchResult(
     val mediaType: MediaType,
     val releaseDate: String?,
     val knownForDepartment: String?,
-    val isBookmark: Boolean
+    val isBookmark: Boolean,
+//    val originCountries: List<String>?
 )

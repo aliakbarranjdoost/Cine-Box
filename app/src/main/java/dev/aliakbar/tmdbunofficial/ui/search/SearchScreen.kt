@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,6 +24,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -97,7 +97,7 @@ fun SearchScreen(
 
                     if (active && text.isNotEmpty())
                     {
-                        IconButton(onClick = { viewModel.setQuery( "" ) })
+                        IconButton(onClick = { viewModel.setQuery("") })
                         {
                             Icon(imageVector = Icons.Filled.Clear, contentDescription = null)
                         }
@@ -133,43 +133,37 @@ fun SearchScreen(
             }*/
         }
 
-        /*when (searchResult.loadState.refresh)
-        {
-            is LoadState.Loading -> CircularIndicator()
-            is LoadState.Error -> Text(text = "Error")
 
-            else ->
-            {*/
-                LazyColumn(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .padding(top = 56.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                )
-                {
-                    items(searchResult.itemCount)
-                    { index ->
-                        searchResult[index]?.let()
-                        { searchResult->
-                            CategoryItem(
-                                result = searchResult,
-                                onNavigate =
+        LazyColumn(
+            modifier = Modifier
+                .padding(16.dp)
+                .padding(top = 56.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        )
+        {
+            items(searchResult.itemCount)
+            { index ->
+                searchResult[index]?.let()
+                { searchResult ->
+                    SearchResultItem(
+                        result = searchResult,
+                        onNavigate =
+                        {
+                            val searchResultId = searchResult.id
+                            when (searchResult.mediaType)
+                            {
+                                MediaType.MOVIE -> onNavigateToMovie(searchResultId)
+                                MediaType.TV -> onNavigateToTv(searchResultId)
+                                MediaType.PERSON ->
                                 {
-                                    val searchResultId = searchResult.id
-                                    when (searchResult.mediaType)
-                                    {
-                                        MediaType.MOVIE   -> onNavigateToMovie(searchResultId)
-                                        MediaType.TV -> onNavigateToTv(searchResultId)
-                                        MediaType.PERSON -> { }
-                                    }
                                 }
-                            )
+                            }
                         }
-                    }
+                    )
                 }
             }
-        /*}
-    }*/
+        }
+    }
 }
 
 @Composable
@@ -192,50 +186,47 @@ fun SearchMenu(expanded: Boolean, onDismissRequest: () -> Unit, modifier: Modifi
 }
 
 @Composable
-fun CategoryItem(
+fun SearchResultItem(
     result: SearchResult,
     onNavigate: () -> Unit
 )
 {
-    Card(onClick = onNavigate)
+    Card(onClick = onNavigate, modifier = Modifier.fillMaxWidth())
     {
-        Row(modifier = Modifier.fillMaxSize())
+        Row()
         {
             Poster(
                 posterPath = result.posterUrl,
                 contentDescription = result.title,
             )
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(150.dp)
-            )
+            Box()
             {
                 Text(
                     text = result.title,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier
-                        .align(Alignment.TopStart)
                         .padding(8.dp)
+                        .align(Alignment.TopStart)
                 )
 
                 Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.align(Alignment.BottomStart)
+                    modifier = Modifier.align(
+                        Alignment.BottomStart
+                    )
                 ) {
                     Text(
                         text = if (result.mediaType != MediaType.PERSON) result.mediaType.toString()
                         else result.knownForDepartment!!,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                            .padding(8.dp)
                     )
+
+                    /*Text(text = if (result.mediaType != MediaType.PERSON) result.releaseDate)
+                    else result.knownForDepartment
+                    Text(text = result.)*/
                 }
             }
         }
@@ -249,8 +240,5 @@ fun Poster(
     modifier: Modifier = Modifier
 )
 {
-    Box(modifier = Modifier.size(width = 100.dp, height = 150.dp))
-    {
-        Image(url = posterPath, modifier = Modifier.fillMaxSize())
-    }
+    Image(url = posterPath, modifier = Modifier.size(width = 100.dp, height = 150.dp))
 }
