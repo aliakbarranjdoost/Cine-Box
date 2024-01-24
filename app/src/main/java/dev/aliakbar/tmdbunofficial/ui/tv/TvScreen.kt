@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package dev.aliakbar.tmdbunofficial.ui.tv
 
 import Carousel
@@ -16,6 +18,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -102,15 +105,17 @@ fun TvDetails(
     val context = LocalContext.current
 
     Scaffold(
-        topBar = { TopBar(title = tv.name,
-            isBookmarkAlready = false,
-            onNavigateBack = onNavigateBack,
-            onShare = { context.share(MediaType.TV, tv.id) },
-            addToBookmark = addToBookmark,
-            removeFromBookmark = removeFromBookmark
-        ) }
+        topBar = {
+            TopBar(
+                title = tv.name,
+                isBookmarkAlready = false,
+                onNavigateBack = onNavigateBack,
+                onShare = { context.share(MediaType.TV, tv.id) },
+                addToBookmark = addToBookmark,
+                removeFromBookmark = removeFromBookmark
+            ) }
     )
-    { innerPadding ->
+    {  innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)

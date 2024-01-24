@@ -5,6 +5,7 @@
 package dev.aliakbar.tmdbunofficial.ui.movie
 
 import Carousel
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,6 +14,7 @@ import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,6 +32,7 @@ import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.PlayCircleOutline
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -56,6 +59,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -79,11 +84,11 @@ import dev.aliakbar.tmdbunofficial.ui.components.CastItem
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ImageLoadingAnimation
-import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.home.VideoDialog
 import dev.aliakbar.tmdbunofficial.util.YOUTUBE_THUMBNAIL_BASE_URL
 import dev.aliakbar.tmdbunofficial.util.YoutubeThumbnailSize
 import dev.aliakbar.tmdbunofficial.util.share
+import kotlin.math.roundToInt
 
 const val OVERVIEW_PREVIEW_MAX_LINE = 3
 
@@ -116,6 +121,7 @@ fun MovieScreen(
     }
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MovieDetails(
     movie: Movie,
@@ -152,31 +158,64 @@ fun MovieDetails(
                 .verticalScroll(scrollState)
         )
         {
-            Box(
-                modifier = Modifier
+            val configuration = LocalConfiguration.current
+            val screenWidth = configuration.screenWidthDp
+            val backdropHeight = (screenWidth * 0.5625).roundToInt()
+
+            Image(
+                url = movie.backdropUrl, modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(backdropHeight.dp)
             )
-            {
-                Image(
-                    url = movie.backdropUrl, modifier = Modifier
-                        .fillMaxWidth()
-                        .height(230.dp)
-                        .align(Alignment.Center)
+
+            Text(
+                text = movie.title,
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.padding(16.dp)
+            )
+
+            Row(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+            ) {
+                Text(
+                    text = "%.${1}f".format(movie.voteAverage),
+                    fontWeight = FontWeight.Medium,
                 )
-                ScoreBar(
-                    score = movie.voteAverage,
-                    modifier = Modifier.align(Alignment.BottomStart)
+                Text(
+                    text = "/10",
+                    fontWeight = FontWeight.Normal,
+                )
+
+                Icon(
+                    imageVector = Icons.Filled.Star,
+                    contentDescription = null,
+                    tint = Color.Yellow,
+                )
+
+                Text(text = " | ")
+
+                Text(
+                    text = "${movie.runtime / 60} h ${movie.runtime % 60} min",
+                    fontWeight = FontWeight.Medium
+                )
+
+                Text(text = " | ")
+
+                Text(
+                    text = movie.releaseDate.substring(0..3),
+                    fontWeight = FontWeight.Medium
                 )
             }
+
 
             if (!showDetails)
             {
                 Text(
-                    text = movie.overview,
+                    text = movie.tagline,
                     maxLines = OVERVIEW_PREVIEW_MAX_LINE,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
+                    style = MaterialTheme.typography.titleMedium
                 )
 
                 TextButton(
@@ -191,19 +230,27 @@ fun MovieDetails(
             {
                 Column(modifier = Modifier.padding(16.dp))
                 {
-                    Text(text = movie.overview)
+                    Text(
+                        text = movie.tagline,
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+
+                    Text(text = movie.overview, modifier = Modifier.padding(bottom = 8.dp))
+
                     DetailsHeader(header = "Genres")
                     GenreList(genres = movie.genres, onNavigateToGenreTop = onNavigateToGenreTop, type = true)
-                    DetailsHeader(header = "Original Language")
-                    Text(text = movie.originalLanguage)
-                    DetailsHeader(header = "Release Date")
-                    Text(text = movie.releaseDate)
-                    DetailsHeader(header = "Home Page")
-                    Text(text = movie.homepage)
-                    DetailsHeader(header = "Runtime")
-                    Text(text = "${movie.runtime / 60}h,${movie.runtime % 60}m")
-                    DetailsHeader(header = "Status")
-                    Text(text = movie.status)
+
+                    if (movie.homepage != null)
+                    {
+                        val uriHandler = LocalUriHandler.current
+
+                        DetailsHeader(header = "Home Page")
+                        TextButton(onClick = { uriHandler.openUri(movie.homepage) }) {
+                            Text(text = movie.homepage)
+                        }
+                    }
+
                     TextButton(
                         onClick = { showDetails = false },
                         modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
@@ -691,7 +738,7 @@ fun TopBar(
                     contentDescription = null
                 )
             }
-        },
+        }
     )
 }
 

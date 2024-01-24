@@ -129,7 +129,7 @@ fun TmdbNavHost(
 {
     NavHost(
         navController = navController,
-        startDestination = Top.route,
+        startDestination = Bookmark.route,
         modifier = modifier
     )
     {
