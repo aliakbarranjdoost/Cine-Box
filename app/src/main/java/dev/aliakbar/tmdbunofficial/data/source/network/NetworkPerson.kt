@@ -26,12 +26,12 @@ data class NetworkPersonDetails(
     val homepage: String? = null,
     val id: Int,
     @SerialName("imdb_id")
-    val imdbId : String,
+    val imdbId : String? = null,
     @SerialName("known_for_department")
     val knownForDepartment: String,
     val name: String,
     @SerialName("place_of_birth")
-    val placeOfBirth: String,
+    val placeOfBirth: String? = null,
     val popularity: Float,
     @SerialName("profile_path")
     val profilePath: String,

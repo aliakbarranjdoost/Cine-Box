@@ -135,8 +135,13 @@ fun PersonScreen(
                         DetailsHeader(header = "Day of Death")
                         Text(text = person.deathDay)
                     }
-                    DetailsHeader(header = "Place of Birth")
-                    Text(text = person.placeOfBirth)
+
+                    if (person.placeOfBirth != null)
+                    {
+                        DetailsHeader(header = "Place of Birth")
+                        Text(text = person.placeOfBirth)
+                    }
+
                     TextButton(
                         onClick = { showDetails = false },
                         modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
