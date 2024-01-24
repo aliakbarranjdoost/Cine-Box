@@ -1,7 +1,8 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
 package dev.aliakbar.tmdbunofficial.ui.top
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -25,6 +25,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -37,7 +39,6 @@ import androidx.paging.compose.itemKey
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.ui.components.Image
-import dev.aliakbar.tmdbunofficial.ui.components.Rank
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 import kotlin.math.roundToInt
 
@@ -122,7 +123,7 @@ fun TopList(
             {
                 TopItem(
                     top = it,
-                    onNavigateToDetails = { onNavigate(it.id) }
+                    onNavigate = { onNavigate(it.id) }
                 )
             }
         }
@@ -130,44 +131,61 @@ fun TopList(
 }
 
 @Composable
-fun TopItem(top: Trend, onNavigateToDetails: () -> Unit,
-            modifier: Modifier = Modifier)
+fun TopItem(
+    top: Trend,
+    onNavigate: () -> Unit
+)
 {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp
     val backdropHeight = (screenWidth * 0.5625).roundToInt()
 
+    val colorStops = listOf(
+        Color.Black.copy(alpha = 0.0f),
+        Color.Black.copy(alpha = 0.8f)
+    )
     Card(
-        onClick = onNavigateToDetails,
+        onClick = { onNavigate() },
         modifier = Modifier
             .fillMaxWidth()
-            .height(backdropHeight.dp + 46.dp),
+            .height(backdropHeight.dp),
         shape = CardDefaults.shape
     )
     {
-        Column(modifier = Modifier.fillMaxSize())
+        Box(
+            modifier = Modifier.fillMaxSize()
+        )
         {
-            Box(modifier = Modifier
-                .height(backdropHeight.dp)
-                .fillMaxWidth())
-            {
-                Image(
-                    url = top.poster, modifier = Modifier
-                        .fillMaxSize()
-                )
-                Rank(rank = top.rank, modifier = Modifier
-                    .size(40.dp)
-                    .align(Alignment.TopStart))
-            }
+            Image(
+                url = top.backdrop,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Brush.verticalGradient(colors = colorStops))
+            )
+
+            Text(
+                text = top.rank.toString(),
+                maxLines = 1,
+                color = Color.White,
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.TopStart),
+            )
 
             Text(
                 text = top.title,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.titleLarge,
+                color = Color.White,
                 modifier = Modifier
-                    .weight(1F)
-                    .fillMaxWidth(),
-                style = MaterialTheme.typography.headlineSmall
+                    .padding(start = 16.dp, bottom = 16.dp)
+                    .align(Alignment.BottomStart)
             )
         }
     }
