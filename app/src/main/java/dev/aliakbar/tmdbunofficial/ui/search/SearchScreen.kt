@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,10 +18,11 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -34,7 +36,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -51,6 +55,7 @@ private val TAG: String = "Search"
 fun SearchScreen(
     onNavigateToMovie: (Int) -> Unit,
     onNavigateToTv: (Int) -> Unit,
+    onNavigateToPerson: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = viewModel(factory = SearchViewModel.factory)
 )
@@ -136,8 +141,7 @@ fun SearchScreen(
 
         LazyColumn(
             modifier = Modifier
-                .padding(16.dp)
-                .padding(top = 56.dp),
+                .padding(start = 16.dp, end = 16.dp , top = 72.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         )
         {
@@ -154,9 +158,7 @@ fun SearchScreen(
                             {
                                 MediaType.MOVIE -> onNavigateToMovie(searchResultId)
                                 MediaType.TV -> onNavigateToTv(searchResultId)
-                                MediaType.PERSON ->
-                                {
-                                }
+                                MediaType.PERSON -> onNavigateToPerson(searchResultId)
                             }
                         }
                     )
@@ -191,7 +193,10 @@ fun SearchResultItem(
     onNavigate: () -> Unit
 )
 {
-    Card(onClick = onNavigate, modifier = Modifier.fillMaxWidth())
+    ElevatedCard(
+        onClick = onNavigate,
+        modifier = Modifier.fillMaxWidth(),
+    )
     {
         Row()
         {
@@ -200,7 +205,7 @@ fun SearchResultItem(
                 contentDescription = result.title,
             )
 
-            Box()
+            Box(modifier = Modifier.height(150.dp))
             {
                 Text(
                     text = result.title,
@@ -213,20 +218,52 @@ fun SearchResultItem(
                 )
 
                 Row(
-                    modifier = Modifier.align(
-                        Alignment.BottomStart
-                    )
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .align(Alignment.BottomStart)
                 ) {
                     Text(
                         text = if (result.mediaType != MediaType.PERSON) result.mediaType.toString()
                         else result.knownForDepartment!!,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier
+                            .weight(0.3f)
                     )
 
-                    /*Text(text = if (result.mediaType != MediaType.PERSON) result.releaseDate)
-                    else result.knownForDepartment
-                    Text(text = result.)*/
+                    if (result.mediaType == MediaType.MOVIE || result.mediaType == MediaType.TV)
+                    {
+                        result.releaseDate?.substring(0..3)?.let()
+                        {
+                            Text(
+                                text = it,
+                                fontWeight = FontWeight.Medium,
+                                modifier = Modifier
+                                    .weight(0.3f)
+                            )
+                        }
+
+                        Row(
+                            modifier = Modifier.weight(0.3f)
+
+                        ) {
+                            Text(
+                                text = "%.${1}f".format(result.score),
+                                fontWeight = FontWeight.Medium,
+                            )
+                            Text(
+                                text = "/10",
+                                fontWeight = FontWeight.Normal,
+                            )
+                            Icon(
+                                imageVector = Icons.Filled.Star,
+                                contentDescription = null,
+                                tint = Color.Yellow,
+                                modifier = Modifier.weight(0.1f)
+                            )
+                        }
+                    }
                 }
             }
         }

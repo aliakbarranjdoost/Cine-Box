@@ -129,7 +129,7 @@ fun TmdbNavHost(
 {
     NavHost(
         navController = navController,
-        startDestination = Home.route,
+        startDestination = Top.route,
         modifier = modifier
     )
     {
@@ -152,6 +152,7 @@ fun TmdbNavHost(
             SearchScreen(
                 onNavigateToMovie = { navController.navigateToMovie(it) },
                 onNavigateToTv = { navController.navigateToTv(it) },
+                onNavigateToPerson = { navController.navigateToPerson(it) },
             )
         }
         composable(route = Top.route)
