@@ -33,24 +33,24 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.Season
 import dev.aliakbar.tmdbunofficial.data.Tv
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
+import dev.aliakbar.tmdbunofficial.ui.components.DetailsHeader
 import dev.aliakbar.tmdbunofficial.ui.components.Image
+import dev.aliakbar.tmdbunofficial.ui.components.ListTitleText
+import dev.aliakbar.tmdbunofficial.ui.components.PersonList
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
+import dev.aliakbar.tmdbunofficial.ui.components.TopBar
+import dev.aliakbar.tmdbunofficial.ui.components.VideoList
 import dev.aliakbar.tmdbunofficial.ui.movie.BackdropList
-import dev.aliakbar.tmdbunofficial.ui.movie.CastList
-import dev.aliakbar.tmdbunofficial.ui.movie.CrewList
-import dev.aliakbar.tmdbunofficial.ui.movie.DetailsHeader
 import dev.aliakbar.tmdbunofficial.ui.movie.GenreList
-import dev.aliakbar.tmdbunofficial.ui.movie.ListHeader
-import dev.aliakbar.tmdbunofficial.ui.movie.OVERVIEW_PREVIEW_MAX_LINE
 import dev.aliakbar.tmdbunofficial.ui.movie.PosterList
 import dev.aliakbar.tmdbunofficial.ui.movie.RecommendationList
 import dev.aliakbar.tmdbunofficial.ui.movie.ShowPosterInFullscreenDialog
-import dev.aliakbar.tmdbunofficial.ui.movie.TopBar
-import dev.aliakbar.tmdbunofficial.ui.movie.VideoList
+import dev.aliakbar.tmdbunofficial.util.OVERVIEW_PREVIEW_MAX_LINE
 import dev.aliakbar.tmdbunofficial.util.share
 
 @Composable
@@ -188,27 +188,27 @@ fun TvDetails(
                 }
             }
 
-            ListHeader(header = "Seasons")
+            ListTitleText(title = R.string.seasons)
             SeasonList(
                 seasons = tv.seasons,
                 onNavigateToSeason = { onNavigateToSeason(tv.id, it) }
             )
 
-            ListHeader(header = "Cast")
-            CastList(casts = tv.casts, onNavigateToPerson = onNavigateToPerson)
+            ListTitleText(title = R.string.casts)
+            PersonList(persons = tv.casts, onNavigateToPerson = onNavigateToPerson)
 
-            ListHeader(header = "Crew")
-            CrewList(crews = tv.crews, onNavigateToPerson = onNavigateToPerson)
+            ListTitleText(title = R.string.crews)
+            PersonList(persons = tv.crews, onNavigateToPerson = onNavigateToPerson)
 
             if (tv.videos.isNotEmpty())
             {
-                ListHeader(header = "Videos")
+                ListTitleText(title = R.string.videos)
                 VideoList(videos = tv.videos, {})
             }
 
             if (tv.posters.isNotEmpty())
             {
-                ListHeader(header = "Posters")
+                ListTitleText(title = R.string.posters)
                 PosterList(posters = tv.posters,
                     {
                         selectedImagePath = it.fileUrl
@@ -218,7 +218,7 @@ fun TvDetails(
 
             if (tv.backdrops.isNotEmpty())
             {
-                ListHeader(header = "Backdrops")
+                ListTitleText(title = R.string.backdrops)
                 BackdropList(backdrops = tv.backdrops,
                     {
                         selectedImagePath = it.fileUrl
@@ -228,7 +228,7 @@ fun TvDetails(
 
             if (tv.recommendations.isNotEmpty())
             {
-                ListHeader(header = "Recommendations")
+                ListTitleText(title = R.string.recommendations)
 
                 RecommendationList(
                     recommendations = tv.recommendations,

@@ -2,12 +2,18 @@ package dev.aliakbar.tmdbunofficial.data
 
 data class Person(
     val id: Int,
+    val name: String,
+    val role: String,
+    val profileUrl: String
+)
+
+data class CreatedBy(
+    val id: Int,
     val creditId: String,
     val name: String,
     val gender: Int,
     val profileUrl: String
 )
-
 data class PersonDetails(
     val adult: Boolean,
     val alsoKnownAs: List<String>,

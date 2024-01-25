@@ -6,7 +6,6 @@ package dev.aliakbar.tmdbunofficial.ui.home
 
 import Carousel
 import android.content.res.Configuration
-import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -51,7 +50,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringArrayResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -72,6 +70,7 @@ import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ImageLoadingAnimation
 import dev.aliakbar.tmdbunofficial.ui.components.IndicatorList
+import dev.aliakbar.tmdbunofficial.ui.components.ListTitleText
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 import dev.aliakbar.tmdbunofficial.util.YOUTUBE_THUMBNAIL_BASE_URL
@@ -433,16 +432,6 @@ fun VideoDialog(
             YoutubeVideoPlayer(id = videoId, lifecycleOwner = lifecycleOwner)
         }
     }
-}
-
-@Composable
-fun ListTitleText(@StringRes title: Int, modifier: Modifier = Modifier)
-{
-    Text(
-        text = stringResource(id = title),
-        style = MaterialTheme.typography.titleMedium,
-        modifier = modifier,
-    )
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)

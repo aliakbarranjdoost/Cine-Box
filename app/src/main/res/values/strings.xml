@@ -25,6 +25,27 @@
     <string name = "trending_movies">Trending Movies</string>
     <string name = "trending_tvs">Trending Tvs</string>
     <string name = "popular">Popular</string>
+    <string name = "casts">Casts</string>
+    <string name = "crews">Crews</string>
+    <string name = "videos">Videos</string>
+    <string name = "posters">Posters</string>
+    <string name = "backdrops">Backdrops</string>
+    <string name = "recommendations">Recommendations</string>
+    <string name = "more_details">More Details</string>
+    <string name = "genres">Genres</string>
+    <string name = "home_page">Home Page</string>
+    <string name = "less_details">Less Details</string>
+    <string name = "guest_stars">Guest Stars</string>
+    <string name = "stills">Stills</string>
+    <string name = "known_for">Known For</string>
+    <string name = "birthday">Birthday</string>
+    <string name = "day_of_death">Day of Death</string>
+    <string name = "place_of_birth">Place of Birth</string>
+    <string name = "movies_as_cast">Movies as Cast</string>
+    <string name = "tvs_as_cast">Tvs as Cast</string>
+    <string name = "movies_as_crew">Movies as Crew</string>
+    <string name = "tvs_as_crew">Tvs as Crew</string>
+    <string name = "seasons">Seasons</string>
 
     <string-array name = "date_range_options">
         <item>@string/today</item>

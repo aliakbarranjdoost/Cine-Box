@@ -33,8 +33,8 @@ data class EpisodeDetails(
     val seasonNumber: Int,
     val stillUrl: String?,
     val stills: List<Image>,
-    val casts: List<Cast>,
-    val crews: List<Crew>,
-    val guestStars: List<Cast>,
+    val casts: List<Person>,
+    val crews: List<Person>,
+    val guestStars: List<Person>,
     val videos: List<Video>
 )

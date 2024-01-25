@@ -7,6 +7,7 @@ import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCast
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCollection
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCompany
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCountry
+import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCreatedBy
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCrew
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkEpisode
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkEpisodeDetails
@@ -16,7 +17,6 @@ import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkLanguage
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkMovieDetails
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkMultiSearchResult
-import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPerson
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPersonDetails
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPersonMoviesAndTvs
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPopularMovie
@@ -301,8 +301,8 @@ fun NetworkMovieDetails.toExternal(
     genres = genres.toExternal(),
     spokenLanguages = spokenLanguages.toExternal(),
     productionCompanies = productionCompanies.toExternal(baseLogoUrl),
-    casts = credits.cast.toExternal(baseProfileUrl),
-    crews = credits.crew.toExternal(baseProfileUrl),
+    casts = credits.cast.toPerson(baseProfileUrl),
+    crews = credits.crew.toPerson(baseProfileUrl),
     videos = videos.results.toExternal(),
     posters = images.posters.toExternal(basePosterUrl),
     backdrops = images.backdrops.toExternal(baseBackdropUrl),
@@ -553,8 +553,8 @@ fun NetworkTvDetails.toExternal(
     genres = genres.toExternal(),
 //    spokenLanguages = spokenLanguages.toExternal(),
 //    productionCompanies = productionCompanies.toExternal(baseLogoUrl),
-    casts = credits.cast.toExternal(baseProfileUrl),
-    crews = credits.crew.toExternal(baseProfileUrl),
+    casts = credits.cast.toPerson(baseProfileUrl),
+    crews = credits.crew.toPerson(baseProfileUrl),
     videos = videos.results.toExternal(),
     posters = images.posters.toExternal(basePosterUrl),
     backdrops = images.backdrops.toExternal(baseBackdropUrl),
@@ -620,12 +620,12 @@ fun NetworkEpisode.toExternal(baseStillUrl: String) = Episode(
 @JvmName("NetworkEpisodeToExternal")
 fun List<NetworkEpisode>.toExternal(baseStillPath: String) = map { it.toExternal(baseStillPath) }
 
-fun NetworkPerson.toExternal(baseProfileUrl: String) = Person(
+fun NetworkCreatedBy.toExternal(baseProfileUrl: String) = CreatedBy(
     id, creditId, name, gender, baseProfileUrl + profilePath
 )
 
 @JvmName("NetworkPersonToExternal")
-fun List<NetworkPerson>.toExternal(baseProfileUrl: String) = map { it.toExternal(baseProfileUrl) }
+fun List<NetworkCreatedBy>.toExternal(baseProfileUrl: String) = map { it.toExternal(baseProfileUrl) }
 
 fun NetworkEpisodeDetails.toExternal(
     baseStillUrl: String,
@@ -644,9 +644,9 @@ fun NetworkEpisodeDetails.toExternal(
     seasonNumber = seasonNumber,
     stillUrl = baseStillUrl + stillPath,
     stills = images.stills.toExternal(baseStillUrl),
-    casts = credits.cast.toExternal(baseProfileUrl),
-    crews = credits.crew.toExternal(baseProfileUrl),
-    guestStars = credits.guestStars.toExternal(baseProfileUrl),
+    casts = credits.cast.toPerson(baseProfileUrl),
+    crews = credits.crew.toPerson(baseProfileUrl),
+    guestStars = credits.guestStars.toPerson(baseProfileUrl),
     videos = videos.results.toExternal()
 )
 
@@ -834,3 +834,23 @@ fun PersonTvAsCrew.toTrend() = Trend(
 )
 
 */
+
+fun NetworkCast.toPerson(baseProfileUrl: String) = Person(
+    id = id,
+    name = name,
+    role = character,
+    profileUrl = baseProfileUrl + profilePath
+)
+
+@JvmName("NetworkCastToPeople")
+fun List<NetworkCast>.toPerson(baseProfileUrl: String) = map { it.toPerson(baseProfileUrl) }
+
+fun NetworkCrew.toPerson(baseProfileUrl: String) = Person(
+    id = id,
+    name = name,
+    role = department,
+    profileUrl = baseProfileUrl + profilePath
+)
+
+@JvmName("NetworkCrewToPeople")
+fun List<NetworkCrew>.toPerson(baseProfileUrl: String) = map { it.toPerson(baseProfileUrl) }

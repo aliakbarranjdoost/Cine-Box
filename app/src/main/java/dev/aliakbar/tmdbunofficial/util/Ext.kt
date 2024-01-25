@@ -14,6 +14,7 @@ import dev.aliakbar.tmdbunofficial.data.toExternalMovieCast
 import dev.aliakbar.tmdbunofficial.data.toExternalMovieCrew
 import dev.aliakbar.tmdbunofficial.data.toExternalTvCast
 import dev.aliakbar.tmdbunofficial.data.toExternalTvCrew
+import kotlin.math.roundToInt
 
 fun Float.toDegree(): Float
 {
@@ -82,4 +83,9 @@ fun Context.share(mediaType: MediaType, id: Int)
     }
     val shareIntent = Intent.createChooser(sendIntent, "Share")
     startActivity(shareIntent)
+}
+
+fun calculateBackdropHeight(screenWidth : Int): Int
+{
+    return (screenWidth * 0.5625).roundToInt()
 }

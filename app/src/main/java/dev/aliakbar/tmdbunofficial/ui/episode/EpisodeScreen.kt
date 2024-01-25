@@ -20,18 +20,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.EpisodeDetails
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
+import dev.aliakbar.tmdbunofficial.ui.components.DetailsHeader
 import dev.aliakbar.tmdbunofficial.ui.components.Image
+import dev.aliakbar.tmdbunofficial.ui.components.ListTitleText
+import dev.aliakbar.tmdbunofficial.ui.components.PersonList
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.components.TopBar
-import dev.aliakbar.tmdbunofficial.ui.movie.CastList
-import dev.aliakbar.tmdbunofficial.ui.movie.CrewList
-import dev.aliakbar.tmdbunofficial.ui.movie.DetailsHeader
-import dev.aliakbar.tmdbunofficial.ui.movie.ListHeader
-import dev.aliakbar.tmdbunofficial.ui.movie.OVERVIEW_PREVIEW_MAX_LINE
+import dev.aliakbar.tmdbunofficial.ui.components.VideoList
 import dev.aliakbar.tmdbunofficial.ui.movie.PosterList
-import dev.aliakbar.tmdbunofficial.ui.movie.VideoList
+import dev.aliakbar.tmdbunofficial.util.OVERVIEW_PREVIEW_MAX_LINE
 
 @Composable
 fun EpisodeScreen(
@@ -141,21 +141,21 @@ fun EpisodeScreen(
                 }
             }
 
-            ListHeader(header = "Cast")
+            ListTitleText(title = R.string.casts)
 
-            CastList(casts = episode.casts, onNavigateToPerson = onNavigateToPerson)
+            PersonList(persons = episode.casts, onNavigateToPerson = onNavigateToPerson)
 
-            ListHeader(header = "Crew")
+            ListTitleText(title = R.string.crews)
 
-            CrewList(crews = episode.crews, onNavigateToPerson = onNavigateToPerson)
+            PersonList(persons = episode.crews, onNavigateToPerson = onNavigateToPerson)
 
-            ListHeader(header = "Guest Stars")
+            ListTitleText(title = R.string.guest_stars)
 
-            CastList(casts = episode.guestStars, onNavigateToPerson = onNavigateToPerson)
+            PersonList(persons = episode.guestStars, onNavigateToPerson = onNavigateToPerson)
 
             if (episode.stills.isNotEmpty())
             {
-                ListHeader(header = "Stills")
+                ListTitleText(title = R.string.stills)
                 PosterList(posters = episode.stills,
                     {
                         selectedImagePath = it.fileUrl
@@ -165,7 +165,7 @@ fun EpisodeScreen(
 
             if (episode.videos.isNotEmpty())
             {
-                ListHeader(header = "Videos")
+                ListTitleText(title = R.string.videos)
                 VideoList(videos = episode.videos, {})
             }
         }

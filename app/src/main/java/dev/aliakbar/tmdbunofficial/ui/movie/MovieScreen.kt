@@ -1,21 +1,10 @@
-@file:OptIn(
-    ExperimentalMaterial3Api::class
-)
-
 package dev.aliakbar.tmdbunofficial.ui.movie
 
 import Carousel
-import android.annotation.SuppressLint
-import android.content.res.Configuration
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,20 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.BookmarkBorder
-import androidx.compose.material.icons.filled.PlayCircleOutline
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -48,29 +24,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.AsyncImagePainter
-import coil.compose.SubcomposeAsyncImage
-import coil.compose.SubcomposeAsyncImageContent
+import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Cast
 import dev.aliakbar.tmdbunofficial.data.Crew
 import dev.aliakbar.tmdbunofficial.data.Genre
@@ -78,19 +45,22 @@ import dev.aliakbar.tmdbunofficial.data.Image
 import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.Movie
 import dev.aliakbar.tmdbunofficial.data.Trend
-import dev.aliakbar.tmdbunofficial.data.Video
 import dev.aliakbar.tmdbunofficial.data.source.sample.movie
 import dev.aliakbar.tmdbunofficial.ui.components.CastItem
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
+import dev.aliakbar.tmdbunofficial.ui.components.DetailsHeader
 import dev.aliakbar.tmdbunofficial.ui.components.Image
-import dev.aliakbar.tmdbunofficial.ui.components.ImageLoadingAnimation
-import dev.aliakbar.tmdbunofficial.ui.home.VideoDialog
-import dev.aliakbar.tmdbunofficial.util.YOUTUBE_THUMBNAIL_BASE_URL
-import dev.aliakbar.tmdbunofficial.util.YoutubeThumbnailSize
+import dev.aliakbar.tmdbunofficial.ui.components.ListTitleText
+import dev.aliakbar.tmdbunofficial.ui.components.MainDetailsRow
+import dev.aliakbar.tmdbunofficial.ui.components.PersonList
+import dev.aliakbar.tmdbunofficial.ui.components.ShowMoreDetailsButton
+import dev.aliakbar.tmdbunofficial.ui.components.SubDetailsRow
+import dev.aliakbar.tmdbunofficial.ui.components.TaglineText
+import dev.aliakbar.tmdbunofficial.ui.components.TitleText
+import dev.aliakbar.tmdbunofficial.ui.components.TopBar
+import dev.aliakbar.tmdbunofficial.ui.components.VideoList
+import dev.aliakbar.tmdbunofficial.util.calculateBackdropHeight
 import dev.aliakbar.tmdbunofficial.util.share
-import kotlin.math.roundToInt
-
-const val OVERVIEW_PREVIEW_MAX_LINE = 3
 
 @Composable
 fun MovieScreen(
@@ -102,9 +72,7 @@ fun MovieScreen(
     viewModel: MovieViewModel = viewModel(factory = MovieViewModel.factory)
 )
 {
-    val uiState = viewModel.movieUiState
-
-    when (uiState)
+    when (val uiState = viewModel.movieUiState)
     {
         is MovieUiState.Loading -> CircularIndicator()
         is MovieUiState.Success -> MovieDetails(
@@ -121,7 +89,6 @@ fun MovieScreen(
     }
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MovieDetails(
     movie: Movie,
@@ -135,7 +102,7 @@ fun MovieDetails(
 {
     val scrollState = rememberScrollState()
     var showDetails by remember { mutableStateOf(false) }
-    var showPosterFullscreen by remember { mutableStateOf(false) }
+    var showImageFullscreen by remember { mutableStateOf(false) }
     var selectedImagePath by remember { mutableStateOf("") }
     val context = LocalContext.current
 
@@ -158,180 +125,144 @@ fun MovieDetails(
                 .verticalScroll(scrollState)
         )
         {
-            val configuration = LocalConfiguration.current
-            val screenWidth = configuration.screenWidthDp
-            val backdropHeight = (screenWidth * 0.5625).roundToInt()
+            val backdropHeight = calculateBackdropHeight(LocalConfiguration.current.screenWidthDp)
 
             Image(
-                url = movie.backdropUrl, modifier = Modifier
+                url = movie.backdropUrl,
+                modifier = Modifier
                     .fillMaxWidth()
                     .height(backdropHeight.dp)
             )
 
-            Text(
-                text = movie.title,
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(16.dp)
-            )
+            TitleText(title = movie.title, modifier = Modifier.padding(16.dp))
 
-            Row(
+            MainDetailsRow(
+                voteAverage = movie.voteAverage,
+                runtime = movie.runtime,
+                releaseDate = movie.releaseDate,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp)
-            ) {
-                Text(
-                    text = "%.${1}f".format(movie.voteAverage),
-                    fontWeight = FontWeight.Medium,
-                )
-                Text(
-                    text = "/10",
-                    fontWeight = FontWeight.Normal,
-                )
-
-                Icon(
-                    imageVector = Icons.Filled.Star,
-                    contentDescription = null,
-                    tint = Color.Yellow,
-                )
-
-                Text(text = " | ")
-
-                Text(
-                    text = "${movie.runtime / 60} h ${movie.runtime % 60} min",
-                    fontWeight = FontWeight.Medium
-                )
-
-                Text(text = " | ")
-
-                Text(
-                    text = movie.releaseDate.substring(0..3),
-                    fontWeight = FontWeight.Medium
-                )
-            }
-
+            )
 
             if (!showDetails)
             {
-                Text(
-                    text = movie.tagline,
-                    maxLines = OVERVIEW_PREVIEW_MAX_LINE,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
-                    style = MaterialTheme.typography.titleMedium
+                TaglineText(
+                    tagline = movie.tagline,
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)
                 )
 
-                TextButton(
-                    onClick = { showDetails = true },
-                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
+                ShowMoreDetailsButton(
+                    showMore = showDetails,
+                    onClick = { showDetails = !showDetails },
+                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
                 )
-                {
-                    Text(text = "More Details")
-                }
             }
             else
             {
                 Column(modifier = Modifier.padding(16.dp))
                 {
-                    Text(
-                        text = movie.tagline,
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(bottom = 8.dp)
+                    TaglineText(
+                        tagline = movie.tagline,
+                        modifier = Modifier.padding(8.dp)
                     )
 
-                    Text(text = movie.overview, modifier = Modifier.padding(bottom = 8.dp))
-
-                    DetailsHeader(header = "Genres")
-                    GenreList(genres = movie.genres, onNavigateToGenreTop = onNavigateToGenreTop, type = true)
-
-                    if (movie.homepage != null)
-                    {
-                        val uriHandler = LocalUriHandler.current
-
-                        DetailsHeader(header = "Home Page")
-                        TextButton(onClick = { uriHandler.openUri(movie.homepage) }) {
-                            Text(text = movie.homepage)
-                        }
-                    }
-
-                    TextButton(
-                        onClick = { showDetails = false },
-                        modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
+                    SubDetailsRow(
+                        overview = movie.overview,
+                        homepage = movie.homepage,
+                        modifier = Modifier.padding(8.dp)
                     )
-                    {
-                        Text(text = "less Details")
-                    }
+
+                    DetailsHeader(header = stringResource(R.string.genres))
+
+                    GenreList(
+                        genres = movie.genres,
+                        onNavigateToGenreTop = onNavigateToGenreTop,
+                        type = true
+                    )
+
+                    ShowMoreDetailsButton(
+                        showMore = showDetails,
+                        onClick = { showDetails = !showDetails },
+                        modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                    )
                 }
             }
 
-
-            CastList(casts = movie.casts, onNavigateToPerson = onNavigateToPerson)
-
-            ListHeader(header = "Crew")
-
-            CrewList(crews = movie.crews, onNavigateToPerson = onNavigateToPerson)
-
-            if (movie.videos.isNotEmpty())
+            Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
             {
-                ListHeader(header = "Videos")
-                VideoList(videos = movie.videos, {})
-            }
-
-            if (movie.posters.isNotEmpty())
-            {
-                ListHeader(header = "Posters")
-                PosterList(posters = movie.posters,
-                    {
-                        selectedImagePath = it.fileUrl
-                        showPosterFullscreen = true
-                    })
-            }
-
-            if (movie.backdrops.isNotEmpty())
-            {
-                ListHeader(header = "Backdrops")
-                BackdropList(backdrops = movie.backdrops,
-                    {
-                        selectedImagePath = it.fileUrl
-                        showPosterFullscreen = true
-                    })
-            }
-
-            if (movie.recommendations.isNotEmpty())
-            {
-                ListHeader(header = "Recommendations")
-
-                RecommendationList(
-                    recommendations = movie.recommendations,
-                    onNavigateToMovie = onNavigateToMovie
+                ListTitleText(
+                    title = R.string.casts,
+                    modifier = Modifier.padding(top = 32.dp, bottom = 8.dp)
                 )
+
+                PersonList(persons = movie.casts, onNavigateToPerson = onNavigateToPerson)
+
+                ListTitleText(
+                    title = R.string.crews,
+                    modifier = Modifier.padding(top = 32.dp, bottom = 8.dp)
+                )
+
+                PersonList(persons = movie.crews, onNavigateToPerson = onNavigateToPerson)
+
+                if (movie.videos.isNotEmpty())
+                {
+                    ListTitleText(
+                        title = R.string.videos,
+                        modifier = Modifier.padding(top = 32.dp, bottom = 8.dp)
+                    )
+
+                    VideoList(videos = movie.videos, {})
+                }
+
+                if (movie.posters.isNotEmpty())
+                {
+                    ListTitleText(
+                        title = R.string.posters,
+                        modifier = Modifier.padding(top = 32.dp, bottom = 8.dp)
+                    )
+
+                    PosterList(posters = movie.posters,
+                        {
+                            selectedImagePath = it.fileUrl
+                            showImageFullscreen = true
+                        })
+                }
+
+                if (movie.backdrops.isNotEmpty())
+                {
+                    ListTitleText(
+                        title = R.string.backdrops,
+                        modifier = Modifier.padding(top = 32.dp, bottom = 8.dp)
+                    )
+                    BackdropList(backdrops = movie.backdrops,
+                        {
+                            selectedImagePath = it.fileUrl
+                            showImageFullscreen = true
+                        })
+                }
+
+                if (movie.recommendations.isNotEmpty())
+                {
+                    ListTitleText(
+                        title = R.string.recommendations,
+                        modifier = Modifier.padding(top = 32.dp, bottom = 8.dp)
+                    )
+
+                    RecommendationList(
+                        recommendations = movie.recommendations,
+                        onNavigateToMovie = onNavigateToMovie
+                    )
+                }
             }
         }
     }
 
-    if (showPosterFullscreen)
+    if (showImageFullscreen)
     {
         ShowPosterInFullscreenDialog(posterUrl = selectedImagePath)
         {
-            showPosterFullscreen = false
+            showImageFullscreen = false
         }
     }
-}
-
-@Composable
-fun DetailsHeader(header: String)
-{
-    Text(
-        text = header,
-        style = MaterialTheme.typography.titleMedium,
-    )
-}
-
-@Composable
-fun ListHeader(header: String, modifier: Modifier = Modifier)
-{
-    Text(
-        text = header,
-        style = MaterialTheme.typography.headlineSmall,
-        modifier = modifier
-    )
 }
 
 @Composable
@@ -348,7 +279,6 @@ fun GenreList(
     {
         items(items = genres)
         { genre ->
-            // TODO: change true to some kind of enum later
             TextButton(
                 onClick = { onNavigateToGenreTop(genre.id,genre.name, type) },
             )
@@ -366,38 +296,27 @@ fun CastList(
     modifier: Modifier = Modifier
 )
 {
-    Column(
-        modifier = Modifier
-            .padding(start = 16.dp, end = 16.dp)
-            .background(
-                MaterialTheme.colorScheme.primaryContainer,
-            ),
+    val scrollState = rememberLazyListState()
+
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        state = scrollState,
+        modifier = Modifier.padding(bottom = 2.dp),
     )
     {
-        val scrollState = rememberLazyListState()
-
-        ListHeader(header = "Cast")
-
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            state = scrollState,
-            modifier = Modifier.padding(8.dp),
-        )
-        {
-            items(items = casts)
-            { cast ->
-                CastItem(
-                    id = cast.id,
-                    name = cast.name,
-                    role = cast.character,
-                    pictureUrl = cast.profileUrl!!,
-                    onNavigateToPerson = onNavigateToPerson
-                )
-            }
+        items(items = casts)
+        { cast ->
+            CastItem(
+                id = cast.id,
+                name = cast.name,
+                role = cast.character,
+                pictureUrl = cast.profileUrl!!,
+                onNavigateToPerson = onNavigateToPerson
+            )
         }
-
-        Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
     }
+
+    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
 }
 
 @Composable
@@ -410,9 +329,9 @@ fun CrewList(
     val scrollState = rememberLazyListState()
 
     LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
         state = scrollState,
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+        modifier = Modifier.padding(bottom = 2.dp)
     )
     {
         items(items = crews)
@@ -426,152 +345,13 @@ fun CrewList(
             )
         }
     }
+
     Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
 }
 
-@Composable
-fun VideoList(videos: List<Video>, onVideoClick: () -> Unit, modifier: Modifier = Modifier)
-{
-    val scrollState = rememberLazyListState()
 
-    LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        state = scrollState,
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
-    )
-    {
-        items(videos)
-        { video ->
-            VideoItem(video = video, onVideoClick)
-        }
-    }
-    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
-}
 
-@Composable
-fun VideoItem(video: Video, onVideoClick: () -> Unit, modifier: Modifier = Modifier)
-{
-    Card(
-        modifier = Modifier
-            .width(300.dp)
-            .height(170.dp),
-        onClick = onVideoClick
-    )
-    {
-        YoutubeVideoPlayerItem(
-            id = video.key,
-            lifecycleOwner = LocalLifecycleOwner.current,
-        )
-        /*AsyncImage(
-            model = ImageRequest
-                .Builder(context = LocalContext.current)
-                .data("https://i.ytimg.com/vi/${video.key}/hqdefault.jpg\n")
-                .build(),
-            placeholder = painterResource(id = R.drawable.backdrop_test),
-            contentScale = ContentScale.FillBounds,
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize()
-        )*/
-    }
-}
 
-@Composable
-fun YoutubeVideoPlayerItem(
-    id: String,
-    lifecycleOwner: LifecycleOwner,
-    modifier: Modifier = Modifier
-)
-{
-    /*AndroidView(
-        factory =
-        { context ->
-            YouTubePlayerView(context = context).apply()
-            {
-                lifecycleOwner.lifecycle.addObserver(this)
-
-                addYouTubePlayerListener(object : AbstractYouTubePlayerListener()
-                {
-                    override fun onReady(youTubePlayer: YouTubePlayer)
-                    {
-                        youTubePlayer.setLoop(true)
-                        youTubePlayer.cueVideo(id, 0F)
-                    }
-                })
-            }
-        },
-        modifier = Modifier.fillMaxSize()
-    )*/
-    var isVideoFullScreen by remember { mutableStateOf(false) }
-    var imageLoadingState by rememberSaveable { mutableStateOf(true) }
-
-    Box {
-        SubcomposeAsyncImage(
-            model = "$YOUTUBE_THUMBNAIL_BASE_URL$id${YoutubeThumbnailSize.MAX.size}",
-            contentDescription = null,
-            contentScale = ContentScale.FillBounds,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(230.dp)
-                .clickable { isVideoFullScreen = true }
-        )
-        {
-            val state = painter.state
-
-            if (state is AsyncImagePainter.State.Loading)
-            {
-                ImageLoadingAnimation()
-            }
-            else
-            {
-                SubcomposeAsyncImageContent()
-                imageLoadingState = false
-            }
-        }
-
-        Icon(
-            imageVector = Icons.Default.PlayCircleOutline,
-            contentDescription = null,
-            modifier = Modifier
-                .size(64.dp)
-                .align(Alignment.Center)
-        )
-    }
-
-    if (isVideoFullScreen)
-    {
-        val configuration = LocalConfiguration.current
-
-        when (configuration.orientation)
-        {
-            Configuration.ORIENTATION_LANDSCAPE ->
-            {
-                VideoDialog(
-                    videoId = id,
-                    LocalLifecycleOwner.current,
-                    modifier = Modifier.fillMaxSize()
-                )
-                {
-                    isVideoFullScreen = false
-                }
-            }
-
-            else                                ->
-            {
-                VideoDialog(
-                    videoId = id,
-                    LocalLifecycleOwner.current,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(180.dp)
-                )
-                {
-                    isVideoFullScreen = false
-                }
-            }
-        }
-
-    }
-}
 
 @Composable
 fun PosterList(posters: List<Image>, onPosterClick: (Image) -> Unit, modifier: Modifier = Modifier)
@@ -581,7 +361,7 @@ fun PosterList(posters: List<Image>, onPosterClick: (Image) -> Unit, modifier: M
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         state = scrollState,
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+        modifier = Modifier.padding(bottom = 1.dp)
     )
     {
         items(items = posters)
@@ -615,7 +395,7 @@ fun BackdropList(backdrops: List<Image>,onPosterClick: (Image) -> Unit, modifier
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         state = scrollState,
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+        modifier = Modifier.padding(bottom = 1.dp)
     )
     {
         items(items = backdrops)
@@ -650,7 +430,7 @@ fun RecommendationList(
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         state = scrollState,
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+        modifier = Modifier.padding(bottom = 1.dp)
     )
     {
         items(items = recommendations)
@@ -669,77 +449,14 @@ fun RecommendationList(
 fun RecommendationItem(recommendation: Trend, onNavigateToMovie: (Int) -> Unit)
 {
     Card(
-        onClick = { onNavigateToMovie(recommendation.id) },
-        modifier = Modifier.size(width = 200.dp, height = 325.dp))
-    {
-        Column()
-        {
-            Image(url = recommendation.poster, modifier = Modifier.height(300.dp))
-            Text(
-                text = recommendation.title,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
-    }
-}
-
-@Composable
-fun TopBar(
-    title: String,
-    isBookmarkAlready: Boolean,
-    onNavigateBack: () -> Unit,
-    onShare: () -> Unit,
-    addToBookmark: () -> Unit,
-    removeFromBookmark: () -> Unit)
-{
-    var isBookmark by remember { mutableStateOf(isBookmarkAlready) }
-
-    CenterAlignedTopAppBar(
-        title = {
-            Text(
-                text = title,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        },
-        navigationIcon = {
-            IconButton(onClick = onNavigateBack ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Localized description"
-                )
-            }
-        },
-        actions = {
-            IconButton(onClick = { onShare() }) {
-                Icon(
-                    imageVector = Icons.Filled.Share,
-                    contentDescription = "Localized description"
-                )
-            }
-
-            IconButton(onClick =
-            {
-                if (isBookmark)
-                {
-                    removeFromBookmark()
-                }
-                else
-                {
-                    addToBookmark()
-                }
-                isBookmark = !isBookmark
-            }
-            ) {
-                Icon(
-                    imageVector = if (isBookmark) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
-                    tint = if (isBookmark) Color.Yellow else LocalContentColor.current,
-                    contentDescription = null
-                )
-            }
-        }
+        onClick = { onNavigateToMovie(recommendation.id) }
     )
+    {
+        Image(
+            url = recommendation.poster,
+            modifier = Modifier.size(width = 170.dp, height = 255.dp)
+        )
+    }
 }
 
 @Composable

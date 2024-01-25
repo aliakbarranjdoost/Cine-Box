@@ -1,15 +1,14 @@
 package dev.aliakbar.tmdbunofficial.data.source.sample
 
 import dev.aliakbar.tmdbunofficial.data.Bookmark
-import dev.aliakbar.tmdbunofficial.data.Cast
 import dev.aliakbar.tmdbunofficial.data.Collection
 import dev.aliakbar.tmdbunofficial.data.Company
 import dev.aliakbar.tmdbunofficial.data.Country
-import dev.aliakbar.tmdbunofficial.data.Crew
 import dev.aliakbar.tmdbunofficial.data.Genre
 import dev.aliakbar.tmdbunofficial.data.Image
 import dev.aliakbar.tmdbunofficial.data.Language
 import dev.aliakbar.tmdbunofficial.data.Movie
+import dev.aliakbar.tmdbunofficial.data.Person
 import dev.aliakbar.tmdbunofficial.data.Trailer
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.Video
@@ -56,7 +55,7 @@ val languages = listOf(
     Language(iso = "en", englishName = "English", name = "English")
 )
 
-val cast = Cast(
+val cast = Person(
     id = 110,
 //    adult = false,
 //    gender = 2,
@@ -66,28 +65,28 @@ val cast = Cast(
 //    popularity = 39.757F,
     profileUrl = "/vH5gVSpHAMhDaFWfh0Q7BG61O1y.jpg",
 //    castId = 15,
-    character = "Aragorn",
+    role = "Aragorn",
 //    creditId = "52fe421ac3a36847f8004591",
 //    order = 0
 )
 
-val casts = mutableListOf<Cast>().apply { repeat(10) { this.add(cast) } }.toList()
+val casts = mutableListOf<Person>().apply { repeat(10) { this.add(cast) } }.toList()
 
-val crew = Crew(
+val crew = Person(
     id = 123,
 //    adult = false,
 //    gender = 2,
-    knownForDepartment = "Production",
+//    knownForDepartment = "Production",
     name = "Barrie M. Osborne",
 //    originalName = "Barrie M. Osborne",
 //    popularity = 4.655F,
     profileUrl = "/xWtXYk6M5NFroddcQDviLlxOnkU.jpg",
 //    creditId = "52fe421ac3a36847f800454f",
-    department = "Production",
-    job = "Producer"
+//    role = "Production",
+    role = "Producer"
 )
 
-val crews = mutableListOf<Crew>().apply { repeat(10) { this.add(crew) } }.toList()
+val crews = mutableListOf<Person>().apply { repeat(10) { this.add(crew) } }.toList()
 
 val video = Video(
 //    iso6391 = "en",

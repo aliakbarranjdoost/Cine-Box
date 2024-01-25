@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class NetworkPerson(
+data class NetworkCreatedBy(
     val id: Int,
     @SerialName("credit_id")
     val creditId: String,

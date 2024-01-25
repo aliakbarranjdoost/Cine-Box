@@ -10,7 +10,7 @@ data class NetworkTvDetails(
     /*@SerialName("original_name")
     val originalName: String,*/
     @SerialName("created_by")
-    val createdBy: List<NetworkPerson>,
+    val createdBy: List<NetworkCreatedBy>,
     //episode_run_ti
     @SerialName("first_air_date")
     val firstAirDate: String,

@@ -26,20 +26,22 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.PersonDetails
 import dev.aliakbar.tmdbunofficial.data.PersonMovieAsCast
 import dev.aliakbar.tmdbunofficial.data.PersonMovieAsCrew
 import dev.aliakbar.tmdbunofficial.data.PersonTvAsCast
 import dev.aliakbar.tmdbunofficial.data.PersonTvAsCrew
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
+import dev.aliakbar.tmdbunofficial.ui.components.DetailsHeader
 import dev.aliakbar.tmdbunofficial.ui.components.Image
+import dev.aliakbar.tmdbunofficial.ui.components.ListTitleText
 import dev.aliakbar.tmdbunofficial.ui.components.TopBar
-import dev.aliakbar.tmdbunofficial.ui.movie.DetailsHeader
-import dev.aliakbar.tmdbunofficial.ui.movie.ListHeader
-import dev.aliakbar.tmdbunofficial.ui.movie.OVERVIEW_PREVIEW_MAX_LINE
+import dev.aliakbar.tmdbunofficial.util.OVERVIEW_PREVIEW_MAX_LINE
 
 // TODO: make backdrop path optional
 @Composable
@@ -126,19 +128,19 @@ fun PersonScreen(
                 Column(modifier = Modifier.padding(16.dp))
                 {
                     Text(text = person.biography)
-                    DetailsHeader(header = "Known For")
+                    DetailsHeader(header = stringResource(R.string.known_for))
                     Text(text = person.knownForDepartment)
-                    DetailsHeader(header = "Birthday")
+                    DetailsHeader(header = stringResource(R.string.birthday))
                     Text(text = person.birthday)
                     if (person.deathDay != null)
                     {
-                        DetailsHeader(header = "Day of Death")
+                        DetailsHeader(header = stringResource(R.string.day_of_death))
                         Text(text = person.deathDay)
                     }
 
                     if (person.placeOfBirth != null)
                     {
-                        DetailsHeader(header = "Place of Birth")
+                        DetailsHeader(header = stringResource(R.string.place_of_birth))
                         Text(text = person.placeOfBirth)
                     }
 
@@ -154,25 +156,25 @@ fun PersonScreen(
 
             if (person.asMovieCast.isNotEmpty())
             {
-                ListHeader(header = "Movies as Cast")
+                ListTitleText(title = R.string.movies_as_cast)
                 CreditList(credits = person.asMovieCast, onNavigate = onNavigateToMovie)
             }
 
             if (person.asTvCast.isNotEmpty())
             {
-                ListHeader(header = "Tvs as Cast")
+                ListTitleText(title = R.string.tvs_as_cast)
                 CreditList(credits = person.asTvCast, onNavigate = onNavigateToTv)
             }
 
             if (person.asMovieCrew.isNotEmpty())
             {
-                ListHeader(header = "Movies as Crew")
+                ListTitleText(title = R.string.movies_as_crew)
                 CreditList(credits = person.asMovieCrew, onNavigate = onNavigateToMovie)
             }
 
             if (person.asTvCrew.isNotEmpty())
             {
-                ListHeader(header = "Tvs as Crew")
+                ListTitleText(title = R.string.tvs_as_crew)
                 CreditList(credits = person.asTvCrew, onNavigate = onNavigateToTv)
             }
         }
