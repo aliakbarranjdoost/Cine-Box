@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package dev.aliakbar.tmdbunofficial.ui.tv
 
 import Carousel
@@ -18,7 +16,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -64,9 +61,7 @@ fun TvScreen(
     viewModel: TvViewModel = viewModel(factory = TvViewModel.factory)
 )
 {
-    val uiState = viewModel.tvUiState
-
-    when (uiState)
+    when (val uiState = viewModel.tvUiState)
     {
         is TvUiState.Loading -> CircularIndicator()
         is TvUiState.Success ->
@@ -108,7 +103,7 @@ fun TvDetails(
         topBar = {
             TopBar(
                 title = tv.name,
-                isBookmarkAlready = false,
+                isBookmarkAlready = tv.isBookmark,
                 onNavigateBack = onNavigateBack,
                 onShare = { context.share(MediaType.TV, tv.id) },
                 addToBookmark = addToBookmark,
