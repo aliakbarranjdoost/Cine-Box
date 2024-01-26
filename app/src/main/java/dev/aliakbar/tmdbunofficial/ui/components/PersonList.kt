@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.aliakbar.tmdbunofficial.data.Person
 
+// TODO: Move to details file
 @Composable
 fun ListTitleText(@StringRes title: Int, modifier: Modifier = Modifier)
 {

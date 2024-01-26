@@ -2,10 +2,7 @@ package dev.aliakbar.tmdbunofficial.ui.tv
 
 import Carousel
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,10 +12,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,8 +22,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.aliakbar.tmdbunofficial.R
@@ -40,14 +37,18 @@ import dev.aliakbar.tmdbunofficial.ui.components.DetailsHeader
 import dev.aliakbar.tmdbunofficial.ui.components.GenreList
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ListTitleText
+import dev.aliakbar.tmdbunofficial.ui.components.MainTvDetailsRow
 import dev.aliakbar.tmdbunofficial.ui.components.PersonList
 import dev.aliakbar.tmdbunofficial.ui.components.PosterList
 import dev.aliakbar.tmdbunofficial.ui.components.RecommendationList
-import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.components.ShowImageInFullscreenDialog
+import dev.aliakbar.tmdbunofficial.ui.components.ShowMoreDetailsButton
+import dev.aliakbar.tmdbunofficial.ui.components.SubDetailsRow
+import dev.aliakbar.tmdbunofficial.ui.components.TaglineText
+import dev.aliakbar.tmdbunofficial.ui.components.TitleText
 import dev.aliakbar.tmdbunofficial.ui.components.TopBar
 import dev.aliakbar.tmdbunofficial.ui.components.VideoList
-import dev.aliakbar.tmdbunofficial.util.OVERVIEW_PREVIEW_MAX_LINE
+import dev.aliakbar.tmdbunofficial.util.calculateBackdropHeight
 import dev.aliakbar.tmdbunofficial.util.share
 
 @Composable
@@ -70,7 +71,13 @@ fun TvScreen(
                 onNavigateToTv = onNavigateToTv,
                 onNavigateToSeason = onNavigateToSeason,
                 onNavigateToPerson = onNavigateToPerson,
-                onNavigateToGenreTop = { genreId, genreName, type -> onNavigateToGenreTop(genreId, genreName, type) },
+                onNavigateToGenreTop = { genreId, genreName, type ->
+                    onNavigateToGenreTop(
+                        genreId,
+                        genreName,
+                        type
+                    )
+                },
                 onNavigateBack = onNavigateBack,
                 addToBookmark = { viewModel.addToBookmark(uiState.tv) },
                 removeFromBookmark = { viewModel.removeFromBookmark(uiState.tv) },
@@ -86,7 +93,7 @@ fun TvDetails(
     onNavigateToTv: (Int) -> Unit,
     onNavigateToSeason: (Int, Int) -> Unit,
     onNavigateToPerson: (Int) -> Unit,
-    onNavigateToGenreTop: (Int,String, Boolean) -> Unit,
+    onNavigateToGenreTop: (Int, String, Boolean) -> Unit,
     onNavigateBack: () -> Unit,
     addToBookmark: () -> Unit,
     removeFromBookmark: () -> Unit,
@@ -108,127 +115,147 @@ fun TvDetails(
                 onShare = { context.share(MediaType.TV, tv.id) },
                 addToBookmark = addToBookmark,
                 removeFromBookmark = removeFromBookmark
-            ) }
+            )
+        }
     )
-    {  innerPadding ->
+    { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
                 .verticalScroll(scrollState)
         )
         {
-            Box(
+            val backdropHeight = calculateBackdropHeight(LocalConfiguration.current.screenWidthDp)
+
+            Image(
+                url = tv.backdropUrl,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(backdropHeight.dp)
             )
-            {
-                Image(
-                    url = tv.backdropUrl, modifier = Modifier
-                        .fillMaxWidth()
-                        .height(230.dp)
-                        .align(Alignment.Center)
-                )
-                ScoreBar(
-                    score = tv.voteAverage,
-                    modifier = Modifier.align(Alignment.BottomStart)
-                )
-            }
+
+
+            TitleText(title = tv.name, modifier = Modifier.padding(16.dp))
+
+            MainTvDetailsRow(
+                voteAverage = tv.voteAverage,
+                seasonNumber = tv.numberOfSeasons,
+                releaseDate = tv.firstAirDate,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+            )
 
             if (!showDetails)
             {
-                Text(
-                    text = tv.overview,
-                    maxLines = OVERVIEW_PREVIEW_MAX_LINE,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
-                )
+                TaglineText(tagline = tv.tagline, modifier = Modifier.padding(16.dp))
 
-                TextButton(
-                    onClick = { showDetails = true },
-                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
+                ShowMoreDetailsButton(
+                    showMore = showDetails,
+                    onClick = { showDetails = !showDetails },
+                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
                 )
-                {
-                    Text(text = "More Details")
-                }
             }
             else
             {
                 Column(modifier = Modifier.padding(16.dp))
                 {
-                    Text(text = tv.overview)
-                    DetailsHeader(header = "Genres")
-                    GenreList(genres = tv.genres, onNavigateToGenreTop = onNavigateToGenreTop, type = false)
-                    DetailsHeader(header = "Original Language")
-                    Text(text = tv.originalLanguage)
-                    DetailsHeader(header = "Release Date")
-                    Text(text = tv.firstAirDate)
-                    DetailsHeader(header = "Home Page")
-                    Text(text = tv.homepage)
-                    DetailsHeader(header = "Seasons")
-                    Text(text = tv.numberOfSeasons.toString())
-                    DetailsHeader(header = "Episodes")
-                    Text(text = tv.numberOfEpisodes.toString())
-                    DetailsHeader(header = "Status")
-                    Text(text = tv.status)
-                    DetailsHeader(header = "Type")
-                    Text(text = tv.type)
-                    TextButton(
-                        onClick = { showDetails = false },
-                        modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
+                    TaglineText(
+                        tagline = tv.tagline,
+                        modifier = Modifier.padding(8.dp)
                     )
-                    {
-                        Text(text = "less Details")
-                    }
+
+                    SubDetailsRow(overview = tv.overview, homepage = tv.homepage)
+
+                    DetailsHeader(header = stringResource(R.string.seasons))
+                    Text(text = tv.numberOfSeasons.toString())
+
+                    DetailsHeader(header = stringResource(R.string.episodes))
+                    Text(text = tv.numberOfEpisodes.toString())
+
+                    DetailsHeader(header = stringResource(R.string.genres))
+                    GenreList(
+                        genres = tv.genres,
+                        onNavigateToGenreTop = onNavigateToGenreTop,
+                        type = false
+                    )
+
+                    ShowMoreDetailsButton(
+                        showMore = showDetails,
+                        onClick = { showDetails = !showDetails },
+                        modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                    )
                 }
             }
 
-            ListTitleText(title = R.string.seasons)
-            SeasonList(
-                seasons = tv.seasons,
-                onNavigateToSeason = { onNavigateToSeason(tv.id, it) }
-            )
-
-            ListTitleText(title = R.string.casts)
-            PersonList(persons = tv.casts, onNavigateToPerson = onNavigateToPerson)
-
-            ListTitleText(title = R.string.crews)
-            PersonList(persons = tv.crews, onNavigateToPerson = onNavigateToPerson)
-
-            if (tv.videos.isNotEmpty())
+            Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
             {
-                ListTitleText(title = R.string.videos)
-                VideoList(videos = tv.videos, {})
-            }
-
-            if (tv.posters.isNotEmpty())
-            {
-                ListTitleText(title = R.string.posters)
-                PosterList(posters = tv.posters,
-                    {
-                        selectedImagePath = it.fileUrl
-                        showPosterFullscreen = true
-                    })
-            }
-
-            if (tv.backdrops.isNotEmpty())
-            {
-                ListTitleText(title = R.string.backdrops)
-                BackdropList(backdrops = tv.backdrops,
-                    {
-                        selectedImagePath = it.fileUrl
-                        showPosterFullscreen = true
-                    })
-            }
-
-            if (tv.recommendations.isNotEmpty())
-            {
-                ListTitleText(title = R.string.recommendations)
-
-                RecommendationList(
-                    recommendations = tv.recommendations,
-                    onNavigateToMovie = onNavigateToTv
+                ListTitleText(
+                    title = R.string.seasons,
+                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
                 )
+                SeasonList(
+                    seasons = tv.seasons,
+                    onNavigateToSeason = { onNavigateToSeason(tv.id, it) }
+                )
+
+                ListTitleText(
+                    title = R.string.casts,
+                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                )
+                PersonList(persons = tv.casts, onNavigateToPerson = onNavigateToPerson)
+
+                ListTitleText(
+                    title = R.string.crews,
+                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                )
+                PersonList(persons = tv.crews, onNavigateToPerson = onNavigateToPerson)
+
+                if (tv.videos.isNotEmpty())
+                {
+                    ListTitleText(
+                        title = R.string.videos,
+                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                    )
+                    VideoList(videos = tv.videos, {})
+                }
+
+                if (tv.posters.isNotEmpty())
+                {
+                    ListTitleText(
+                        title = R.string.posters,
+                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                    )
+                    PosterList(posters = tv.posters,
+                        {
+                            selectedImagePath = it.fileUrl
+                            showPosterFullscreen = true
+                        })
+                }
+
+                if (tv.backdrops.isNotEmpty())
+                {
+                    ListTitleText(
+                        title = R.string.backdrops,
+                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                    )
+                    BackdropList(backdrops = tv.backdrops,
+                        {
+                            selectedImagePath = it.fileUrl
+                            showPosterFullscreen = true
+                        })
+                }
+
+                if (tv.recommendations.isNotEmpty())
+                {
+                    ListTitleText(
+                        title = R.string.recommendations,
+                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                    )
+
+                    RecommendationList(
+                        recommendations = tv.recommendations,
+                        onNavigateToMovie = onNavigateToTv
+                    )
+                }
             }
         }
     }
@@ -254,7 +281,7 @@ fun SeasonList(
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         state = scrollState,
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+        modifier = Modifier.padding(bottom = 1.dp)
     )
     {
         items(items = seasons)
@@ -268,27 +295,25 @@ fun SeasonList(
 @Composable
 fun SeasonItem(season: Season, onNavigateToSeason: (Int) -> Unit)
 {
-    Card(
-        modifier = Modifier
-            .width(200.dp)
-            .height(400.dp),
+    ElevatedCard(
         onClick = { onNavigateToSeason(season.seasonNumber) }
     )
     {
-        Column()
-        {
-            Image(url = season.posterPath,
-                modifier = Modifier
-                    .width(200.dp)
-                    .height(300.dp)
-            )
-            Text(text = season.name)
+        Image(
+            url = season.posterPath,
+            modifier = Modifier
+                .width(200.dp)
+                .height(300.dp)
+        )
 
-            Row {
-                Text(text = season.airDate)
-                Spacer(modifier = Modifier.weight(1f))
-                Text(text = season.episodeCount.toString())
-            }
-        }
+        Text(text = season.name, modifier = Modifier.padding(8.dp))
+        Text(
+            text = season.airDate.substring(0..3),
+            modifier = Modifier.padding(start = 8.dp, end = 16.dp)
+        )
+        Text(
+            text = "${season.episodeCount} ${stringResource(id = R.string.episodes)}",
+            modifier = Modifier.padding(8.dp)
+        )
     }
 }

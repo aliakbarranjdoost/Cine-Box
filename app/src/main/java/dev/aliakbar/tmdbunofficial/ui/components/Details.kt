@@ -31,7 +31,7 @@ fun TitleText(title: String, modifier: Modifier = Modifier)
 }
 
 @Composable
-fun MainDetailsRow(
+fun MainMovieDetailsRow(
     voteAverage: Float,
     runtime: Int,
     releaseDate: String,
@@ -61,6 +61,49 @@ fun MainDetailsRow(
 
         Text(
             text = "${runtime / 60} h ${runtime % 60} min",
+            fontWeight = FontWeight.Medium
+        )
+
+        Text(text = " | ")
+
+        Text(
+            text = releaseDate.substring(0..3),
+            fontWeight = FontWeight.Medium
+        )
+    }
+}
+
+@Composable
+fun MainTvDetailsRow(
+    voteAverage: Float,
+    seasonNumber: Int,
+    releaseDate: String,
+    modifier: Modifier = Modifier
+)
+{
+    Row(
+        modifier = modifier
+    )
+    {
+        Text(
+            text = "%.${1}f".format(voteAverage),
+            fontWeight = FontWeight.Medium,
+        )
+        Text(
+            text = "/10",
+            fontWeight = FontWeight.Normal,
+        )
+
+        Icon(
+            imageVector = Icons.Filled.Star,
+            contentDescription = null,
+            tint = Color.Yellow,
+        )
+
+        Text(text = " | ")
+
+        Text(
+            text = "$seasonNumber Seasons",
             fontWeight = FontWeight.Medium
         )
 

@@ -31,7 +31,7 @@ import dev.aliakbar.tmdbunofficial.ui.components.DetailsHeader
 import dev.aliakbar.tmdbunofficial.ui.components.GenreList
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ListTitleText
-import dev.aliakbar.tmdbunofficial.ui.components.MainDetailsRow
+import dev.aliakbar.tmdbunofficial.ui.components.MainMovieDetailsRow
 import dev.aliakbar.tmdbunofficial.ui.components.PersonList
 import dev.aliakbar.tmdbunofficial.ui.components.PosterList
 import dev.aliakbar.tmdbunofficial.ui.components.RecommendationList
@@ -119,7 +119,7 @@ fun MovieDetails(
 
             TitleText(title = movie.title, modifier = Modifier.padding(16.dp))
 
-            MainDetailsRow(
+            MainMovieDetailsRow(
                 voteAverage = movie.voteAverage,
                 runtime = movie.runtime,
                 releaseDate = movie.releaseDate,
