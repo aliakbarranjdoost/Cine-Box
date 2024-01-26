@@ -59,8 +59,24 @@ fun MainMovieDetailsRow(
 
         Text(text = " | ")
 
+        val hour = runtime / 60
+        val minute = runtime % 60
+
+        val stringBuilder = StringBuilder()
+
+        if (hour != 0)
+        {
+            stringBuilder.append(hour)
+            stringBuilder.append(" h")
+        }
+        if (minute != 0)
+        {
+            stringBuilder.append(minute)
+            stringBuilder.append(" min")
+        }
+
         Text(
-            text = "${runtime / 60} h ${runtime % 60} min",
+            text = stringBuilder.toString(),
             fontWeight = FontWeight.Medium
         )
 
