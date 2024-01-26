@@ -27,10 +27,10 @@ import dev.aliakbar.tmdbunofficial.ui.components.DetailsHeader
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ListTitleText
 import dev.aliakbar.tmdbunofficial.ui.components.PersonList
+import dev.aliakbar.tmdbunofficial.ui.components.PosterList
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
 import dev.aliakbar.tmdbunofficial.ui.components.TopBar
 import dev.aliakbar.tmdbunofficial.ui.components.VideoList
-import dev.aliakbar.tmdbunofficial.ui.movie.PosterList
 import dev.aliakbar.tmdbunofficial.util.OVERVIEW_PREVIEW_MAX_LINE
 
 @Composable

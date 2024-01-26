@@ -106,13 +106,16 @@ fun YoutubeVideoPlayerItem(
             }
         }
 
-        Icon(
-            imageVector = Icons.Default.PlayCircleOutline,
-            contentDescription = null,
-            modifier = Modifier
-                .size(64.dp)
-                .align(Alignment.Center)
-        )
+        if (!imageLoadingState)
+        {
+            Icon(
+                imageVector = Icons.Default.PlayCircleOutline,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(64.dp)
+                    .align(Alignment.Center)
+            )
+        }
     }
 
     if (isVideoFullScreen)

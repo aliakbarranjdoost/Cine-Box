@@ -37,19 +37,19 @@ import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.Season
 import dev.aliakbar.tmdbunofficial.data.Tv
+import dev.aliakbar.tmdbunofficial.ui.components.BackdropList
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.DetailsHeader
+import dev.aliakbar.tmdbunofficial.ui.components.GenreList
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ListTitleText
 import dev.aliakbar.tmdbunofficial.ui.components.PersonList
+import dev.aliakbar.tmdbunofficial.ui.components.PosterList
+import dev.aliakbar.tmdbunofficial.ui.components.RecommendationList
 import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
+import dev.aliakbar.tmdbunofficial.ui.components.ShowImageInFullscreenDialog
 import dev.aliakbar.tmdbunofficial.ui.components.TopBar
 import dev.aliakbar.tmdbunofficial.ui.components.VideoList
-import dev.aliakbar.tmdbunofficial.ui.movie.BackdropList
-import dev.aliakbar.tmdbunofficial.ui.movie.GenreList
-import dev.aliakbar.tmdbunofficial.ui.movie.PosterList
-import dev.aliakbar.tmdbunofficial.ui.movie.RecommendationList
-import dev.aliakbar.tmdbunofficial.ui.movie.ShowPosterInFullscreenDialog
 import dev.aliakbar.tmdbunofficial.util.OVERVIEW_PREVIEW_MAX_LINE
 import dev.aliakbar.tmdbunofficial.util.share
 
@@ -240,7 +240,7 @@ fun TvDetails(
 
     if (showPosterFullscreen)
     {
-        ShowPosterInFullscreenDialog(posterUrl = selectedImagePath)
+        ShowImageInFullscreenDialog(posterUrl = selectedImagePath)
         {
             showPosterFullscreen = false
         }
