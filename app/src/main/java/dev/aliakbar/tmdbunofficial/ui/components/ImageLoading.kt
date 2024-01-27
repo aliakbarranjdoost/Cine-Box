@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BrokenImage
+import androidx.compose.material.icons.filled.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,24 +20,22 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImagePainter
-import coil.compose.SubcomposeAsyncImage
-import coil.compose.SubcomposeAsyncImageContent
+import coil.compose.AsyncImage
 import dev.aliakbar.tmdbunofficial.R
 
 @Composable
 fun Image(url: String,modifier: Modifier = Modifier)
 {
-    SubcomposeAsyncImage(
+    /*SubcomposeAsyncImage(
         model = url,
         contentDescription = null,
         contentScale = ContentScale.FillBounds,
         modifier = modifier
     )
     {
-
         when (painter.state)
         {
             is AsyncImagePainter.State.Loading   -> ImageLoadingAnimation()
@@ -46,8 +45,16 @@ fun Image(url: String,modifier: Modifier = Modifier)
             }
             else                         -> SubcomposeAsyncImageContent()
         }
-    }
+    }*/
 
+    AsyncImage(
+        model = url,
+        contentDescription = null,
+        placeholder = rememberVectorPainter(image = Icons.Default.Image),
+        error = rememberVectorPainter(image = Icons.Default.BrokenImage),
+        contentScale = ContentScale.FillBounds,
+        modifier = modifier
+    )
 }
 @Composable
 fun ImageLoadingAnimation(modifier: Modifier = Modifier)
