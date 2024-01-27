@@ -21,9 +21,9 @@ sealed interface HomeUiState
 {
     data class Success(
         val todayTrendMovies: List<Trend>,
-        val thisWeekTrendMovies: List<Trend>,
+//        val thisWeekTrendMovies: List<Trend>,
         val todayTrendSeries: List<Trend>,
-        val thisWeekTrendSeries: List<Trend>,
+//        val thisWeekTrendSeries: List<Trend>,
         val popularMovies: List<Trend>,
         val popularSeries: List<Trend>,
         var todayTrendingMoviesTrailers: List<Trailer>
@@ -50,10 +50,10 @@ class HomeViewModel(
             homeUiState = try
             {
                 val todayTrendMovies = homeRepository.getTodayTrendingMovies()
-                val thisWeekTrendMovies = homeRepository.getThisWeekTrendingMovies().toExternal()
+                //val thisWeekTrendMovies = homeRepository.getThisWeekTrendingMovies().toExternal()
 
                 val todayTrendSeries = homeRepository.getTodayTrendingSeries().toExternal()
-                val thisWeekTrendSeries = homeRepository.getThisWeekTrendingSeries().toExternal()
+                //val thisWeekTrendSeries = homeRepository.getThisWeekTrendingSeries().toExternal()
 
                 val popularMovies = homeRepository.getPopularMovies().toExternal()
 
@@ -61,8 +61,8 @@ class HomeViewModel(
 
                 val todayTrendingMoviesTrailers = homeRepository.getTodayTrendingMovieTrailers()
 
-                HomeUiState.Success(todayTrendMovies,thisWeekTrendMovies, todayTrendSeries,
-                    thisWeekTrendSeries, popularMovies, popularSeries, todayTrendingMoviesTrailers)
+                HomeUiState.Success(todayTrendMovies/*,thisWeekTrendMovies*/, todayTrendSeries/*,
+                    thisWeekTrendSeries*/, popularMovies, popularSeries, todayTrendingMoviesTrailers)
             }
             catch (e: IOException)
             {

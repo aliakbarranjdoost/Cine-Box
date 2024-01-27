@@ -67,7 +67,7 @@ fun MainMovieDetailsRow(
         if (hour != 0)
         {
             stringBuilder.append(hour)
-            stringBuilder.append(" h")
+            stringBuilder.append(" h ")
         }
         if (minute != 0)
         {
