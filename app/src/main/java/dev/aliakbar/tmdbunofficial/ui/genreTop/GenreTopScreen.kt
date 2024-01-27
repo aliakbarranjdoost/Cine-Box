@@ -7,7 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.compose.collectAsLazyPagingItems
-import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.ui.components.TopBar
 import dev.aliakbar.tmdbunofficial.ui.top.TopList
 
@@ -23,7 +22,9 @@ fun GenreTopScreen(
     val movies = viewModel.result.collectAsLazyPagingItems()
 //    val genre = viewModel.genre.collectAsStateWithLifecycle()
 
-    Scaffold(topBar = { TopBar(title = viewModel.genreName, onNavigateBack = onNavigateBack) })
+    Scaffold(topBar = { TopBar(title = if (viewModel.type) { "Popular ${viewModel.genreName} Movies"}
+        else { "Popular ${viewModel.genreName} Tvs"}
+        , onNavigateBack = onNavigateBack) })
     { innerPadding ->
         TopList(
             tops = movies,
@@ -38,13 +39,7 @@ fun GenreTopScreen(
                     onNavigateToTv(it)
                 }
             },
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top =  innerPadding.calculateTopPadding() + 16.dp)
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top =  innerPadding.calculateTopPadding())
         )
     }
-}
-
-@Composable
-fun MoviesList(movies: List<Trend>, modifier: Modifier = Modifier)
-{
-    
 }

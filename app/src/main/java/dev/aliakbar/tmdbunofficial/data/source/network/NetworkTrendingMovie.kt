@@ -12,8 +12,8 @@ data class NetworkTrendingMovie(
     val originalTitle: String,*/
     /*val overview: String,
     @SerialName("original_language")*/
-    /*val originalLanguage: String,
-    @SerialName("backdrop_path")*/
+//    val originalLanguage: String,
+    @SerialName("backdrop_path")
     val backdropPath: String? = null,
     @SerialName("poster_path")
     val posterPath: String? = null,
