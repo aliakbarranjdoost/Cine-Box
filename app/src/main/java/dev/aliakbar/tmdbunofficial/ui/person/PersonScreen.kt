@@ -5,19 +5,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,6 +39,7 @@ import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.DetailsHeader
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ListTitleText
+import dev.aliakbar.tmdbunofficial.ui.components.ShowMoreDetailsButton
 import dev.aliakbar.tmdbunofficial.ui.components.TopBar
 import dev.aliakbar.tmdbunofficial.util.OVERVIEW_PREVIEW_MAX_LINE
 
@@ -53,9 +53,7 @@ fun PersonScreen(
     viewModel: PersonViewModel = viewModel(factory = PersonViewModel.factory)
 )
 {
-    val uiState = viewModel.personUiState
-
-    when (uiState)
+    when (val uiState = viewModel.personUiState)
     {
         is PersonUiState.Loading -> CircularIndicator()
         is PersonUiState.Error   -> Text(text = "Error")
@@ -115,19 +113,17 @@ fun PersonScreen(
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
                 )
 
-                TextButton(
-                    onClick = { showDetails = true },
-                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
+                ShowMoreDetailsButton(
+                    showMore = showDetails,
+                    onClick = { showDetails = !showDetails },
+                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
                 )
-                {
-                    Text(text = "More Details")
-                }
             }
             else
             {
                 Column(modifier = Modifier.padding(16.dp))
                 {
-                    Text(text = person.biography)
+                    Text(text = person.biography, modifier = Modifier.padding(bottom = 16.dp))
                     DetailsHeader(header = stringResource(R.string.known_for))
                     Text(text = person.knownForDepartment)
                     DetailsHeader(header = stringResource(R.string.birthday))
@@ -144,38 +140,51 @@ fun PersonScreen(
                         Text(text = person.placeOfBirth)
                     }
 
-                    TextButton(
-                        onClick = { showDetails = false },
-                        modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
+                    ShowMoreDetailsButton(
+                        showMore = showDetails,
+                        onClick = { showDetails = !showDetails },
+                        modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
                     )
-                    {
-                        Text(text = "less Details")
-                    }
                 }
             }
 
-            if (person.asMovieCast.isNotEmpty())
+            Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
             {
-                ListTitleText(title = R.string.movies_as_cast)
-                CreditList(credits = person.asMovieCast, onNavigate = onNavigateToMovie)
-            }
+                if (person.asMovieCast.isNotEmpty())
+                {
+                    ListTitleText(
+                        title = R.string.movies_as_cast,
+                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                    )
+                    CreditList(credits = person.asMovieCast, onNavigate = onNavigateToMovie)
+                }
 
-            if (person.asTvCast.isNotEmpty())
-            {
-                ListTitleText(title = R.string.tvs_as_cast)
-                CreditList(credits = person.asTvCast, onNavigate = onNavigateToTv)
-            }
+                if (person.asTvCast.isNotEmpty())
+                {
+                    ListTitleText(
+                        title = R.string.tvs_as_cast,
+                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                    )
+                    CreditList(credits = person.asTvCast, onNavigate = onNavigateToTv)
+                }
 
-            if (person.asMovieCrew.isNotEmpty())
-            {
-                ListTitleText(title = R.string.movies_as_crew)
-                CreditList(credits = person.asMovieCrew, onNavigate = onNavigateToMovie)
-            }
+                if (person.asMovieCrew.isNotEmpty())
+                {
+                    ListTitleText(
+                        title = R.string.movies_as_crew,
+                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                    )
+                    CreditList(credits = person.asMovieCrew, onNavigate = onNavigateToMovie)
+                }
 
-            if (person.asTvCrew.isNotEmpty())
-            {
-                ListTitleText(title = R.string.tvs_as_crew)
-                CreditList(credits = person.asTvCrew, onNavigate = onNavigateToTv)
+                if (person.asTvCrew.isNotEmpty())
+                {
+                    ListTitleText(
+                        title = R.string.tvs_as_crew,
+                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                    )
+                    CreditList(credits = person.asTvCrew, onNavigate = onNavigateToTv)
+                }
             }
         }
     }
@@ -192,7 +201,7 @@ fun <T> CreditList(
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         state = scrollState,
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+        modifier = Modifier.padding(bottom = 2.dp)
     )
     {
         items(items = credits)
@@ -204,6 +213,7 @@ fun <T> CreditList(
                         id = credit.id,
                         title = credit.title,
                         poster = credit.posterUrl,
+                        personRole = credit.character,
                         onNavigate = onNavigate
                     )
                 is PersonTvAsCast ->
@@ -211,6 +221,7 @@ fun <T> CreditList(
                         id = credit.id,
                         title = credit.name,
                         poster = credit.posterUrl,
+                        personRole = credit.character,
                         onNavigate = onNavigate
                     )
                 is PersonMovieAsCrew ->
@@ -218,6 +229,7 @@ fun <T> CreditList(
                         id = credit.id,
                         title = credit.title,
                         poster = credit.posterUrl,
+                        personRole = credit.job,
                         onNavigate = onNavigate
                     )
                 is PersonTvAsCrew ->
@@ -225,6 +237,7 @@ fun <T> CreditList(
                         id = credit.id,
                         title = credit.name,
                         poster = credit.posterUrl,
+                        personRole = credit.job,
                         onNavigate = onNavigate
                     )
             }
@@ -239,21 +252,28 @@ fun CreditItem(
     id: Int,
     title: String,
     poster: String,
+    personRole: String,
     onNavigate: (Int) -> Unit
 )
 {
-    Card(
+    ElevatedCard(
         onClick = { onNavigate(id) },
-        modifier = Modifier.size(width = 200.dp, height = 325.dp))
+        modifier = Modifier.width(150.dp)
+    )
     {
-        Column()
-        {
-            Image(url = poster, modifier = Modifier.height(300.dp))
-            Text(
-                text = title,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
+        Image(url = poster, modifier = Modifier.size(width = 150.dp, height = 225.dp))
+
+        Text(
+            text = title,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(8.dp)
+        )
+        Text(
+            text = personRole,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(8.dp)
+        )
     }
 }
