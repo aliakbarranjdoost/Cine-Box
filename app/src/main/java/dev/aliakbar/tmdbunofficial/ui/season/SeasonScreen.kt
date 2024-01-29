@@ -143,23 +143,26 @@ fun EpisodeItem(episode: Episode, onNavigateToEpisode: (Int, Int) -> Unit)
 
                 Spacer(modifier = Modifier.fillMaxWidth().weight(1f))
 
-                Row(
-                    modifier = Modifier.padding(start = 8.dp, end = 8.dp)
-                )
+                if (episode.voteAverage > 0)
                 {
-                    Text(
-                        text = "%.${1}f".format(episode.voteAverage),
-                        fontWeight = FontWeight.Medium,
+                    Row(
+                        modifier = Modifier.padding(start = 8.dp, end = 8.dp)
                     )
-                    Text(
-                        text = "/10",
-                        fontWeight = FontWeight.Normal,
-                    )
-                    Icon(
-                        imageVector = Icons.Filled.Star,
-                        contentDescription = null,
-                        tint = Color.Yellow,
-                    )
+                    {
+                        Text(
+                            text = "%.${1}f".format(episode.voteAverage),
+                            fontWeight = FontWeight.Medium,
+                        )
+                        Text(
+                            text = "/10",
+                            fontWeight = FontWeight.Normal,
+                        )
+                        Icon(
+                            imageVector = Icons.Filled.Star,
+                            contentDescription = null,
+                            tint = Color.Yellow,
+                        )
+                    }
                 }
             }
 

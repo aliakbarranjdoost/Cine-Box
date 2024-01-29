@@ -309,7 +309,7 @@ fun SeasonItem(season: Season, onNavigateToSeason: (Int) -> Unit)
         Text(text = season.name, modifier = Modifier.padding(8.dp))
         Text(
             text = season.airDate.substring(0..3),
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+            modifier = Modifier.padding(start = 8.dp, end = 8.dp)
         )
         Text(
             text = "${season.episodeCount} ${stringResource(id = R.string.episodes)}",
