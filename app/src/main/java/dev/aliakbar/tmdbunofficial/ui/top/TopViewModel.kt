@@ -1,16 +1,14 @@
 package dev.aliakbar.tmdbunofficial.ui.top
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aliakbar.tmdbunofficial.data.TopRepository
 import dev.aliakbar.tmdbunofficial.data.Trend
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 sealed interface TopUiState
 {
@@ -24,22 +22,9 @@ sealed interface TopUiState
 
 private val TAG: String = TopViewModel::class.java.simpleName
 
-class TopViewModel(private val topRepository: TopRepository) : ViewModel()
+@HiltViewModel
+class TopViewModel @Inject constructor(val topRepository: TopRepository) : ViewModel()
 {
     fun getTopRatedMovies(): Flow<PagingData<Trend>> = topRepository.getTopRatedMovies().cachedIn(viewModelScope)
     fun getTopRatedSeries(): Flow<PagingData<Trend>> = topRepository.getTopRatedSeries().cachedIn(viewModelScope)
-
-    companion object
-    {
-        val factory: ViewModelProvider.Factory = viewModelFactory()
-        {
-            initializer()
-            {
-                val application =
-                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as TmdbUnofficialApplication)
-                val topRepository = application.container.topRepository
-                TopViewModel(topRepository)
-            }
-        }
-    }
 }

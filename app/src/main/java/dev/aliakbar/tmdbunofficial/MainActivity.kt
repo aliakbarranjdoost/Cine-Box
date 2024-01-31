@@ -22,6 +22,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 import dev.aliakbar.tmdbunofficial.data.source.datastore.ThemeOptions
 import dev.aliakbar.tmdbunofficial.ui.bookmark.BookmarkScreen
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
@@ -39,9 +40,11 @@ import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 import dev.aliakbar.tmdbunofficial.ui.top.TopScreen
 import dev.aliakbar.tmdbunofficial.ui.tv.TvScreen
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity()
 {
-    val viewModel: MainViewModel by viewModels() { MainViewModel.factory }
+    val viewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)

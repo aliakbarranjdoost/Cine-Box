@@ -3,13 +3,14 @@ package dev.aliakbar.tmdbunofficial.data
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalTrend
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
+import javax.inject.Inject
 
 private var TAG = HomeRepository::class.java.simpleName
 
-class HomeRepository(
+class HomeRepository @Inject constructor(
     private val networkDataSource: TMDBApiService,
     private val localDataSource: TmdbDatabase
-) : ConfigurationRepository(networkDataSource, localDataSource)
+) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao(), localDataSource.bookmarkDao())
 {
     suspend fun getTodayTrendingMovies(): List<Trend>
     {

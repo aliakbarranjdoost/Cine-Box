@@ -4,11 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aliakbar.tmdbunofficial.data.HomeRepository
 import dev.aliakbar.tmdbunofficial.data.Trailer
 import dev.aliakbar.tmdbunofficial.data.Trend
@@ -16,6 +13,7 @@ import dev.aliakbar.tmdbunofficial.data.toExternal
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Inject
 
 sealed interface HomeUiState
 {
@@ -34,8 +32,9 @@ sealed interface HomeUiState
 
 private val TAG: String = HomeViewModel::class.java.simpleName
 
-class HomeViewModel(
-    private val homeRepository: HomeRepository
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    val homeRepository: HomeRepository
 ) : ViewModel()
 {
 
@@ -71,20 +70,6 @@ class HomeViewModel(
             catch (e: HttpException)
             {
                 HomeUiState.Error
-            }
-        }
-    }
-
-    companion object
-    {
-        val factory: ViewModelProvider.Factory = viewModelFactory()
-        {
-            initializer()
-            {
-                val application =
-                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as TmdbUnofficialApplication)
-                val trendingRepository = application.container.homeRepository
-                HomeViewModel(trendingRepository)
             }
         }
     }

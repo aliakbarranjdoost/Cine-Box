@@ -6,13 +6,14 @@ import dev.aliakbar.tmdbunofficial.data.source.TopMoviesPagingSource
 import dev.aliakbar.tmdbunofficial.data.source.TopSeriesPagingSource
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
+import javax.inject.Inject
 
 private var TAG = HomeRepository::class.java.simpleName
 
-class TopRepository(
+class TopRepository @Inject constructor(
     private val networkDataSource: TMDBApiService,
     private val localDataSource: TmdbDatabase
-) : ConfigurationRepository(networkDataSource, localDataSource)
+) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao(), localDataSource.bookmarkDao())
 {
     fun getTopRatedMovies() = Pager(
         config = PagingConfig(

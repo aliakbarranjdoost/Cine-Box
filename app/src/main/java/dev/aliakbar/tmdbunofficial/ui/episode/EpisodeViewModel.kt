@@ -5,19 +5,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aliakbar.tmdbunofficial.Episode
 import dev.aliakbar.tmdbunofficial.ID_ARG
-import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.EpisodeDetails
 import dev.aliakbar.tmdbunofficial.data.EpisodeRepository
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Inject
 
 sealed interface EpisodeUiState
 {
@@ -28,8 +25,9 @@ sealed interface EpisodeUiState
 
 private val TAG = EpisodeViewModel:: class.java.simpleName
 
-class EpisodeViewModel(
-    private val repository: EpisodeRepository,
+@HiltViewModel
+class EpisodeViewModel @Inject constructor(
+    val repository: EpisodeRepository,
     savedStateHandle: SavedStateHandle): ViewModel()
 {
     private val id: Int = savedStateHandle[ID_ARG] ?: 0
@@ -60,20 +58,6 @@ class EpisodeViewModel(
             catch (e: HttpException)
             {
                 EpisodeUiState.Error
-            }
-        }
-    }
-    companion object
-    {
-        val factory: ViewModelProvider.Factory = viewModelFactory()
-        {
-            initializer()
-            {
-                val application =
-                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as TmdbUnofficialApplication)
-                val episodeRepository = application.container.episodeRepository
-                val savedStateHandle = this.createSavedStateHandle()
-                EpisodeViewModel(episodeRepository, savedStateHandle)
             }
         }
     }

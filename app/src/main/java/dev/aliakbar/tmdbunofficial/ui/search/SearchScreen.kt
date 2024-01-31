@@ -41,8 +41,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.MediaType
@@ -57,7 +57,7 @@ fun SearchScreen(
     onNavigateToTv: (Int) -> Unit,
     onNavigateToPerson: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SearchViewModel = viewModel(factory = SearchViewModel.factory)
+    viewModel: SearchViewModel = hiltViewModel()
 )
 {
     val searchResult = viewModel.resultPager.collectAsLazyPagingItems()

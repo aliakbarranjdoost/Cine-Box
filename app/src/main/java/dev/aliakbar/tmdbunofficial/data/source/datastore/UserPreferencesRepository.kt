@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.io.IOException
+import javax.inject.Inject
 
 data class UserPreferences(
     val dynamicTheme: Boolean,
@@ -25,7 +26,7 @@ enum class ThemeOptions
 
 private var TAG = UserPreferencesRepository::class.java.simpleName
 
-class UserPreferencesRepository(
+class UserPreferencesRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>,
 )
 {

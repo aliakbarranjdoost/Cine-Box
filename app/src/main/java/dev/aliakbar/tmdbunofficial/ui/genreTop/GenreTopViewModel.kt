@@ -2,29 +2,26 @@ package dev.aliakbar.tmdbunofficial.ui.genreTop
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aliakbar.tmdbunofficial.GenreTop
-import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.GenreTopRepository
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.source.GenreTopPagingSource
+import dev.aliakbar.tmdbunofficial.util.PAGE_SIZE
 import kotlinx.coroutines.flow.Flow
-
-private const val PAGE_SIZE = 20
+import javax.inject.Inject
 
 private val TAG: String = GenreTopViewModel::class.java.simpleName
 
-class GenreTopViewModel(
-    private val repository: GenreTopRepository,
-    private val savedStateHandle: SavedStateHandle
+@HiltViewModel
+class GenreTopViewModel @Inject constructor(
+    val repository: GenreTopRepository,
+    val savedStateHandle: SavedStateHandle
 ) : ViewModel()
 {
     val genreId = savedStateHandle[GenreTop.genreIdArg] ?: 0
@@ -71,20 +68,5 @@ class GenreTopViewModel(
 
     fun invalidateDataSource() {
         pagingSource.invalidate()
-    }
-
-    companion object
-    {
-        val factory: ViewModelProvider.Factory = viewModelFactory()
-        {
-            initializer()
-            {
-                val application =
-                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as TmdbUnofficialApplication)
-                val repository = application.container.genreTopRepository
-                val savedStateHandle = this.createSavedStateHandle()
-                GenreTopViewModel(repository, savedStateHandle)
-            }
-        }
     }
 }

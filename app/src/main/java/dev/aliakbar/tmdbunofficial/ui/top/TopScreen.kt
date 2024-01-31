@@ -32,7 +32,7 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
@@ -47,7 +47,7 @@ fun TopScreen(
     onNavigateToMovie: (Int) -> Unit,
     onNavigateToTv: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: TopViewModel = viewModel(factory = TopViewModel.factory)
+    viewModel: TopViewModel = hiltViewModel()
 )
 {
     var tabState by rememberSaveable { mutableIntStateOf(0) }

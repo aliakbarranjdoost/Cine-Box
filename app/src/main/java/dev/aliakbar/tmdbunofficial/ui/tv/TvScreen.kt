@@ -26,7 +26,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.Season
@@ -59,7 +59,7 @@ fun TvScreen(
     onNavigateToGenreTop: (Int, String, Boolean) -> Unit,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: TvViewModel = viewModel(factory = TvViewModel.factory)
+    viewModel: TvViewModel = hiltViewModel()
 )
 {
     when (val uiState = viewModel.tvUiState)

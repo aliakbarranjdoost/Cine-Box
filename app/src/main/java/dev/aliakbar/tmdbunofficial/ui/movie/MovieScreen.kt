@@ -20,7 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.Movie
@@ -52,7 +52,7 @@ fun MovieScreen(
     onNavigateToGenreTop: (Int,String, Boolean) -> Unit,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: MovieViewModel = viewModel(factory = MovieViewModel.factory)
+    viewModel: MovieViewModel = hiltViewModel()
 )
 {
     when (val uiState = viewModel.movieUiState)

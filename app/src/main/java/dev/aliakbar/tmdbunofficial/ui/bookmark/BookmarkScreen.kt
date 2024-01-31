@@ -22,8 +22,8 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.aliakbar.tmdbunofficial.data.Bookmark
 import dev.aliakbar.tmdbunofficial.data.source.sample.bookmarks
 import dev.aliakbar.tmdbunofficial.ui.components.Image
@@ -35,7 +35,7 @@ fun BookmarkScreen(
     onNavigateToMovie: (Int) -> Unit,
     onNavigateToTv: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: BookmarkViewModel = viewModel(factory = BookmarkViewModel.factory)
+    viewModel: BookmarkViewModel = hiltViewModel()
 )
 {
     when (val uiState = viewModel.bookmarkUiState.collectAsStateWithLifecycle().value)

@@ -18,8 +18,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.source.datastore.ThemeOptions
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
@@ -27,7 +27,7 @@ import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 @Composable
 fun SettingScreen(
     modifier: Modifier = Modifier,
-    viewModel: SettingViewModel = viewModel(factory = SettingViewModel.factory)
+    viewModel: SettingViewModel = hiltViewModel()
 )
 {
     val uiState by viewModel.settingsUiState.collectAsStateWithLifecycle()

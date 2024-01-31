@@ -5,19 +5,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aliakbar.tmdbunofficial.ID_ARG
-import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
 import dev.aliakbar.tmdbunofficial.data.DetailsRepository
 import dev.aliakbar.tmdbunofficial.data.Movie
 import dev.aliakbar.tmdbunofficial.data.toBookmark
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Inject
 
 sealed interface MovieUiState
 {
@@ -28,9 +25,10 @@ sealed interface MovieUiState
 
 private val TAG: String = MovieViewModel::class.java.simpleName
 
-class MovieViewModel(
-    private val repository: DetailsRepository,
-    private val savedStateHandle: SavedStateHandle
+@HiltViewModel
+class MovieViewModel @Inject constructor(
+    val repository: DetailsRepository,
+    val savedStateHandle: SavedStateHandle
 ) : ViewModel()
 {
     var movieUiState: MovieUiState by mutableStateOf(
@@ -76,21 +74,6 @@ class MovieViewModel(
         viewModelScope.launch()
         {
             repository.removeFromBookmark(movie.toBookmark())
-        }
-    }
-
-    companion object
-    {
-        val factory: ViewModelProvider.Factory = viewModelFactory()
-        {
-            initializer()
-            {
-                val application =
-                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as TmdbUnofficialApplication)
-                val repository = application.container.detailsRepository
-                val savedStateHandle = this.createSavedStateHandle()
-                MovieViewModel(repository, savedStateHandle)
-            }
         }
     }
 }

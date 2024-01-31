@@ -18,6 +18,10 @@ import dev.aliakbar.tmdbunofficial.data.TopRepository
 import dev.aliakbar.tmdbunofficial.data.source.datastore.UserPreferencesRepository
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
+import dev.aliakbar.tmdbunofficial.util.AUTHORIZATION_HEADER
+import dev.aliakbar.tmdbunofficial.util.BASE_URL
+import dev.aliakbar.tmdbunofficial.util.BEARER_TOKEN
+import dev.aliakbar.tmdbunofficial.util.SETTING_KEY
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -41,14 +45,10 @@ interface AppContainer
 
 class DefaultAppContainer(context: Context): AppContainer
 {
-    private val baseUrl = "https://api.themoviedb.org/3/"
-    private val bearerToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNzkwYjcwMzRkOTFhODU0YmE5MmUxOTlkMWQ2MTk3MiIsInN1YiI6IjYzMGYxMTg0MTI0MjVjMDA5ZDdkMjAzZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xPKQ-BTT_SZqBtJKyQ36VoDDpqCr_BAp-b_NjOOXvhc"
-    private val setting = "setting"
-
     private val okhttp = OkHttpClient.Builder().addInterceptor()
     {   chain ->
         val newRequest = chain.request().newBuilder()
-            .addHeader("Authorization", "Bearer $bearerToken")
+            .addHeader(AUTHORIZATION_HEADER, BEARER_TOKEN)
             .build()
         chain.proceed(newRequest)
     }
@@ -61,7 +61,7 @@ class DefaultAppContainer(context: Context): AppContainer
     private val retrofit = Retrofit.Builder()
         .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
         .client(okhttp.build())
-        .baseUrl(baseUrl)
+        .baseUrl(BASE_URL)
         .build()
 
     private val retrofitService: TMDBApiService by lazy {
@@ -72,7 +72,7 @@ class DefaultAppContainer(context: Context): AppContainer
 
     override val configurationRepository: ConfigurationRepository by lazy()
     {
-        ConfigurationRepository(retrofitService, roomDatabase)
+        ConfigurationRepository(retrofitService, roomDatabase.configurationDao(), roomDatabase.bookmarkDao())
     }
 
     override val homeRepository: HomeRepository by lazy()
@@ -136,7 +136,7 @@ class DefaultAppContainer(context: Context): AppContainer
         )
     }
 
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = setting)
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = SETTING_KEY)
 
     override val userPersonRepository: UserPreferencesRepository by lazy()
     {

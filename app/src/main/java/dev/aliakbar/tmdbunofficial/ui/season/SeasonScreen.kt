@@ -28,7 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aliakbar.tmdbunofficial.data.Episode
 import dev.aliakbar.tmdbunofficial.data.SeasonDetails
 import dev.aliakbar.tmdbunofficial.data.source.sample.episode
@@ -43,7 +43,7 @@ import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 fun SeasonScreen(
     onNavigateToEpisode: (Int,Int,Int) -> Unit,
     onNavigateBack: () -> Unit,
-    viewModel: SeasonViewModel = viewModel(factory = SeasonViewModel.factory)
+    viewModel: SeasonViewModel = hiltViewModel()
 )
 {
     when (val uiState = viewModel.episodeListUiState)

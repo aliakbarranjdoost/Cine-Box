@@ -1,11 +1,8 @@
 package dev.aliakbar.tmdbunofficial.ui.setting
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aliakbar.tmdbunofficial.data.source.datastore.ThemeOptions
 import dev.aliakbar.tmdbunofficial.data.source.datastore.UserPreferencesRepository
 import kotlinx.coroutines.flow.SharingStarted
@@ -13,11 +10,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 private val TAG = SettingViewModel:: class.java.simpleName
 
-class SettingViewModel(
-    private val repository: UserPreferencesRepository
+@HiltViewModel
+class SettingViewModel @Inject constructor(
+    val repository: UserPreferencesRepository
 ): ViewModel()
 {
     val settingsUiState: StateFlow<SettingsUiState> =
@@ -51,20 +50,6 @@ class SettingViewModel(
         }
 
         viewModelScope.launch { repository.changeTheme(selectedTheme) }
-    }
-
-    companion object
-    {
-        val factory: ViewModelProvider.Factory = viewModelFactory()
-        {
-            initializer()
-            {
-                val application =
-                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as TmdbUnofficialApplication)
-                val repository = application.container.userPersonRepository
-                SettingViewModel(repository)
-            }
-        }
     }
 }
 

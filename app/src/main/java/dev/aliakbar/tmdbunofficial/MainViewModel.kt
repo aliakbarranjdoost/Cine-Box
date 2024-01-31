@@ -4,13 +4,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aliakbar.tmdbunofficial.data.ConfigurationRepository
-import dev.aliakbar.tmdbunofficial.data.HomeRepository
 import dev.aliakbar.tmdbunofficial.data.source.datastore.UserPreferencesRepository
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalImageConfiguration
 import dev.aliakbar.tmdbunofficial.ui.setting.SettingsUiState
@@ -22,20 +18,22 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Inject
 
 private val TAG: String = MainViewModel::class.java.simpleName
 
 sealed interface MainUiState
 {
     data class ConfigurationSuccess(val imageConfiguration: LocalImageConfiguration) : MainUiState
-
     object Error: MainUiState
     object Loading: MainUiState
 }
-class MainViewModel(
-    private val configurationRepository: ConfigurationRepository,
-    private val homeRepository: HomeRepository,
-    private val userPreferencesRepository: UserPreferencesRepository
+
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    val configurationRepository: ConfigurationRepository,
+    //private val homeRepository: HomeRepository,
+    val userPreferencesRepository: UserPreferencesRepository
 ): ViewModel()
 {
     var mainUiState: MainUiState by mutableStateOf(MainUiState.Loading)
@@ -85,7 +83,7 @@ class MainViewModel(
         }
     }
 
-    companion object
+    /*companion object
     {
         val factory: ViewModelProvider.Factory = viewModelFactory()
         {
@@ -97,10 +95,10 @@ class MainViewModel(
                 val userPreferencesRepository = application.container.userPersonRepository
                 MainViewModel(
                     configurationRepository,
-                    trendingRepository,
+//                    trendingRepository,
                     userPreferencesRepository
                 )
             }
         }
-    }
+    }*/
 }

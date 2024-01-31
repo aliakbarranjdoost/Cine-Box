@@ -28,7 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.PersonDetails
 import dev.aliakbar.tmdbunofficial.data.PersonMovieAsCast
@@ -50,7 +50,7 @@ fun PersonScreen(
     onNavigateToTv: (Int) -> Unit,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: PersonViewModel = viewModel(factory = PersonViewModel.factory)
+    viewModel: PersonViewModel = hiltViewModel()
 )
 {
     when (val uiState = viewModel.personUiState)

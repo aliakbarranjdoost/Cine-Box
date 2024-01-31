@@ -5,7 +5,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import dev.aliakbar.tmdbunofficial.ui.components.TopBar
 import dev.aliakbar.tmdbunofficial.ui.top.TopList
@@ -16,7 +16,7 @@ fun GenreTopScreen(
     onNavigateToTv: (Int) -> Unit,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: GenreTopViewModel = viewModel(factory = GenreTopViewModel.factory)
+    viewModel: GenreTopViewModel = hiltViewModel()
 )
 {
     val movies = viewModel.result.collectAsLazyPagingItems()

@@ -1,11 +1,8 @@
 package dev.aliakbar.tmdbunofficial.ui.bookmark
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aliakbar.tmdbunofficial.data.Bookmark
 import dev.aliakbar.tmdbunofficial.data.BookmarkRepository
 import kotlinx.coroutines.flow.SharingStarted
@@ -13,8 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import java.io.IOException
+import javax.inject.Inject
 
 sealed interface BookmarkUiState
 {
@@ -26,8 +22,9 @@ sealed interface BookmarkUiState
 private val TAG: String = BookmarkViewModel::class.java.simpleName
 private const val TIMEOUT_MILLIS = 5_000L
 
-class BookmarkViewModel(
-    private val repository: BookmarkRepository
+@HiltViewModel
+class BookmarkViewModel @Inject constructor(
+    val repository: BookmarkRepository
 ) : ViewModel()
 {
     var bookmarkUiState: StateFlow<BookmarkUiState> = repository.getBookmarksStream()
@@ -67,20 +64,6 @@ class BookmarkViewModel(
         viewModelScope.launch()
         {
             repository.removeFromBookmark(bookmark)
-        }
-    }
-
-    companion object
-    {
-        val factory: ViewModelProvider.Factory = viewModelFactory()
-        {
-            initializer()
-            {
-                val application =
-                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as TmdbUnofficialApplication)
-                val repository = application.container.bookmarkRepository
-                BookmarkViewModel(repository)
-            }
         }
     }
 }

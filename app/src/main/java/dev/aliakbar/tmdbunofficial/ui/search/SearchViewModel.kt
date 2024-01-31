@@ -3,30 +3,28 @@
 package dev.aliakbar.tmdbunofficial.ui.search
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import dev.aliakbar.tmdbunofficial.TmdbUnofficialApplication
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aliakbar.tmdbunofficial.data.SearchRepository
 import dev.aliakbar.tmdbunofficial.data.SearchResult
 import dev.aliakbar.tmdbunofficial.data.source.MultiSearchPagingSource
+import dev.aliakbar.tmdbunofficial.util.PAGE_SIZE
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
-
-private const val PAGE_SIZE = 20
+import javax.inject.Inject
 
 private val TAG: String = SearchViewModel::class.java.simpleName
 
-class SearchViewModel(private val searchRepository: SearchRepository) : ViewModel()
+@HiltViewModel
+class SearchViewModel @Inject constructor(val searchRepository: SearchRepository) : ViewModel()
 {
     private val _query = MutableStateFlow("")
 
@@ -65,19 +63,5 @@ class SearchViewModel(private val searchRepository: SearchRepository) : ViewMode
 
     fun invalidateDataSource() {
         pagingSource.invalidate()
-    }
-
-    companion object
-    {
-        val factory: ViewModelProvider.Factory = viewModelFactory()
-        {
-            initializer()
-            {
-                val application =
-                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as TmdbUnofficialApplication)
-                val searchRepository = application.container.searchRepository
-                SearchViewModel(searchRepository)
-            }
-        }
     }
 }

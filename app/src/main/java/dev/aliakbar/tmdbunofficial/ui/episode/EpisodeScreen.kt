@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.EpisodeDetails
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
@@ -40,7 +40,7 @@ import dev.aliakbar.tmdbunofficial.util.calculateBackdropHeight
 fun EpisodeScreen(
     onNavigateToPerson: (Int) -> Unit,
     onNavigateBack: () -> Unit,
-    viewModel: EpisodeViewModel = viewModel(factory = EpisodeViewModel.factory),
+    viewModel: EpisodeViewModel = hiltViewModel()
 )
 {
     when(val uiState = viewModel.episodeUiState)
