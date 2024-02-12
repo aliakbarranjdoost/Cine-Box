@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -71,7 +72,7 @@ fun TopScreen(
             0 ->
             {
                 TopList(
-                    tops = viewModel.getTopRatedMovies().collectAsLazyPagingItems(),
+                    tops = viewModel.getTopRatedMovies.collectAsLazyPagingItems(),
                     onNavigate = onNavigateToMovie,
                     modifier = Modifier.padding(16.dp)
                 )
@@ -79,7 +80,7 @@ fun TopScreen(
             1 ->
             {
                 TopList(
-                    tops = viewModel.getTopRatedSeries().collectAsLazyPagingItems(),
+                    tops = viewModel.getTopRatedSeries.collectAsLazyPagingItems(),
                     onNavigate = onNavigateToTv,
                     modifier = Modifier.padding(16.dp)
                 )
@@ -109,11 +110,11 @@ fun TopList(
     modifier: Modifier = Modifier
 )
 {
-//    val scrollState = rememberLazyListState()
+    val scrollState = rememberLazyListState()
 
     LazyColumn(
         modifier = modifier,
-//        state = scrollState,
+        state = scrollState,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     )
     {
