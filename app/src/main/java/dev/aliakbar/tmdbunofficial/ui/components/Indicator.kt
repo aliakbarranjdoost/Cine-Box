@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -34,7 +35,7 @@ fun IndicatorItem(isSelected: Boolean)
 {
     OutlinedButton(
         onClick = {  },
-        border = BorderStroke(1.dp, Color.Black),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
         shape = CircleShape,
         modifier = Modifier.size(10.dp).padding(1.dp),
         colors = if (isSelected) ButtonDefaults.outlinedButtonColors(containerColor = Color.Red) else ButtonDefaults.outlinedButtonColors()
