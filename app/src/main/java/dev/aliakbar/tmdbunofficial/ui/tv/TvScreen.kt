@@ -146,8 +146,13 @@ fun TvDetails(
 
             if (!showDetails)
             {
-                TaglineText(tagline = tv.tagline, modifier = Modifier.padding(16.dp))
-
+                if (tv.tagline.isNotEmpty())
+                {
+                    TaglineText(
+                        tagline = tv.tagline,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
                 ShowMoreDetailsButton(
                     showMore = showDetails,
                     onClick = { showDetails = !showDetails },
@@ -158,10 +163,13 @@ fun TvDetails(
             {
                 Column(modifier = Modifier.padding(16.dp))
                 {
-                    TaglineText(
-                        tagline = tv.tagline,
-                        modifier = Modifier.padding(8.dp)
-                    )
+                    if (tv.tagline.isNotEmpty())
+                    {
+                        TaglineText(
+                            tagline = tv.tagline,
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
 
                     SubDetailsRow(overview = tv.overview, homepage = tv.homepage)
 

@@ -42,45 +42,51 @@ fun MainMovieDetailsRow(
         modifier = modifier
     )
     {
-        Text(
-            text = "%.${1}f".format(voteAverage),
-            fontWeight = FontWeight.Medium,
-        )
-        Text(
-            text = "/10",
-            fontWeight = FontWeight.Normal,
-        )
-
-        Icon(
-            imageVector = Icons.Filled.Star,
-            contentDescription = null,
-            tint = Color.Yellow,
-        )
-
-        Text(text = " | ")
-
-        val hour = runtime / 60
-        val minute = runtime % 60
-
-        val stringBuilder = StringBuilder()
-
-        if (hour != 0)
+        if (voteAverage > 0)
         {
-            stringBuilder.append(hour)
-            stringBuilder.append(" h ")
-        }
-        if (minute != 0)
-        {
-            stringBuilder.append(minute)
-            stringBuilder.append(" min")
+            Text(
+                text = "%.${1}f".format(voteAverage),
+                fontWeight = FontWeight.Medium,
+            )
+            Text(
+                text = "/10",
+                fontWeight = FontWeight.Normal,
+            )
+
+            Icon(
+                imageVector = Icons.Filled.Star,
+                contentDescription = null,
+                tint = Color.Yellow,
+            )
+
+            Text(text = " | ")
         }
 
-        Text(
-            text = stringBuilder.toString(),
-            fontWeight = FontWeight.Medium
-        )
+        if (runtime > 0)
+        {
+            val hour = runtime / 60
+            val minute = runtime % 60
 
-        Text(text = " | ")
+            val stringBuilder = StringBuilder()
+
+            if (hour != 0)
+            {
+                stringBuilder.append(hour)
+                stringBuilder.append(" h ")
+            }
+            if (minute != 0)
+            {
+                stringBuilder.append(minute)
+                stringBuilder.append(" min")
+            }
+
+            Text(
+                text = stringBuilder.toString(),
+                fontWeight = FontWeight.Medium
+            )
+
+            Text(text = " | ")
+        }
 
         Text(
             text = releaseDate.substring(0..3),
@@ -101,22 +107,25 @@ fun MainTvDetailsRow(
         modifier = modifier
     )
     {
-        Text(
-            text = "%.${1}f".format(voteAverage),
-            fontWeight = FontWeight.Medium,
-        )
-        Text(
-            text = "/10",
-            fontWeight = FontWeight.Normal,
-        )
+        if (voteAverage > 0)
+        {
+            Text(
+                text = "%.${1}f".format(voteAverage),
+                fontWeight = FontWeight.Medium,
+            )
+            Text(
+                text = "/10",
+                fontWeight = FontWeight.Normal,
+            )
 
-        Icon(
-            imageVector = Icons.Filled.Star,
-            contentDescription = null,
-            tint = Color.Yellow,
-        )
+            Icon(
+                imageVector = Icons.Filled.Star,
+                contentDescription = null,
+                tint = Color.Yellow,
+            )
 
-        Text(text = " | ")
+            Text(text = " | ")
+        }
 
         Text(
             text = "$seasonNumber Seasons",

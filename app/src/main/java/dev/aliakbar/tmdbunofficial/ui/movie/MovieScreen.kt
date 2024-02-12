@@ -128,10 +128,13 @@ fun MovieDetails(
 
             if (!showDetails)
             {
-                TaglineText(
-                    tagline = movie.tagline,
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)
-                )
+                if (movie.tagline.isNotEmpty())
+                {
+                    TaglineText(
+                        tagline = movie.tagline,
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)
+                    )
+                }
 
                 ShowMoreDetailsButton(
                     showMore = showDetails,
@@ -143,10 +146,13 @@ fun MovieDetails(
             {
                 Column(modifier = Modifier.padding(16.dp))
                 {
-                    TaglineText(
-                        tagline = movie.tagline,
-                        modifier = Modifier.padding(8.dp)
-                    )
+                    if (movie.tagline.isNotEmpty())
+                    {
+                        TaglineText(
+                            tagline = movie.tagline,
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
 
                     SubDetailsRow(
                         overview = movie.overview,
