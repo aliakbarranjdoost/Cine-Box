@@ -234,14 +234,17 @@ fun SearchResultItem(
 
                     if (result.mediaType == MediaType.MOVIE || result.mediaType == MediaType.TV)
                     {
-                        result.releaseDate?.substring(0..3)?.let()
+                        if (!result.releaseDate.isNullOrEmpty())
                         {
-                            Text(
-                                text = it,
-                                fontWeight = FontWeight.Medium,
-                                modifier = Modifier
-                                    .weight(0.3f)
-                            )
+                            result.releaseDate.substring(0..3).let()
+                            {
+                                Text(
+                                    text = it,
+                                    fontWeight = FontWeight.Medium,
+                                    modifier = Modifier
+                                        .weight(0.3f)
+                                )
+                            }
                         }
 
                         Row(

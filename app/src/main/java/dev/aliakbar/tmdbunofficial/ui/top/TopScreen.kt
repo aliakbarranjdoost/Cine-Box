@@ -109,8 +109,11 @@ fun TopList(
     modifier: Modifier = Modifier
 )
 {
+//    val scrollState = rememberLazyListState()
+
     LazyColumn(
         modifier = modifier,
+//        state = scrollState,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     )
     {

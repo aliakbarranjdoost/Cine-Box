@@ -18,7 +18,7 @@ import dev.aliakbar.tmdbunofficial.data.Image
 @Composable
 fun PosterList(posters: List<Image>, onPosterClick: (Image) -> Unit, modifier: Modifier = Modifier)
 {
-    val scrollState = rememberLazyListState()
+        val scrollState = rememberLazyListState()
 
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
