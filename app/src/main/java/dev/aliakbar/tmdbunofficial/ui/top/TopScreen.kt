@@ -72,7 +72,7 @@ fun TopScreen(
             0 ->
             {
                 TopList(
-                    tops = viewModel.getTopRatedMovies.collectAsLazyPagingItems(),
+                    tops = viewModel.topRatedMovies.collectAsLazyPagingItems(),
                     onNavigate = onNavigateToMovie,
                     modifier = Modifier.padding(16.dp)
                 )
@@ -80,7 +80,7 @@ fun TopScreen(
             1 ->
             {
                 TopList(
-                    tops = viewModel.getTopRatedSeries.collectAsLazyPagingItems(),
+                    tops = viewModel.topRatedSeries.collectAsLazyPagingItems(),
                     onNavigate = onNavigateToTv,
                     modifier = Modifier.padding(16.dp)
                 )

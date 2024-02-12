@@ -10,10 +10,7 @@ import javax.inject.Inject
 
 sealed interface TopUiState
 {
-    data class Success(
-        val topRatedMovies: List<Trend>,
-    ) : TopUiState
-
+    data class Success(val topRatedMovies: List<Trend>) : TopUiState
     data object Error : TopUiState
     data object Loading : TopUiState
 }
@@ -21,9 +18,8 @@ sealed interface TopUiState
 private val TAG: String = TopViewModel::class.java.simpleName
 
 @HiltViewModel
-class TopViewModel @Inject constructor(val topRepository: TopRepository) : ViewModel()
+class TopViewModel @Inject constructor(topRepository: TopRepository) : ViewModel()
 {
-
-    var getTopRatedMovies = topRepository.getTopRatedMovies().cachedIn(viewModelScope)
-    var getTopRatedSeries = topRepository.getTopRatedSeries().cachedIn(viewModelScope)
+    var topRatedMovies = topRepository.getTopRatedMovies().cachedIn(viewModelScope)
+    var topRatedSeries = topRepository.getTopRatedSeries().cachedIn(viewModelScope)
 }
