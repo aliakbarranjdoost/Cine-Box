@@ -362,9 +362,10 @@ fun SliderItem(trailer: Trailer, onNavigate: () -> Unit)
             }
         }
 
-        Image(url = trailer.trend.poster,
+        Image(
+            url = trailer.trend.poster,
             modifier = Modifier
-                .width(150.dp)
+                .width(170.dp)
                 .height(225.dp)
                 .padding(start = 16.dp)
                 .align(Alignment.BottomStart)
