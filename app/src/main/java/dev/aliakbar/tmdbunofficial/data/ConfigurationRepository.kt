@@ -9,6 +9,9 @@ import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 private var TAG = ConfigurationRepository::class.java.simpleName
+
+// Higher number means lower quality
+private const val IMAGE_QUALITY_LEVEL = 2
 open class ConfigurationRepository @Inject constructor(
     private val networkDataSource: TMDBApiService,
     private val localConfigurationDataSource: LocalConfigurationDao,
@@ -50,7 +53,7 @@ open class ConfigurationRepository @Inject constructor(
 
     private fun findBiggestImageSize(imageSizes: List<String>): String
     {
-        return imageSizes[imageSizes.size - 2]
+        return imageSizes[imageSizes.size - IMAGE_QUALITY_LEVEL]
     }
 
     private fun createBasePosterUrl(): String
