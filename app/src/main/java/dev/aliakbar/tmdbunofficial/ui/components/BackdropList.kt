@@ -42,6 +42,6 @@ fun BackdropItem(backdrop: Image, onPosterClick: (Image) -> Unit)
         onClick = { onPosterClick(backdrop) }
     )
     {
-        Image(url = backdrop.fileUrl)
+        Image(url = backdrop.fileUrl, modifier = Modifier.size(width = 300.dp, height = 170.dp))
     }
 }

@@ -45,6 +45,8 @@ fun PosterItem(poster: Image, onPosterClick: (Image) -> Unit)
         onClick = { onPosterClick(poster) }
     )
     {
-        Image(url = poster.fileUrl)
+        Image(url = poster.fileUrl, modifier = Modifier
+            .width(200.dp)
+            .height(300.dp),)
     }
 }
