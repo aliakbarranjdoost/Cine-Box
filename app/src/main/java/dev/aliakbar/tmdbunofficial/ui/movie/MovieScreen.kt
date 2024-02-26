@@ -238,7 +238,7 @@ fun MovieDetails(
 
                     RecommendationList(
                         recommendations = movie.recommendations,
-                        onNavigateToMovie = onNavigateToMovie
+                        onNavigateToRecommend = onNavigateToMovie
                     )
                 }
             }

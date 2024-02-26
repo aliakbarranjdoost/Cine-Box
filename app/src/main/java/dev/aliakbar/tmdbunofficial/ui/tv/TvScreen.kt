@@ -261,7 +261,7 @@ fun TvDetails(
 
                     RecommendationList(
                         recommendations = tv.recommendations,
-                        onNavigateToMovie = onNavigateToTv
+                        onNavigateToRecommend = onNavigateToTv
                     )
                 }
             }
