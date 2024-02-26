@@ -7,6 +7,7 @@ import androidx.compose.animation.graphics.res.animatedVectorResource
 import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
 import androidx.compose.animation.graphics.vector.AnimatedImageVector
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -46,13 +47,17 @@ fun Image(url: String,modifier: Modifier = Modifier)
         }
     }*/
 
+    var showShimmer by rememberSaveable { mutableStateOf(true) }
+
     AsyncImage(
         model = url,
         contentDescription = null,
         placeholder = rememberVectorPainter(image = ImageVector.vectorResource(R.drawable.ic_image)),
         error = rememberVectorPainter(image = ImageVector.vectorResource(R.drawable.ic_broken_image)),
         contentScale = ContentScale.FillBounds,
-        modifier = modifier
+        modifier = modifier.background(shimmerBrush(targetValue = 1300f, showShimmer = showShimmer)),
+        onSuccess = { showShimmer = false },
+        onError = {showShimmer = false }
     )
 }
 @Composable
