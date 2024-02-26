@@ -30,6 +30,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayCircleOutline
 import androidx.compose.material3.Card
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -50,6 +51,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -202,7 +204,7 @@ fun TrendList(
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         state = scrollState,
-        modifier = modifier.padding(bottom = 1.dp)
+        modifier = modifier.padding(bottom = 3.dp)
     )
     {
         items(items = trends, key = { trend -> trend.id })
@@ -210,6 +212,7 @@ fun TrendList(
             TrendItem(
                 id = trend.id,
                 poster = trend.poster,
+                title = trend.title,
                 onNavigate = onNavigate
             )
         }
@@ -221,12 +224,22 @@ fun TrendList(
 fun TrendItem(
     id: Int,
     poster: String,
+    title: String,
     onNavigate: (Int) -> Unit
 )
 {
-    Card(onClick = { onNavigate(id) })
+    ElevatedCard(onClick = { onNavigate(id) }, modifier = Modifier.width(170.dp))
     {
         Image(url = poster, modifier = Modifier.size(width = 170.dp, height = 255.dp))
+
+        Text(
+            text = title,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.titleSmall,
+
+            modifier = Modifier.padding(8.dp)
+        )
     }
 }
 
