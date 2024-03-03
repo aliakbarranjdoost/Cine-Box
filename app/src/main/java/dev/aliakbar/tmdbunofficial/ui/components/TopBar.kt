@@ -13,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,7 +56,7 @@ fun TopBar(
 {
     var isBookmark by remember { mutableStateOf(isBookmarkAlready) }
 
-    CenterAlignedTopAppBar(
+    TopAppBar(
         title = {
             Text(
                 text = title,

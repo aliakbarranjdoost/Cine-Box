@@ -1,5 +1,6 @@
 package dev.aliakbar.tmdbunofficial.ui.movie
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -117,43 +118,34 @@ fun MovieDetails(
                     .height(backdropHeight.dp)
             )
 
-            TitleText(title = movie.title, modifier = Modifier.padding(16.dp))
-
             MainMovieDetailsRow(
                 voteAverage = movie.voteAverage,
                 runtime = movie.runtime,
                 releaseDate = movie.releaseDate,
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+                modifier = Modifier.padding(16.dp)
             )
+
+            if (movie.tagline.isNotEmpty())
+            {
+                TaglineText(
+                    tagline = movie.tagline,
+                    modifier = Modifier.padding(start = 24.dp, end = 24.dp)
+                )
+            }
 
             if (!showDetails)
             {
-                if (movie.tagline.isNotEmpty())
-                {
-                    TaglineText(
-                        tagline = movie.tagline,
-                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)
-                    )
-                }
-
                 ShowMoreDetailsButton(
                     showMore = showDetails,
                     onClick = { showDetails = !showDetails },
                     modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
                 )
             }
-            else
+
+            AnimatedVisibility(visible = showDetails)
             {
                 Column(modifier = Modifier.padding(16.dp))
                 {
-                    if (movie.tagline.isNotEmpty())
-                    {
-                        TaglineText(
-                            tagline = movie.tagline,
-                            modifier = Modifier.padding(8.dp)
-                        )
-                    }
-
                     SubDetailsRow(
                         overview = movie.overview,
                         homepage = movie.homepage,
