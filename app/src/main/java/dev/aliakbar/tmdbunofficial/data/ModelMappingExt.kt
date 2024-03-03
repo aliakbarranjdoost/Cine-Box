@@ -27,6 +27,7 @@ import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingMovie
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTrendingSeries
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkTvDetails
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkVideo
+import dev.aliakbar.tmdbunofficial.util.mergeSimilarItems
 import dev.aliakbar.tmdbunofficial.util.separateMoviesAndTvsCast
 import dev.aliakbar.tmdbunofficial.util.separateMoviesAndTvsCrew
 
@@ -301,8 +302,8 @@ fun NetworkMovieDetails.toExternal(
     genres = genres.toExternal(),
     spokenLanguages = spokenLanguages.toExternal(),
     productionCompanies = productionCompanies.toExternal(baseLogoUrl),
-    casts = credits.cast.toPerson(baseProfileUrl),
-    crews = credits.crew.toPerson(baseProfileUrl),
+    casts = mergeSimilarItems(credits.cast.toPerson(baseProfileUrl)),
+    crews = mergeSimilarItems(credits.crew.toPerson(baseProfileUrl)),
     videos = videos.results.toExternal(),
     posters = images.posters.toExternal(basePosterUrl),
     backdrops = images.backdrops.toExternal(baseBackdropUrl),
@@ -553,8 +554,8 @@ fun NetworkTvDetails.toExternal(
     genres = genres.toExternal(),
 //    spokenLanguages = spokenLanguages.toExternal(),
 //    productionCompanies = productionCompanies.toExternal(baseLogoUrl),
-    casts = credits.cast.toPerson(baseProfileUrl),
-    crews = credits.crew.toPerson(baseProfileUrl),
+    casts = mergeSimilarItems(credits.cast.toPerson(baseProfileUrl)),
+    crews = mergeSimilarItems(credits.crew.toPerson(baseProfileUrl)),
     videos = videos.results.toExternal(),
     posters = images.posters.toExternal(basePosterUrl),
     backdrops = images.backdrops.toExternal(baseBackdropUrl),
@@ -644,9 +645,9 @@ fun NetworkEpisodeDetails.toExternal(
     seasonNumber = seasonNumber,
     stillUrl = baseStillUrl + stillPath,
     stills = images.stills.toExternal(baseStillUrl),
-    casts = credits.cast.toPerson(baseProfileUrl),
-    crews = credits.crew.toPerson(baseProfileUrl),
-    guestStars = credits.guestStars.toPerson(baseProfileUrl),
+    casts = mergeSimilarItems(credits.cast.toPerson(baseProfileUrl)),
+    crews = mergeSimilarItems(credits.crew.toPerson(baseProfileUrl)),
+    guestStars = mergeSimilarItems(credits.guestStars.toPerson(baseProfileUrl)),
     videos = videos.results.toExternal()
 )
 

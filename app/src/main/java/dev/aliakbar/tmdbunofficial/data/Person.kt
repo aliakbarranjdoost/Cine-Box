@@ -3,7 +3,7 @@ package dev.aliakbar.tmdbunofficial.data
 data class Person(
     val id: Int,
     val name: String,
-    val role: String,
+    var role: String,
     val profileUrl: String
 )
 

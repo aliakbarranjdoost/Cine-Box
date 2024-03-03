@@ -11,6 +11,7 @@ import dev.aliakbar.tmdbunofficial.ID_ARG
 import dev.aliakbar.tmdbunofficial.data.DetailsRepository
 import dev.aliakbar.tmdbunofficial.data.Movie
 import dev.aliakbar.tmdbunofficial.data.toBookmark
+import dev.aliakbar.tmdbunofficial.util.mergeSimilarItems
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -48,6 +49,7 @@ class MovieViewModel @Inject constructor(
         {
             movieUiState = try
             {
+                mergeSimilarItems(repository.getMovieDetails(id).crews)
                 MovieUiState.Success(repository.getMovieDetails(id))
             }
             catch (e: IOException)

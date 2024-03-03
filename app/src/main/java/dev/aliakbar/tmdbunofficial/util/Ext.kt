@@ -2,9 +2,11 @@ package dev.aliakbar.tmdbunofficial.util
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.compose.ui.graphics.Color
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.MediaType
+import dev.aliakbar.tmdbunofficial.data.Person
 import dev.aliakbar.tmdbunofficial.data.PersonMovieAsCast
 import dev.aliakbar.tmdbunofficial.data.PersonMovieAsCrew
 import dev.aliakbar.tmdbunofficial.data.PersonTvAsCast
@@ -88,4 +90,27 @@ fun Context.share(mediaType: MediaType, id: Int)
 fun calculateBackdropHeight(screenWidth : Int): Int
 {
     return (screenWidth * 0.5625).roundToInt()
+}
+
+fun mergeSimilarItems(persons: List<Person>): List<Person>
+{
+    val mergedPersons = persons.toMutableList()
+
+    for ((indexi, person) in persons.withIndex())
+    {
+        val firstPerson = persons[indexi]
+        val combinedRole = StringBuilder().append(firstPerson.role).append(", ")
+        for ( index  in indexi + 1 until persons.size)
+        {
+            if (firstPerson.id == persons[index].id)
+            {
+                Log.d("Ext", "mergeSimilarItems: Yes ${persons[index]}")
+                combinedRole.append(persons[index].role)
+                combinedRole.append(", ")
+                mergedPersons.remove(persons[index])
+            }
+            firstPerson.role = combinedRole.removeSuffix(", ").toString()
+        }
+    }
+    return mergedPersons
 }
