@@ -102,7 +102,7 @@ fun EpisodeScreen(
                     text = episode.overview,
                     maxLines = OVERVIEW_PREVIEW_MAX_LINE,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                 )
 
                 ShowMoreDetailsButton(
@@ -113,7 +113,7 @@ fun EpisodeScreen(
             }
             else
             {
-                Column(modifier = Modifier.padding(16.dp))
+                Column(modifier = Modifier.fillMaxWidth().padding(16.dp))
                 {
                     Text(text = episode.overview)
 
@@ -138,17 +138,25 @@ fun EpisodeScreen(
 
             Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
             {
-                ListTitleText(
-                    title = R.string.casts,
-                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
-                )
+                if (episode.casts.isNotEmpty())
+                {
+                    ListTitleText(
+                        title = R.string.casts,
+                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                    )
 
-                PersonList(persons = episode.casts, onNavigateToPerson = onNavigateToPerson)
+                    PersonList(persons = episode.casts, onNavigateToPerson = onNavigateToPerson)
+                }
 
-                ListTitleText(title = R.string.crews,
-                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp))
+                if (episode.crews.isNotEmpty())
+                {
+                    ListTitleText(
+                        title = R.string.crews,
+                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                    )
 
-                PersonList(persons = episode.crews, onNavigateToPerson = onNavigateToPerson)
+                    PersonList(persons = episode.crews, onNavigateToPerson = onNavigateToPerson)
+                }
 
                 if (episode.guestStars.isNotEmpty())
                 {
