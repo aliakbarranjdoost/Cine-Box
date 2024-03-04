@@ -15,7 +15,7 @@ data class NetworkTrendingSeries(
     @SerialName("backdrop_path")
     val backdropPath: String?,
     @SerialName("poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @SerialName("media_type")
     val mediaType: String? = null,
     /*@SerialName("genre_ids")
