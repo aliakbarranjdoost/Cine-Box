@@ -30,12 +30,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -72,8 +76,13 @@ fun SearchScreen(
 
     Box(Modifier.fillMaxSize())
     {
+        val focusRequester = remember{ FocusRequester() }
+
+
         SearchBar(
-            modifier = Modifier.align(Alignment.TopCenter),
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .focusRequester(focusRequester),
             query = text,
             onQueryChange = { viewModel.setQuery(it) },
             onSearch = {
@@ -141,6 +150,14 @@ fun SearchScreen(
                         .padding(horizontal = 16.dp, vertical = 4.dp)
                 )
             }*/
+        }
+        // LaunchedEffect prevents endless focus request
+        LaunchedEffect(focusRequester)
+        {
+            //            if (showKeyboard.equals(true)) {
+            focusRequester.requestFocus()
+            //                delay(100) // Make sure you have delay here
+            //                keyboard?.show()
         }
 
         LazyColumn(
