@@ -1,16 +1,5 @@
 package dev.aliakbar.tmdbunofficial
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.List
-import androidx.compose.material.icons.filled.Category
-import androidx.compose.material.icons.filled.Movie
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Tv
-import androidx.compose.material.icons.outlined.Bookmarks
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 
@@ -18,43 +7,58 @@ const val ID_ARG = "id"
 interface TmdbDestination
 {
     val route: String
-    val icon: ImageVector
 }
 
-object Home: TmdbDestination
+interface TmdbMainDestination: TmdbDestination
+{
+    override val route: String
+    val defaultIcon: Int
+    val selectedIcon: Int
+}
+
+interface TmdbSecondaryDestination: TmdbDestination
+{
+    override val route: String
+}
+
+object Home: TmdbMainDestination
 {
     override val route = "home"
-    override val icon = Icons.Outlined.Home
+    override val defaultIcon = R.drawable.ic_outline_home
+    override val selectedIcon: Int = R.drawable.ic_baseline_home
 }
 
-object Bookmark: TmdbDestination
+object Bookmark: TmdbMainDestination
 {
     override val route = "bookmark"
-    override val icon = Icons.Outlined.Bookmarks
+    override val defaultIcon = R.drawable.ic_outline_bookmarks
+    override val selectedIcon: Int = R.drawable.ic_baseline_bookmarks
 }
 
-object Search: TmdbDestination
+object Search: TmdbMainDestination
 {
     override val route = "search"
-    override val icon = Icons.Outlined.Search
+    override val defaultIcon = R.drawable.ic_search
+    override val selectedIcon = R.drawable.ic_search
 }
 
-object Top: TmdbDestination
+object Top: TmdbMainDestination
 {
     override val route = "top"
-    override val icon = Icons.AutoMirrored.Outlined.List
+    override val defaultIcon = R.drawable.ic_list
+    override val selectedIcon = R.drawable.ic_list
 }
 
-object Setting: TmdbDestination
+object Setting: TmdbMainDestination
 {
     override val route = "setting"
-    override val icon = Icons.Outlined.Settings
+    override val defaultIcon = R.drawable.ic_outline_settings
+    override val selectedIcon = R.drawable.ic_baseline_settings
 }
 
-object Movie: TmdbDestination
+object Movie: TmdbSecondaryDestination
 {
     override val route = "movie"
-    override val icon = Icons.Default.Movie
     private const val idArg = ID_ARG
     val routeWithArgs = "${route}/{${idArg}}"
     val arguments = listOf(
@@ -62,10 +66,9 @@ object Movie: TmdbDestination
     )
 }
 
-object Tv: TmdbDestination
+object Tv: TmdbSecondaryDestination
 {
     override val route = "tv"
-    override val icon = Icons.Default.Tv
     private const val idArg = ID_ARG
     val routeWithArgs = "${route}/{${idArg}}"
     val arguments = listOf(
@@ -73,10 +76,9 @@ object Tv: TmdbDestination
     )
 }
 
-object Season: TmdbDestination
+object Season: TmdbSecondaryDestination
 {
     override val route = "season"
-    override val icon = Icons.Default.Tv
     private const val idArg = ID_ARG
     const val seasonNumberArg = "season_number"
     val routeWithArgs = "${route}/{${idArg}}/{${seasonNumberArg}}"
@@ -86,10 +88,9 @@ object Season: TmdbDestination
     )
 }
 
-object Episode: TmdbDestination
+object Episode: TmdbSecondaryDestination
 {
     override val route = "episode"
-    override val icon = Icons.Default.Tv
     private const val idArg = ID_ARG
     const val seasonNumberArg = "season_number"
     const val episodeNumberArg = "episode_number"
@@ -101,10 +102,9 @@ object Episode: TmdbDestination
     )
 }
 
-object GenreTop: TmdbDestination
+object GenreTop: TmdbSecondaryDestination
 {
     override val route = "genreTop"
-    override val icon = Icons.Default.Category
     const val genreIdArg = "genreId"
     const val genreNameArg = "genreName"
     const val typeArg = "type"
@@ -116,11 +116,10 @@ object GenreTop: TmdbDestination
     )
 }
 
-object Person: TmdbDestination
+object Person: TmdbSecondaryDestination
 {
     override val route = "person"
-    override val icon = Icons.Default.Person
-    const val idArg = ID_ARG
+    private const val idArg = ID_ARG
     val routeWithArg = "$route/{$idArg}"
     val arguments = listOf(
         navArgument(idArg) { type = NavType.IntType }

@@ -4,8 +4,6 @@ package dev.aliakbar.tmdbunofficial.ui.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,7 +18,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
+import dev.aliakbar.tmdbunofficial.R
 
 @Composable
 fun TopBar(title: String, onNavigateBack: () -> Unit)
@@ -94,7 +94,7 @@ fun TopBar(
             }
             ) {
                 Icon(
-                    imageVector = if (isBookmark) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
+                    painter = painterResource(id = if (isBookmark) R.drawable.ic_baseline_bookmark else R.drawable.ic_outline_bookmark_border),
                     tint = if (isBookmark) Color.Yellow else LocalContentColor.current,
                     contentDescription = null
                 )
