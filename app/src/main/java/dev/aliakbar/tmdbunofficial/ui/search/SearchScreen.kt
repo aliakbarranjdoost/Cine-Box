@@ -47,6 +47,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.SearchResult
+import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicatorLoadMore
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 
 private val TAG: String = "Search"
@@ -138,7 +139,6 @@ fun SearchScreen(
             }*/
         }
 
-
         LazyColumn(
             modifier = Modifier
                 .padding(start = 16.dp, end = 16.dp , top = 72.dp),
@@ -163,6 +163,10 @@ fun SearchScreen(
                         }
                     )
                 }
+            }
+            item()
+            {
+                CircularIndicatorLoadMore(modifier = Modifier.fillMaxWidth().height(40.dp))
             }
         }
     }

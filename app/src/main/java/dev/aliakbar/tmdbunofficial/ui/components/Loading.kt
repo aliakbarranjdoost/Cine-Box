@@ -24,3 +24,17 @@ fun CircularIndicator()
         )
     }
 }
+
+@Composable
+fun CircularIndicatorLoadMore(modifier: Modifier = Modifier)
+{
+    Box(modifier = modifier)
+    {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .align(Alignment.Center),
+            color = MaterialTheme.colorScheme.secondary,
+            trackColor = MaterialTheme.colorScheme.surfaceVariant,
+        )
+    }
+}
