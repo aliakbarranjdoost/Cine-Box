@@ -66,6 +66,9 @@ fun SearchScreen(
     val text by viewModel.query.collectAsStateWithLifecycle()
     var active by rememberSaveable { mutableStateOf(false) }
     var expanded by rememberSaveable { mutableStateOf(false) }
+    var isLoading by rememberSaveable {
+        mutableStateOf(false)
+    }
 
     Box(Modifier.fillMaxSize())
     {
@@ -77,6 +80,7 @@ fun SearchScreen(
                 viewModel.setQuery(text)
                 viewModel.search()
                 active = false
+                isLoading = true
             },
             active = active,
             onActiveChange = { active = it },
@@ -164,9 +168,17 @@ fun SearchScreen(
                     )
                 }
             }
-            item()
+
+            if (isLoading)
             {
-                CircularIndicatorLoadMore(modifier = Modifier.fillMaxWidth().height(40.dp))
+                item()
+                {
+                    CircularIndicatorLoadMore(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(40.dp)
+                    )
+                }
             }
         }
     }
