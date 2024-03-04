@@ -50,10 +50,10 @@ interface TMDBApiService
     @GET("movie/{id}/videos?$LANGUAGE=$ENGLISH")
     suspend fun getMovieVideos(@Path("id") id: Int): NetworkVideoResponse
 
-    @GET("movie/top_rated?language=en-US")
+    @GET("movie/top_rated?$LANGUAGE=$ENGLISH")
     suspend fun getTopRatedMovies(@Query("page") page: Int): NetworkResponse<List<NetworkPopularMovie>>
 
-    @GET("tv/top_rated?language=en-US")
+    @GET("tv/top_rated?$LANGUAGE=$ENGLISH")
     suspend fun getTopRatedSeries(@Query("page") page: Int): NetworkResponse<List<NetworkPopularSerial>>
 
     @GET("search/multi?include_adult=true&$LANGUAGE=$ENGLISH")
