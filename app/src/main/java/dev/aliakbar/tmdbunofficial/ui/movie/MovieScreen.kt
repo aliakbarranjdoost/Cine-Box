@@ -129,7 +129,7 @@ fun MovieDetails(
             {
                 TaglineText(
                     tagline = movie.tagline,
-                    modifier = Modifier.padding(start = 24.dp, end = 24.dp)
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp)
                 )
             }
 
@@ -148,8 +148,7 @@ fun MovieDetails(
                 {
                     SubDetailsRow(
                         overview = movie.overview,
-                        homepage = movie.homepage,
-                        modifier = Modifier.padding(8.dp)
+                        homepage = movie.homepage
                     )
 
                     DetailsHeader(header = stringResource(R.string.genres))
@@ -172,7 +171,7 @@ fun MovieDetails(
             {
                 ListTitleText(
                     title = R.string.casts,
-                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                    modifier = Modifier.padding(bottom = 8.dp)
                 )
 
                 PersonList(persons = movie.casts, onNavigateToPerson = onNavigateToPerson)
