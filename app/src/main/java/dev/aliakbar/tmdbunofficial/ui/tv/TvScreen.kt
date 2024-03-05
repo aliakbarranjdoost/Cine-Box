@@ -1,6 +1,7 @@
 package dev.aliakbar.tmdbunofficial.ui.tv
 
 import Carousel
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aliakbar.tmdbunofficial.R
@@ -134,43 +136,32 @@ fun TvDetails(
                     .height(backdropHeight.dp)
             )
 
-
-            TitleText(title = tv.name, modifier = Modifier.padding(16.dp))
-
             MainTvDetailsRow(
                 voteAverage = tv.voteAverage,
                 seasonNumber = tv.numberOfSeasons,
                 releaseDate = tv.firstAirDate,
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+                modifier = Modifier.padding(16.dp)
             )
 
+            if (tv.tagline.isNotEmpty())
+            {
+                TaglineText(
+                    tagline = tv.tagline,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
             if (!showDetails)
             {
-                if (tv.tagline.isNotEmpty())
-                {
-                    TaglineText(
-                        tagline = tv.tagline,
-                        modifier = Modifier.padding(16.dp)
-                    )
-                }
                 ShowMoreDetailsButton(
                     showMore = showDetails,
                     onClick = { showDetails = !showDetails },
                     modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
                 )
             }
-            else
+            AnimatedVisibility(visible = showDetails)
             {
                 Column(modifier = Modifier.padding(16.dp))
                 {
-                    if (tv.tagline.isNotEmpty())
-                    {
-                        TaglineText(
-                            tagline = tv.tagline,
-                            modifier = Modifier.padding(8.dp)
-                        )
-                    }
-
                     SubDetailsRow(overview = tv.overview, homepage = tv.homepage)
 
                     DetailsHeader(header = stringResource(R.string.seasons))
@@ -198,7 +189,7 @@ fun TvDetails(
             {
                 ListTitleText(
                     title = R.string.seasons,
-                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                    modifier = Modifier.padding(bottom = 8.dp)
                 )
                 SeasonList(
                     seasons = tv.seasons,
@@ -287,9 +278,9 @@ fun SeasonList(
     val scrollState = rememberLazyListState()
 
     LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
         state = scrollState,
-        modifier = Modifier.padding(bottom = 1.dp)
+        modifier = Modifier.padding(bottom = 2.dp)
     )
     {
         items(items = seasons)
@@ -304,7 +295,9 @@ fun SeasonList(
 fun SeasonItem(season: Season, onNavigateToSeason: (Int) -> Unit)
 {
     ElevatedCard(
-        onClick = { onNavigateToSeason(season.seasonNumber) }
+        onClick = { onNavigateToSeason(season.seasonNumber) },
+        modifier = Modifier
+            .width(200.dp)
     )
     {
         Image(
@@ -314,13 +307,22 @@ fun SeasonItem(season: Season, onNavigateToSeason: (Int) -> Unit)
                 .height(300.dp)
         )
 
-        Text(text = season.name, modifier = Modifier.padding(8.dp))
+        Text(
+            text = season.name,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(8.dp)
+        )
         Text(
             text = season.airDate.substring(0..3),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(start = 8.dp, end = 8.dp)
         )
         Text(
             text = "${season.episodeCount} ${stringResource(id = R.string.episodes)}",
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(8.dp)
         )
     }

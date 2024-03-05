@@ -107,7 +107,8 @@ fun MainTvDetailsRow(
 )
 {
     Row(
-        modifier = modifier
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
     )
     {
         if (voteAverage > 0)

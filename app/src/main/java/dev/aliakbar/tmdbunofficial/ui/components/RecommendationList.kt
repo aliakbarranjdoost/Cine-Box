@@ -28,9 +28,9 @@ fun RecommendationList(
     val scrollState = rememberLazyListState()
 
     LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
         state = scrollState,
-        modifier = Modifier.padding(bottom = 1.dp)
+        modifier = Modifier.padding(bottom = 2.dp)
     )
     {
         items(items = recommendations)
