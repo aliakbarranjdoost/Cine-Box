@@ -47,6 +47,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.MediaType
@@ -166,6 +167,12 @@ fun SearchScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         )
         {
+            item {
+                if (searchResult.itemCount == 0 && isLoading)
+                {
+                    Text(text = "No Result", modifier = Modifier.padding(top = 72.dp))
+                }
+            }
             items(searchResult.itemCount)
             { index ->
                 searchResult[index]?.let()
@@ -186,7 +193,7 @@ fun SearchScreen(
                 }
             }
 
-            if (isLoading)
+            if (searchResult.loadState.append is LoadState.Loading && isLoading)
             {
                 item()
                 {
