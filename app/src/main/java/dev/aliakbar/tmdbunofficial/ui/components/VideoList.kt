@@ -40,7 +40,11 @@ import dev.aliakbar.tmdbunofficial.util.YOUTUBE_THUMBNAIL_BASE_URL
 import dev.aliakbar.tmdbunofficial.util.YoutubeThumbnailSize
 
 @Composable
-fun VideoList(videos: List<Video>, onVideoClick: () -> Unit, modifier: Modifier = Modifier)
+fun VideoList(
+    videos: List<Video>,
+    onVideoClick: () -> Unit,
+    modifier: Modifier = Modifier
+)
 {
     val scrollState = rememberLazyListState()
 
@@ -59,7 +63,11 @@ fun VideoList(videos: List<Video>, onVideoClick: () -> Unit, modifier: Modifier 
 }
 
 @Composable
-fun VideoItem(video: Video, onVideoClick: () -> Unit, modifier: Modifier = Modifier)
+fun VideoItem(
+    video: Video,
+    onVideoClick: () -> Unit,
+    modifier: Modifier = Modifier
+)
 {
     Card(
         onClick = onVideoClick,

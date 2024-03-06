@@ -31,7 +31,6 @@ import dev.aliakbar.tmdbunofficial.ui.components.MainMovieDetailsRow
 import dev.aliakbar.tmdbunofficial.ui.components.PersonList
 import dev.aliakbar.tmdbunofficial.ui.components.PosterList
 import dev.aliakbar.tmdbunofficial.ui.components.ShowMoreDetailsButton
-import dev.aliakbar.tmdbunofficial.ui.components.TitleText
 import dev.aliakbar.tmdbunofficial.ui.components.TopBar
 import dev.aliakbar.tmdbunofficial.ui.components.VideoList
 import dev.aliakbar.tmdbunofficial.util.OVERVIEW_PREVIEW_MAX_LINE

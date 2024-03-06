@@ -29,24 +29,6 @@ import dev.aliakbar.tmdbunofficial.R
 @Composable
 fun Image(url: String,modifier: Modifier = Modifier)
 {
-    /*SubcomposeAsyncImage(
-        model = url,
-        contentDescription = null,
-        contentScale = ContentScale.FillBounds,
-        modifier = modifier
-    )
-    {
-        when (painter.state)
-        {
-            is AsyncImagePainter.State.Loading   -> ImageLoadingAnimation()
-            is AsyncImagePainter.State.Error ->
-            {
-                Image(imageVector = Icons.Default.BrokenImage, contentDescription = null)
-            }
-            else                         -> SubcomposeAsyncImageContent()
-        }
-    }*/
-
     var showShimmer by rememberSaveable { mutableStateOf(true) }
 
     AsyncImage(

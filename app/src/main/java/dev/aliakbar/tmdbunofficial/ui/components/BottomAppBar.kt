@@ -5,6 +5,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import dev.aliakbar.tmdbunofficial.Bookmark
@@ -21,6 +22,7 @@ fun TmdbBottomAppBar(
     allScreens: List<TmdbMainDestination>,
     selected: (TmdbDestination) -> Boolean,
     onTabSelected: (TmdbDestination) -> Unit,
+    modifier: Modifier = Modifier
 )
 {
     NavigationBar()
@@ -46,15 +48,4 @@ fun TmdbBottomAppBar(
             )
         }
     }
-}
-
-@Composable
-private fun selectIcon(screen: TmdbDestination): Int = when(screen)
-{
-    is Home -> R.drawable.ic_baseline_home
-    is Bookmark -> R.drawable.ic_baseline_bookmarks
-    is Search -> R.drawable.ic_search
-    is Top -> R.drawable.ic_list
-    is Setting -> R.drawable.ic_baseline_settings
-    else -> 0
 }

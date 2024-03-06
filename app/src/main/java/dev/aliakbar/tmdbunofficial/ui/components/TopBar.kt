@@ -26,7 +26,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import dev.aliakbar.tmdbunofficial.R
 
 @Composable
-fun TopBar(title: String, onNavigateBack: () -> Unit)
+fun TopBar(
+    title: String,
+    onNavigateBack: () -> Unit,
+    modifier: Modifier = Modifier
+)
 {
     TopAppBar(
         title = {
@@ -55,7 +59,9 @@ fun TopBar(
     onNavigateBack: () -> Unit,
     onShare: () -> Unit,
     addToBookmark: () -> Unit,
-    removeFromBookmark: () -> Unit)
+    removeFromBookmark: () -> Unit,
+    modifier: Modifier = Modifier
+)
 {
     var isBookmark by remember { mutableStateOf(isBookmarkAlready) }
 

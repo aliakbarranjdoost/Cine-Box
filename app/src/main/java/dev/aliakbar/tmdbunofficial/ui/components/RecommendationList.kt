@@ -46,7 +46,11 @@ fun RecommendationList(
 }
 
 @Composable
-fun RecommendationItem(recommendation: Trend, onNavigateToRecommend: (Int) -> Unit)
+fun RecommendationItem(
+    recommendation: Trend,
+    onNavigateToRecommend: (Int) -> Unit,
+    modifier: Modifier = Modifier
+)
 {
     ElevatedCard(
         onClick = { onNavigateToRecommend(recommendation.id) },

@@ -17,8 +17,8 @@ import androidx.compose.ui.window.DialogProperties
 @Composable
 fun ShowImageInFullscreenDialog(
     posterUrl: String,
-    modifier: Modifier = Modifier,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    modifier: Modifier = Modifier
 )
 {
     var scale by remember { mutableFloatStateOf(1f) }

@@ -23,16 +23,6 @@ import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.util.OVERVIEW_PREVIEW_MAX_LINE
 
 @Composable
-fun TitleText(title: String, modifier: Modifier = Modifier)
-{
-    Text(
-        text = title,
-        style = MaterialTheme.typography.headlineMedium,
-        modifier = modifier
-    )
-}
-
-@Composable
 fun MainMovieDetailsRow(
     voteAverage: Float,
     runtime: Int,
@@ -146,7 +136,10 @@ fun MainTvDetailsRow(
 }
 
 @Composable
-fun TaglineText(tagline: String, modifier: Modifier = Modifier)
+fun TaglineText(
+    tagline: String,
+    modifier: Modifier = Modifier
+)
 {
     Text(
         text = tagline,
@@ -158,7 +151,11 @@ fun TaglineText(tagline: String, modifier: Modifier = Modifier)
 }
 
 @Composable
-fun ShowMoreDetailsButton(showMore: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier)
+fun ShowMoreDetailsButton(
+    showMore: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+)
 {
     TextButton(
         onClick = { onClick() },
@@ -174,13 +171,17 @@ fun ShowMoreDetailsButton(showMore: Boolean, onClick: () -> Unit, modifier: Modi
 }
 
 @Composable
-fun SubDetailsRow(overview: String, homepage: String, modifier: Modifier = Modifier)
+fun SubDetailsRow(
+    overview: String,
+    homepage: String,
+    modifier: Modifier = Modifier
+)
 {
     Column(modifier = modifier)
     {
         Text(text = overview, modifier = Modifier.padding(bottom = 8.dp))
 
-        if (homepage != null)
+        if (homepage.isNotEmpty())
         {
             val uriHandler = LocalUriHandler.current
 
@@ -194,7 +195,10 @@ fun SubDetailsRow(overview: String, homepage: String, modifier: Modifier = Modif
 }
 
 @Composable
-fun DetailsHeader(header: String)
+fun DetailsHeader(
+    header: String,
+    modifier: Modifier = Modifier
+)
 {
     Text(
         text = header,

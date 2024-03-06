@@ -15,7 +15,11 @@ import androidx.compose.ui.unit.dp
 import dev.aliakbar.tmdbunofficial.data.Image
 
 @Composable
-fun BackdropList(backdrops: List<Image>, onPosterClick: (Image) -> Unit, modifier: Modifier = Modifier)
+fun BackdropList(
+    backdrops: List<Image>,
+    onPosterClick: (Image) -> Unit,
+    modifier: Modifier = Modifier
+)
 {
     val scrollState = rememberLazyListState()
 
@@ -35,7 +39,11 @@ fun BackdropList(backdrops: List<Image>, onPosterClick: (Image) -> Unit, modifie
 }
 
 @Composable
-fun BackdropItem(backdrop: Image, onPosterClick: (Image) -> Unit)
+fun BackdropItem(
+    backdrop: Image,
+    onPosterClick: (Image) -> Unit,
+    modifier: Modifier = Modifier
+)
 {
     Card(
         modifier = Modifier.size(width = 300.dp, height = 170.dp),

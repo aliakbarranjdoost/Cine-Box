@@ -40,7 +40,6 @@ import dev.aliakbar.tmdbunofficial.ui.components.ShowImageInFullscreenDialog
 import dev.aliakbar.tmdbunofficial.ui.components.ShowMoreDetailsButton
 import dev.aliakbar.tmdbunofficial.ui.components.SubDetailsRow
 import dev.aliakbar.tmdbunofficial.ui.components.TaglineText
-import dev.aliakbar.tmdbunofficial.ui.components.TitleText
 import dev.aliakbar.tmdbunofficial.ui.components.TopBar
 import dev.aliakbar.tmdbunofficial.ui.components.VideoList
 import dev.aliakbar.tmdbunofficial.util.calculateBackdropHeight

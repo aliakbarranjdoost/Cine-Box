@@ -15,7 +15,10 @@ import dev.aliakbar.tmdbunofficial.util.convertDegreeToHsvColor
 import kotlin.math.roundToInt
 
 @Composable
-fun ScoreBar(score: Float, modifier: Modifier = Modifier)
+fun ScoreBar(
+    score: Float,
+    modifier: Modifier = Modifier
+)
 {
     Box(
         contentAlignment = Alignment.Center,

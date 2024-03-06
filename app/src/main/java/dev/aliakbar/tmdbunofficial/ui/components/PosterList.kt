@@ -16,7 +16,11 @@ import androidx.compose.ui.unit.dp
 import dev.aliakbar.tmdbunofficial.data.Image
 
 @Composable
-fun PosterList(posters: List<Image>, onPosterClick: (Image) -> Unit, modifier: Modifier = Modifier)
+fun PosterList(
+    posters: List<Image>,
+    onPosterClick: (Image) -> Unit,
+    modifier: Modifier = Modifier
+)
 {
         val scrollState = rememberLazyListState()
 
@@ -36,7 +40,11 @@ fun PosterList(posters: List<Image>, onPosterClick: (Image) -> Unit, modifier: M
 }
 
 @Composable
-fun PosterItem(poster: Image, onPosterClick: (Image) -> Unit)
+fun PosterItem(
+    poster: Image,
+    onPosterClick: (Image) -> Unit,
+    modifier: Modifier = Modifier
+)
 {
     Card(
         modifier = Modifier

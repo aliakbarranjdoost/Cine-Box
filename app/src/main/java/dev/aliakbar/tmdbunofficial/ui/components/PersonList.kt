@@ -22,7 +22,11 @@ import dev.aliakbar.tmdbunofficial.data.Person
 
 // TODO: Move to details file
 @Composable
-fun ListTitleText(@StringRes title: Int, modifier: Modifier = Modifier)
+fun ListTitleText(
+    @StringRes
+    title: Int,
+    modifier: Modifier = Modifier
+)
 {
     Text(
         text = stringResource(id = title),

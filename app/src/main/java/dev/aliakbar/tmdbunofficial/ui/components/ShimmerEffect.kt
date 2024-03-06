@@ -10,7 +10,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
-
 @Composable
 fun shimmerBrush(showShimmer: Boolean = true,targetValue:Float = 1000f): Brush {
     return if (showShimmer) {

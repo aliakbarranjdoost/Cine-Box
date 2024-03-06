@@ -72,47 +72,6 @@ import androidx.compose.ui.unit.LayoutDirection.Ltr
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
-
-@Composable
-fun HorizontalLazyStateExample(
-    modifier: Modifier,
-) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(text = "Using Lazy List State", style = MaterialTheme.typography.headlineSmall)
-        val scrollState = rememberLazyListState()
-        LazyRow(
-            state = scrollState,
-        ) {
-            repeat(20) {
-                item {
-                    Box(
-                        modifier = Modifier.size(100.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "Item $it")
-                    }
-                }
-            }
-        }
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "←←←")
-            Box(
-                modifier = Modifier.weight(1f),
-                contentAlignment = Alignment.Center
-            ) {
-                Carousel(state = scrollState)
-            }
-            Text(text = "→→→")
-        }
-    }
-}
-
 /*
  * Copyright 2021 Sahruday
  *
