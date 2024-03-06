@@ -37,8 +37,6 @@ data class NetworkMultiSearchResult(
     val knownForDepartment: String? = null,
     @SerialName("profile_path")
     val profilePath: String? = null,
-    //@SerialName("known_for")
-    //val knownFor: List<String?> = emptyList(),
     @SerialName("release_date")
     val releaseDate: String? = null,
     @SerialName("video")

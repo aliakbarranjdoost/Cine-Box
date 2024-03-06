@@ -16,6 +16,12 @@ data class NetworkCreatedBy(
 
 @Serializable
 data class NetworkPersonDetails(
+    val id: Int,
+    @SerialName("imdb_id")
+    val imdbId : String? = null,
+    val name: String,
+    @SerialName("known_for_department")
+    val knownForDepartment: String,
     val adult: Boolean,
     @SerialName("also_known_as")
     val alsoKnownAs: List<String>,
@@ -24,12 +30,6 @@ data class NetworkPersonDetails(
     val deathDay: String? = null,
     val gender: Int,
     val homepage: String? = null,
-    val id: Int,
-    @SerialName("imdb_id")
-    val imdbId : String? = null,
-    @SerialName("known_for_department")
-    val knownForDepartment: String,
-    val name: String,
     @SerialName("place_of_birth")
     val placeOfBirth: String? = null,
     val popularity: Float,

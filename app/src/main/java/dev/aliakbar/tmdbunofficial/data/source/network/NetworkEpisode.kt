@@ -12,19 +12,19 @@ data class NetworkEpisode(
     val voteAverage: Float,
     @SerialName("vote_count")
     val voteCount: Int,
-    /*@SerialName("air_date")
-    val airDate: String,*/
     @SerialName("episode_number")
     val episodeNumber: Int,
     @SerialName("episode_type")
     val episodeType: String,
-    /*@SerialName("production_code")
-    val productionCode: String,*/
-//    val runtime: Int?,
     @SerialName("season_number")
     val seasonNumber: Int,
     @SerialName("show_id")
     val showId: Int,
     @SerialName("still_path")
-    val stillPath: String?,
+    val stillPath: String?
+    /*@SerialName("air_date")
+    val airDate: String,
+    @SerialName("production_code")
+    val productionCode: String,
+    val runtime: Int?*/
 )
