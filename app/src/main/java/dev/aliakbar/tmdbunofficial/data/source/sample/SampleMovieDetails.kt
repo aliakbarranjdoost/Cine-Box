@@ -13,36 +13,28 @@ import dev.aliakbar.tmdbunofficial.data.Trailer
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.data.Video
 
-val genres = listOf(
-    Genre(id = 12, name = "Adventure"),
-    Genre(id = 14, name = "Fantasy"),
-    Genre(id = 28, name = "Action")
+val genre = Genre(
+    id = 14,
+    name = "Fantasy"
 )
 
-val companies = listOf(
-    Company(
-        id = 12,
-        logoUrl = "/5ThIuO93vsk47oexKTSdfKEr7EC.png",
-        name = "New Line Cinema",
-        originCountry = "US"
-    ),
-    Company(
-        id = 11,
-        logoUrl = "/6FAuASQHybRkZUk08p9PzSs9ezM.png",
-        name = "WingNut Films",
-        originCountry = "NZ"
-    ),
-    Company(
-        id = 5237,
-        logoUrl = null,
-        name = "The Saul Zaentz Company",
-        originCountry = "US"
-    )
+val genres = mutableListOf<Genre>().apply { repeat(10) { this.add(genre) } }.toList()
+
+val company = Company(
+    id = 12,
+    logoUrl = "/5ThIuO93vsk47oexKTSdfKEr7EC.png",
+    name = "New Line Cinema",
+    originCountry = "US"
 )
-val countries = listOf(
-    Country(iso = "NZ", name = "New Zealand"),
-    Country(iso = "US", name = "United States of America")
+
+val companies = mutableListOf<Company>().apply { repeat(10) { this.add(company) } }.toList()
+
+val country = Country(
+    iso = "US",
+    name = "United States of America"
 )
+
+val countries = mutableListOf<Country>().apply { repeat(10) { this.add(country)} }.toList()
 
 val collection = Collection(
     id = 119,
@@ -51,91 +43,51 @@ val collection = Collection(
     backdropUrl = "/bccR2CGTWVVSZAG0yqmy3DIvhTX.jpg"
 )
 
-val languages = listOf(
-    Language(iso = "en", englishName = "English", name = "English")
+val language = Language(
+    iso = "en",
+    englishName = "English",
+    name = "English"
 )
+
+val languages = mutableListOf<Language>().apply { repeat(10) { this.add(language) } }.toList()
 
 val cast = Person(
     id = 110,
-//    adult = false,
-//    gender = 2,
-//    knownFor = "Acting",
     name = "Viggo Mortensen",
-//    originalName = "Viggo Mortensen",
-//    popularity = 39.757F,
     profileUrl = "/vH5gVSpHAMhDaFWfh0Q7BG61O1y.jpg",
-//    castId = 15,
-    role = "Aragorn",
-//    creditId = "52fe421ac3a36847f8004591",
-//    order = 0
+    role = "Aragorn"
 )
 
 val casts = mutableListOf<Person>().apply { repeat(10) { this.add(cast) } }.toList()
 
 val crew = Person(
     id = 123,
-//    adult = false,
-//    gender = 2,
-//    knownForDepartment = "Production",
     name = "Barrie M. Osborne",
-//    originalName = "Barrie M. Osborne",
-//    popularity = 4.655F,
     profileUrl = "/xWtXYk6M5NFroddcQDviLlxOnkU.jpg",
-//    creditId = "52fe421ac3a36847f800454f",
-//    role = "Production",
     role = "Producer"
 )
 
 val crews = mutableListOf<Person>().apply { repeat(10) { this.add(crew) } }.toList()
 
 val video = Video(
-//    iso6391 = "en",
-//    iso31661 = "US",
     name = "The Two Towers | The Lord of the Rings 4K Ultra HD | Warner Bros. Entertainment",
     key = "nuTU5XcZTLA",
     site = "YouTube",
-//    size = 2160,
     type = "Trailer",
-    official = true,
-//    publishedAt = "2020-12-02T17:34:35.000Z",
-//    id = "5fc8aafe3f8ede004000808c"
+    official = true
 )
 
 val videos = mutableListOf<Video>().apply { repeat(10) { this.add(video) } }.toList()
 
-val poster = Image(
-//    iso6391 = "en",
-//    aspectRatio = 0.667F,
-//    height = 3000,
-//    width = 2000,
-    fileUrl = "/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg",
-//    voteAverage = 6.504F,
-//    voteCount = 26
-)
+val poster = Image(fileUrl = "/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg")
 
 val posters = mutableListOf<Image>().apply { repeat(10) { this.add(poster) } }.toList()
 
-val backdrop = Image(
-//    iso6391 = null,
-//    aspectRatio = 1.778F,
-//    height = 1080,
-//    width = 1920,
-    fileUrl = "/tqj7NKj11keFuLzPsBDMUq2dOUO.jpg",
-//    voteAverage = 5.388F,
-//    voteCount = 4
-)
+val backdrop = Image(fileUrl = "/tqj7NKj11keFuLzPsBDMUq2dOUO.jpg")
 
 val backdrops = mutableListOf<Image>().apply { repeat(10) { this.add(backdrop) } }.toList()
 
-val logo = Image(
-//    iso6391 = "en",
-//    aspectRatio = 4.751F,
-//    height = 442,
-//    width = 2100,
-    fileUrl = "/dMAXhf7jVsc8Qsx26wsoOmoQh3r.png",
-//    voteAverage = 0F,
-//    voteCount = 0
-)
+val logo = Image(fileUrl = "/dMAXhf7jVsc8Qsx26wsoOmoQh3r.png")
 
 val logos = mutableListOf<Image>().apply { repeat(10) { this.add(logo) } }.toList()
 
