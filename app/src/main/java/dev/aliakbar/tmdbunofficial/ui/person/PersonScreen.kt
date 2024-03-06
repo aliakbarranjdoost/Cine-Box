@@ -126,8 +126,13 @@ fun PersonScreen(
                     Text(text = person.biography, modifier = Modifier.padding(bottom = 16.dp))
                     DetailsHeader(header = stringResource(R.string.known_for))
                     Text(text = person.knownForDepartment)
-                    DetailsHeader(header = stringResource(R.string.birthday))
-                    Text(text = person.birthday)
+
+                    if (person.birthday != null)
+                    {
+                        DetailsHeader(header = stringResource(R.string.birthday))
+                        Text(text = person.birthday)
+                    }
+
                     if (person.deathDay != null)
                     {
                         DetailsHeader(header = stringResource(R.string.day_of_death))
