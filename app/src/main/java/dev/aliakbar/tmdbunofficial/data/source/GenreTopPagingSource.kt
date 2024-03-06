@@ -19,8 +19,8 @@ class GenreTopPagingSource(
     {
         return state.anchorPosition?.let()
         { anchorPosition ->
-            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
-                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
+            state.closestPageToPosition(anchorPosition)?.prevKey?.inc()
+                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.dec()
         }
     }
 
@@ -36,8 +36,8 @@ class GenreTopPagingSource(
                     repository.getGenreTopTvs(genreId, page)
             LoadResult.Page(
                 data = response,
-                prevKey = if (page == 1) null else page.minus(1),
-                nextKey = if (response.isEmpty()) null else page.plus(1)
+                prevKey = if (page == 1) null else page.dec(),
+                nextKey = if (response.isEmpty()) null else page.inc()
             )
         }
         catch (e: Exception)

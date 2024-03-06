@@ -21,8 +21,8 @@ class TopMoviesPagingSource(
     {
         return state.anchorPosition?.let()
         { anchorPosition ->
-            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
-                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
+            state.closestPageToPosition(anchorPosition)?.prevKey?.inc()
+                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.dec()
         }
     }
 
@@ -40,18 +40,13 @@ class TopMoviesPagingSource(
                         (response.page - 1) * 20 + index.inc()
                     )
                 },
-                prevKey = if (page == 1) null else page.minus(1),
-                nextKey = if (response.results.isEmpty()) null else page.plus(1)
+                prevKey = if (page == 1) null else page.dec(),
+                nextKey = if (response.results.isEmpty()) null else page.inc()
             )
         }
         catch (e: Exception)
         {
             LoadResult.Error(e)
         }
-    }
-
-    suspend fun isBookmark(id: Int): Boolean
-    {
-        return localDataSource.bookmarkDao().isBookmark(id)
     }
 }
