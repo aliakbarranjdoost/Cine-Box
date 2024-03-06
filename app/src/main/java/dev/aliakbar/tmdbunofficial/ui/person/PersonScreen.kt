@@ -1,6 +1,7 @@
 package dev.aliakbar.tmdbunofficial.ui.person
 
 import Carousel
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -119,11 +120,11 @@ fun PersonScreen(
                     modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
                 )
             }
-            else
+            AnimatedVisibility(visible = showDetails)
             {
-                Column(modifier = Modifier.padding(16.dp))
+                Column(modifier = Modifier.padding( horizontal = 16.dp))
                 {
-                    Text(text = person.biography, modifier = Modifier.padding(bottom = 16.dp))
+                    Text(text = person.biography, modifier = Modifier.padding(vertical = 16.dp))
                     DetailsHeader(header = stringResource(R.string.known_for))
                     Text(text = person.knownForDepartment)
 
@@ -204,7 +205,7 @@ fun <T> CreditList(
     val scrollState = rememberLazyListState()
 
     LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
         state = scrollState,
         modifier = Modifier.padding(bottom = 2.dp)
     )
