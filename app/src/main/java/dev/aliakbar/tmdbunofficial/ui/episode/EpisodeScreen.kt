@@ -1,5 +1,6 @@
 package dev.aliakbar.tmdbunofficial.ui.episode
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -87,13 +88,11 @@ fun EpisodeScreen(
                     .height(backdropHeight.dp)
             )
 
-            TitleText(title = episode.name, modifier = Modifier.padding(16.dp))
-
             MainMovieDetailsRow(
                 voteAverage = episode.voteAverage,
                 runtime = episode.runtime!!,
                 releaseDate = episode.airDate,
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+                modifier = Modifier.padding(16.dp)
             )
 
             if (!showDetails)
@@ -111,9 +110,12 @@ fun EpisodeScreen(
                     modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
                 )
             }
-            else
+            AnimatedVisibility(visible = showDetails)
             {
-                Column(modifier = Modifier.fillMaxWidth().padding(16.dp))
+                Column(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                )
                 {
                     Text(text = episode.overview)
 

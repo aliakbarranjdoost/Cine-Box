@@ -28,7 +28,7 @@ import dev.aliakbar.tmdbunofficial.R
 @Composable
 fun TopBar(title: String, onNavigateBack: () -> Unit)
 {
-    CenterAlignedTopAppBar(
+    TopAppBar(
         title = {
             Text(
                 text = title,
