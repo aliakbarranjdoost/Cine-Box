@@ -75,6 +75,7 @@ fun PersonScreen(
     onNavigateToMovie: (Int) -> Unit,
     onNavigateToTv: (Int) -> Unit,
     onNavigateBack: () -> Unit,
+    modifier: Modifier = Modifier
 )
 {
     val scrollState = rememberScrollState()
@@ -200,7 +201,8 @@ fun PersonScreen(
 fun <T> CreditList(
     credits : List<T>,
     onNavigate: (Int) -> Unit,
-    modifier: Modifier = Modifier)
+    modifier: Modifier = Modifier
+)
 {
     val scrollState = rememberLazyListState()
 
@@ -259,7 +261,8 @@ fun CreditItem(
     title: String,
     poster: String,
     personRole: String,
-    onNavigate: (Int) -> Unit
+    onNavigate: (Int) -> Unit,
+    modifier: Modifier = Modifier
 )
 {
     ElevatedCard(

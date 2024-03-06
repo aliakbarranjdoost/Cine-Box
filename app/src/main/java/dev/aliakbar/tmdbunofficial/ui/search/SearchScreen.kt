@@ -79,7 +79,6 @@ fun SearchScreen(
     {
         val focusRequester = remember{ FocusRequester() }
 
-
         SearchBar(
             modifier = Modifier
                 .align(Alignment.TopCenter)

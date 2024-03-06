@@ -88,7 +88,8 @@ fun BookmarkList(
 @Composable
 fun BookmarkItem(
     bookmark: Bookmark,
-    onNavigate: (Int) -> Unit
+    onNavigate: (Int) -> Unit,
+    modifier: Modifier = Modifier
 )
 {
     val configuration = LocalConfiguration.current

@@ -32,9 +32,7 @@ class MovieViewModel @Inject constructor(
     val savedStateHandle: SavedStateHandle
 ) : ViewModel()
 {
-    var movieUiState: MovieUiState by mutableStateOf(
-        MovieUiState.Loading
-    )
+    var movieUiState: MovieUiState by mutableStateOf(MovieUiState.Loading)
 
     private val id: Int = savedStateHandle[ID_ARG] ?: 0
 

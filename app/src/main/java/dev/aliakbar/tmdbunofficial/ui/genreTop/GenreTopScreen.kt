@@ -20,7 +20,6 @@ fun GenreTopScreen(
 )
 {
     val movies = viewModel.result.collectAsLazyPagingItems()
-//    val genre = viewModel.genre.collectAsStateWithLifecycle()
 
     Scaffold(topBar = { TopBar(title = if (viewModel.type) { "Popular ${viewModel.genreName} Movies"}
         else { "Popular ${viewModel.genreName} Tvs"}

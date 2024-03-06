@@ -237,10 +237,10 @@ fun MovieDetails(
 
     if (showImageFullscreen)
     {
-        ShowImageInFullscreenDialog(posterUrl = selectedImagePath)
-        {
-            showImageFullscreen = false
-        }
+        ShowImageInFullscreenDialog(
+            posterUrl = selectedImagePath,
+            onDismissRequest = { showImageFullscreen = false }
+        )
     }
 }
 

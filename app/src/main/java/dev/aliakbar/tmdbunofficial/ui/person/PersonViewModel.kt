@@ -30,9 +30,7 @@ class PersonViewModel @Inject constructor(
     val savedStateHandle: SavedStateHandle
 ): ViewModel()
 {
-    var personUiState: PersonUiState by mutableStateOf(
-        PersonUiState.Loading
-    )
+    var personUiState: PersonUiState by mutableStateOf(PersonUiState.Loading)
 
     private val id: Int = savedStateHandle[ID_ARG] ?: 0
 

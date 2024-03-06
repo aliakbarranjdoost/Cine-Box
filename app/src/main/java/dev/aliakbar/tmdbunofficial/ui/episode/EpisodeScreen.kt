@@ -40,6 +40,7 @@ import dev.aliakbar.tmdbunofficial.util.calculateBackdropHeight
 fun EpisodeScreen(
     onNavigateToPerson: (Int) -> Unit,
     onNavigateBack: () -> Unit,
+    modifier: Modifier = Modifier,
     viewModel: EpisodeViewModel = hiltViewModel()
 )
 {
@@ -61,7 +62,8 @@ fun EpisodeScreen(
 fun EpisodeScreen(
     episode: EpisodeDetails,
     onNavigateToPerson: (Int) -> Unit,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    modifier: Modifier = Modifier
 )
 {
     val scrollState = rememberScrollState()

@@ -34,7 +34,7 @@ private val TAG: String = HomeViewModel::class.java.simpleName
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    val homeRepository: HomeRepository
+    private val homeRepository: HomeRepository
 ) : ViewModel()
 {
 

@@ -197,7 +197,8 @@ fun HomeScreen(
 fun TrendList(
     trends: List<Trend>,
     onNavigate: (Int) -> Unit,
-    modifier: Modifier = Modifier)
+    modifier: Modifier = Modifier
+)
 {
     val scrollState = rememberLazyListState()
 
@@ -225,7 +226,8 @@ fun TrendItem(
     id: Int,
     poster: String,
     title: String,
-    onNavigate: (Int) -> Unit
+    onNavigate: (Int) -> Unit,
+    modifier: Modifier = Modifier
 )
 {
     ElevatedCard(onClick = { onNavigate(id) }, modifier = Modifier.width(170.dp))
@@ -248,6 +250,7 @@ fun Slider(
     trailers: List<Trailer>,
     onNavigateToMovie: (Int) -> Unit,
     onNavigateToTv: (Int) -> Unit,
+    modifier: Modifier = Modifier
 )
 {
     val pagerState = rememberPagerState(pageCount = { trailers.size })
@@ -280,7 +283,11 @@ fun Slider(
 }
 
 @Composable
-fun SliderItem(trailer: Trailer, onNavigate: () -> Unit)
+fun SliderItem(
+    trailer: Trailer,
+    onNavigate: () -> Unit,
+    modifier: Modifier = Modifier
+)
 {
     var isVideoFullScreen by remember { mutableStateOf(false) }
 
@@ -307,26 +314,22 @@ fun SliderItem(trailer: Trailer, onNavigate: () -> Unit)
                     {
                         VideoDialog(
                             videoId = trailer.video.key,
-                            LocalLifecycleOwner.current,
-                            modifier = Modifier.fillMaxSize()
+                            lifecycleOwner = LocalLifecycleOwner.current,
+                            modifier = Modifier.fillMaxSize(),
+                            onDismissRequest = { isVideoFullScreen = false }
                         )
-                        {
-                            isVideoFullScreen = false
-                        }
                     }
 
                     else                                ->
                     {
                         VideoDialog(
                             videoId = trailer.video.key,
-                            LocalLifecycleOwner.current,
+                            lifecycleOwner = LocalLifecycleOwner.current,
+                            onDismissRequest = { isVideoFullScreen = false },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(180.dp)
                         )
-                        {
-                            isVideoFullScreen = false
-                        }
                     }
                 }
             }
@@ -405,7 +408,11 @@ fun SliderItem(trailer: Trailer, onNavigate: () -> Unit)
 }
 
 @Composable
-fun YoutubeVideoPlayer(id: String, lifecycleOwner: LifecycleOwner, modifier: Modifier = Modifier)
+fun YoutubeVideoPlayer(
+    id: String,
+    lifecycleOwner: LifecycleOwner,
+    modifier: Modifier = Modifier
+)
 {
     AndroidView(
         factory =
@@ -431,8 +438,8 @@ fun YoutubeVideoPlayer(id: String, lifecycleOwner: LifecycleOwner, modifier: Mod
 fun VideoDialog(
     videoId: String,
     lifecycleOwner: LifecycleOwner,
-    modifier: Modifier = Modifier,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    modifier: Modifier = Modifier
 )
 {
     Dialog(
@@ -444,26 +451,6 @@ fun VideoDialog(
         )
         {
             YoutubeVideoPlayer(id = videoId, lifecycleOwner = lifecycleOwner)
-        }
-    }
-}
-
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
-@Composable
-fun PreviewSliderItem()
-{
-
-}
-
-//@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
-@Composable
-fun PreviewVideoDialog()
-{
-    TMDBUnofficialTheme()
-    {
-        VideoDialog(videoId = "", LocalLifecycleOwner.current)
-        {
-
         }
     }
 }

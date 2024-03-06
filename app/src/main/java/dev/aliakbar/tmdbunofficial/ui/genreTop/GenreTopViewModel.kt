@@ -24,20 +24,13 @@ class GenreTopViewModel @Inject constructor(
     val savedStateHandle: SavedStateHandle
 ) : ViewModel()
 {
-    val genreId = savedStateHandle[GenreTop.genreIdArg] ?: 0
+    private val genreId = savedStateHandle[GenreTop.genreIdArg] ?: 0
     val genreName = savedStateHandle[GenreTop.genreNameArg] ?: ""
     val type = savedStateHandle[GenreTop.typeArg] ?: true
 
     private lateinit var pagingSource : GenreTopPagingSource
 
     lateinit var result : Flow<PagingData<Trend>>
-    /*= query.flatMapLatest()
-    {
-        Pager(PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false))
-        {
-            MultiSearchPagingSource(query.value, searchRepository).also { pagingSource = it }
-        }.flow.cachedIn(viewModelScope)
-    }*/
 
     init
     {
@@ -64,9 +57,5 @@ class GenreTopViewModel @Inject constructor(
         {
             GenreTopPagingSource(genreId, type, repository ).also { pagingSource = it }
         }.flow.cachedIn(viewModelScope)
-    }
-
-    fun invalidateDataSource() {
-        pagingSource.invalidate()
     }
 }

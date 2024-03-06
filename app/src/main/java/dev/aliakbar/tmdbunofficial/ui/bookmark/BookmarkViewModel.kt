@@ -34,36 +34,4 @@ class BookmarkViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
         initialValue = BookmarkUiState.Loading
     )
-
-    init
-    {
-        //getBookmarks()
-    }
-
-    /*private fun getBookmarks()
-    {
-        viewModelScope.launch()
-        {
-            bookmarkUiState = try
-            {
-                BookmarkUiState.Success(repository.getBookmarks())
-            }
-            catch (e: IOException)
-            {
-                BookmarkUiState.Error
-            }
-            catch (e: HttpException)
-            {
-                BookmarkUiState.Error
-            }
-        }
-    }*/
-
-    fun removeFromBookmark(bookmark: Bookmark)
-    {
-        viewModelScope.launch()
-        {
-            repository.removeFromBookmark(bookmark)
-        }
-    }
 }
