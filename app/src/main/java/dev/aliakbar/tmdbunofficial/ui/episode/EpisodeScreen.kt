@@ -119,7 +119,9 @@ fun EpisodeScreen(
                 {
                     Text(text = episode.overview)
 
-                    Row {
+                    Row(
+                        modifier = Modifier.padding(top = 8.dp)
+                    ) {
                         DetailsHeader(header = "Season ")
                         Text(text = episode.seasonNumber.toString())
                         DetailsHeader(header = " Episode ")
@@ -144,7 +146,7 @@ fun EpisodeScreen(
                 {
                     ListTitleText(
                         title = R.string.casts,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                        modifier = Modifier.padding(bottom = 8.dp)
                     )
 
                     PersonList(persons = episode.casts, onNavigateToPerson = onNavigateToPerson)
