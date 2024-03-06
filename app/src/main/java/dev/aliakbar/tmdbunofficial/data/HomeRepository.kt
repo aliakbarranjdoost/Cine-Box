@@ -1,6 +1,5 @@
 package dev.aliakbar.tmdbunofficial.data
 
-import dev.aliakbar.tmdbunofficial.data.source.local.LocalTrend
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 import javax.inject.Inject
@@ -24,53 +23,50 @@ class HomeRepository @Inject constructor(
         }
     }
 
-    suspend fun getThisWeekTrendingMovies(): List<LocalTrend>
+    suspend fun getThisWeekTrendingMovies(): List<Trend>
     {
-        //return networkDataSource.getThisWeekTrendingMovies().results.toLocal(basePosterUrl,baseBackdropUrl,false)
         return networkDataSource.getThisWeekTrendingMovies().results.mapIndexed()
         { index, networkTrendMovie ->
-            networkTrendMovie.toLocal(basePosterUrl, baseBackdropUrl, isBookmark(networkTrendMovie.id), index.inc())
+            networkTrendMovie.toExternal(basePosterUrl, baseBackdropUrl, isBookmark(networkTrendMovie.id))
         }
     }
 
-    suspend fun getTodayTrendingSeries(): List<LocalTrend>
+    suspend fun getTodayTrendingSeries(): List<Trend>
     {
-        //return networkDataSource.getTodayTrendingSeries().results.toLocal(basePosterUrl,baseBackdropUrl,false)
         return networkDataSource.getTodayTrendingSeries().results.mapIndexed()
         { index, networkTrendSeries ->
-            networkTrendSeries.toLocal(basePosterUrl, baseBackdropUrl, isBookmark(networkTrendSeries.id), index.inc())
+            networkTrendSeries.toExternal(basePosterUrl, baseBackdropUrl, isBookmark(networkTrendSeries.id))
         }
     }
 
-    suspend fun getThisWeekTrendingSeries(): List<LocalTrend>
+    suspend fun getThisWeekTrendingSeries(): List<Trend>
     {
-        //return networkDataSource.getThisWeekTrendingSeries().results.toLocal(basePosterUrl,baseBackdropUrl,false)
         return networkDataSource.getThisWeekTrendingSeries().results.mapIndexed()
         { index, networkTrendSeries ->
-            networkTrendSeries.toLocal(basePosterUrl, baseBackdropUrl, isBookmark(networkTrendSeries.id), index.inc())
+            networkTrendSeries.toExternal(basePosterUrl, baseBackdropUrl, isBookmark(networkTrendSeries.id))
         }
     }
 
-    suspend fun getPopularMovies(): List<LocalTrend>
+    suspend fun getPopularMovies(): List<Trend>
     {
-//        return networkDataSource.getPopularMovies().results.toLocal(basePosterUrl,baseBackdropUrl,false)
         return networkDataSource.getPopularMovies().results.mapIndexed()
         { index, networkPopularMovie ->
-            networkPopularMovie.toLocal(
+            networkPopularMovie.toExternal(
                 basePosterUrl, baseBackdropUrl,
-                isBookmark(networkPopularMovie.id), index.inc()
+                index.inc(),
+                isBookmark(networkPopularMovie.id)
             )
         }
     }
 
-    suspend fun getPopularSeries(): List<LocalTrend>
+    suspend fun getPopularSeries(): List<Trend>
     {
-//        return networkDataSource.getPopularSeries().results.toLocal(basePosterUrl,baseBackdropUrl,false)
         return networkDataSource.getPopularSeries().results.mapIndexed()
         { index, networkPopularMovie ->
-            networkPopularMovie.toLocal(
+            networkPopularMovie.toExternal(
                 basePosterUrl, baseBackdropUrl,
-                isBookmark(networkPopularMovie.id), index.inc()
+                index.inc(),
+                isBookmark(networkPopularMovie.id)
             )
         }
     }
@@ -111,15 +107,5 @@ class HomeRepository @Inject constructor(
             }
         }
         return null
-    }
-
-    suspend fun addTrendToBookmark(bookmark: Bookmark)
-    {
-        localDataSource.bookmarkDao().insert(bookmark.toLocal())
-    }
-
-    suspend fun removeFromBookmark(trend: Trend)
-    {
-        localDataSource.bookmarkDao().delete(trend.toBookmark().toLocal())
     }
 }

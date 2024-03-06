@@ -49,14 +49,14 @@ class HomeViewModel @Inject constructor(
             homeUiState = try
             {
                 val todayTrendMovies = homeRepository.getTodayTrendingMovies()
-                //val thisWeekTrendMovies = homeRepository.getThisWeekTrendingMovies().toExternal()
+                //val thisWeekTrendMovies = homeRepository.getThisWeekTrendingMovies()
 
-                val todayTrendSeries = homeRepository.getTodayTrendingSeries().toExternal()
-                //val thisWeekTrendSeries = homeRepository.getThisWeekTrendingSeries().toExternal()
+                val todayTrendSeries = homeRepository.getTodayTrendingSeries()
+                //val thisWeekTrendSeries = homeRepository.getThisWeekTrendingSeries()
 
-                val popularMovies = homeRepository.getPopularMovies().toExternal()
+                val popularMovies = homeRepository.getPopularMovies()
 
-                val popularSeries = homeRepository.getPopularSeries().toExternal()
+                val popularSeries = homeRepository.getPopularSeries()
 
                 val todayTrendingMoviesTrailers = homeRepository.getTodayTrendingMovieTrailers()
 

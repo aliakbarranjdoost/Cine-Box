@@ -2,7 +2,6 @@ package dev.aliakbar.tmdbunofficial.data
 
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalBookmark
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalImageConfiguration
-import dev.aliakbar.tmdbunofficial.data.source.local.LocalTrend
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCast
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCollection
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkCompany
@@ -74,48 +73,7 @@ fun List<NetworkTrendingMovie>.toExternal(
     basePosterUrl: String,
     baseBackdropUrl: String,
     isBookmark: Boolean
-) =
-    map { it.toExternal(basePosterUrl, baseBackdropUrl, isBookmark) }
-
-fun NetworkTrendingMovie.toLocal(
-    basePosterUrl: String, baseBackdropUrl: String,
-    isBookmark: Boolean, rank: Int
-) = LocalTrend(
-    id = id,
-    title = title,
-    score = voteAverage,
-    poster = basePosterUrl + posterPath,
-    backdrop = baseBackdropUrl + backdropPath,
-    rank = rank,
-    isBookmark = isBookmark,
-    type = mediaType!!
-)
-
-@JvmName("trendingMovieNetworkToLocal")
-fun List<NetworkTrendingMovie>.toLocal(
-    basePosterUrl: String, baseBackdropUrl: String,
-    isBookmark: Boolean
-) = mapIndexed()
-{ index, networkTrendMovie ->
-    networkTrendMovie.toLocal(basePosterUrl, baseBackdropUrl, isBookmark, index.inc())
-}
-
-fun LocalTrend.toExternal() = Trend(
-    id = id,
-    title = title,
-    score = score,
-    poster = poster,
-    backdrop = backdrop,
-    rank = rank,
-    isBookmark = isBookmark,
-    type = type
-)
-
-@JvmName("trendingSerialLocalToExternal")
-fun List<LocalTrend>.toExternal() = map()
-{ localTrend ->
-    localTrend.toExternal()
-}
+) = map { it.toExternal(basePosterUrl, baseBackdropUrl, isBookmark) }
 
 fun NetworkTrendingSeries.toExternal(
     basePosterUrl: String, baseBackdropUrl: String,
@@ -137,33 +95,7 @@ fun NetworkTrendingSeries.toExternal(
 fun List<NetworkTrendingSeries>.toExternal(
     basePosterUrl: String, baseBackdropUrl: String,
     isBookmark: Boolean
-) =
-    map { it.toExternal(basePosterUrl, baseBackdropUrl, isBookmark) }
-
-fun NetworkTrendingSeries.toLocal(
-    basePosterUrl: String, baseBackdropUrl: String,
-    isBookmark: Boolean, rank: Int
-) =
-    LocalTrend(
-        id = id,
-        title = name,
-        score = voteAverage,
-        poster = basePosterUrl + posterPath,
-        backdrop = baseBackdropUrl + backdropPath,
-        rank = rank,
-        isBookmark = isBookmark,
-        type = mediaType!!
-    )
-
-@JvmName("trendingSerialNetworkToLocal")
-fun List<NetworkTrendingSeries>.toLocal(
-    basePosterUrl: String, baseBackdropUrl: String,
-    isBookmark: Boolean
-) =
-    mapIndexed()
-    { index, networkTrendMovie ->
-        networkTrendMovie.toLocal(basePosterUrl, baseBackdropUrl, isBookmark, index.inc())
-    }
+) = map { it.toExternal(basePosterUrl, baseBackdropUrl, isBookmark) }
 
 fun NetworkPopularMovie.toExternal(
     basePosterUrl: String, baseBackdropUrl: String,
@@ -191,33 +123,6 @@ fun List<NetworkPopularMovie>.toExternal(
     )
 }
 
-fun NetworkPopularMovie.toLocal(
-    basePosterUrl: String, baseBackdropUrl: String,
-    isBookmark: Boolean, rank: Int
-) =
-    LocalTrend(
-        id = id,
-        title = title,
-        score = voteAverage,
-        poster = basePosterUrl + posterPath,
-        backdrop = baseBackdropUrl + backdropPath,
-        rank = rank,
-        isBookmark = isBookmark,
-        type = "movie"
-    )
-
-@JvmName("popularMovieNetworkToLocal")
-fun List<NetworkPopularMovie>.toLocal(
-    basePosterUrl: String, baseBackdropUrl: String,
-    isBookmark: Boolean
-) = mapIndexed()
-{ index, networkPopularMovie ->
-    networkPopularMovie.toLocal(
-        basePosterUrl, baseBackdropUrl,
-        isBookmark, index.inc()
-    )
-}
-
 fun NetworkPopularSerial.toExternal(
     basePosterUrl: String,
     baseBackdropUrl: String,
@@ -238,39 +143,10 @@ fun NetworkPopularSerial.toExternal(
 fun List<NetworkPopularSerial>.toExternal(
     basePosterUrl: String, baseBackdropUrl: String,
     isBookmark: Boolean
-) =
-    mapIndexed()
-    { index, networkPopularSerial ->
-        networkPopularSerial.toExternal(basePosterUrl, baseBackdropUrl, index, isBookmark)
-    }
-
-fun NetworkPopularSerial.toLocal(
-    basePosterUrl: String, baseBackdropUrl: String,
-    isBookmark: Boolean, rank: Int
-) =
-    LocalTrend(
-        id = id,
-        title = name,
-        score = voteAverage,
-        poster = basePosterUrl + posterPath,
-        backdrop = baseBackdropUrl + backdropPath,
-        rank = rank,
-        isBookmark = isBookmark,
-        type = "tv"
-    )
-
-@JvmName("popularSerialNetworkToLocal")
-fun List<NetworkPopularSerial>.toLocal(
-    basePosterUrl: String, baseBackdropUrl: String,
-    isBookmark: Boolean
-) =
-    mapIndexed()
-    { index, networkPopularMovie ->
-        networkPopularMovie.toLocal(
-            basePosterUrl, baseBackdropUrl,
-            isBookmark, index.inc()
-        )
-    }
+) = mapIndexed()
+{ index, networkPopularSerial ->
+    networkPopularSerial.toExternal(basePosterUrl, baseBackdropUrl, index, isBookmark)
+}
 
 fun NetworkMovieDetails.toExternal(
     basePosterUrl: String,

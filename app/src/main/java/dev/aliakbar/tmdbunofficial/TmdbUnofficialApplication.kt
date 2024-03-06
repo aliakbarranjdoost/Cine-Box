@@ -5,12 +5,3 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class TmdbUnofficialApplication: Application()
-{
-    lateinit var container: AppContainer
-
-    override fun onCreate()
-    {
-        super.onCreate()
-        container = DefaultAppContainer(this)
-    }
-}
