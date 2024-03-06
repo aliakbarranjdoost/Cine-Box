@@ -1,10 +1,8 @@
 package dev.aliakbar.tmdbunofficial.util
 
 import androidx.room.TypeConverter
-import dev.aliakbar.tmdbunofficial.data.Episode
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.encodeToJsonElement
 
 class Converters
 {
@@ -19,14 +17,4 @@ class Converters
     {
         return Json.decodeFromString(items)
     }
-}
-
-fun Episode.toJsonString(): String
-{
-    return Json.encodeToString(this)
-}
-
-fun String.toEpisode(): Episode
-{
-    return Json.decodeFromString<Episode>(this)
 }

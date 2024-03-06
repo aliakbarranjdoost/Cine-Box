@@ -92,6 +92,7 @@ fun calculateBackdropHeight(screenWidth : Int): Int
     return (screenWidth * 0.5625).roundToInt()
 }
 
+// TODO: This code badly need refactoring
 fun mergeSimilarItems(persons: List<Person>): List<Person>
 {
     val mergedPersons = persons.toMutableList()
