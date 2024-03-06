@@ -17,8 +17,7 @@ class HomeRepository @Inject constructor(
         {
             it.toExternal(
                 basePosterUrl = basePosterUrl,
-                baseBackdropUrl = baseBackdropUrl,
-                isBookmark = isBookmark(it.id)
+                baseBackdropUrl = baseBackdropUrl
             )
         }
     }
@@ -27,7 +26,7 @@ class HomeRepository @Inject constructor(
     {
         return networkDataSource.getThisWeekTrendingMovies().results.mapIndexed()
         { index, networkTrendMovie ->
-            networkTrendMovie.toExternal(basePosterUrl, baseBackdropUrl, isBookmark(networkTrendMovie.id))
+            networkTrendMovie.toExternal(basePosterUrl, baseBackdropUrl)
         }
     }
 
@@ -35,7 +34,7 @@ class HomeRepository @Inject constructor(
     {
         return networkDataSource.getTodayTrendingSeries().results.mapIndexed()
         { index, networkTrendSeries ->
-            networkTrendSeries.toExternal(basePosterUrl, baseBackdropUrl, isBookmark(networkTrendSeries.id))
+            networkTrendSeries.toExternal(basePosterUrl, baseBackdropUrl)
         }
     }
 
@@ -43,7 +42,7 @@ class HomeRepository @Inject constructor(
     {
         return networkDataSource.getThisWeekTrendingSeries().results.mapIndexed()
         { index, networkTrendSeries ->
-            networkTrendSeries.toExternal(basePosterUrl, baseBackdropUrl, isBookmark(networkTrendSeries.id))
+            networkTrendSeries.toExternal(basePosterUrl, baseBackdropUrl)
         }
     }
 
@@ -53,8 +52,7 @@ class HomeRepository @Inject constructor(
         { index, networkPopularMovie ->
             networkPopularMovie.toExternal(
                 basePosterUrl, baseBackdropUrl,
-                index.inc(),
-                isBookmark(networkPopularMovie.id)
+                index.inc()
             )
         }
     }
@@ -65,8 +63,7 @@ class HomeRepository @Inject constructor(
         { index, networkPopularMovie ->
             networkPopularMovie.toExternal(
                 basePosterUrl, baseBackdropUrl,
-                index.inc(),
-                isBookmark(networkPopularMovie.id)
+                index.inc()
             )
         }
     }
@@ -87,7 +84,7 @@ class HomeRepository @Inject constructor(
                     todayTrendingMovieTrailers.add(
                         Trailer(
                             video = trailer,
-                            trend = it.toExternal(basePosterUrl,baseBackdropUrl,false),
+                            trend = it.toExternal(basePosterUrl,baseBackdropUrl),
                         )
                     )
                 }

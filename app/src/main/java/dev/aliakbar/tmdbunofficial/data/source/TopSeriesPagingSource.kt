@@ -37,7 +37,7 @@ class TopSeriesPagingSource(
                 { index, networkPopularSerial ->
                     networkPopularSerial.toExternal(
                         basePosterUrl, baseBackdropUrl,
-                        (response.page - 1) * 20 + index.inc(), isBookmark(networkPopularSerial.id),
+                        (response.page - 1) * 20 + index.inc()
                     )
                 },
                 prevKey = if (page == 1) null else page.minus(1),

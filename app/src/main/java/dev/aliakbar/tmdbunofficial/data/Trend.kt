@@ -7,6 +7,5 @@ data class Trend(
     val poster: String,
     val backdrop: String,
     val rank: Int,
-    var isBookmark: Boolean,
     val type: String
 )

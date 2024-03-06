@@ -54,8 +54,6 @@ fun NetworkImageConfiguration.toLocal(id: Int) = LocalImageConfiguration(
 fun NetworkTrendingMovie.toExternal(
     basePosterUrl: String,
     baseBackdropUrl: String,
-    isBookmark: Boolean,
-    mediaType: String? = null,
     rank: Int = 0
 ) = Trend(
     id = id,
@@ -64,7 +62,6 @@ fun NetworkTrendingMovie.toExternal(
     poster = basePosterUrl + posterPath,
     backdrop = baseBackdropUrl + backdropPath,
     rank = rank,
-    isBookmark = isBookmark,
     type = mediaType ?: this.mediaType!!
 )
 
@@ -73,11 +70,10 @@ fun List<NetworkTrendingMovie>.toExternal(
     basePosterUrl: String,
     baseBackdropUrl: String,
     isBookmark: Boolean
-) = map { it.toExternal(basePosterUrl, baseBackdropUrl, isBookmark) }
+) = map { it.toExternal(basePosterUrl, baseBackdropUrl) }
 
 fun NetworkTrendingSeries.toExternal(
     basePosterUrl: String, baseBackdropUrl: String,
-    isBookmark: Boolean,
     mediaType: String? = null,
     rank: Int = 0
 ) = Trend(
@@ -87,7 +83,6 @@ fun NetworkTrendingSeries.toExternal(
     poster = basePosterUrl + posterPath,
     backdrop = baseBackdropUrl + backdropPath,
     rank = rank,
-    isBookmark = isBookmark,
     type = mediaType ?: this.mediaType!!
 )
 
@@ -95,11 +90,12 @@ fun NetworkTrendingSeries.toExternal(
 fun List<NetworkTrendingSeries>.toExternal(
     basePosterUrl: String, baseBackdropUrl: String,
     isBookmark: Boolean
-) = map { it.toExternal(basePosterUrl, baseBackdropUrl, isBookmark) }
+) = map { it.toExternal(basePosterUrl, baseBackdropUrl) }
 
 fun NetworkPopularMovie.toExternal(
-    basePosterUrl: String, baseBackdropUrl: String,
-    rank: Int, isBookmark: Boolean
+    basePosterUrl: String,
+    baseBackdropUrl: String,
+    rank: Int
 ) = Trend(
     id = id,
     title = title,
@@ -107,27 +103,21 @@ fun NetworkPopularMovie.toExternal(
     poster = basePosterUrl + posterPath,
     backdrop = baseBackdropUrl + backdropPath,
     rank = rank,
-    isBookmark = isBookmark,
     type = "movie"
 )
 
 @JvmName("popularMovieNetworkToExternal")
 fun List<NetworkPopularMovie>.toExternal(
     basePosterUrl: String, baseBackdropUrl: String,
-    isBookmark: Boolean
 ) = mapIndexed()
 { index, networkPopularMovie ->
-    networkPopularMovie.toExternal(
-        basePosterUrl, baseBackdropUrl,
-        index.inc(), isBookmark,
-    )
+    networkPopularMovie.toExternal(basePosterUrl, baseBackdropUrl, index.inc())
 }
 
 fun NetworkPopularSerial.toExternal(
     basePosterUrl: String,
     baseBackdropUrl: String,
-    rank: Int,
-    isBookmark: Boolean
+    rank: Int
 ) = Trend(
     id = id,
     title = name,
@@ -135,7 +125,6 @@ fun NetworkPopularSerial.toExternal(
     poster = basePosterUrl + posterPath,
     backdrop = baseBackdropUrl + backdropPath,
     rank = rank,
-    isBookmark = isBookmark,
     type = "tv"
 )
 
@@ -145,7 +134,7 @@ fun List<NetworkPopularSerial>.toExternal(
     isBookmark: Boolean
 ) = mapIndexed()
 { index, networkPopularSerial ->
-    networkPopularSerial.toExternal(basePosterUrl, baseBackdropUrl, index, isBookmark)
+    networkPopularSerial.toExternal(basePosterUrl, baseBackdropUrl, index)
 }
 
 fun NetworkMovieDetails.toExternal(
@@ -357,7 +346,6 @@ fun NetworkMultiSearchResult.toExternal(
     basePosterUrl: String,
     baseBackdropUrl: String,
     baseProfileUrl: String,
-    isBookmark: Boolean
 ) = when (val mediaType = MediaType.valueOf(mediaType.uppercase()))
 {
     MediaType.MOVIE  -> SearchResult(
@@ -367,7 +355,6 @@ fun NetworkMultiSearchResult.toExternal(
         mediaType = mediaType,
         releaseDate = releaseDate!!,
         knownForDepartment = null,
-        isBookmark = isBookmark,
         backdropUrl = baseBackdropUrl + baseBackdropUrl,
         score = voteAverage!!
     )
@@ -379,7 +366,6 @@ fun NetworkMultiSearchResult.toExternal(
         mediaType = mediaType,
         releaseDate = firstAirDate!!,
         knownForDepartment = null,
-        isBookmark = isBookmark ,
         backdropUrl = baseBackdropUrl + baseBackdropUrl,
         score = voteAverage!!
     )
@@ -391,7 +377,6 @@ fun NetworkMultiSearchResult.toExternal(
         mediaType = mediaType,
         releaseDate = null,
         knownForDepartment = knownForDepartment,
-        isBookmark = isBookmark,
         backdropUrl = "",
         score = null
     )
@@ -402,8 +387,7 @@ fun List<NetworkMultiSearchResult>.toExternal(
     basePosterUrl: String,
     baseBackdropUrl: String,
     baseProfileUrl: String,
-    isBookmark: Boolean
-) = map { it.toExternal(basePosterUrl, baseProfileUrl,baseProfileUrl, isBookmark) }
+) = map { it.toExternal(basePosterUrl, baseProfileUrl,baseProfileUrl) }
 
 fun NetworkTvDetails.toExternal(
     basePosterUrl: String,

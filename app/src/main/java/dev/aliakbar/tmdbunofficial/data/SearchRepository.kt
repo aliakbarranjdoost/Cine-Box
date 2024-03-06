@@ -14,7 +14,7 @@ class SearchRepository @Inject constructor(
     suspend fun search(query: String, page: Int = 1): List<SearchResult>
     {
         return networkDataSource.multiSearch(query, page).results.map()
-        { it.toExternal(basePosterUrl, baseProfileUrl,baseProfileUrl, isBookmark(it.id)) }
+        { it.toExternal(basePosterUrl, baseProfileUrl,baseProfileUrl) }
     }
 
     suspend fun addTrendToBookmark(bookmark: Bookmark)

@@ -20,9 +20,4 @@ class BookmarkRepository @Inject constructor(
     {
         localDataSource.bookmarkDao().delete(bookmark.toLocal())
     }
-
-    suspend fun getBookmarks() : List<Bookmark>
-    {
-        return localDataSource.bookmarkDao().getAllBookmarks().map { it.toExternal() }
-    }
 }

@@ -37,7 +37,7 @@ class TopMoviesPagingSource(
                 { index, networkPopularMovie ->
                     networkPopularMovie.toExternal(
                         basePosterUrl, baseBackdropUrl,
-                        (response.page - 1) * 20 + index.inc(), isBookmark(networkPopularMovie.id),
+                        (response.page - 1) * 20 + index.inc()
                     )
                 },
                 prevKey = if (page == 1) null else page.minus(1),

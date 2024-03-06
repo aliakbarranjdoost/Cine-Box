@@ -146,7 +146,6 @@ val trend = Trend(
     poster = "/5VTN0pR8gcqV3EPUHHfMGnJYN9L.jpg",
     backdrop = "/bccR2CGTWVVSZAG0yqmy3DIvhTX.jpg",
     rank = 0,
-    isBookmark = false,
     type = "movie"
 )
 
