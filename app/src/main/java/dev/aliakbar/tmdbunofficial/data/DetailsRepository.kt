@@ -27,7 +27,6 @@ class DetailsRepository @Inject constructor(
         return networkDataSource.getTvDetails(id).toExternal(
             basePosterUrl = basePosterUrl,
             baseBackdropUrl = baseBackdropUrl,
-            baseLogoUrl = baseLogoUrl,
             baseProfileUrl = baseProfileUrl,
             isBookmark(id)
         )

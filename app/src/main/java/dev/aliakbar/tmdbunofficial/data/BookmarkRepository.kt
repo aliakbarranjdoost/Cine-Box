@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class BookmarkRepository @Inject constructor(
-    private val networkDataSource: TMDBApiService,
+    networkDataSource: TMDBApiService,
     private val localDataSource: TmdbDatabase
 ): ConfigurationRepository(networkDataSource, localDataSource.configurationDao(), localDataSource.bookmarkDao())
 {

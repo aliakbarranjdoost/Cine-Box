@@ -42,14 +42,4 @@ class TopRepository @Inject constructor(
             )
         }
     ).flow
-
-    suspend fun addTrendToBookmark(trend: Trend)
-    {
-        localDataSource.bookmarkDao().insert(trend.toBookmark().toLocal())
-    }
-
-    suspend fun removeFromBookmark(trend: Trend)
-    {
-        localDataSource.bookmarkDao().delete(trend.toBookmark().toLocal())
-    }
 }

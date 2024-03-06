@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class PersonRepository @Inject constructor(
     private val networkDataSource: TMDBApiService,
-    private val localDataSource: TmdbDatabase
+    localDataSource: TmdbDatabase
 ) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao(), localDataSource.bookmarkDao())
 {
     suspend fun getPerson(id: Int): PersonDetails

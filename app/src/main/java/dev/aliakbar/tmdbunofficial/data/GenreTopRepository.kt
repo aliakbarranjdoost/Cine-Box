@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class GenreTopRepository @Inject constructor(
     private val networkDataSource: TMDBApiService,
-    private val localDataSource: TmdbDatabase
+    localDataSource: TmdbDatabase
 ) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao(), localDataSource.bookmarkDao())
 {
     suspend fun getGenreTopMovies(genreId: Int, page: Int = 1): List<Trend>

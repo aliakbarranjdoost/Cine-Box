@@ -16,14 +16,4 @@ class SearchRepository @Inject constructor(
         return networkDataSource.multiSearch(query, page).results.map()
         { it.toExternal(basePosterUrl, baseProfileUrl,baseProfileUrl) }
     }
-
-    suspend fun addTrendToBookmark(bookmark: Bookmark)
-    {
-        localDataSource.bookmarkDao().insert(bookmark.toLocal())
-    }
-
-    suspend fun removeFromBookmark(bookmark: Bookmark)
-    {
-        localDataSource.bookmarkDao().delete(bookmark.toLocal())
-    }
 }

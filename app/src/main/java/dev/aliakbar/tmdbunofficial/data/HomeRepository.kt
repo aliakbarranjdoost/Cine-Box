@@ -8,7 +8,7 @@ private var TAG = HomeRepository::class.java.simpleName
 
 class HomeRepository @Inject constructor(
     private val networkDataSource: TMDBApiService,
-    private val localDataSource: TmdbDatabase
+    localDataSource: TmdbDatabase
 ) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao(), localDataSource.bookmarkDao())
 {
     suspend fun getTodayTrendingMovies(): List<Trend>
