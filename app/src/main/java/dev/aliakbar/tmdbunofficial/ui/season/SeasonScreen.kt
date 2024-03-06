@@ -72,7 +72,10 @@ fun SeasonScreen(
     onNavigateBack: () -> Unit
 )
 {
-    Scaffold(topBar = { TopBar(title = seasonDetails.name, onNavigateBack = onNavigateBack) })
+    Scaffold(
+        topBar = { TopBar(title = seasonDetails.name, onNavigateBack = onNavigateBack) },
+        modifier = Modifier.padding(horizontal = 16.dp)
+    )
     { innerPadding ->
         EpisodeList(
             episodes = seasonDetails.episodes,
@@ -90,7 +93,7 @@ fun EpisodeList(
 )
 {
     LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
     )
     {
@@ -114,7 +117,6 @@ fun EpisodeItem(episode: Episode, onNavigateToEpisode: (Int, Int) -> Unit)
         modifier = Modifier
             .height(100.dp)
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp)
     ) {
         Row() {
             Box(
@@ -146,7 +148,8 @@ fun EpisodeItem(episode: Episode, onNavigateToEpisode: (Int, Int) -> Unit)
                 if (episode.voteAverage > 0)
                 {
                     Row(
-                        modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+                        modifier = Modifier.padding(horizontal = 8.dp).fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
                     )
                     {
                         Text(
