@@ -54,6 +54,7 @@ fun NetworkImageConfiguration.toLocal(id: Int) = LocalImageConfiguration(
 fun NetworkTrendingMovie.toExternal(
     basePosterUrl: String,
     baseBackdropUrl: String,
+    mediaType: String? = null,
     rank: Int = 0
 ) = Trend(
     id = id,
