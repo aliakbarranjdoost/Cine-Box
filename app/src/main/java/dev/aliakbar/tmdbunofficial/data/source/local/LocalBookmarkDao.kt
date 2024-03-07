@@ -14,9 +14,6 @@ interface LocalBookmarkDao
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(bookmark: LocalBookmark)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(bookmark: List<LocalBookmark>)
-
     @Update
     suspend fun update(bookmark: LocalBookmark)
 
@@ -28,9 +25,6 @@ interface LocalBookmarkDao
 
     @Query("SELECT * FROM bookmarks")
     fun getAllBookmarksStream(): Flow<List<LocalBookmark>>
-
-    @Query("SELECT * FROM bookmarks")
-    suspend fun getAllBookmarks(): List<LocalBookmark>
 
     @Query("SELECT EXISTS(SELECT * FROM bookmarks WHERE id = :id)")
     suspend fun isBookmark(id: Int): Boolean

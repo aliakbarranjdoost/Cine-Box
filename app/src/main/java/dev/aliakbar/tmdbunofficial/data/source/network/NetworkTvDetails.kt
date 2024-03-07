@@ -1,5 +1,16 @@
 package dev.aliakbar.tmdbunofficial.data.source.network
 
+import dev.aliakbar.tmdbunofficial.util.NETWORK_BACKDROP_PATH_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_CREATED_BY_STARS_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_FIRST_AIR_DATE_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_IN_PRODUCTION_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_LAST_AIR_DATE_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_NUMBER_OF_EPISODES_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_NUMBER_OF_SEASONS_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_ORIGINAL_LANGUAGE_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_POSTER_PATH_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_VOTE_AVERAGE_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_VOTE_COUNT_SERIAL_NAME
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -7,34 +18,34 @@ import kotlinx.serialization.Serializable
 data class NetworkTvDetails(
     val id: Int,
     val name: String,
-    @SerialName("created_by")
+    @SerialName(NETWORK_CREATED_BY_STARS_SERIAL_NAME)
     val createdBy: List<NetworkCreatedBy>,
-    @SerialName("first_air_date")
+    @SerialName(NETWORK_FIRST_AIR_DATE_SERIAL_NAME)
     val firstAirDate: String,
-    @SerialName("last_air_date")
+    @SerialName(NETWORK_LAST_AIR_DATE_SERIAL_NAME)
     val lastAirDate: String? = null,
-    @SerialName("number_of_episodes")
+    @SerialName(NETWORK_NUMBER_OF_EPISODES_SERIAL_NAME)
     val numberOfEpisodes: Int,
-    @SerialName("number_of_seasons")
+    @SerialName(NETWORK_NUMBER_OF_SEASONS_SERIAL_NAME)
     val numberOfSeasons: Int,
     val tagline: String,
     val overview: String,
-    @SerialName("original_language")
+    @SerialName(NETWORK_ORIGINAL_LANGUAGE_SERIAL_NAME)
     val originalLanguage: String,
-    @SerialName("backdrop_path")
+    @SerialName(NETWORK_BACKDROP_PATH_SERIAL_NAME)
     val backdropPath: String,
-    @SerialName("poster_path")
+    @SerialName(NETWORK_POSTER_PATH_SERIAL_NAME)
     val posterPath: String,
     val genres: List<NetworkGenre>,
     val adult: Boolean,
     val popularity: Float,
-    @SerialName("vote_average")
+    @SerialName(NETWORK_VOTE_AVERAGE_SERIAL_NAME)
     val voteAverage: Float,
-    @SerialName("vote_count")
+    @SerialName(NETWORK_VOTE_COUNT_SERIAL_NAME)
     val voteCount: Int,
     val seasons: List<NetworkSeason>,
     val homepage: String,
-    @SerialName("in_production")
+    @SerialName(NETWORK_IN_PRODUCTION_SERIAL_NAME)
     val isInProduction: Boolean,
     val status: String,
     val type: String,

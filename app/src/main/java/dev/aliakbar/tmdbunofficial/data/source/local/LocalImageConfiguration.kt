@@ -2,8 +2,9 @@ package dev.aliakbar.tmdbunofficial.data.source.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import dev.aliakbar.tmdbunofficial.util.LOCAL_CONFIGURATION_TABLE_NAME
 
-@Entity(tableName = "configurations")
+@Entity(tableName = LOCAL_CONFIGURATION_TABLE_NAME)
 data class LocalImageConfiguration(
     @PrimaryKey
     val id: Int,

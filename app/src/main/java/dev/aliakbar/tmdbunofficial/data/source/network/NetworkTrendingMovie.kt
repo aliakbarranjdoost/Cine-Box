@@ -1,5 +1,10 @@
 package dev.aliakbar.tmdbunofficial.data.source.network
 
+import dev.aliakbar.tmdbunofficial.util.NETWORK_BACKDROP_PATH_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_MEDIA_TYPE_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_POSTER_PATH_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_VOTE_AVERAGE_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_VOTE_COUNT_SERIAL_NAME
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -8,16 +13,16 @@ import kotlinx.serialization.Serializable
 data class NetworkTrendingMovie(
     val id: Int,
     val title: String,
-    @SerialName("backdrop_path")
+    @SerialName(NETWORK_BACKDROP_PATH_SERIAL_NAME)
     val backdropPath: String? = null,
-    @SerialName("poster_path")
+    @SerialName(NETWORK_POSTER_PATH_SERIAL_NAME)
     val posterPath: String? = null,
-    @SerialName("media_type")
+    @SerialName(NETWORK_MEDIA_TYPE_SERIAL_NAME)
     val mediaType: String? = null,
     val popularity: Float,
-    @SerialName("vote_average")
+    @SerialName(NETWORK_VOTE_AVERAGE_SERIAL_NAME)
     val voteAverage: Float,
-    @SerialName("vote_count")
+    @SerialName(NETWORK_VOTE_COUNT_SERIAL_NAME)
     val voteCount: Int
     /*@SerialName("original_title")
     val originalTitle: String,

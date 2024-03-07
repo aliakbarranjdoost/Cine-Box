@@ -1,5 +1,6 @@
 package dev.aliakbar.tmdbunofficial.data.source.network
 
+import dev.aliakbar.tmdbunofficial.util.NETWORK_PROFILE_PATH_SERIAL_NAME
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -7,7 +8,7 @@ import kotlinx.serialization.Serializable
 data class NetworkCast(
     val id: Int,
     val name: String,
-    @SerialName("profile_path")
+    @SerialName(NETWORK_PROFILE_PATH_SERIAL_NAME)
     val profilePath: String? = null,
     val character: String,
     /*val adult: Boolean,

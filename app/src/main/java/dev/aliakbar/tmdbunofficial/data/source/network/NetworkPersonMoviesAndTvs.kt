@@ -1,5 +1,12 @@
 package dev.aliakbar.tmdbunofficial.data.source.network
 
+import dev.aliakbar.tmdbunofficial.util.NETWORK_FIRST_AIR_DATE_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_KNOWN_FOR_DEPARTMENT_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_MEDIA_TYPE_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_POSTER_PATH_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_PROFILE_PATH_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_RELEASE_DATE_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_VOTE_COUNT_SERIAL_NAME
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -8,14 +15,14 @@ class NetworkPersonMoviesAndTvs(
     val id: Int,
     val title: String? = null,
     val backdropPath: String? = null,
-    @SerialName("poster_path")
+    @SerialName(NETWORK_POSTER_PATH_SERIAL_NAME)
     val posterPath: String? = null,
-    @SerialName("media_type")
+    @SerialName(NETWORK_MEDIA_TYPE_SERIAL_NAME)
     val mediaType: String,
-    @SerialName("first_air_date")
+    @SerialName(NETWORK_FIRST_AIR_DATE_SERIAL_NAME)
     val firstAirDate: String? = null,
     val voteAverage: Float? = null,
-    @SerialName("vote_count")
+    @SerialName(NETWORK_VOTE_COUNT_SERIAL_NAME)
     val voteCount: Int? = null,
     /*@SerialName("original_title")
     val originalTitle: String? = null,*/
@@ -31,11 +38,11 @@ class NetworkPersonMoviesAndTvs(
 
     val name: String? = null,
     val gender: Int? = null,
-    @SerialName("known_for_department")
+    @SerialName(NETWORK_KNOWN_FOR_DEPARTMENT_SERIAL_NAME)
     val knownForDepartment: String? = null,
-    @SerialName("profile_path")
+    @SerialName(NETWORK_PROFILE_PATH_SERIAL_NAME)
     val profilePath: String? = null,
-    @SerialName("release_date")
+    @SerialName(NETWORK_RELEASE_DATE_SERIAL_NAME)
     val releaseDate: String? = null,
     /*@SerialName("original_name")
     val originalName: String? = null,

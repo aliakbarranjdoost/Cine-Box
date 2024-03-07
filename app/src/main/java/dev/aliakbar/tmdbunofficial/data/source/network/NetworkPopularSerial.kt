@@ -1,5 +1,9 @@
 package dev.aliakbar.tmdbunofficial.data.source.network
 
+import dev.aliakbar.tmdbunofficial.util.NETWORK_BACKDROP_PATH_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_POSTER_PATH_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_VOTE_AVERAGE_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_VOTE_COUNT_SERIAL_NAME
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -7,13 +11,13 @@ import kotlinx.serialization.Serializable
 data class NetworkPopularSerial(
     val id: Int,
     val name: String,
-    @SerialName("backdrop_path")
+    @SerialName(NETWORK_BACKDROP_PATH_SERIAL_NAME)
     val backdropPath: String = "",
-    @SerialName("poster_path")
+    @SerialName(NETWORK_POSTER_PATH_SERIAL_NAME)
     val posterPath: String = "",
-    @SerialName("vote_average")
+    @SerialName(NETWORK_VOTE_AVERAGE_SERIAL_NAME)
     val voteAverage: Float,
-    @SerialName("vote_count")
+    @SerialName(NETWORK_VOTE_COUNT_SERIAL_NAME)
     val voteCount: Int
     /*@SerialName("original_name")
     val originalName: String,

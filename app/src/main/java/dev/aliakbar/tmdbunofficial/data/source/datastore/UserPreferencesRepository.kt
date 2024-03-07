@@ -1,12 +1,13 @@
 package dev.aliakbar.tmdbunofficial.data.source.datastore
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
+import dev.aliakbar.tmdbunofficial.util.DYNAMIC_THEME_KEY
+import dev.aliakbar.tmdbunofficial.util.THEME_OPTION_KEY
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
@@ -32,8 +33,8 @@ class UserPreferencesRepository @Inject constructor(
 {
     object PreferencesKeys
     {
-        val IS_DYNAMIC = booleanPreferencesKey("is_dynamic")
-        val THEME_OPTIONS = stringPreferencesKey("theme_option")
+        val IS_DYNAMIC = booleanPreferencesKey(DYNAMIC_THEME_KEY)
+        val THEME_OPTIONS = stringPreferencesKey(THEME_OPTION_KEY)
     }
 
     val userPreferencesFlow: Flow<UserPreferences> = dataStore.data
@@ -41,7 +42,6 @@ class UserPreferencesRepository @Inject constructor(
             // dataStore.data throws an IOException when an error is encountered when reading data
             if (exception is IOException)
             {
-                Log.e(TAG, "Error reading preferences.", exception)
                 emit(emptyPreferences())
             }
             else

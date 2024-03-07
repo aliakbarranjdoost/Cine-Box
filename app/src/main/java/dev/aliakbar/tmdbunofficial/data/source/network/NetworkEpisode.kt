@@ -1,5 +1,12 @@
 package dev.aliakbar.tmdbunofficial.data.source.network
 
+import dev.aliakbar.tmdbunofficial.util.NETWORK_EPISODE_NUMBER_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_EPISODE_TYPE_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_SEASON_NUMBER_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_SHOW_ID_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_STILL_PATH_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_VOTE_AVERAGE_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_VOTE_COUNT_SERIAL_NAME
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -8,19 +15,19 @@ data class NetworkEpisode(
     val id: Int,
     val name: String,
     val overview: String,
-    @SerialName("vote_average")
+    @SerialName(NETWORK_VOTE_AVERAGE_SERIAL_NAME)
     val voteAverage: Float,
-    @SerialName("vote_count")
+    @SerialName(NETWORK_VOTE_COUNT_SERIAL_NAME)
     val voteCount: Int,
-    @SerialName("episode_number")
+    @SerialName(NETWORK_EPISODE_NUMBER_SERIAL_NAME)
     val episodeNumber: Int,
-    @SerialName("episode_type")
+    @SerialName(NETWORK_EPISODE_TYPE_SERIAL_NAME)
     val episodeType: String,
-    @SerialName("season_number")
+    @SerialName(NETWORK_SEASON_NUMBER_SERIAL_NAME)
     val seasonNumber: Int,
-    @SerialName("show_id")
+    @SerialName(NETWORK_SHOW_ID_SERIAL_NAME)
     val showId: Int,
-    @SerialName("still_path")
+    @SerialName(NETWORK_STILL_PATH_SERIAL_NAME)
     val stillPath: String?
     /*@SerialName("air_date")
     val airDate: String,

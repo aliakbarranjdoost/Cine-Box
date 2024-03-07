@@ -1,12 +1,14 @@
 package dev.aliakbar.tmdbunofficial.data.source.network
 
+import dev.aliakbar.tmdbunofficial.util.NETWORK_CHANGE_KEYS_SERIAL_NAME
+import dev.aliakbar.tmdbunofficial.util.NETWORK_IMAGES_SERIAL_NAME
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class NetworkConfigurationResponse(
-    @SerialName("images")
+    @SerialName(NETWORK_IMAGES_SERIAL_NAME)
     val imageConfiguration: NetworkImageConfiguration,
-    @SerialName("change_keys")
+    @SerialName(NETWORK_CHANGE_KEYS_SERIAL_NAME)
     val changeKeys: List<String>
 )
