@@ -105,7 +105,6 @@ fun mergeSimilarItems(persons: List<Person>): List<Person>
         {
             if (firstPerson.id == persons[index].id)
             {
-                Log.d("Ext", "mergeSimilarItems: Yes ${persons[index]}")
                 combinedRole.append(persons[index].role)
                 combinedRole.append(", ")
                 mergedPersons.remove(persons[index])

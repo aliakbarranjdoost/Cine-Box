@@ -42,7 +42,6 @@ class GenreTopPagingSource(
         }
         catch (e: Exception)
         {
-            Log.d(TAG, "error = ${e.message}")
             LoadResult.Error(e)
         }
     }
