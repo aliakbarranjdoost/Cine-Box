@@ -137,26 +137,22 @@ fun YoutubeVideoPlayerItem(
             {
                 VideoDialog(
                     videoId = id,
-                    LocalLifecycleOwner.current,
+                    lifecycleOwner = LocalLifecycleOwner.current,
+                    onDismissRequest = { isVideoFullScreen = false },
                     modifier = Modifier.fillMaxSize()
                 )
-                {
-                    isVideoFullScreen = false
-                }
             }
 
             else                                ->
             {
                 VideoDialog(
                     videoId = id,
-                    LocalLifecycleOwner.current,
+                    lifecycleOwner = LocalLifecycleOwner.current,
+                    onDismissRequest = { isVideoFullScreen = false },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(180.dp)
                 )
-                {
-                    isVideoFullScreen = false
-                }
             }
         }
     }
