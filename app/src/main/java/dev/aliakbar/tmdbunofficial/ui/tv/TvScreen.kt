@@ -260,10 +260,10 @@ fun TvDetails(
 
     if (showPosterFullscreen)
     {
-        ShowImageInFullscreenDialog(posterUrl = selectedImagePath)
-        {
-            showPosterFullscreen = false
-        }
+        ShowImageInFullscreenDialog(
+            posterUrl = selectedImagePath,
+            onDismissRequest = { showPosterFullscreen = false }
+        )
     }
 }
 
@@ -291,7 +291,11 @@ fun SeasonList(
 }
 
 @Composable
-fun SeasonItem(season: Season, onNavigateToSeason: (Int) -> Unit)
+fun SeasonItem(
+    season: Season,
+    onNavigateToSeason: (Int) -> Unit,
+    modifier: Modifier = Modifier
+)
 {
     ElevatedCard(
         onClick = { onNavigateToSeason(season.seasonNumber) },
