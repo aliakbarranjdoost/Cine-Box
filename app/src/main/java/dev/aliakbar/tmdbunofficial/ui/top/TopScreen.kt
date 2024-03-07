@@ -156,7 +156,8 @@ fun TopList(
 @Composable
 fun TopItem(
     top: Trend,
-    onNavigate: () -> Unit
+    onNavigate: () -> Unit,
+    modifier: Modifier = Modifier
 )
 {
     val configuration = LocalConfiguration.current
@@ -211,15 +212,5 @@ fun TopItem(
                     .align(Alignment.BottomStart)
             )
         }
-    }
-}
-
-@Preview
-@Composable
-fun TopScreenPreview()
-{
-    TMDBUnofficialTheme()
-    {
-        //Top()
     }
 }

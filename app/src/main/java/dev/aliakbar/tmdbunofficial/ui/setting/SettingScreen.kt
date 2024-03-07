@@ -48,18 +48,17 @@ fun SettingScreen(
                         })
                 }
                 SettingHeader(title = "Dark Mode Preference")
-                DarkThemeSettingList((uiState as SettingsUiState.Success).settings.theme,
+                DarkThemeSettingList(
+                    themeOptions = (uiState as SettingsUiState.Success).settings.theme,
                     onClick = { viewModel.changeTheme(it)}
                 )
             }
         }
     }
-
-
 }
 
 @Composable
-fun SettingHeader(title: String)
+fun SettingHeader(title: String, modifier: Modifier = Modifier)
 {
     Text(
         text = title,
@@ -68,7 +67,11 @@ fun SettingHeader(title: String)
 }
 
 @Composable
-fun DynamicThemeSettingList(useDynamicColor: Boolean, onClick: (Boolean) -> Unit)
+fun DynamicThemeSettingList(
+    useDynamicColor: Boolean,
+    onClick: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+)
 {
     Column(Modifier.selectableGroup()) {
 
@@ -86,11 +89,14 @@ fun DynamicThemeSettingList(useDynamicColor: Boolean, onClick: (Boolean) -> Unit
 }
 
 @Composable
-fun DarkThemeSettingList(themeOptions: ThemeOptions, onClick: (Int) -> Unit)
+fun DarkThemeSettingList(
+    themeOptions: ThemeOptions,
+    onClick: (Int) -> Unit,
+    modifier: Modifier = Modifier
+)
 {
-    //var state by remember { mutableIntStateOf(0) }
-
-    Column(Modifier.selectableGroup()) {
+    Column(Modifier.selectableGroup())
+    {
         OptionItem(
             description = stringResource(R.string.system_default),
             selected = themeOptions == ThemeOptions.SYSTEM_DEFAULT,
@@ -110,13 +116,19 @@ fun DarkThemeSettingList(themeOptions: ThemeOptions, onClick: (Int) -> Unit)
 }
 
 @Composable
-fun OptionItem(description: String, selected: Boolean, onClick: () -> Unit)
+fun OptionItem(
+    description: String,
+    selected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+)
 {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick() })
+            .clickable { onClick() }
+    )
     {
         RadioButton(
             selected = selected,

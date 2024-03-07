@@ -69,7 +69,8 @@ fun SeasonScreen(
 fun SeasonScreen(
     seasonDetails: SeasonDetails,
     onNavigateToEpisode: (Int, Int) -> Unit,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    modifier: Modifier = Modifier
 )
 {
     Scaffold(
@@ -88,8 +89,8 @@ fun SeasonScreen(
 @Composable
 fun EpisodeList(
     episodes: List<Episode>,
-    modifier: Modifier = Modifier,
-    onNavigateToEpisode: (Int, Int) -> Unit
+    onNavigateToEpisode: (Int, Int) -> Unit,
+    modifier: Modifier = Modifier
 )
 {
     LazyColumn(
@@ -105,7 +106,11 @@ fun EpisodeList(
 }
 
 @Composable
-fun EpisodeItem(episode: Episode, onNavigateToEpisode: (Int, Int) -> Unit)
+fun EpisodeItem(
+    episode: Episode,
+    onNavigateToEpisode: (Int, Int) -> Unit,
+    modifier: Modifier = Modifier
+)
 {
     val colorStops = listOf(
         Color.Black.copy(alpha = 0.3f),
@@ -118,7 +123,8 @@ fun EpisodeItem(episode: Episode, onNavigateToEpisode: (Int, Int) -> Unit)
             .height(100.dp)
             .fillMaxWidth()
     ) {
-        Row() {
+        Row()
+        {
             Box(
                 modifier = Modifier.size(width = 150.dp, height = 100.dp)
             )
@@ -172,20 +178,6 @@ fun EpisodeItem(episode: Episode, onNavigateToEpisode: (Int, Int) -> Unit)
 
         }
     }
-}
-
-//@Preview
-@Composable
-fun PreviewEpisodeItem()
-{
-    EpisodeItem(episode = episode, onNavigateToEpisode = { _, _ -> } )
-}
-
-//@Preview
-@Composable
-fun PreviewEpisodeList()
-{
-    EpisodeList(episodes = episodes, onNavigateToEpisode = { _, _ -> })
 }
 
 @Preview
