@@ -1,6 +1,5 @@
 package dev.aliakbar.tmdbunofficial.data.source
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import dev.aliakbar.tmdbunofficial.data.GenreTopRepository
@@ -11,9 +10,8 @@ private var TAG = GenreTopPagingSource::class.java.simpleName
 class GenreTopPagingSource(
     private val genreId: Int,
     private val type: Boolean,
-    private val repository: GenreTopRepository,
-
-    ) : PagingSource<Int, Trend>()
+    private val repository: GenreTopRepository
+) : PagingSource<Int, Trend>()
 {
     override fun getRefreshKey(state: PagingState<Int, Trend>): Int?
     {

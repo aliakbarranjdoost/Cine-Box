@@ -9,6 +9,8 @@ const val OVERVIEW_PREVIEW_MAX_LINE = 3
 const val PAGE_SIZE = 20
 const val THEME_OPTION_KEY = "theme_option"
 const val DYNAMIC_THEME_KEY = "is_dynamic"
+// Higher number means lower quality
+const val IMAGE_QUALITY_LEVEL = 2
 
 // Room table names
 const val LOCAL_BOOKMARK_TABLE_NAME = "bookmarks"

@@ -9,15 +9,10 @@ import javax.inject.Inject
 class BookmarkRepository @Inject constructor(
     networkDataSource: TMDBApiService,
     private val localDataSource: TmdbDatabase
-): ConfigurationRepository(networkDataSource, localDataSource.configurationDao(), localDataSource.bookmarkDao())
+): ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
 {
     fun getBookmarksStream() : Flow<List<Bookmark>>
     {
         return localDataSource.bookmarkDao().getAllBookmarksStream().map { it.toExternal() }
-    }
-
-    suspend fun removeFromBookmark(bookmark: Bookmark)
-    {
-        localDataSource.bookmarkDao().delete(bookmark.toLocal())
     }
 }

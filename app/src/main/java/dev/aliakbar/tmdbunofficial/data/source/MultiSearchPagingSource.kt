@@ -1,6 +1,5 @@
 package dev.aliakbar.tmdbunofficial.data.source
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import dev.aliakbar.tmdbunofficial.data.SearchRepository

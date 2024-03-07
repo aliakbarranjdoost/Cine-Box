@@ -9,7 +9,7 @@ private var TAG = DetailsRepository::class.java.simpleName
 class DetailsRepository @Inject constructor(
     private val networkDataSource: TMDBApiService,
     private val localDataSource: TmdbDatabase
-): ConfigurationRepository(networkDataSource, localDataSource.configurationDao(), localDataSource.bookmarkDao())
+): ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
 {
     suspend fun getMovieDetails(id: Int): Movie
     {
@@ -40,5 +40,10 @@ class DetailsRepository @Inject constructor(
     suspend fun removeFromBookmark(bookmark: Bookmark)
     {
         localDataSource.bookmarkDao().delete(bookmark.toLocal())
+    }
+
+    suspend fun isBookmark(id: Int): Boolean
+    {
+        return localDataSource.bookmarkDao().isBookmark(id)
     }
 }

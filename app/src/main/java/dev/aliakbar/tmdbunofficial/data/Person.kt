@@ -14,6 +14,7 @@ data class CreatedBy(
     val gender: Int,
     val profileUrl: String
 )
+
 data class PersonDetails(
     val adult: Boolean,
     val alsoKnownAs: List<String>,

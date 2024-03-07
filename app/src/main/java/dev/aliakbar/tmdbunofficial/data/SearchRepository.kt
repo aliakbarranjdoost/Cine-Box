@@ -9,8 +9,9 @@ private val TAG: String = SearchRepository::class.java.simpleName
 class SearchRepository @Inject constructor(
     private val networkDataSource: TMDBApiService,
     private val localDataSource: TmdbDatabase
-) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao(), localDataSource.bookmarkDao())
+) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
 {
+    // TODO: move map to model mapping file
     suspend fun search(query: String, page: Int = 1): List<SearchResult>
     {
         return networkDataSource.multiSearch(query, page).results.map()

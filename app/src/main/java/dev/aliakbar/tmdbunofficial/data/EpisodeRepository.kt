@@ -7,7 +7,7 @@ import javax.inject.Inject
 class EpisodeRepository @Inject constructor(
     private val networkDataSource: TMDBApiService,
     localDataSource: TmdbDatabase
-) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao(), localDataSource.bookmarkDao())
+) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
 {
     suspend fun getEpisodeDetails(tvId: Int, seasonNumber: Int, episodeNumber: Int): EpisodeDetails
     {

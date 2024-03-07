@@ -12,9 +12,10 @@ private var TAG = HomeRepository::class.java.simpleName
 
 class TopRepository @Inject constructor(
     private val networkDataSource: TMDBApiService,
-    private val localDataSource: TmdbDatabase
-) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao(), localDataSource.bookmarkDao())
+    localDataSource: TmdbDatabase
+) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
 {
+    // TODO: change page size to const
     fun getTopRatedMovies() = Pager(
         config = PagingConfig(
             pageSize = 20,
@@ -22,7 +23,6 @@ class TopRepository @Inject constructor(
         pagingSourceFactory = {
             TopMoviesPagingSource(
                 networkDataSource,
-                localDataSource,
                 basePosterUrl,
                 baseBackdropUrl
             )
@@ -36,7 +36,6 @@ class TopRepository @Inject constructor(
         pagingSourceFactory = {
             TopSeriesPagingSource(
                 networkDataSource,
-                localDataSource,
                 basePosterUrl,
                 baseBackdropUrl
             )

@@ -9,8 +9,9 @@ private var TAG = HomeRepository::class.java.simpleName
 class HomeRepository @Inject constructor(
     private val networkDataSource: TMDBApiService,
     localDataSource: TmdbDatabase
-) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao(), localDataSource.bookmarkDao())
+) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
 {
+    // TODO: change all map indexed to map and move them to Model Mapping file
     suspend fun getTodayTrendingMovies(): List<Trend>
     {
         return networkDataSource.getTodayTrendingMovies().results.map()
@@ -93,6 +94,7 @@ class HomeRepository @Inject constructor(
         return todayTrendingMovieTrailers
     }
 
+    // TODO: change video site and type to enum
     private fun findOfficialTrailerFromYoutube(videos: List<Video>): Video?
     {
         videos.forEach()

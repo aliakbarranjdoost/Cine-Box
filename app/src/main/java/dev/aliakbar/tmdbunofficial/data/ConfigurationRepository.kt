@@ -5,20 +5,19 @@ import dev.aliakbar.tmdbunofficial.data.source.local.LocalConfigurationDao
 import dev.aliakbar.tmdbunofficial.data.source.local.LocalImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
+import dev.aliakbar.tmdbunofficial.util.IMAGE_QUALITY_LEVEL
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 private var TAG = ConfigurationRepository::class.java.simpleName
 
-// Higher number means lower quality
-private const val IMAGE_QUALITY_LEVEL = 2
 open class ConfigurationRepository @Inject constructor(
     private val networkDataSource: TMDBApiService,
     private val localConfigurationDataSource: LocalConfigurationDao,
-    private val localBookmarkDataSource: LocalBookmarkDao,
 )
 {
-    var imageConfiguration: LocalImageConfiguration
+    // TODO: see if we can change local image to datastore
+    private var imageConfiguration: LocalImageConfiguration
 
     init
     {
@@ -79,10 +78,5 @@ open class ConfigurationRepository @Inject constructor(
     private fun createBaseStillUrl(): String
     {
         return imageConfiguration.secureBaseUrl + findBiggestImageSize(imageConfiguration.stillSizes)
-    }
-
-    suspend fun isBookmark(id: Int): Boolean
-    {
-        return localBookmarkDataSource.isBookmark(id)
     }
 }

@@ -7,8 +7,9 @@ import javax.inject.Inject
 class GenreTopRepository @Inject constructor(
     private val networkDataSource: TMDBApiService,
     localDataSource: TmdbDatabase
-) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao(), localDataSource.bookmarkDao())
+) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
 {
+    // TODO: change media type here to use enum
     suspend fun getGenreTopMovies(genreId: Int, page: Int = 1): List<Trend>
     {
         return networkDataSource.getTopRatedMoviesInGenre(genreId, page).results.mapIndexed()

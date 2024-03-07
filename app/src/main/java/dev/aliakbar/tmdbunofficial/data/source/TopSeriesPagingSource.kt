@@ -1,10 +1,8 @@
 package dev.aliakbar.tmdbunofficial.data.source
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import dev.aliakbar.tmdbunofficial.data.Trend
-import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 import dev.aliakbar.tmdbunofficial.data.toExternal
 
@@ -12,7 +10,6 @@ private var TAG = TopMoviesPagingSource::class.java.simpleName
 
 class TopSeriesPagingSource(
     private val networkDataSource: TMDBApiService,
-    private val localDataSource: TmdbDatabase,
     private val basePosterUrl: String,
     private val baseBackdropUrl: String,
 ) : PagingSource<Int, Trend>()
