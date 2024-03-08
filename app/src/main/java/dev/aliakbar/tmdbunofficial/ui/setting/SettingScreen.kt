@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.MaterialTheme
@@ -18,6 +19,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.aliakbar.tmdbunofficial.R
@@ -127,17 +129,20 @@ fun OptionItem(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
+            .height(56.dp)
+            .padding(horizontal = 16.dp)
             .clickable { onClick() }
     )
     {
         RadioButton(
             selected = selected,
-            onClick = { },
+            onClick = null,
             modifier = Modifier.semantics { contentDescription = "Localized Description" }
         )
         Text(
             text = description,
             style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(start = 16.dp)
         )
     }
 }
