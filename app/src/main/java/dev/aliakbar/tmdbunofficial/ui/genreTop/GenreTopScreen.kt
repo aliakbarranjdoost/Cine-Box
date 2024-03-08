@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -49,7 +50,11 @@ fun GenreTopScreen(
                     onNavigateToTv(it)
                 }
             },
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top =  innerPadding.calculateTopPadding())
+            modifier = Modifier.padding(
+                start = dimensionResource(id = R.dimen.padding_large),
+                end = dimensionResource(id = R.dimen.padding_large),
+                top = innerPadding.calculateTopPadding()
+            )
         )
     }
 }

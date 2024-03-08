@@ -49,6 +49,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -111,12 +112,15 @@ fun HomeScreen(
 
                 Column(
                     modifier = Modifier
-                        .padding(start = 16.dp, end = 16.dp)
+                        .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                 )
                 {
+                    val paddingTop = dimensionResource(id = R.dimen.padding_top_home)
+                    val paddingBottom = dimensionResource(id = R.dimen.padding_bottom_home)
+
                     ListTitleText(
                         title = R.string.trending_movies,
-                        modifier = Modifier.padding(top = 32.dp, bottom = 8.dp)
+                        modifier = Modifier.padding(top = paddingTop, bottom = paddingBottom)
                     )
                     
                     TrendList(
@@ -126,7 +130,7 @@ fun HomeScreen(
 
                     ListTitleText(
                         title = R.string.trending_tvs,
-                        modifier = Modifier.padding(top = 32.dp, bottom = 8.dp)
+                        modifier = Modifier.padding(top = paddingTop, bottom = paddingBottom)
                     )
 
                     TrendList(
@@ -138,7 +142,7 @@ fun HomeScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 32.dp, bottom = 8.dp)
+                            .padding(top = paddingTop, bottom = paddingBottom)
                     )
                     {
                         ListTitleText(
@@ -201,9 +205,9 @@ fun TrendList(
     val scrollState = rememberLazyListState()
 
     LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_between_list_item)),
         state = scrollState,
-        modifier = modifier.padding(bottom = 3.dp)
+        modifier = modifier.padding(bottom = dimensionResource(id = R.dimen.padding_from_carousel))
     )
     {
         items(items = trends, key = { trend -> trend.id })
@@ -238,7 +242,7 @@ fun TrendItem(
             overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.titleSmall,
 
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
         )
     }
 }

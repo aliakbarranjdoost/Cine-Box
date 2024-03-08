@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -166,18 +167,21 @@ fun MovieDetails(
                 }
             }
 
-            Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
+            val topPadding = dimensionResource(id = R.dimen.padding_large)
+            val bottomPadding = dimensionResource(id = R.dimen.padding_medium)
+
+            Column(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_large)))
             {
                 ListTitleText(
                     title = R.string.casts,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    modifier = Modifier.padding(bottom = bottomPadding)
                 )
 
                 PersonList(persons = movie.casts, onNavigateToPerson = onNavigateToPerson)
 
                 ListTitleText(
                     title = R.string.crews,
-                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                    modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                 )
 
                 PersonList(persons = movie.crews, onNavigateToPerson = onNavigateToPerson)
@@ -186,7 +190,7 @@ fun MovieDetails(
                 {
                     ListTitleText(
                         title = R.string.videos,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
 
                     VideoList(videos = movie.videos, {})
@@ -196,7 +200,7 @@ fun MovieDetails(
                 {
                     ListTitleText(
                         title = R.string.posters,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
 
                     PosterList(posters = movie.posters,
@@ -210,7 +214,7 @@ fun MovieDetails(
                 {
                     ListTitleText(
                         title = R.string.backdrops,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
                     BackdropList(backdrops = movie.backdrops,
                         {
@@ -223,7 +227,7 @@ fun MovieDetails(
                 {
                     ListTitleText(
                         title = R.string.recommendations,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
 
                     RecommendationList(

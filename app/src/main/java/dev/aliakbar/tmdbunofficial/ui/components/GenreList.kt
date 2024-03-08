@@ -7,7 +7,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
+import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Genre
 
 @Composable
@@ -19,7 +21,7 @@ fun GenreList(
 )
 {
     LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_large)),
     )
     {
         items(items = genres)

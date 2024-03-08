@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -139,14 +140,14 @@ fun TvDetails(
                 voteAverage = tv.voteAverage,
                 seasonNumber = tv.numberOfSeasons,
                 releaseDate = tv.firstAirDate,
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
             )
 
             if (tv.tagline.isNotEmpty())
             {
                 TaglineText(
                     tagline = tv.tagline,
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                 )
             }
             if (!showDetails)
@@ -159,7 +160,7 @@ fun TvDetails(
             }
             AnimatedVisibility(visible = showDetails)
             {
-                Column(modifier = Modifier.padding(16.dp))
+                Column(modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)))
                 {
                     SubDetailsRow(overview = tv.overview, homepage = tv.homepage)
 
@@ -184,11 +185,14 @@ fun TvDetails(
                 }
             }
 
-            Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
+            val topPadding = dimensionResource(id = R.dimen.padding_large)
+            val bottomPadding = dimensionResource(id = R.dimen.padding_medium)
+
+            Column(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_large)))
             {
                 ListTitleText(
                     title = R.string.seasons,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    modifier = Modifier.padding(bottom = bottomPadding)
                 )
                 SeasonList(
                     seasons = tv.seasons,
@@ -197,13 +201,13 @@ fun TvDetails(
 
                 ListTitleText(
                     title = R.string.casts,
-                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                    modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                 )
                 PersonList(persons = tv.casts, onNavigateToPerson = onNavigateToPerson)
 
                 ListTitleText(
                     title = R.string.crews,
-                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                    modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                 )
                 PersonList(persons = tv.crews, onNavigateToPerson = onNavigateToPerson)
 
@@ -211,7 +215,7 @@ fun TvDetails(
                 {
                     ListTitleText(
                         title = R.string.videos,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
                     VideoList(videos = tv.videos, {})
                 }
@@ -220,7 +224,7 @@ fun TvDetails(
                 {
                     ListTitleText(
                         title = R.string.posters,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
                     PosterList(posters = tv.posters,
                         {
@@ -233,7 +237,7 @@ fun TvDetails(
                 {
                     ListTitleText(
                         title = R.string.backdrops,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
                     BackdropList(backdrops = tv.backdrops,
                         {
@@ -246,7 +250,7 @@ fun TvDetails(
                 {
                     ListTitleText(
                         title = R.string.recommendations,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
 
                     RecommendationList(
@@ -277,9 +281,9 @@ fun SeasonList(
     val scrollState = rememberLazyListState()
 
     LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_between_list_item)),
         state = scrollState,
-        modifier = Modifier.padding(bottom = 2.dp)
+        modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_from_carousel))
     )
     {
         items(items = seasons)
@@ -287,6 +291,7 @@ fun SeasonList(
             SeasonItem(season = season, onNavigateToSeason = onNavigateToSeason)
         }
     }
+
     Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
 }
 
@@ -314,19 +319,19 @@ fun SeasonItem(
             text = season.name,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
         )
         Text(
             text = season.airDate.substring(0..3),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+            modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_medium))
         )
         Text(
             text = "${season.episodeCount} ${stringResource(id = R.string.episodes)}",
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
         )
     }
 }

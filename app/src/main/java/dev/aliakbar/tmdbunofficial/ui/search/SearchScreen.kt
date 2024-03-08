@@ -41,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -138,7 +139,7 @@ fun SearchScreen(
         LazyColumn(
             modifier = Modifier
                 .padding(start = 16.dp, end = 16.dp , top = 72.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_between_list_item))
         )
         {
             item {
@@ -211,13 +212,13 @@ fun SearchResultItem(
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier
-                        .padding(8.dp)
+                        .padding(dimensionResource(id = R.dimen.padding_medium))
                         .align(Alignment.TopStart)
                 )
 
                 Row(
                     modifier = Modifier
-                        .padding(8.dp)
+                        .padding(dimensionResource(id = R.dimen.padding_medium))
                         .align(Alignment.BottomStart)
                 ) {
                     Text(
@@ -254,7 +255,7 @@ fun SearchResultItem(
                                 fontWeight = FontWeight.Medium,
                             )
                             Text(
-                                text = "/10",
+                                text = stringResource(id = R.string._10),
                                 fontWeight = FontWeight.Normal,
                             )
                             Icon(

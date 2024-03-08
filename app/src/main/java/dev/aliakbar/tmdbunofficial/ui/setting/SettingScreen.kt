@@ -14,10 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.aliakbar.tmdbunofficial.R
@@ -36,7 +36,7 @@ fun SettingScreen(
         is SettingsUiState.Loading -> CircularIndicator()
 
         is SettingsUiState.Success -> {
-            Column(Modifier.padding(16.dp))
+            Column(Modifier.padding(dimensionResource(id = R.dimen.padding_large)))
             {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
                 {

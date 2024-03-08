@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -198,7 +199,7 @@ fun TopItem(
                 color = Color.White,
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(dimensionResource(id = R.dimen.padding_large))
                     .align(Alignment.TopStart),
             )
 
@@ -209,7 +210,10 @@ fun TopItem(
                 style = MaterialTheme.typography.titleLarge,
                 color = Color.White,
                 modifier = Modifier
-                    .padding(start = 16.dp, bottom = 16.dp)
+                    .padding(
+                        start = dimensionResource(id = R.dimen.padding_large),
+                        bottom = dimensionResource(id = R.dimen.padding_medium)
+                    )
                     .align(Alignment.BottomStart)
             )
         }

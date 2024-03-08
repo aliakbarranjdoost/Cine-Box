@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -94,7 +95,7 @@ fun EpisodeScreen(
                 voteAverage = episode.voteAverage,
                 runtime = episode.runtime!!,
                 releaseDate = episode.airDate,
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
             )
 
             if (!showDetails)
@@ -103,7 +104,7 @@ fun EpisodeScreen(
                     text = episode.overview,
                     maxLines = OVERVIEW_PREVIEW_MAX_LINE,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                    modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_large)),
                 )
 
                 ShowMoreDetailsButton(
@@ -116,13 +117,13 @@ fun EpisodeScreen(
             {
                 Column(modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                 )
                 {
                     Text(text = episode.overview)
 
                     Row(
-                        modifier = Modifier.padding(top = 8.dp)
+                        modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_large))
                     ) {
                         DetailsHeader(header = stringResource(R.string.season_number))
                         Text(text = episode.seasonNumber.toString())
@@ -142,13 +143,16 @@ fun EpisodeScreen(
                 }
             }
 
-            Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
+            val topPadding = dimensionResource(id = R.dimen.padding_large)
+            val bottomPadding = dimensionResource(id = R.dimen.padding_medium)
+
+            Column(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_large)))
             {
                 if (episode.casts.isNotEmpty())
                 {
                     ListTitleText(
                         title = R.string.casts,
-                        modifier = Modifier.padding(bottom = 8.dp)
+                        modifier = Modifier.padding(bottom = bottomPadding)
                     )
 
                     PersonList(persons = episode.casts, onNavigateToPerson = onNavigateToPerson)
@@ -158,7 +162,7 @@ fun EpisodeScreen(
                 {
                     ListTitleText(
                         title = R.string.crews,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
 
                     PersonList(persons = episode.crews, onNavigateToPerson = onNavigateToPerson)
@@ -166,8 +170,10 @@ fun EpisodeScreen(
 
                 if (episode.guestStars.isNotEmpty())
                 {
-                    ListTitleText(title = R.string.guest_stars,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp))
+                    ListTitleText(
+                        title = R.string.guest_stars,
+                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
+                    )
                     PersonList(
                         persons = episode.guestStars,
                         onNavigateToPerson = onNavigateToPerson
@@ -176,8 +182,10 @@ fun EpisodeScreen(
 
                 if (episode.stills.isNotEmpty())
                 {
-                    ListTitleText(title = R.string.stills,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp))
+                    ListTitleText(
+                        title = R.string.stills,
+                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
+                    )
                     PosterList(posters = episode.stills,
                         {
                             selectedImagePath = it.fileUrl
@@ -187,8 +195,10 @@ fun EpisodeScreen(
 
                 if (episode.videos.isNotEmpty())
                 {
-                    ListTitleText(title = R.string.videos,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp))
+                    ListTitleText(
+                        title = R.string.videos,
+                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
+                    )
                     VideoList(videos = episode.videos, {})
                 }
             }

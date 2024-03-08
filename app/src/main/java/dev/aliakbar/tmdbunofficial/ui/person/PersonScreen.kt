@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -155,13 +156,16 @@ fun PersonScreen(
                 }
             }
 
-            Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
+            val topPadding = dimensionResource(id = R.dimen.padding_large)
+            val bottomPadding = dimensionResource(id = R.dimen.padding_medium)
+
+            Column(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_large)))
             {
                 if (person.asMovieCast.isNotEmpty())
                 {
                     ListTitleText(
                         title = R.string.movies_as_cast,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
                     CreditList(credits = person.asMovieCast, onNavigate = onNavigateToMovie)
                 }
@@ -170,7 +174,7 @@ fun PersonScreen(
                 {
                     ListTitleText(
                         title = R.string.tvs_as_cast,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
                     CreditList(credits = person.asTvCast, onNavigate = onNavigateToTv)
                 }
@@ -179,7 +183,7 @@ fun PersonScreen(
                 {
                     ListTitleText(
                         title = R.string.movies_as_crew,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
                     CreditList(credits = person.asMovieCrew, onNavigate = onNavigateToMovie)
                 }
@@ -188,7 +192,7 @@ fun PersonScreen(
                 {
                     ListTitleText(
                         title = R.string.tvs_as_crew,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
                     CreditList(credits = person.asTvCrew, onNavigate = onNavigateToTv)
                 }
@@ -207,9 +211,9 @@ fun <T> CreditList(
     val scrollState = rememberLazyListState()
 
     LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_between_list_item)),
         state = scrollState,
-        modifier = Modifier.padding(bottom = 2.dp)
+        modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_from_carousel))
     )
     {
         items(items = credits)
@@ -276,13 +280,13 @@ fun CreditItem(
             text = title,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
         )
         Text(
             text = personRole,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
         )
     }
 }

@@ -19,16 +19,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Bookmark
 import dev.aliakbar.tmdbunofficial.data.source.sample.bookmarks
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
+import dev.aliakbar.tmdbunofficial.util.calculateBackdropHeight
 import kotlin.math.roundToInt
 
 @Composable
@@ -95,7 +98,7 @@ fun BookmarkItem(
 {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp
-    val backdropHeight = (screenWidth * 0.5625).roundToInt()
+    val backdropHeight = calculateBackdropHeight(screenWidth)
 
     val colorStops = listOf(
         Color.Black.copy(alpha = 0.0f),
@@ -131,7 +134,7 @@ fun BookmarkItem(
                 style = MaterialTheme.typography.titleLarge,
                 color = Color.White,
                 modifier = Modifier
-                    .padding(start = 16.dp, bottom = 16.dp)
+                    .padding(dimensionResource(id = R.dimen.padding_large))
                     .align(Alignment.BottomStart)
             )
         }

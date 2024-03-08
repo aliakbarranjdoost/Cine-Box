@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -77,7 +78,7 @@ fun SeasonScreen(
 {
     Scaffold(
         topBar = { TopBar(title = seasonDetails.name, onNavigateBack = onNavigateBack) },
-        modifier = Modifier.padding(horizontal = 16.dp)
+        modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_large))
     )
     { innerPadding ->
         EpisodeList(
@@ -96,7 +97,7 @@ fun EpisodeList(
 )
 {
     LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_between_list_item)),
         modifier = modifier
     )
     {
@@ -143,7 +144,7 @@ fun EpisodeItem(
                     color = Color.White,
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier
-                        .padding(8.dp)
+                        .padding(dimensionResource(id = R.dimen.padding_medium))
                         .align(Alignment.TopStart),
                 )
             }
@@ -159,7 +160,7 @@ fun EpisodeItem(
                 {
                     Row(
                         modifier = Modifier
-                            .padding(horizontal = 8.dp)
+                            .padding(horizontal = dimensionResource(id = R.dimen.padding_medium))
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center
                     )
