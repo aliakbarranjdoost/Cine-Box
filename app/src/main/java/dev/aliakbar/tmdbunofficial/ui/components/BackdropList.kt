@@ -11,7 +11,9 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
+import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Image
 
 @Composable
@@ -24,9 +26,9 @@ fun BackdropList(
     val scrollState = rememberLazyListState()
 
     LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_between_list_item)),
         state = scrollState,
-        modifier = Modifier.padding(bottom = 2.dp)
+        modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_from_carousel))
     )
     {
         items(items = backdrops)
