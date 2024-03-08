@@ -26,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.aliakbar.tmdbunofficial.data.Bookmark
 import dev.aliakbar.tmdbunofficial.data.source.sample.bookmarks
+import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 import kotlin.math.roundToInt
@@ -40,7 +41,7 @@ fun BookmarkScreen(
 {
     when (val uiState = viewModel.bookmarkUiState.collectAsStateWithLifecycle().value)
     {
-        is BookmarkUiState.Loading -> Text(text = "Loading")
+        is BookmarkUiState.Loading -> CircularIndicator()
         is BookmarkUiState.Success ->
         {
             BookmarkList(

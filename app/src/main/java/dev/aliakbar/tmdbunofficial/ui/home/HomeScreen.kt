@@ -73,8 +73,6 @@ import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ImageLoadingAnimation
 import dev.aliakbar.tmdbunofficial.ui.components.IndicatorList
 import dev.aliakbar.tmdbunofficial.ui.components.ListTitleText
-import dev.aliakbar.tmdbunofficial.ui.components.ScoreBar
-import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
 import dev.aliakbar.tmdbunofficial.util.YOUTUBE_THUMBNAIL_BASE_URL
 import dev.aliakbar.tmdbunofficial.util.YoutubeThumbnailSize
 
@@ -452,15 +450,5 @@ fun VideoDialog(
         {
             YoutubeVideoPlayer(id = videoId, lifecycleOwner = lifecycleOwner)
         }
-    }
-}
-
-@Preview
-@Composable
-fun PreviewScore()
-{
-    TMDBUnofficialTheme()
-    {
-        ScoreBar(score = 7.93F)
     }
 }

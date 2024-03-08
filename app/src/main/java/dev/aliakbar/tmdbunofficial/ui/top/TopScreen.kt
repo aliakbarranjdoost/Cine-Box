@@ -45,6 +45,7 @@ import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicatorLoadMore
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
+import dev.aliakbar.tmdbunofficial.util.calculateBackdropHeight
 import kotlin.math.roundToInt
 
 @Composable
@@ -162,7 +163,7 @@ fun TopItem(
 {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp
-    val backdropHeight = (screenWidth * 0.5625).roundToInt()
+    val backdropHeight = calculateBackdropHeight(screenWidth)
 
     val colorStops = listOf(
         Color.Black.copy(alpha = 0.0f),

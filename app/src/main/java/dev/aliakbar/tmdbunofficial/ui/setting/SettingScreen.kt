@@ -40,14 +40,14 @@ fun SettingScreen(
             {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
                 {
-                    SettingHeader(title = "Use Dynamic Color")
+                    SettingHeader(title = stringResource(R.string.use_dynamic_color))
                     DynamicThemeSettingList(
                         (uiState as SettingsUiState.Success).settings.useDynamicColor,
                         onClick = {
                             viewModel.enableDynamicTheme(it)
                         })
                 }
-                SettingHeader(title = "Dark Mode Preference")
+                SettingHeader(title = stringResource(R.string.dark_mode_preference))
                 DarkThemeSettingList(
                     themeOptions = (uiState as SettingsUiState.Success).settings.theme,
                     onClick = { viewModel.changeTheme(it)}

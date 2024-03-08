@@ -4,9 +4,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
+import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.ui.components.TopBar
 import dev.aliakbar.tmdbunofficial.ui.top.TopList
 
@@ -21,9 +23,18 @@ fun GenreTopScreen(
 {
     val movies = viewModel.result.collectAsLazyPagingItems()
 
-    Scaffold(topBar = { TopBar(title = if (viewModel.type) { "Popular ${viewModel.genreName} Movies"}
-        else { "Popular ${viewModel.genreName} Tvs"}
-        , onNavigateBack = onNavigateBack) })
+    Scaffold(
+        topBar = {
+            TopBar(
+                title = stringResource(
+                    id = R.string.popular_of_genre,
+                    viewModel.genreName,
+                    stringResource(if (viewModel.type)  R.string.movies else R.string.tvs)
+                ),
+                onNavigateBack = onNavigateBack,
+            )
+        },
+    )
     { innerPadding ->
         TopList(
             tops = movies,

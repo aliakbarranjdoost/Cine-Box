@@ -42,7 +42,7 @@ fun MainMovieDetailsRow(
                 fontWeight = FontWeight.Medium,
             )
             Text(
-                text = "/10",
+                text = stringResource(R.string._10),
                 fontWeight = FontWeight.Normal,
             )
 
@@ -52,7 +52,7 @@ fun MainMovieDetailsRow(
                 tint = Color.Yellow,
             )
 
-            Text(text = " | ")
+            Text(text = stringResource(R.string.details_divider))
         }
 
         if (runtime > 0)
@@ -65,12 +65,12 @@ fun MainMovieDetailsRow(
             if (hour != 0)
             {
                 stringBuilder.append(hour)
-                stringBuilder.append(" h ")
+                stringBuilder.append(stringResource(R.string.hour))
             }
             if (minute != 0)
             {
                 stringBuilder.append(minute)
-                stringBuilder.append(" min")
+                stringBuilder.append(stringResource(R.string.minute))
             }
 
             Text(
@@ -78,7 +78,7 @@ fun MainMovieDetailsRow(
                 fontWeight = FontWeight.Medium
             )
 
-            Text(text = " | ")
+            Text(text = stringResource(id = R.string.details_divider))
         }
 
         Text(
@@ -108,7 +108,7 @@ fun MainTvDetailsRow(
                 fontWeight = FontWeight.Medium,
             )
             Text(
-                text = "/10",
+                text = stringResource(id = R.string._10),
                 fontWeight = FontWeight.Normal,
             )
 
@@ -118,15 +118,15 @@ fun MainTvDetailsRow(
                 tint = Color.Yellow,
             )
 
-            Text(text = " | ")
+            Text(text = stringResource(id = R.string.details_divider))
         }
 
         Text(
-            text = "$seasonNumber Seasons",
+            text = stringResource(id = R.string.total_seasons, seasonNumber),
             fontWeight = FontWeight.Medium
         )
 
-        Text(text = " | ")
+        Text(text = stringResource(id = R.string.details_divider))
 
         Text(
             text = releaseDate.substring(0..3),

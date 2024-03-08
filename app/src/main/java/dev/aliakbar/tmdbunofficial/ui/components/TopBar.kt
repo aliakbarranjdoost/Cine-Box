@@ -45,7 +45,7 @@ fun TopBar(
             {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Localized description"
+                    contentDescription = null
                 )
             }
         }

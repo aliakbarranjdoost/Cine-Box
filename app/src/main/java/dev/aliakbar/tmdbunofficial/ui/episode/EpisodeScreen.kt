@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -123,15 +124,15 @@ fun EpisodeScreen(
                     Row(
                         modifier = Modifier.padding(top = 8.dp)
                     ) {
-                        DetailsHeader(header = "Season ")
+                        DetailsHeader(header = stringResource(R.string.season_number))
                         Text(text = episode.seasonNumber.toString())
-                        DetailsHeader(header = " Episode ")
+                        DetailsHeader(header = stringResource(R.string.episode_number))
                         Text(text = episode.episodeNumber.toString())
                     }
                     if (episode.episodeType != null)
                     {
-                        DetailsHeader(header = "Type")
-                            Text(text = episode.episodeType)
+                        DetailsHeader(header = stringResource(R.string.type))
+                        Text(text = episode.episodeType)
                     }
                     ShowMoreDetailsButton(
                         showMore = showDetails,

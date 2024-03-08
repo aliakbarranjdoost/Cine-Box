@@ -55,8 +55,6 @@ import dev.aliakbar.tmdbunofficial.data.SearchResult
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicatorLoadMore
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 
-private val TAG: String = "Search"
-
 @Composable
 fun SearchScreen(
     onNavigateToMovie: (Int) -> Unit,
@@ -107,30 +105,7 @@ fun SearchScreen(
                 {
                     Icon(Icons.Default.Search, contentDescription = null)
                 }
-            },
-            trailingIcon =
-            {
-                Row()
-                {
-                    SearchMenu(expanded = expanded, onDismissRequest = { expanded = false })
-
-                    if (active && text.isNotEmpty())
-                    {
-                        IconButton(onClick = { viewModel.setQuery("") })
-                        {
-                            Icon(imageVector = Icons.Filled.Clear, contentDescription = null)
-                        }
-                    }
-
-                    if (active)
-                    {
-                        IconButton(onClick = { expanded = true })
-                        {
-                            Icon(Icons.Default.MoreVert, contentDescription = null)
-                        }
-                    }
-                }
-            },
+            }
         )
         {
             // TODO: Find a way to show suggestion
@@ -169,7 +144,10 @@ fun SearchScreen(
             item {
                 if (searchResult.itemCount == 0 && isLoading)
                 {
-                    Text(text = "No Result", modifier = Modifier.padding(top = 72.dp))
+                    Text(
+                        text = stringResource(R.string.message_no_result),
+                        modifier = Modifier.padding(top = 72.dp)
+                    )
                 }
             }
             items(searchResult.itemCount)
@@ -203,25 +181,6 @@ fun SearchScreen(
                     )
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun SearchMenu(expanded: Boolean, onDismissRequest: () -> Unit, modifier: Modifier = Modifier)
-{
-    Box()
-    {
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = onDismissRequest
-        )
-        {
-            DropdownMenuItem(
-                text = { Text(text = "Advance Search") },
-                onClick = { },
-                leadingIcon = { Icon(Icons.Outlined.Search, contentDescription = null) }
-            )
         }
     }
 }
