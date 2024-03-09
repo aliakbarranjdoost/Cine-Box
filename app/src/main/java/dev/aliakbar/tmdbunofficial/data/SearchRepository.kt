@@ -9,7 +9,7 @@ class SearchRepository @Inject constructor(
     private val networkDataSource: TMDBApiService
 ) : ConfigurationRepository(networkDataSource)
 {
-    suspend fun search(query: String, page: Int = 1): List<SearchResult>
+    suspend fun search(query: String, page: Int): List<SearchResult>
     {
         return networkDataSource.multiSearch(query, page).results.toExternal(
             basePosterUrl = basePosterUrl,

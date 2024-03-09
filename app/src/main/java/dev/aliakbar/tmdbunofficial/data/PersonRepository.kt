@@ -9,6 +9,9 @@ class PersonRepository @Inject constructor(
 {
     suspend fun getPerson(id: Int): PersonDetails
     {
-        return networkDataSource.getPerson(id).toExternal(baseProfileUrl, basePosterUrl)
+        return networkDataSource.getPerson(id).toExternal(
+            baseProfileUrl = baseProfileUrl,
+            basePosterUrl = basePosterUrl
+        )
     }
 }

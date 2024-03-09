@@ -10,7 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aliakbar.tmdbunofficial.ID_ARG
 import dev.aliakbar.tmdbunofficial.Season
 import dev.aliakbar.tmdbunofficial.data.SeasonDetails
-import dev.aliakbar.tmdbunofficial.data.SeasonDetailsRepository
+import dev.aliakbar.tmdbunofficial.data.SeasonRepository
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -27,7 +27,7 @@ private val TAG = SeasonViewModel:: class.java.simpleName
 
 @HiltViewModel
 class SeasonViewModel @Inject constructor(
-    val repository: SeasonDetailsRepository,
+    val repository: SeasonRepository,
     val savedStateHandle: SavedStateHandle
 ): ViewModel()
 {
