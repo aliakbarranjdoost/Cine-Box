@@ -1,6 +1,5 @@
 package dev.aliakbar.tmdbunofficial.data
 
-import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 import javax.inject.Inject
 
@@ -10,10 +9,11 @@ class SearchRepository @Inject constructor(
     private val networkDataSource: TMDBApiService
 ) : ConfigurationRepository(networkDataSource)
 {
-    // TODO: move map to model mapping file
     suspend fun search(query: String, page: Int = 1): List<SearchResult>
     {
-        return networkDataSource.multiSearch(query, page).results.map()
-        { it.toExternal(basePosterUrl, baseProfileUrl,baseProfileUrl) }
+        return networkDataSource.multiSearch(query, page).results.toExternal(
+            basePosterUrl = basePosterUrl,
+            baseProfileUrl = baseProfileUrl
+        )
     }
 }

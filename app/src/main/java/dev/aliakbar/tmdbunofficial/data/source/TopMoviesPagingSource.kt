@@ -3,9 +3,9 @@ package dev.aliakbar.tmdbunofficial.data.source
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import dev.aliakbar.tmdbunofficial.data.Trend
-import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 import dev.aliakbar.tmdbunofficial.data.toExternal
+import dev.aliakbar.tmdbunofficial.util.PAGE_SIZE
 
 private var TAG = TopMoviesPagingSource::class.java.simpleName
 
@@ -35,7 +35,7 @@ class TopMoviesPagingSource(
                 { index, networkPopularMovie ->
                     networkPopularMovie.toExternal(
                         basePosterUrl, baseBackdropUrl,
-                        (response.page - 1) * 20 + index.inc()
+                        (response.page - 1) * PAGE_SIZE + index.inc()
                     )
                 },
                 prevKey = if (page == 1) null else page.dec(),

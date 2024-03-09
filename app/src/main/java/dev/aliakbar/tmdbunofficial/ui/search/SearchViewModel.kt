@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
-
 package dev.aliakbar.tmdbunofficial.ui.search
 
 import androidx.lifecycle.ViewModel
@@ -13,7 +11,6 @@ import dev.aliakbar.tmdbunofficial.data.SearchRepository
 import dev.aliakbar.tmdbunofficial.data.SearchResult
 import dev.aliakbar.tmdbunofficial.data.source.MultiSearchPagingSource
 import dev.aliakbar.tmdbunofficial.util.PAGE_SIZE
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
