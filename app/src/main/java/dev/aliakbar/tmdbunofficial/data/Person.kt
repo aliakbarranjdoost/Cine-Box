@@ -30,9 +30,9 @@ data class PersonDetails(
     val placeOfBirth: String? = null,
     val popularity: Float,
     val profileUrl: String,
-    val asMovieCast: List<PersonMovieAsCast>,
-    val asTvCast: List<PersonTvAsCast>,
-    val asMovieCrew: List<PersonMovieAsCrew>,
-    val asTvCrew: List<PersonTvAsCrew>,
+    val asMovieCast: List<PersonCredit>,
+    val asTvCast: List<PersonCredit>,
+    val asMovieCrew: List<PersonCredit>,
+    val asTvCrew: List<PersonCredit>,
     val images: List<Image>
 )

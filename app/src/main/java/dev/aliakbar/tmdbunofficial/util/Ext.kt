@@ -2,20 +2,13 @@ package dev.aliakbar.tmdbunofficial.util
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.compose.ui.graphics.Color
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.Person
-import dev.aliakbar.tmdbunofficial.data.PersonMovieAsCast
-import dev.aliakbar.tmdbunofficial.data.PersonMovieAsCrew
-import dev.aliakbar.tmdbunofficial.data.PersonTvAsCast
-import dev.aliakbar.tmdbunofficial.data.PersonTvAsCrew
+import dev.aliakbar.tmdbunofficial.data.PersonCredit
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkPersonMoviesAndTvs
-import dev.aliakbar.tmdbunofficial.data.toExternalMovieCast
-import dev.aliakbar.tmdbunofficial.data.toExternalMovieCrew
-import dev.aliakbar.tmdbunofficial.data.toExternalTvCast
-import dev.aliakbar.tmdbunofficial.data.toExternalTvCrew
+import dev.aliakbar.tmdbunofficial.data.toExternal
 import kotlin.math.roundToInt
 
 fun Float.toDegree(): Float
@@ -29,49 +22,47 @@ fun Float.convertDegreeToHsvColor(): Color
 }
 
 fun List<NetworkPersonMoviesAndTvs>.separateMoviesAndTvsCast(
-    baseBackdropUrl: String,
-    basePosterUrl: String,
-) : Pair<List<PersonMovieAsCast>,List<PersonTvAsCast>>
+    basePosterUrl: String
+) : Pair<List<PersonCredit>,List<PersonCredit>>
 {
-    val movies = mutableListOf<PersonMovieAsCast>()
-    val tvs = mutableListOf<PersonTvAsCast>()
+    val movies = mutableListOf<PersonCredit>()
+    val tvs = mutableListOf<PersonCredit>()
 
     this.forEach()
     {
         if (it.mediaType == "movie")
         {
-            movies.add(it.toExternalMovieCast(baseBackdropUrl, basePosterUrl))
+            movies.add(it.toExternal(basePosterUrl))
         }
         else
         {
-            tvs.add(it.toExternalTvCast(baseBackdropUrl, basePosterUrl))
+            tvs.add(it.toExternal(basePosterUrl))
         }
     }
 
-    return Pair<List<PersonMovieAsCast>,List<PersonTvAsCast>>(movies,tvs)
+    return Pair<List<PersonCredit>,List<PersonCredit>>(movies,tvs)
 }
 
 fun List<NetworkPersonMoviesAndTvs>.separateMoviesAndTvsCrew(
-    baseBackdropUrl: String,
-    basePosterUrl: String,
-) : Pair<List<PersonMovieAsCrew>,List<PersonTvAsCrew>>
+    basePosterUrl: String
+) : Pair<List<PersonCredit>,List<PersonCredit>>
 {
-    val movies = mutableListOf<PersonMovieAsCrew>()
-    val tvs = mutableListOf<PersonTvAsCrew>()
+    val movies = mutableListOf<PersonCredit>()
+    val tvs = mutableListOf<PersonCredit>()
 
     this.forEach()
     {
         if (it.mediaType == "movie")
         {
-            movies.add(it.toExternalMovieCrew(baseBackdropUrl, basePosterUrl))
+            movies.add(it.toExternal(basePosterUrl))
         }
         else
         {
-            tvs.add(it.toExternalTvCrew(baseBackdropUrl, basePosterUrl))
+            tvs.add(it.toExternal(basePosterUrl))
         }
     }
 
-    return Pair<List<PersonMovieAsCrew>,List<PersonTvAsCrew>>(movies,tvs)
+    return Pair<List<PersonCredit>,List<PersonCredit>>(movies,tvs)
 }
 
 fun Context.share(mediaType: MediaType, id: Int)

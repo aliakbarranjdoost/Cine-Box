@@ -32,11 +32,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aliakbar.tmdbunofficial.R
+import dev.aliakbar.tmdbunofficial.data.PersonCredit
 import dev.aliakbar.tmdbunofficial.data.PersonDetails
-import dev.aliakbar.tmdbunofficial.data.PersonMovieAsCast
-import dev.aliakbar.tmdbunofficial.data.PersonMovieAsCrew
-import dev.aliakbar.tmdbunofficial.data.PersonTvAsCast
-import dev.aliakbar.tmdbunofficial.data.PersonTvAsCrew
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.DetailsHeader
 import dev.aliakbar.tmdbunofficial.ui.components.Image
@@ -45,7 +42,6 @@ import dev.aliakbar.tmdbunofficial.ui.components.ShowMoreDetailsButton
 import dev.aliakbar.tmdbunofficial.ui.components.TopBar
 import dev.aliakbar.tmdbunofficial.util.OVERVIEW_PREVIEW_MAX_LINE
 
-// TODO: make backdrop path optional
 @Composable
 fun PersonScreen(
     onNavigateToMovie: (Int) -> Unit,
@@ -202,8 +198,8 @@ fun PersonScreen(
 }
 
 @Composable
-fun <T> CreditList(
-    credits : List<T>,
+fun CreditList(
+    credits : List<PersonCredit>,
     onNavigate: (Int) -> Unit,
     modifier: Modifier = Modifier
 )
@@ -218,41 +214,11 @@ fun <T> CreditList(
     {
         items(items = credits)
         { credit ->
-            when(credit)
-            {
-                is PersonMovieAsCast ->
-                    CreditItem(
-                        id = credit.id,
-                        title = credit.title,
-                        poster = credit.posterUrl,
-                        personRole = credit.character,
-                        onNavigate = onNavigate
-                    )
-                is PersonTvAsCast ->
-                    CreditItem(
-                        id = credit.id,
-                        title = credit.name,
-                        poster = credit.posterUrl,
-                        personRole = credit.character,
-                        onNavigate = onNavigate
-                    )
-                is PersonMovieAsCrew ->
-                    CreditItem(
-                        id = credit.id,
-                        title = credit.title,
-                        poster = credit.posterUrl,
-                        personRole = credit.job,
-                        onNavigate = onNavigate
-                    )
-                is PersonTvAsCrew ->
-                    CreditItem(
-                        id = credit.id,
-                        title = credit.name,
-                        poster = credit.posterUrl,
-                        personRole = credit.job,
-                        onNavigate = onNavigate
-                    )
-            }
+
+            CreditItem(
+                personCredit = credit,
+                onNavigate = onNavigate
+            )
         }
     }
 
@@ -261,29 +227,26 @@ fun <T> CreditList(
 
 @Composable
 fun CreditItem(
-    id: Int,
-    title: String,
-    poster: String,
-    personRole: String,
+    personCredit: PersonCredit,
     onNavigate: (Int) -> Unit,
     modifier: Modifier = Modifier
 )
 {
     ElevatedCard(
-        onClick = { onNavigate(id) },
+        onClick = { onNavigate(personCredit.id) },
         modifier = Modifier.width(150.dp)
     )
     {
-        Image(url = poster, modifier = Modifier.size(width = 150.dp, height = 225.dp))
+        Image(url = personCredit.poster, modifier = Modifier.size(width = 150.dp, height = 225.dp))
 
         Text(
-            text = title,
+            text = personCredit.title,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
         )
         Text(
-            text = personRole,
+            text = personCredit.role,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
