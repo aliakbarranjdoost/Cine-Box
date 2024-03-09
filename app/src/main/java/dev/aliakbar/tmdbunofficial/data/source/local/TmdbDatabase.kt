@@ -6,15 +6,11 @@ import androidx.room.TypeConverters
 import dev.aliakbar.tmdbunofficial.util.Converters
 
 @Database(
-    entities = [
-        LocalImageConfiguration::class,
-        LocalBookmark::class
-    ],
-    version = 7,
+    entities = [LocalBookmark::class],
+    version = 8,
     exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class TmdbDatabase: RoomDatabase()
 {
-    abstract fun configurationDao(): LocalConfigurationDao
     abstract fun bookmarkDao(): LocalBookmarkDao
 }

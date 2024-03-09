@@ -11,9 +11,8 @@ import javax.inject.Inject
 private var TAG = HomeRepository::class.java.simpleName
 
 class TopRepository @Inject constructor(
-    private val networkDataSource: TMDBApiService,
-    localDataSource: TmdbDatabase
-) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
+    private val networkDataSource: TMDBApiService
+) : ConfigurationRepository(networkDataSource)
 {
     // TODO: change page size to const
     fun getTopRatedMovies() = Pager(

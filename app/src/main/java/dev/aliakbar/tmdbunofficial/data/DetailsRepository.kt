@@ -9,7 +9,7 @@ private var TAG = DetailsRepository::class.java.simpleName
 class DetailsRepository @Inject constructor(
     private val networkDataSource: TMDBApiService,
     private val localDataSource: TmdbDatabase
-): ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
+): ConfigurationRepository(networkDataSource)
 {
     suspend fun getMovieDetails(id: Int): Movie
     {

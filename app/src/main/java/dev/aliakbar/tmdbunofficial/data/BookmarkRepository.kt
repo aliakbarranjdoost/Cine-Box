@@ -9,7 +9,7 @@ import javax.inject.Inject
 class BookmarkRepository @Inject constructor(
     networkDataSource: TMDBApiService,
     private val localDataSource: TmdbDatabase
-): ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
+): ConfigurationRepository(networkDataSource)
 {
     fun getBookmarksStream() : Flow<List<Bookmark>>
     {

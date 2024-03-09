@@ -5,9 +5,8 @@ import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 import javax.inject.Inject
 
 class GenreTopRepository @Inject constructor(
-    private val networkDataSource: TMDBApiService,
-    localDataSource: TmdbDatabase
-) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
+    private val networkDataSource: TMDBApiService
+) : ConfigurationRepository(networkDataSource)
 {
     // TODO: change media type here to use enum
     suspend fun getGenreTopMovies(genreId: Int, page: Int = 1): List<Trend>

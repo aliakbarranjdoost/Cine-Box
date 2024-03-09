@@ -7,9 +7,8 @@ import javax.inject.Inject
 private val TAG: String = SearchRepository::class.java.simpleName
 
 class SearchRepository @Inject constructor(
-    private val networkDataSource: TMDBApiService,
-    private val localDataSource: TmdbDatabase
-) : ConfigurationRepository(networkDataSource, localDataSource.configurationDao())
+    private val networkDataSource: TMDBApiService
+) : ConfigurationRepository(networkDataSource)
 {
     // TODO: move map to model mapping file
     suspend fun search(query: String, page: Int = 1): List<SearchResult>

@@ -1,8 +1,5 @@
 package dev.aliakbar.tmdbunofficial.data
 
-import dev.aliakbar.tmdbunofficial.data.source.local.LocalBookmarkDao
-import dev.aliakbar.tmdbunofficial.data.source.local.LocalConfigurationDao
-import dev.aliakbar.tmdbunofficial.data.source.local.LocalImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.network.NetworkImageConfiguration
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
 import dev.aliakbar.tmdbunofficial.util.IMAGE_QUALITY_LEVEL
@@ -12,42 +9,28 @@ import javax.inject.Inject
 private var TAG = ConfigurationRepository::class.java.simpleName
 
 open class ConfigurationRepository @Inject constructor(
-    private val networkDataSource: TMDBApiService,
-    private val localConfigurationDataSource: LocalConfigurationDao,
+    private val networkDataSource: TMDBApiService
 )
 {
-    // TODO: see if we can change local image to datastore
-    private var imageConfiguration: LocalImageConfiguration
+    private var imageConfiguration: ImageConfiguration
 
     init
     {
         runBlocking ()
         {
-            val networkImageConfiguration: LocalImageConfiguration = getConfigurationFromNetwork().toLocal( 1 )
-            saveConfigInLocal(networkImageConfiguration)
-            imageConfiguration = getConfigurationFromLocal()
+            imageConfiguration = getConfigurationFromNetwork().toExternal()
         }
     }
 
-    val basePosterUrl = createBasePosterUrl()
-    val baseBackdropUrl = createBaseBackdropUrl()
-    val baseProfileUrl = createBaseProfileUrl()
-    val baseStillUrl = createBaseStillUrl()
-    val baseLogoUrl = createBaseLogoUrl()
+    val basePosterUrl = createBaseImageUrl(imageConfiguration.posterSizes)
+    val baseBackdropUrl = createBaseImageUrl(imageConfiguration.backdropSizes)
+    val baseProfileUrl = createBaseImageUrl(imageConfiguration.profileSizes)
+    val baseStillUrl = createBaseImageUrl(imageConfiguration.stillSizes)
+    val baseLogoUrl = createBaseImageUrl(imageConfiguration.logoSizes)
 
     private suspend fun getConfigurationFromNetwork(): NetworkImageConfiguration
     {
         return networkDataSource.getConfiguration().imageConfiguration
-    }
-
-    private suspend fun saveConfigInLocal(imageConfiguration: LocalImageConfiguration)
-    {
-        localConfigurationDataSource.insert(imageConfiguration)
-    }
-
-    private suspend fun getConfigurationFromLocal(): LocalImageConfiguration
-    {
-        return localConfigurationDataSource.getConfiguration()
     }
 
     private fun findBiggestImageSize(imageSizes: List<String>): String
@@ -55,28 +38,8 @@ open class ConfigurationRepository @Inject constructor(
         return imageSizes[imageSizes.size - IMAGE_QUALITY_LEVEL]
     }
 
-    private fun createBasePosterUrl(): String
+    private fun createBaseImageUrl(imageSizes: List<String>): String
     {
-        return imageConfiguration.secureBaseUrl + findBiggestImageSize(imageConfiguration.posterSizes)
-    }
-
-    private fun createBaseBackdropUrl(): String
-    {
-        return imageConfiguration.secureBaseUrl + findBiggestImageSize(imageConfiguration.backdropSizes)
-    }
-
-    private fun createBaseLogoUrl(): String
-    {
-        return imageConfiguration.secureBaseUrl + findBiggestImageSize(imageConfiguration.logoSizes)
-    }
-
-    private fun createBaseProfileUrl(): String
-    {
-        return imageConfiguration.secureBaseUrl + findBiggestImageSize(imageConfiguration.profileSizes)
-    }
-
-    private fun createBaseStillUrl(): String
-    {
-        return imageConfiguration.secureBaseUrl + findBiggestImageSize(imageConfiguration.stillSizes)
+        return imageConfiguration.secureBaseUrl + findBiggestImageSize(imageSizes)
     }
 }
