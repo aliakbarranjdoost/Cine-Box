@@ -7,6 +7,7 @@ import dev.aliakbar.tmdbunofficial.data.Country
 import dev.aliakbar.tmdbunofficial.data.Genre
 import dev.aliakbar.tmdbunofficial.data.Image
 import dev.aliakbar.tmdbunofficial.data.Language
+import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.Movie
 import dev.aliakbar.tmdbunofficial.data.Person
 import dev.aliakbar.tmdbunofficial.data.Trailer
@@ -98,7 +99,7 @@ val trend = Trend(
     poster = "/5VTN0pR8gcqV3EPUHHfMGnJYN9L.jpg",
     backdrop = "/bccR2CGTWVVSZAG0yqmy3DIvhTX.jpg",
     rank = 0,
-    type = "movie"
+    type = MediaType.MOVIE
 )
 
 val recommendations = mutableListOf<Trend>().apply { repeat(10) { this.add(trend)} }.toList()

@@ -67,6 +67,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import dev.aliakbar.tmdbunofficial.R
+import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.Trailer
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
@@ -269,8 +270,9 @@ fun Slider(
                     val itemId = item.trend.id
                     when (item.trend.type)
                     {
-                        "movie" -> onNavigateToMovie(itemId)
-                        else    -> onNavigateToTv(itemId)
+                        MediaType.MOVIE  -> onNavigateToMovie(itemId)
+                        MediaType.TV     -> onNavigateToTv(itemId)
+                        MediaType.PERSON -> { /*not needed here*/ }
                     }
                 }
             )

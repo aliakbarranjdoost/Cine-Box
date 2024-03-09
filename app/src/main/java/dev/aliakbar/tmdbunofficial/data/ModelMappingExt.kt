@@ -43,7 +43,6 @@ fun NetworkImageConfiguration.toExternal() = ImageConfiguration(
 fun NetworkTrendingMovie.toExternal(
     basePosterUrl: String,
     baseBackdropUrl: String,
-    mediaType: String? = null,
     rank: Int = 0
 ) = Trend(
     id = id,
@@ -52,7 +51,7 @@ fun NetworkTrendingMovie.toExternal(
     poster = basePosterUrl + posterPath,
     backdrop = baseBackdropUrl + backdropPath,
     rank = rank,
-    type = mediaType ?: this.mediaType!!
+    type = MediaType.MOVIE
 )
 
 @JvmName("trendingMovieNetworkToExternal")
@@ -62,8 +61,8 @@ fun List<NetworkTrendingMovie>.toExternal(
 ) = map { it.toExternal(basePosterUrl, baseBackdropUrl) }
 
 fun NetworkTrendingSeries.toExternal(
-    basePosterUrl: String, baseBackdropUrl: String,
-    mediaType: String? = null,
+    basePosterUrl: String,
+    baseBackdropUrl: String,
     rank: Int = 0
 ) = Trend(
     id = id,
@@ -72,7 +71,7 @@ fun NetworkTrendingSeries.toExternal(
     poster = basePosterUrl + posterPath,
     backdrop = baseBackdropUrl + backdropPath,
     rank = rank,
-    type = mediaType ?: this.mediaType!!
+    type = MediaType.TV
 )
 
 @JvmName("trendingSerialNetworkToExternal")
@@ -91,7 +90,7 @@ fun NetworkPopularMovie.toExternal(
     poster = basePosterUrl + posterPath,
     backdrop = baseBackdropUrl + backdropPath,
     rank = rank,
-    type = "movie"
+    type = MediaType.MOVIE
 )
 
 @JvmName("popularMovieNetworkToExternal")
@@ -113,7 +112,7 @@ fun NetworkPopularSerial.toExternal(
     poster = basePosterUrl + posterPath,
     backdrop = baseBackdropUrl + backdropPath,
     rank = rank,
-    type = "tv"
+    type = MediaType.TV
 )
 
 @JvmName("popularSerialNetworkToExternal")
@@ -317,15 +316,6 @@ fun Bookmark.toLocal() = LocalBookmark(
     score = score,
     poster = poster,
     backdrop = backdropUrl,
-    type = type
-)
-
-fun Trend.toBookmark() = Bookmark(
-    id = id,
-    title = title,
-    score = score,
-    poster = poster,
-    backdropUrl = backdrop,
     type = type
 )
 

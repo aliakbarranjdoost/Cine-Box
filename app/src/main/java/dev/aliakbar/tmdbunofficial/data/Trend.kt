@@ -7,5 +7,5 @@ data class Trend(
     val poster: String,
     val backdrop: String,
     val rank: Int,
-    val type: String
+    val type: MediaType
 )

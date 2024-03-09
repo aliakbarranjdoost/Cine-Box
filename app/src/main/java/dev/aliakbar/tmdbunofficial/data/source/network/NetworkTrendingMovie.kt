@@ -8,7 +8,6 @@ import dev.aliakbar.tmdbunofficial.util.NETWORK_VOTE_COUNT_SERIAL_NAME
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-// TODO: Set a suitable default value for optional types
 @Serializable
 data class NetworkTrendingMovie(
     val id: Int,

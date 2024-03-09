@@ -12,12 +12,12 @@ class GenreTopRepository @Inject constructor(
     suspend fun getGenreTopMovies(genreId: Int, page: Int = 1): List<Trend>
     {
         return networkDataSource.getTopRatedMoviesInGenre(genreId, page).results.mapIndexed()
-        { index, trend -> trend.toExternal(basePosterUrl, baseProfileUrl, "movie", index.inc()) }
+        { index, trend -> trend.toExternal(basePosterUrl, baseProfileUrl, index.inc()) }
     }
 
     suspend fun getGenreTopTvs(genreId: Int, page: Int = 1): List<Trend>
     {
         return networkDataSource.getTopRatedTvsInGenre(genreId, page).results.mapIndexed()
-        { index, trend -> trend.toExternal(basePosterUrl, baseProfileUrl, "tv", index.inc()) }
+        { index, trend -> trend.toExternal(basePosterUrl, baseProfileUrl, index.inc()) }
     }
 }
