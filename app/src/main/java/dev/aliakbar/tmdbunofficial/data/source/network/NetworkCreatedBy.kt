@@ -41,7 +41,7 @@ data class NetworkPersonDetails(
     val placeOfBirth: String? = null,
     val popularity: Float,
     @SerialName(NETWORK_PROFILE_PATH_SERIAL_NAME)
-    val profilePath: String,
+    val profilePath: String? = null,
     @SerialName(NETWORK_COMBINED_CREDITS_SERIAL_NAME)
     val combinedCredits: NetworkCombinedCreditsResponse,
     val images: NetworkProfileResponse

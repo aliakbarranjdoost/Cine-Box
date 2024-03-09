@@ -28,9 +28,9 @@ data class NetworkMovieDetails(
     @SerialName(NETWORK_ORIGINAL_LANGUAGE_SERIAL_NAME)
     val originalLanguage: String,
     @SerialName(NETWORK_BACKDROP_PATH_SERIAL_NAME)
-    val backdropPath: String,
+    val backdropPath: String? = null,
     @SerialName(NETWORK_POSTER_PATH_SERIAL_NAME)
-    val posterPath: String,
+    val posterPath: String? = null,
     val genres: List<NetworkGenre>,
     @SerialName(NETWORK_RELEASE_DATE_SERIAL_NAME)
     val releaseDate: String,
