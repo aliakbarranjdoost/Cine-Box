@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.aliakbar.tmdbunofficial.R
-import dev.aliakbar.tmdbunofficial.data.source.datastore.ThemeOptions
+import dev.aliakbar.tmdbunofficial.data.ThemeOptions
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 
 @Composable

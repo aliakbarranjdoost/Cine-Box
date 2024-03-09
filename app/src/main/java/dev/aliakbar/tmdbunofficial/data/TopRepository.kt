@@ -14,7 +14,6 @@ class TopRepository @Inject constructor(
     private val networkDataSource: TMDBApiService
 ) : ConfigurationRepository(networkDataSource)
 {
-    // TODO: change page size to const
     fun getTopRatedMovies() = Pager(
         config = PagingConfig(
             pageSize = PAGE_SIZE,

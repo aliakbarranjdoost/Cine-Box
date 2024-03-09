@@ -3,7 +3,7 @@ package dev.aliakbar.tmdbunofficial.ui.setting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aliakbar.tmdbunofficial.data.source.datastore.ThemeOptions
+import dev.aliakbar.tmdbunofficial.data.ThemeOptions
 import dev.aliakbar.tmdbunofficial.data.source.datastore.UserPreferencesRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

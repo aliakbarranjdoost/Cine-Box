@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
+import dev.aliakbar.tmdbunofficial.data.ThemeOptions
 import dev.aliakbar.tmdbunofficial.util.DYNAMIC_THEME_KEY
 import dev.aliakbar.tmdbunofficial.util.THEME_OPTION_KEY
 import kotlinx.coroutines.flow.Flow
@@ -19,11 +20,6 @@ data class UserPreferences(
     val dynamicTheme: Boolean,
     val theme: ThemeOptions
 )
-
-enum class ThemeOptions
-{
-    SYSTEM_DEFAULT, LIGHT, DARK
-}
 
 private var TAG = UserPreferencesRepository::class.java.simpleName
 
