@@ -2,6 +2,7 @@ package dev.aliakbar.tmdbunofficial.data
 
 import dev.aliakbar.tmdbunofficial.data.source.local.TmdbDatabase
 import dev.aliakbar.tmdbunofficial.data.source.network.TMDBApiService
+import dev.aliakbar.tmdbunofficial.util.MAX_TRAILERS_NUMBER
 import javax.inject.Inject
 
 private var TAG = HomeRepository::class.java.simpleName
@@ -10,62 +11,52 @@ class HomeRepository @Inject constructor(
     private val networkDataSource: TMDBApiService
 ) : ConfigurationRepository(networkDataSource)
 {
-    // TODO: change all map indexed to map and move them to Model Mapping file
     suspend fun getTodayTrendingMovies(): List<Trend>
     {
-        return networkDataSource.getTodayTrendingMovies().results.map()
-        {
-            it.toExternal(
-                basePosterUrl = basePosterUrl,
-                baseBackdropUrl = baseBackdropUrl
-            )
-        }
+        return networkDataSource.getTodayTrendingMovies().results.toExternal(
+            basePosterUrl = basePosterUrl,
+            baseBackdropUrl = baseBackdropUrl
+        )
     }
 
     suspend fun getThisWeekTrendingMovies(): List<Trend>
     {
-        return networkDataSource.getThisWeekTrendingMovies().results.mapIndexed()
-        { index, networkTrendMovie ->
-            networkTrendMovie.toExternal(basePosterUrl, baseBackdropUrl)
-        }
+        return networkDataSource.getThisWeekTrendingMovies().results.toExternal(
+            basePosterUrl = basePosterUrl,
+            baseBackdropUrl = baseBackdropUrl
+        )
     }
 
     suspend fun getTodayTrendingSeries(): List<Trend>
     {
-        return networkDataSource.getTodayTrendingSeries().results.mapIndexed()
-        { index, networkTrendSeries ->
-            networkTrendSeries.toExternal(basePosterUrl, baseBackdropUrl)
-        }
+        return networkDataSource.getTodayTrendingSeries().results.toExternal(
+            basePosterUrl = basePosterUrl,
+            baseBackdropUrl = baseBackdropUrl
+        )
     }
 
     suspend fun getThisWeekTrendingSeries(): List<Trend>
     {
-        return networkDataSource.getThisWeekTrendingSeries().results.mapIndexed()
-        { index, networkTrendSeries ->
-            networkTrendSeries.toExternal(basePosterUrl, baseBackdropUrl)
-        }
+        return networkDataSource.getThisWeekTrendingSeries().results.toExternal(
+            basePosterUrl = basePosterUrl,
+            baseBackdropUrl = baseBackdropUrl
+        )
     }
 
     suspend fun getPopularMovies(): List<Trend>
     {
-        return networkDataSource.getPopularMovies().results.mapIndexed()
-        { index, networkPopularMovie ->
-            networkPopularMovie.toExternal(
-                basePosterUrl, baseBackdropUrl,
-                index.inc()
-            )
-        }
+        return networkDataSource.getPopularMovies().results.toExternal(
+            basePosterUrl = basePosterUrl,
+            baseBackdropUrl = baseBackdropUrl
+        )
     }
 
     suspend fun getPopularSeries(): List<Trend>
     {
-        return networkDataSource.getPopularSeries().results.mapIndexed()
-        { index, networkPopularMovie ->
-            networkPopularMovie.toExternal(
-                basePosterUrl, baseBackdropUrl,
-                index.inc()
-            )
-        }
+        return networkDataSource.getPopularSeries().results.toExternal(
+            basePosterUrl = basePosterUrl,
+            baseBackdropUrl = baseBackdropUrl
+        )
     }
 
     suspend fun getTodayTrendingMovieTrailers() : List<Trailer>
@@ -76,7 +67,7 @@ class HomeRepository @Inject constructor(
         {
             val movieTrailers = networkDataSource.getMovieVideos(it.id).results.toExternal()
 
-            if (movieTrailers.isNotEmpty() && todayTrendingMovieTrailers.size <= 10)
+            if (movieTrailers.isNotEmpty() && todayTrendingMovieTrailers.size <= MAX_TRAILERS_NUMBER)
             {
                 val trailer = findOfficialTrailerFromYoutube(movieTrailers)
                 if (trailer != null)
@@ -93,13 +84,15 @@ class HomeRepository @Inject constructor(
         return todayTrendingMovieTrailers
     }
 
-    // TODO: change video site and type to enum
     private fun findOfficialTrailerFromYoutube(videos: List<Video>): Video?
     {
         videos.forEach()
-        {
-                video ->
-            if (video.official && video.site == "YouTube" && video.type == "Trailer")
+        { video ->
+            if (
+                video.official &&
+                video.site.lowercase() == VideoSite.YOUTUBE.name.lowercase() &&
+                video.type.lowercase() == VideoType.TRAILER.name.lowercase()
+                )
             {
                 return video
             }

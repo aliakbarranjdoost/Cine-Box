@@ -7,6 +7,7 @@ const val SETTING_KEY = "setting"
 const val YOUTUBE_THUMBNAIL_BASE_URL = "https://i.ytimg.com/vi/"
 const val OVERVIEW_PREVIEW_MAX_LINE = 3
 const val PAGE_SIZE = 20
+const val MAX_TRAILERS_NUMBER = 10
 const val THEME_OPTION_KEY = "theme_option"
 const val DYNAMIC_THEME_KEY = "is_dynamic"
 // Higher number means lower quality
