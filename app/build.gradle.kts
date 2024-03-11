@@ -29,6 +29,7 @@ android {
             isDebuggable = true
         }
         release {
+            applicationIdSuffix = ".test"
             isMinifyEnabled = true
             isShrinkResources = true
             isDebuggable = false
