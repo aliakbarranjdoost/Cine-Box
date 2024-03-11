@@ -4,15 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -79,44 +75,33 @@ fun TmdbApp(
 {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = backStackEntry?.destination
-    var showBottomBar by rememberSaveable { (mutableStateOf(true)) }
-
-    showBottomBar = when( currentDestination?.route)
-    {
-        Home.route, Bookmark.route, Search.route, Top.route, Setting.route -> true
-        Movie.route, Tv.route, Season.route,Episode.route ,Person.route ,GenreTop.route -> false
-        else -> false
-    }
 
     Scaffold(
         bottomBar =
         {
-            AnimatedVisibility (showBottomBar)
-            {
-                TmdbBottomAppBar(
-                    allScreens = bottomNavigationItems,
-                    selected = { screen -> currentDestination?.hierarchy?.any { it.route == screen.route } == true },
-                    onTabSelected =
+            TmdbBottomAppBar(
+                allScreens = bottomNavigationItems,
+                selected = { screen -> currentDestination?.hierarchy?.any { it.route == screen.route } == true },
+                onTabSelected =
+                {
+                    navController.navigate(it.route)
                     {
-                        navController.navigate(it.route)
+                        // Pop up to the start destination of the graph to
+                        // avoid building up a large stack of destinations
+                        // on the back stack as users select items
+                        popUpTo(navController.graph.findStartDestination().id)
                         {
-                            // Pop up to the start destination of the graph to
-                            // avoid building up a large stack of destinations
-                            // on the back stack as users select items
-                            popUpTo(navController.graph.findStartDestination().id)
-                            {
-                                saveState = true
-                                inclusive = true
-                            }
-                            // Avoid multiple copies of the same destination when
-                            // reselecting the same item
-                            launchSingleTop = true
-                            // Restore state when reselecting a previously selected item
-                            restoreState = true
+                            saveState = true
+                            inclusive = true
                         }
+                        // Avoid multiple copies of the same destination when
+                        // reselecting the same item
+                        launchSingleTop = true
+                        // Restore state when reselecting a previously selected item
+                        restoreState = true
                     }
-                )
-            }
+                }
+            )
         }
     )
     { innerPadding ->
