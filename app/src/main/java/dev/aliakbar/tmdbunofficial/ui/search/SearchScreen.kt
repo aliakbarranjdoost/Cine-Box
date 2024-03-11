@@ -15,13 +15,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -30,16 +25,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -69,19 +60,14 @@ fun SearchScreen(
 
     val text by viewModel.query.collectAsStateWithLifecycle()
     var active by rememberSaveable { mutableStateOf(false) }
-    var expanded by rememberSaveable { mutableStateOf(false) }
     var isLoading by rememberSaveable {
         mutableStateOf(false)
     }
 
     Box(Modifier.fillMaxSize())
     {
-        val focusRequester = remember{ FocusRequester() }
-
         SearchBar(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .focusRequester(focusRequester),
+            modifier = Modifier.align(Alignment.TopCenter),
             query = text,
             onQueryChange = { viewModel.setQuery(it) },
             onSearch = {
@@ -126,14 +112,6 @@ fun SearchScreen(
                         .padding(horizontal = 16.dp, vertical = 4.dp)
                 )
             }*/
-        }
-        // LaunchedEffect prevents endless focus request
-        LaunchedEffect(focusRequester)
-        {
-            //            if (showKeyboard.equals(true)) {
-            focusRequester.requestFocus()
-            //                delay(100) // Make sure you have delay here
-            //                keyboard?.show()
         }
 
         LazyColumn(
