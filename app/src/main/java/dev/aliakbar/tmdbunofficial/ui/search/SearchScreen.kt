@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -121,11 +122,12 @@ fun SearchScreen(
         )
         {
             item {
-                if (searchResult.itemCount == 0 && isLoading)
+                if (searchResult.itemCount == 0 && isLoading && searchResult.loadState.refresh !is LoadState.Loading)
                 {
                     Text(
                         text = stringResource(R.string.message_no_result),
-                        modifier = Modifier.padding(top = 72.dp)
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(top = 72.dp).fillMaxWidth()
                     )
                 }
             }
