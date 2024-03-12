@@ -1,4 +1,4 @@
-![alt text](https://github.com/aliakbarranjdoost/Cine-Box/blob/master/cine%20box%20logo.svg)
+![alt text](https://github.com/aliakbarranjdoost/Cine-Box/blob/master/cine%20box%20logo.png)
 # Cine Box
 
 A movie listing app with Kotlin, Jetpack Compose, and The movie database REST API
