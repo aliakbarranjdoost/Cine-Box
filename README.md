@@ -1,4 +1,4 @@
-![alt text]([https://github.com/[username]/[reponame]/blob/[branch]/image.jpg](https://github.com/aliakbarranjdoost/Cine-Box/blob/master/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml)?raw=true)
+![alt text](https://github.com/aliakbarranjdoost/Cine-Box/blob/master/cine%20box%20logo.svg)
 # Cine Box
 
 A movie listing app with Kotlin, Jetpack Compose, and The movie database REST API
