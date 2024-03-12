@@ -72,6 +72,7 @@ Util -> const -> BEARER_TOKEN
 ## Special Thanks:
 
 https://www.themoviedb.org for amazing free api
+
 https://logowik.com for logo
 
 
