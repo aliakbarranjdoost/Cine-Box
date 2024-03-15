@@ -39,7 +39,7 @@ class PersonViewModel @Inject constructor(
         getPerson()
     }
 
-    private fun getPerson()
+    fun getPerson()
     {
         viewModelScope.launch()
         {

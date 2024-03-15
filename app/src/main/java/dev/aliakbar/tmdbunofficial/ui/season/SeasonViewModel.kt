@@ -42,7 +42,7 @@ class SeasonViewModel @Inject constructor(
         getSeasonDetails()
     }
 
-    private fun getSeasonDetails()
+    fun getSeasonDetails()
     {
         viewModelScope.launch()
         {

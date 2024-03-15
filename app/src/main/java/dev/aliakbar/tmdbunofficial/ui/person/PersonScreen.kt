@@ -36,6 +36,7 @@ import dev.aliakbar.tmdbunofficial.data.PersonCredit
 import dev.aliakbar.tmdbunofficial.data.PersonDetails
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.DetailsHeader
+import dev.aliakbar.tmdbunofficial.ui.components.ErrorButton
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ListTitleText
 import dev.aliakbar.tmdbunofficial.ui.components.ShowMoreDetailsButton
@@ -54,7 +55,9 @@ fun PersonScreen(
     when (val uiState = viewModel.personUiState)
     {
         is PersonUiState.Loading -> CircularIndicator()
-        is PersonUiState.Error   -> Text(text = "Error")
+        is PersonUiState.Error   -> ErrorButton {
+            viewModel.getPerson()
+        }
         is PersonUiState.Success ->
         {
             PersonScreen(

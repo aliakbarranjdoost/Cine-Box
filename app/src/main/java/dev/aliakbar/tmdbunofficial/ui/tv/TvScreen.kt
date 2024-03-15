@@ -37,6 +37,7 @@ import dev.aliakbar.tmdbunofficial.data.Tv
 import dev.aliakbar.tmdbunofficial.ui.components.BackdropList
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.DetailsHeader
+import dev.aliakbar.tmdbunofficial.ui.components.ErrorButton
 import dev.aliakbar.tmdbunofficial.ui.components.GenreList
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ListTitleText
@@ -67,6 +68,7 @@ fun TvScreen(
     when (val uiState = viewModel.tvUiState)
     {
         is TvUiState.Loading -> CircularIndicator()
+        is TvUiState.Error   -> ErrorButton { viewModel.getTvDetails() }
         is TvUiState.Success ->
             TvDetails(
                 tv = uiState.tv,
@@ -84,8 +86,6 @@ fun TvScreen(
                 addToBookmark = { viewModel.addToBookmark(uiState.tv) },
                 removeFromBookmark = { viewModel.removeFromBookmark(uiState.tv) },
             )
-
-        is TvUiState.Error   -> Text(text = "Error")
     }
 }
 

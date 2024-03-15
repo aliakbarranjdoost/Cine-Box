@@ -34,10 +34,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Episode
 import dev.aliakbar.tmdbunofficial.data.SeasonDetails
-import dev.aliakbar.tmdbunofficial.data.source.sample.episode
-import dev.aliakbar.tmdbunofficial.data.source.sample.episodes
 import dev.aliakbar.tmdbunofficial.data.source.sample.seasonDetails
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
+import dev.aliakbar.tmdbunofficial.ui.components.ErrorButton
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.TopBar
 import dev.aliakbar.tmdbunofficial.ui.theme.TMDBUnofficialTheme
@@ -52,6 +51,7 @@ fun SeasonScreen(
     when (val uiState = viewModel.episodeListUiState)
     {
         is SeasonUiState.Loading -> CircularIndicator()
+        is SeasonUiState.Error   -> ErrorButton { viewModel.getSeasonDetails() }
         is SeasonUiState.Success ->
         {
             SeasonScreen(
@@ -63,8 +63,6 @@ fun SeasonScreen(
                 onNavigateBack = onNavigateBack
             )
         }
-
-        is SeasonUiState.Error   -> Text(text = "Error")
     }
 }
 

@@ -38,10 +38,10 @@ class MovieViewModel @Inject constructor(
 
     init
     {
-        getMovieDetails(id)
+        getMovieDetails()
     }
 
-    private fun getMovieDetails(id: Int)
+    fun getMovieDetails()
     {
         viewModelScope.launch()
         {

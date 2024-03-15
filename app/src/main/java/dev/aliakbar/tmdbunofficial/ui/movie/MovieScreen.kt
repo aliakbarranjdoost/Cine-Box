@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,6 +29,7 @@ import dev.aliakbar.tmdbunofficial.data.source.sample.movie
 import dev.aliakbar.tmdbunofficial.ui.components.BackdropList
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.DetailsHeader
+import dev.aliakbar.tmdbunofficial.ui.components.ErrorButton
 import dev.aliakbar.tmdbunofficial.ui.components.GenreList
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ListTitleText
@@ -69,7 +69,9 @@ fun MovieScreen(
             removeFromBookmark = { viewModel.removeFromBookmark(it) }
         )
 
-        is MovieUiState.Error   -> Text(text = "Error")
+        is MovieUiState.Error   -> ErrorButton {
+            viewModel.getMovieDetails()
+        }
     }
 }
 

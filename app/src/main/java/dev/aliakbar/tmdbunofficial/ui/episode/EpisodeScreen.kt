@@ -27,6 +27,7 @@ import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.EpisodeDetails
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.DetailsHeader
+import dev.aliakbar.tmdbunofficial.ui.components.ErrorButton
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ListTitleText
 import dev.aliakbar.tmdbunofficial.ui.components.MainMovieDetailsRow
@@ -49,7 +50,7 @@ fun EpisodeScreen(
     when(val uiState = viewModel.episodeUiState)
     {
         is EpisodeUiState.Loading -> CircularIndicator()
-        is EpisodeUiState.Error -> Text(text = "Error")
+        is EpisodeUiState.Error -> ErrorButton { viewModel.getEpisodeDetails() }
         is EpisodeUiState.Success ->
         {
             EpisodeScreen(

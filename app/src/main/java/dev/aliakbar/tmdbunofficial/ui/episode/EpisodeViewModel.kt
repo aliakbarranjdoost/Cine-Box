@@ -43,7 +43,7 @@ class EpisodeViewModel @Inject constructor(
         getEpisodeDetails()
     }
 
-    private fun getEpisodeDetails()
+    fun getEpisodeDetails()
     {
         viewModelScope.launch()
         {

@@ -37,10 +37,10 @@ class TvViewModel @Inject constructor(
 
     init
     {
-        getTvDetails(id)
+        getTvDetails()
     }
 
-    fun getTvDetails(id: Int)
+    fun getTvDetails()
     {
         viewModelScope.launch()
         {
