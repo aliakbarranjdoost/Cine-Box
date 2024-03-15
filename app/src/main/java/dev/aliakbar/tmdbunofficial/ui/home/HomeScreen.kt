@@ -27,7 +27,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Card
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -53,7 +52,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
@@ -71,6 +69,7 @@ import dev.aliakbar.tmdbunofficial.data.MediaType
 import dev.aliakbar.tmdbunofficial.data.Trailer
 import dev.aliakbar.tmdbunofficial.data.Trend
 import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
+import dev.aliakbar.tmdbunofficial.ui.components.ErrorButton
 import dev.aliakbar.tmdbunofficial.ui.components.Image
 import dev.aliakbar.tmdbunofficial.ui.components.ImageLoadingAnimation
 import dev.aliakbar.tmdbunofficial.ui.components.IndicatorList
@@ -192,7 +191,7 @@ fun HomeScreen(
                 }
             }
         }
-        is HomeUiState.Error   -> Text(text = "Error")
+        is HomeUiState.Error   -> ErrorButton { viewModel.initiateState() }
     }
 }
 

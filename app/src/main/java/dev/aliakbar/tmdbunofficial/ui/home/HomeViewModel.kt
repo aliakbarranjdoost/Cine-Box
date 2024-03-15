@@ -9,7 +9,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aliakbar.tmdbunofficial.data.HomeRepository
 import dev.aliakbar.tmdbunofficial.data.Trailer
 import dev.aliakbar.tmdbunofficial.data.Trend
-import dev.aliakbar.tmdbunofficial.data.toExternal
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -42,6 +41,11 @@ class HomeViewModel @Inject constructor(
         private set
 
     init
+    {
+        initiateState()
+    }
+
+    fun initiateState()
     {
         viewModelScope.launch()
         {
