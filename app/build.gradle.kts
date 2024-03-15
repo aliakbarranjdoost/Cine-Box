@@ -1,19 +1,20 @@
 plugins {
-    alias(libs.plugins.com.android.application)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
-    alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization)
-    alias(libs.plugins.ksp)
+    alias(libs.plugins.android.application)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "dev.aliakbar.tmdbunofficial"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "dev.aliakbar.tmdbunofficial"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -40,17 +41,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.8"
+        buildConfig = true
     }
     packaging {
         resources {
@@ -61,43 +60,43 @@ android {
 
 dependencies {
 
-    implementation(libs.core)
-    implementation(libs.activity)
-    implementation(libs.lifecycle.runtime)
-    implementation(libs.lifecycle.viewModel)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.activity.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     implementation(platform(libs.compose.bom))
-    implementation(libs.ui)
-    implementation(libs.ui.graphics)
-    implementation(libs.ui.tooling.preview)
-    implementation(libs.material3)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.material3)
 
-    implementation (libs.youtubeplayer)
+    implementation (libs.androidyoutubeplayer.core)
 
-    implementation(libs.navigation)
+    implementation(libs.androidx.navigation.compose)
 
-    implementation(libs.room.runtime)
-    implementation(libs.room)
-    implementation(libs.animation.graphics.android)
-    ksp(libs.room.compiler)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.compose.animation.graphics.android)
+    ksp(libs.androidx.room.compiler)
 
     implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.retrofit)
-    implementation(libs.retrofit.converter)
+    implementation(libs.converter.kotlinx.serialization)
     implementation(libs.okhttp)
 
-    implementation(libs.coil)
+    implementation(libs.coil.compose)
 
-    debugImplementation(libs.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.tooling)
 
-    implementation(libs.paging)
-    implementation(libs.paging.compose)
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose)
 
-    implementation(libs.datastore)
+    implementation(libs.androidx.datastore.preferences)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
-    implementation(libs.hilt.navigation)
+    implementation(libs.hilt.navigation.compose)
 }
