@@ -80,13 +80,15 @@ fun SeasonScreen(
 {
     Scaffold(
         topBar = { TopBar(title = seasonDetails.name, onNavigateBack = onNavigateBack) },
-        modifier = modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_large))
+        modifier = modifier
     )
     { innerPadding ->
         EpisodeList(
             episodes = seasonDetails.episodes,
-            modifier = Modifier.padding(innerPadding),
-            onNavigateToEpisode = onNavigateToEpisode
+            onNavigateToEpisode = onNavigateToEpisode,
+            modifier = Modifier
+                .padding(innerPadding)
+                .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
         )
     }
 }
