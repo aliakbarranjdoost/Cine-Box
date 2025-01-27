@@ -85,18 +85,23 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 )
 {
+    val timeRangeOptions = stringArrayResource(R.array.date_range_options)
+    val typeOptions = stringArrayResource(R.array.content_type_option)
+
+    val paddingTop = dimensionResource(id = R.dimen.padding_top_home)
+    val paddingBottom = dimensionResource(id = R.dimen.padding_bottom_home)
+
+    var popularSelectedTypeIndex by remember { mutableIntStateOf(0) }
+
     when (val homeUiState = viewModel.homeUiState)
     {
         is HomeUiState.Loading -> CircularIndicator()
         is HomeUiState.Success ->
         {
-
-            val scrollState = rememberScrollState()
-
             Column(
                 modifier = modifier
                     .fillMaxSize()
-                    .verticalScroll(scrollState)
+                    .verticalScroll(rememberScrollState())
             )
             {
                 Slider(
@@ -105,16 +110,8 @@ fun HomeScreen(
                     onNavigateToTv = onNavigateToTv
                 )
 
-                val timeRangeOptions = stringArrayResource(R.array.date_range_options)
-                val typeOptions = stringArrayResource(R.array.content_type_option)
-
-                var popularSelectedTypeIndex by remember { mutableIntStateOf(0) }
-
                 Column()
                 {
-                    val paddingTop = dimensionResource(id = R.dimen.padding_top_home)
-                    val paddingBottom = dimensionResource(id = R.dimen.padding_bottom_home)
-
                     ListTitleText(
                         title = R.string.trending_movies,
                         modifier = Modifier
@@ -182,12 +179,14 @@ fun HomeScreen(
                     {
                         0 -> TrendList(
                             trends = homeUiState.popularMovies,
-                            onNavigate = { onNavigateToMovie(it) }
+                            onNavigate = { onNavigateToMovie(it) },
+                            modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_large))
                         )
 
                         1 -> TrendList(
                             trends = homeUiState.popularSeries,
-                            onNavigate = { onNavigateToTv(it) }
+                            onNavigate = { onNavigateToTv(it) },
+                            modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_large))
                         )
                     }
                 }
@@ -233,9 +232,9 @@ fun TrendItem(
     modifier: Modifier = Modifier
 )
 {
-    ElevatedCard(onClick = { onNavigate(id) }, modifier = modifier.width(170.dp))
+    ElevatedCard(onClick = { onNavigate(id) }, modifier = modifier.width(150.dp))
     {
-        Image(url = poster, modifier = Modifier.size(width = 170.dp, height = 255.dp))
+        Image(url = poster, modifier = Modifier.size(width = 150.dp, height = 225.dp))
 
         Text(
             text = title,
@@ -258,7 +257,7 @@ fun Slider(
 {
     val pagerState = rememberPagerState(pageCount = { trailers.size })
 
-    Box()
+    Box(modifier = modifier)
     {
         HorizontalPager(state = pagerState)
         { page ->
@@ -296,7 +295,7 @@ fun SliderItem(
     var isVideoFullScreen by remember { mutableStateOf(false) }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(335.dp)
     )
@@ -434,7 +433,8 @@ fun YoutubeVideoPlayer(
                     }
                 })
             }
-        }, modifier = Modifier.fillMaxSize()
+        },
+        modifier = modifier.fillMaxSize()
     )
 }
 

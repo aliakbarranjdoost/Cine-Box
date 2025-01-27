@@ -18,6 +18,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.Person
 
@@ -32,6 +33,7 @@ fun ListTitleText(
     Text(
         text = stringResource(id = title),
         style = MaterialTheme.typography.titleMedium,
+        fontSize = 20.sp,
         modifier = modifier,
     )
 }
