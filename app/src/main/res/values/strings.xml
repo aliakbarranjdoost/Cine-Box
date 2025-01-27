@@ -61,7 +61,7 @@
     <string name = "message_no_result">unfortunately, your search has no result</string>
     <string name = "use_dynamic_color">Use Dynamic Color</string>
     <string name = "dark_mode_preference">Dark Mode Preference</string>
-
+    <string name = "no_episode_yet">No episodes here yet!\nStay tuned for updates or explore other shows.</string>
 
     <string-array name = "date_range_options">
         <item>@string/today</item>
