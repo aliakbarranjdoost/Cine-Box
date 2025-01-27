@@ -210,10 +210,7 @@ fun EpisodeScreen(
                         title = R.string.videos,
                         modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
-                    VideoList(
-                        videos = episode.videos,
-                        onVideoClick = {}
-                    )
+                    VideoList(videos = episode.videos)
                 }
             }
         }

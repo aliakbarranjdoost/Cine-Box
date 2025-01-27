@@ -202,10 +202,7 @@ fun MovieDetails(
                         modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
 
-                    VideoList(
-                        videos = movie.videos,
-                        onVideoClick = {}
-                    )
+                    VideoList(videos = movie.videos)
                 }
 
                 if (movie.posters.isNotEmpty())

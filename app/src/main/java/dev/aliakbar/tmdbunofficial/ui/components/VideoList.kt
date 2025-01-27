@@ -42,7 +42,6 @@ import dev.aliakbar.tmdbunofficial.util.YoutubeThumbnailSize
 @Composable
 fun VideoList(
     videos: List<Video>,
-    onVideoClick: () -> Unit,
     contentPadding: PaddingValues = PaddingValues(horizontal = dimensionResource(id = R.dimen.padding_large)),
     modifier: Modifier = Modifier
 )
@@ -56,7 +55,7 @@ fun VideoList(
     {
         items(videos)
         { video ->
-            VideoItem(video = video, onVideoClick)
+            VideoItem(video = video)
         }
     }
 }
@@ -64,12 +63,11 @@ fun VideoList(
 @Composable
 fun VideoItem(
     video: Video,
-    onVideoClick: () -> Unit,
     modifier: Modifier = Modifier
 )
 {
     Card(
-        onClick = onVideoClick,
+        onClick = {},
         modifier = modifier
             .width(300.dp)
             .height(170.dp)

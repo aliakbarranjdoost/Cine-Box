@@ -231,11 +231,7 @@ fun TvDetails(
                             .padding(top = topPadding, bottom = bottomPadding)
                             .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                     )
-                    VideoList(
-                        videos = tv.videos,
-                        onVideoClick = {},
-                        contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.padding_large))
-                    )
+                    VideoList(videos = tv.videos)
                 }
 
                 if (tv.posters.isNotEmpty())
