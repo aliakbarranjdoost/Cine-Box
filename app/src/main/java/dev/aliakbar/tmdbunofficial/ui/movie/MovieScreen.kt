@@ -2,6 +2,7 @@ package dev.aliakbar.tmdbunofficial.ui.movie
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -179,14 +180,20 @@ fun MovieDetails(
                     modifier = Modifier.padding(bottom = bottomPadding)
                 )
 
-                PersonList(persons = movie.casts, onNavigateToPerson = onNavigateToPerson)
+                PersonList(
+                    persons = movie.casts,
+                    onNavigateToPerson = onNavigateToPerson
+                )
 
                 ListTitleText(
                     title = R.string.crews,
                     modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                 )
 
-                PersonList(persons = movie.crews, onNavigateToPerson = onNavigateToPerson)
+                PersonList(
+                    persons = movie.crews,
+                    onNavigateToPerson = onNavigateToPerson
+                )
 
                 if (movie.videos.isNotEmpty())
                 {
@@ -195,7 +202,10 @@ fun MovieDetails(
                         modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
 
-                    VideoList(videos = movie.videos, {})
+                    VideoList(
+                        videos = movie.videos,
+                        onVideoClick = {}
+                    )
                 }
 
                 if (movie.posters.isNotEmpty())
@@ -205,11 +215,14 @@ fun MovieDetails(
                         modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
 
-                    PosterList(posters = movie.posters,
+                    PosterList(
+                        posters = movie.posters,
+                        onPosterClick =
                         {
                             selectedImagePath = it.fileUrl
                             showImageFullscreen = true
-                        })
+                        }
+                    )
                 }
 
                 if (movie.backdrops.isNotEmpty())
@@ -218,11 +231,14 @@ fun MovieDetails(
                         title = R.string.backdrops,
                         modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
-                    BackdropList(backdrops = movie.backdrops,
+                    BackdropList(
+                        backdrops = movie.backdrops,
+                        onPosterClick =
                         {
                             selectedImagePath = it.fileUrl
                             showImageFullscreen = true
-                        })
+                        }
+                    )
                 }
 
                 if (movie.recommendations.isNotEmpty())

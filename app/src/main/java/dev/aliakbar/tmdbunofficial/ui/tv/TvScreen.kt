@@ -3,6 +3,7 @@ package dev.aliakbar.tmdbunofficial.ui.tv
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -187,11 +188,13 @@ fun TvDetails(
             val topPadding = dimensionResource(id = R.dimen.padding_large)
             val bottomPadding = dimensionResource(id = R.dimen.padding_medium)
 
-            Column(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_large)))
+            Column()
             {
                 ListTitleText(
                     title = R.string.seasons,
-                    modifier = Modifier.padding(bottom = bottomPadding)
+                    modifier = Modifier
+                        .padding(bottom = bottomPadding)
+                        .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                 )
                 SeasonList(
                     seasons = tv.seasons,
@@ -200,56 +203,84 @@ fun TvDetails(
 
                 ListTitleText(
                     title = R.string.casts,
-                    modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
+                    modifier = Modifier
+                        .padding(top = topPadding, bottom = bottomPadding)
+                        .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                 )
-                PersonList(persons = tv.casts, onNavigateToPerson = onNavigateToPerson)
+                PersonList(
+                    persons = tv.casts,
+                    onNavigateToPerson = onNavigateToPerson
+                )
 
                 ListTitleText(
                     title = R.string.crews,
-                    modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
+                    modifier = Modifier
+                        .padding(top = topPadding, bottom = bottomPadding)
+                        .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                 )
-                PersonList(persons = tv.crews, onNavigateToPerson = onNavigateToPerson)
+                PersonList(
+                    persons = tv.crews,
+                    onNavigateToPerson = onNavigateToPerson
+                )
 
                 if (tv.videos.isNotEmpty())
                 {
                     ListTitleText(
                         title = R.string.videos,
-                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
+                        modifier = Modifier
+                            .padding(top = topPadding, bottom = bottomPadding)
+                            .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                     )
-                    VideoList(videos = tv.videos, {})
+                    VideoList(
+                        videos = tv.videos,
+                        onVideoClick = {},
+                        contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.padding_large))
+                    )
                 }
 
                 if (tv.posters.isNotEmpty())
                 {
                     ListTitleText(
                         title = R.string.posters,
-                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
+                        modifier = Modifier
+                            .padding(top = topPadding, bottom = bottomPadding)
+                            .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                     )
-                    PosterList(posters = tv.posters,
+                    PosterList(
+                        posters = tv.posters,
+                        onPosterClick =
                         {
                             selectedImagePath = it.fileUrl
                             showPosterFullscreen = true
-                        })
+                        }
+                    )
                 }
 
                 if (tv.backdrops.isNotEmpty())
                 {
                     ListTitleText(
                         title = R.string.backdrops,
-                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
+                        modifier = Modifier
+                            .padding(top = topPadding, bottom = bottomPadding)
+                            .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                     )
-                    BackdropList(backdrops = tv.backdrops,
+                    BackdropList(
+                        backdrops = tv.backdrops,
+                        onPosterClick =
                         {
                             selectedImagePath = it.fileUrl
                             showPosterFullscreen = true
-                        })
+                        }
+                    )
                 }
 
                 if (tv.recommendations.isNotEmpty())
                 {
                     ListTitleText(
                         title = R.string.recommendations,
-                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
+                        modifier = Modifier
+                            .padding(top = topPadding, bottom = bottomPadding)
+                            .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                     )
 
                     RecommendationList(
@@ -274,15 +305,15 @@ fun TvDetails(
 fun SeasonList(
     seasons: List<Season>,
     onNavigateToSeason: (Int) -> Unit,
+    contentPadding: PaddingValues = PaddingValues(horizontal = dimensionResource(id = R.dimen.padding_large)),
     modifier: Modifier = Modifier
 )
 {
-    val scrollState = rememberLazyListState()
-
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_between_list_item)),
-        state = scrollState,
-        modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_from_carousel))
+        state = rememberLazyListState(),
+        contentPadding = contentPadding,
+        modifier = modifier
     )
     {
         items(items = seasons)
@@ -301,7 +332,7 @@ fun SeasonItem(
 {
     ElevatedCard(
         onClick = { onNavigateToSeason(season.seasonNumber) },
-        modifier = Modifier
+        modifier = modifier
             .width(200.dp)
     )
     {

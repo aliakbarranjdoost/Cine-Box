@@ -1,6 +1,7 @@
 package dev.aliakbar.tmdbunofficial.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,15 +24,15 @@ import dev.aliakbar.tmdbunofficial.data.Trend
 fun RecommendationList(
     recommendations: List<Trend>,
     onNavigateToRecommend: (Int) -> Unit,
+    contentPadding: PaddingValues = PaddingValues(horizontal = dimensionResource(id = R.dimen.padding_large)),
     modifier: Modifier = Modifier
 )
 {
-    val scrollState = rememberLazyListState()
-
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_between_list_item)),
-        state = scrollState,
-        modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_from_carousel))
+        state = rememberLazyListState(),
+        contentPadding = contentPadding,
+        modifier = modifier
     )
     {
         items(items = recommendations)
@@ -53,7 +54,7 @@ fun RecommendationItem(
 {
     ElevatedCard(
         onClick = { onNavigateToRecommend(recommendation.id) },
-        modifier = Modifier.width(170.dp)
+        modifier = modifier.width(170.dp)
     )
     {
         Image(
@@ -66,7 +67,6 @@ fun RecommendationItem(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.titleSmall,
-
             modifier = Modifier.padding(8.dp)
         )
     }

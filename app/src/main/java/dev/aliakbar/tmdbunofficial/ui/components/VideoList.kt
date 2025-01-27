@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -42,15 +43,15 @@ import dev.aliakbar.tmdbunofficial.util.YoutubeThumbnailSize
 fun VideoList(
     videos: List<Video>,
     onVideoClick: () -> Unit,
+    contentPadding: PaddingValues = PaddingValues(horizontal = dimensionResource(id = R.dimen.padding_large)),
     modifier: Modifier = Modifier
 )
 {
-    val scrollState = rememberLazyListState()
-
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_between_list_item)),
-        state = scrollState,
-        modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_from_carousel))
+        state = rememberLazyListState(),
+        contentPadding = contentPadding,
+        modifier = modifier
     )
     {
         items(videos)
@@ -69,7 +70,7 @@ fun VideoItem(
 {
     Card(
         onClick = onVideoClick,
-        modifier = Modifier
+        modifier = modifier
             .width(300.dp)
             .height(170.dp)
     )
@@ -89,7 +90,8 @@ fun YoutubeVideoPlayerItem(
     var isVideoFullScreen by remember { mutableStateOf(false) }
     var imageLoadingState by rememberSaveable { mutableStateOf(true) }
 
-    Box {
+    Box(modifier = modifier)
+    {
         SubcomposeAsyncImage(
             model = "$YOUTUBE_THUMBNAIL_BASE_URL$id${YoutubeThumbnailSize.MAX.size}",
             contentDescription = null,

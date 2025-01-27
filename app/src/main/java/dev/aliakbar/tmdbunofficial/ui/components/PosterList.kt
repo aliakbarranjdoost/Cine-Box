@@ -1,7 +1,7 @@
 package dev.aliakbar.tmdbunofficial.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -20,15 +20,15 @@ import dev.aliakbar.tmdbunofficial.data.Image
 fun PosterList(
     posters: List<Image>,
     onPosterClick: (Image) -> Unit,
+    contentPadding: PaddingValues = PaddingValues(horizontal = dimensionResource(id = R.dimen.padding_large)),
     modifier: Modifier = Modifier
 )
 {
-        val scrollState = rememberLazyListState()
-
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_between_list_item)),
-        state = scrollState,
-        modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_from_carousel))
+        state = rememberLazyListState(),
+        contentPadding = contentPadding,
+        modifier = modifier
     )
     {
         items(items = posters)
@@ -46,7 +46,7 @@ fun PosterItem(
 )
 {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .width(200.dp)
             .height(300.dp),
         onClick = { onPosterClick(poster) }

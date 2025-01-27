@@ -2,7 +2,7 @@ package dev.aliakbar.tmdbunofficial.ui.components
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -40,15 +40,15 @@ fun ListTitleText(
 fun PersonList(
     persons: List<Person>,
     onNavigateToPerson: (Int) -> Unit,
+    contentPadding: PaddingValues = PaddingValues(horizontal = dimensionResource(id = R.dimen.padding_large)),
     modifier: Modifier = Modifier
 )
 {
-    val scrollState = rememberLazyListState()
-
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_between_list_item)),
-        state = scrollState,
-        modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_from_carousel)),
+        state = rememberLazyListState(),
+        contentPadding = contentPadding,
+        modifier = modifier,
     )
     {
         items(items = persons)
@@ -75,7 +75,7 @@ fun PersonItem(
 {
     ElevatedCard(
         onClick = {onNavigateToPerson(id)},
-        modifier = Modifier.width(150.dp),
+        modifier = modifier.width(150.dp),
     )
     {
 

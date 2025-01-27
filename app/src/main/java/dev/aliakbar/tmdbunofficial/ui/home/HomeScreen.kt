@@ -10,6 +10,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -93,7 +94,7 @@ fun HomeScreen(
             val scrollState = rememberScrollState()
 
             Column(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxSize()
                     .verticalScroll(scrollState)
             )
@@ -109,17 +110,16 @@ fun HomeScreen(
 
                 var popularSelectedTypeIndex by remember { mutableIntStateOf(0) }
 
-                Column(
-                    modifier = Modifier
-                        .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
-                )
+                Column()
                 {
                     val paddingTop = dimensionResource(id = R.dimen.padding_top_home)
                     val paddingBottom = dimensionResource(id = R.dimen.padding_bottom_home)
 
                     ListTitleText(
                         title = R.string.trending_movies,
-                        modifier = Modifier.padding(top = paddingTop, bottom = paddingBottom)
+                        modifier = Modifier
+                            .padding(top = paddingTop, bottom = paddingBottom)
+                            .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                     )
                     
                     TrendList(
@@ -129,7 +129,9 @@ fun HomeScreen(
 
                     ListTitleText(
                         title = R.string.trending_tvs,
-                        modifier = Modifier.padding(top = paddingTop, bottom = paddingBottom)
+                        modifier = Modifier
+                            .padding(top = paddingTop, bottom = paddingBottom)
+                            .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                     )
 
                     TrendList(
@@ -142,6 +144,7 @@ fun HomeScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = paddingTop, bottom = paddingBottom)
+                            .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                     )
                     {
                         ListTitleText(
@@ -198,15 +201,15 @@ fun HomeScreen(
 fun TrendList(
     trends: List<Trend>,
     onNavigate: (Int) -> Unit,
+    contentPadding: PaddingValues = PaddingValues(horizontal = dimensionResource(id = R.dimen.padding_large)),
     modifier: Modifier = Modifier
 )
 {
-    val scrollState = rememberLazyListState()
-
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_between_list_item)),
-        state = scrollState,
-        modifier = modifier.padding(bottom = dimensionResource(id = R.dimen.padding_from_carousel))
+        state = rememberLazyListState(),
+        contentPadding = contentPadding,
+        modifier = modifier
     )
     {
         items(items = trends, key = { trend -> trend.id })
@@ -230,7 +233,7 @@ fun TrendItem(
     modifier: Modifier = Modifier
 )
 {
-    ElevatedCard(onClick = { onNavigate(id) }, modifier = Modifier.width(170.dp))
+    ElevatedCard(onClick = { onNavigate(id) }, modifier = modifier.width(170.dp))
     {
         Image(url = poster, modifier = Modifier.size(width = 170.dp, height = 255.dp))
 

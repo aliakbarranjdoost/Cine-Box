@@ -3,6 +3,7 @@ package dev.aliakbar.tmdbunofficial.ui.person
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -77,7 +78,6 @@ fun PersonScreen(
     modifier: Modifier = Modifier
 )
 {
-    val scrollState = rememberScrollState()
     var showDetails by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -87,7 +87,7 @@ fun PersonScreen(
                 onNavigateBack = onNavigateBack,
             )
         },
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     )
     { innerPadding ->
         Column(
@@ -95,8 +95,9 @@ fun PersonScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .verticalScroll(scrollState)
-        ) {
+                .verticalScroll(rememberScrollState())
+        )
+        {
             Image(
                 url = person.profileUrl,
                 modifier = Modifier
@@ -157,13 +158,15 @@ fun PersonScreen(
             val topPadding = dimensionResource(id = R.dimen.padding_large)
             val bottomPadding = dimensionResource(id = R.dimen.padding_medium)
 
-            Column(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_large)))
+            Column()
             {
                 if (person.asMovieCast.isNotEmpty())
                 {
                     ListTitleText(
                         title = R.string.movies_as_cast,
-                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
+                        modifier = Modifier
+                            .padding(top = topPadding, bottom = bottomPadding)
+                            .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                     )
                     CreditList(credits = person.asMovieCast, onNavigate = onNavigateToMovie)
                 }
@@ -172,7 +175,9 @@ fun PersonScreen(
                 {
                     ListTitleText(
                         title = R.string.tvs_as_cast,
-                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
+                        modifier = Modifier
+                            .padding(top = topPadding, bottom = bottomPadding)
+                            .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                     )
                     CreditList(credits = person.asTvCast, onNavigate = onNavigateToTv)
                 }
@@ -181,7 +186,9 @@ fun PersonScreen(
                 {
                     ListTitleText(
                         title = R.string.movies_as_crew,
-                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
+                        modifier = Modifier
+                            .padding(top = topPadding, bottom = bottomPadding)
+                            .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                     )
                     CreditList(credits = person.asMovieCrew, onNavigate = onNavigateToMovie)
                 }
@@ -190,7 +197,9 @@ fun PersonScreen(
                 {
                     ListTitleText(
                         title = R.string.tvs_as_crew,
-                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
+                        modifier = Modifier
+                            .padding(top = topPadding, bottom = bottomPadding)
+                            .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                     )
                     CreditList(credits = person.asTvCrew, onNavigate = onNavigateToTv)
                 }
@@ -203,15 +212,15 @@ fun PersonScreen(
 fun CreditList(
     credits : List<PersonCredit>,
     onNavigate: (Int) -> Unit,
+    contentPadding : PaddingValues = PaddingValues(horizontal = dimensionResource(id = R.dimen.padding_large)),
     modifier: Modifier = Modifier
 )
 {
-    val scrollState = rememberLazyListState()
-
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_between_list_item)),
-        state = scrollState,
-        modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_from_carousel))
+        state = rememberLazyListState(),
+        contentPadding = contentPadding,
+        modifier = modifier
     )
     {
         items(items = credits)
@@ -234,7 +243,7 @@ fun CreditItem(
 {
     ElevatedCard(
         onClick = { onNavigate(personCredit.id) },
-        modifier = Modifier.width(150.dp)
+        modifier = modifier.width(150.dp)
     )
     {
         Image(url = personCredit.poster, modifier = Modifier.size(width = 150.dp, height = 225.dp))

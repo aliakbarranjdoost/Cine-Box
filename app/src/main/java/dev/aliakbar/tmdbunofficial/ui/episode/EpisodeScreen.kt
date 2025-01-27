@@ -2,6 +2,7 @@ package dev.aliakbar.tmdbunofficial.ui.episode
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -156,7 +157,10 @@ fun EpisodeScreen(
                         modifier = Modifier.padding(bottom = bottomPadding)
                     )
 
-                    PersonList(persons = episode.casts, onNavigateToPerson = onNavigateToPerson)
+                    PersonList(
+                        persons = episode.casts,
+                        onNavigateToPerson = onNavigateToPerson
+                    )
                 }
 
                 if (episode.crews.isNotEmpty())
@@ -166,7 +170,10 @@ fun EpisodeScreen(
                         modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
 
-                    PersonList(persons = episode.crews, onNavigateToPerson = onNavigateToPerson)
+                    PersonList(
+                        persons = episode.crews,
+                        onNavigateToPerson = onNavigateToPerson
+                    )
                 }
 
                 if (episode.guestStars.isNotEmpty())
@@ -187,11 +194,14 @@ fun EpisodeScreen(
                         title = R.string.stills,
                         modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
-                    PosterList(posters = episode.stills,
+                    PosterList(
+                        posters = episode.stills,
+                        onPosterClick =
                         {
                             selectedImagePath = it.fileUrl
                             showPosterFullscreen = true
-                        })
+                        }
+                    )
                 }
 
                 if (episode.videos.isNotEmpty())
@@ -200,7 +210,10 @@ fun EpisodeScreen(
                         title = R.string.videos,
                         modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
                     )
-                    VideoList(videos = episode.videos, {})
+                    VideoList(
+                        videos = episode.videos,
+                        onVideoClick = {}
+                    )
                 }
             }
         }

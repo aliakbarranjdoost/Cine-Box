@@ -3,6 +3,7 @@ package dev.aliakbar.tmdbunofficial.ui.bookmark
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -67,8 +68,9 @@ fun BookmarkList(
 )
 {
     LazyColumn(
-        modifier = Modifier.padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_large)),
+        contentPadding = PaddingValues(vertical = dimensionResource(R.dimen.padding_large)),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium))
     )
     {
         items(items = bookmarks)
