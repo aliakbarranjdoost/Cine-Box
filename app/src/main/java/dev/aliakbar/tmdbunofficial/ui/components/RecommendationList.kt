@@ -1,6 +1,5 @@
 package dev.aliakbar.tmdbunofficial.ui.components
 
-import Carousel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -43,8 +42,6 @@ fun RecommendationList(
             )
         }
     }
-
-    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
 }
 
 @Composable

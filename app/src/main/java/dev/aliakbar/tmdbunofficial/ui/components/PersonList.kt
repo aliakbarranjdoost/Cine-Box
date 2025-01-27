@@ -1,6 +1,5 @@
 package dev.aliakbar.tmdbunofficial.ui.components
 
-import Carousel
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -63,8 +62,6 @@ fun PersonList(
             )
         }
     }
-
-    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
 }
 
 @Composable

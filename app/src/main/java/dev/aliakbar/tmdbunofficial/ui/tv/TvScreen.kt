@@ -1,6 +1,5 @@
 package dev.aliakbar.tmdbunofficial.ui.tv
 
-import Carousel
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -291,8 +290,6 @@ fun SeasonList(
             SeasonItem(season = season, onNavigateToSeason = onNavigateToSeason)
         }
     }
-
-    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
 }
 
 @Composable

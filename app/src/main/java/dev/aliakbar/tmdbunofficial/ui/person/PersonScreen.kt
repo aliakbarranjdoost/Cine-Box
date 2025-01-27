@@ -1,6 +1,5 @@
 package dev.aliakbar.tmdbunofficial.ui.person
 
-import Carousel
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -224,8 +223,6 @@ fun CreditList(
             )
         }
     }
-
-    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
 }
 
 @Composable

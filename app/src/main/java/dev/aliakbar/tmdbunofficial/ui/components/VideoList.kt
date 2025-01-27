@@ -1,6 +1,5 @@
 package dev.aliakbar.tmdbunofficial.ui.components
 
-import Carousel
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -60,7 +58,6 @@ fun VideoList(
             VideoItem(video = video, onVideoClick)
         }
     }
-    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
 }
 
 @Composable

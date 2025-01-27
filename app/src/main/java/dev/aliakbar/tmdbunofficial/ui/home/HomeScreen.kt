@@ -4,7 +4,6 @@
 
 package dev.aliakbar.tmdbunofficial.ui.home
 
-import Carousel
 import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -220,7 +219,6 @@ fun TrendList(
             )
         }
     }
-    Carousel(state = scrollState, modifier = Modifier.fillMaxWidth())
 }
 
 @Composable
