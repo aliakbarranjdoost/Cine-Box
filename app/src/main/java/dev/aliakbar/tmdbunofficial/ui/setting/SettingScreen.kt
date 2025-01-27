@@ -24,7 +24,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.aliakbar.tmdbunofficial.R
 import dev.aliakbar.tmdbunofficial.data.ThemeOptions
-import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 
 @Composable
 fun SettingScreen(
@@ -34,28 +33,22 @@ fun SettingScreen(
 {
     val uiState by viewModel.settingsUiState.collectAsStateWithLifecycle()
 
-    when (uiState) {
-        is SettingsUiState.Loading -> CircularIndicator()
-
-        is SettingsUiState.Success -> {
-            Column(Modifier.padding(dimensionResource(id = R.dimen.padding_large)))
-            {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-                {
-                    SettingHeader(title = stringResource(R.string.use_dynamic_color))
-                    DynamicThemeSettingList(
-                        (uiState as SettingsUiState.Success).settings.useDynamicColor,
-                        onClick = {
-                            viewModel.enableDynamicTheme(it)
-                        })
-                }
-                SettingHeader(title = stringResource(R.string.dark_mode_preference))
-                DarkThemeSettingList(
-                    themeOptions = (uiState as SettingsUiState.Success).settings.theme,
-                    onClick = { viewModel.changeTheme(it)}
-                )
-            }
+    Column(Modifier.padding(dimensionResource(id = R.dimen.padding_large)))
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        {
+            SettingHeader(title = stringResource(R.string.use_dynamic_color))
+            DynamicThemeSettingList(
+                uiState.settings.useDynamicColor,
+                onClick = {
+                    viewModel.enableDynamicTheme(it)
+                })
         }
+        SettingHeader(title = stringResource(R.string.dark_mode_preference))
+        DarkThemeSettingList(
+            themeOptions = uiState.settings.theme,
+            onClick = { viewModel.changeTheme(it) }
+        )
     }
 }
 

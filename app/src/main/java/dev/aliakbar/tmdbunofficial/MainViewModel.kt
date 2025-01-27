@@ -23,7 +23,7 @@ class MainViewModel @Inject constructor(
         userPreferencesRepository.userPreferencesFlow
             .map()
             { userData ->
-                SettingsUiState.Success(
+                SettingsUiState(
                     settings = UserEditableSettings(
                         useDynamicColor = userData.dynamicTheme,
                         theme = userData.theme,
@@ -33,6 +33,6 @@ class MainViewModel @Inject constructor(
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = SettingsUiState.Loading,
+                initialValue = SettingsUiState(settings = UserEditableSettings()),
             )
 }

@@ -21,7 +21,6 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aliakbar.tmdbunofficial.data.ThemeOptions
 import dev.aliakbar.tmdbunofficial.ui.bookmark.BookmarkScreen
-import dev.aliakbar.tmdbunofficial.ui.components.CircularIndicator
 import dev.aliakbar.tmdbunofficial.ui.components.TmdbBottomAppBar
 import dev.aliakbar.tmdbunofficial.ui.episode.EpisodeScreen
 import dev.aliakbar.tmdbunofficial.ui.genreTop.GenreTopScreen
@@ -48,20 +47,12 @@ class MainActivity : ComponentActivity()
         setContent()
         {
             val settingUiState by viewModel.settingsUiState.collectAsStateWithLifecycle()
-
-            when (settingUiState)
+            TMDBUnofficialTheme(
+                darkTheme = shouldUseDarkTheme(uiState = settingUiState),
+                dynamicColor = settingUiState.settings.useDynamicColor
+            )
             {
-                is SettingsUiState.Loading -> CircularIndicator()
-
-                is SettingsUiState.Success ->
-                {
-                    TMDBUnofficialTheme(
-                        darkTheme = shouldUseDarkTheme(uiState = settingUiState),
-                        dynamicColor = ((settingUiState as SettingsUiState.Success).settings.useDynamicColor))
-                    {
-                        TmdbApp()
-                    }
-                }
+                TmdbApp()
             }
         }
     }
@@ -285,13 +276,9 @@ fun NavHostController.navigateToPerson(id: Int)
 @Composable
 private fun shouldUseDarkTheme(
     uiState: SettingsUiState,
-): Boolean = when (uiState)
+): Boolean = when (uiState.settings.theme)
 {
-    SettingsUiState.Loading    -> isSystemInDarkTheme()
-    is SettingsUiState.Success -> when (uiState.settings.theme)
-    {
-        ThemeOptions.SYSTEM_DEFAULT -> isSystemInDarkTheme()
-        ThemeOptions.LIGHT          -> false
-        ThemeOptions.DARK           -> true
-    }
+    ThemeOptions.SYSTEM_DEFAULT -> isSystemInDarkTheme()
+    ThemeOptions.LIGHT -> false
+    ThemeOptions.DARK -> true
 }

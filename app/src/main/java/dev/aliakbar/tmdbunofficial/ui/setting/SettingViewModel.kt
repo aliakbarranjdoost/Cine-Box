@@ -22,7 +22,7 @@ class SettingViewModel @Inject constructor(
     val settingsUiState: StateFlow<SettingsUiState> =
         repository.userPreferencesFlow
             .map { userData ->
-                SettingsUiState.Success(
+                SettingsUiState(
                     settings = UserEditableSettings(
                         useDynamicColor = userData.dynamicTheme,
                         theme = userData.theme,
@@ -32,7 +32,7 @@ class SettingViewModel @Inject constructor(
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = SettingsUiState.Loading,
+                initialValue = SettingsUiState(settings = UserEditableSettings()),
             )
 
     fun enableDynamicTheme(enable: Boolean)
@@ -54,11 +54,8 @@ class SettingViewModel @Inject constructor(
 }
 
 data class UserEditableSettings(
-    val useDynamicColor: Boolean,
-    val theme: ThemeOptions,
+    val useDynamicColor: Boolean = false,
+    val theme: ThemeOptions = ThemeOptions.SYSTEM_DEFAULT,
 )
 
-sealed interface SettingsUiState {
-    object Loading : SettingsUiState
-    data class Success(val settings: UserEditableSettings) : SettingsUiState
-}
+data class SettingsUiState(val settings: UserEditableSettings)
