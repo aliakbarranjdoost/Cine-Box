@@ -52,6 +52,7 @@ fun SeasonScreen(
 {
     when (val uiState = viewModel.episodeListUiState)
     {
+        is SeasonUiState.Empty -> Text("Empty")
         is SeasonUiState.Loading -> CircularIndicator()
         is SeasonUiState.Error   -> ErrorButton { viewModel.getSeasonDetails() }
         is SeasonUiState.Success ->
@@ -78,7 +79,7 @@ fun SeasonScreen(
 {
     Scaffold(
         topBar = { TopBar(title = seasonDetails.name, onNavigateBack = onNavigateBack) },
-        modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_large))
+        modifier = modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_large))
     )
     { innerPadding ->
         EpisodeList(

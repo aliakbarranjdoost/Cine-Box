@@ -21,6 +21,7 @@ sealed interface SeasonUiState
     data class Success(val seasonDetails: SeasonDetails): SeasonUiState
     data object Loading: SeasonUiState
     data object Error: SeasonUiState
+    data object Empty: SeasonUiState
 }
 
 private val TAG = SeasonViewModel:: class.java.simpleName
@@ -48,7 +49,16 @@ class SeasonViewModel @Inject constructor(
         {
             episodeListUiState = try
             {
-                SeasonUiState.Success(repository.getSeasonDetails(id,seasonNumber))
+                val seasonDetails = repository.getSeasonDetails(id,seasonNumber)
+
+                if (seasonDetails.episodes.isEmpty())
+                {
+                    SeasonUiState.Empty
+                }
+                else
+                {
+                    SeasonUiState.Success(seasonDetails)
+                }
             }
             catch (e: IOException)
             {
