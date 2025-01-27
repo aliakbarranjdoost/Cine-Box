@@ -3,6 +3,7 @@ package dev.aliakbar.tmdbunofficial.ui.movie
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -60,6 +61,7 @@ fun MovieScreen(
     when (val uiState = viewModel.movieUiState)
     {
         is MovieUiState.Loading -> CircularIndicator()
+        is MovieUiState.Error   -> ErrorButton(onClick = { viewModel.getMovieDetails() })
         is MovieUiState.Success -> MovieDetails(
             movie = uiState.movie,
             onNavigateToMovie = onNavigateToMovie,
@@ -67,12 +69,9 @@ fun MovieScreen(
             onNavigateToGenreTop = { genreId,genreName, type -> onNavigateToGenreTop(genreId,genreName, type) },
             onNavigateBack = onNavigateBack,
             addToBookmark = { viewModel.addToBookmark(it) },
-            removeFromBookmark = { viewModel.removeFromBookmark(it) }
+            removeFromBookmark = { viewModel.removeFromBookmark(it) },
+            modifier = modifier
         )
-
-        is MovieUiState.Error   -> ErrorButton {
-            viewModel.getMovieDetails()
-        }
     }
 }
 
@@ -84,13 +83,15 @@ fun MovieDetails(
     onNavigateToGenreTop: (Int,String, Boolean) -> Unit,
     onNavigateBack: () -> Unit,
     addToBookmark: (Movie) -> Unit,
-    removeFromBookmark: (Movie) -> Unit
+    removeFromBookmark: (Movie) -> Unit,
+    modifier: Modifier = Modifier
 )
 {
-    val scrollState = rememberScrollState()
     var showDetails by remember { mutableStateOf(false) }
     var showImageFullscreen by remember { mutableStateOf(false) }
     var selectedImagePath by remember { mutableStateOf("") }
+    val topPadding = dimensionResource(id = R.dimen.padding_large)
+    val bottomPadding = dimensionResource(id = R.dimen.padding_medium)
     val context = LocalContext.current
 
     Scaffold(
@@ -103,36 +104,33 @@ fun MovieDetails(
                 addToBookmark = { addToBookmark(movie) },
                 removeFromBookmark = { removeFromBookmark(movie) }
             )
-        }
+        },
+        modifier = modifier
     )
     { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .verticalScroll(scrollState)
+                .verticalScroll(rememberScrollState())
         )
         {
-            val backdropHeight = calculateBackdropHeight(LocalConfiguration.current.screenWidthDp)
-
             Image(
                 url = movie.backdropUrl,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(backdropHeight.dp)
+                modifier = Modifier.fillMaxWidth()
             )
 
             MainMovieDetailsRow(
                 voteAverage = movie.voteAverage,
                 runtime = movie.runtime,
                 releaseDate = movie.releaseDate,
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(dimensionResource(R.dimen.padding_large))
             )
 
             if (movie.tagline.isNotEmpty())
             {
                 TaglineText(
                     tagline = movie.tagline,
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+                    modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_large))
                 )
             }
 
@@ -147,7 +145,7 @@ fun MovieDetails(
 
             AnimatedVisibility(visible = showDetails)
             {
-                Column(modifier = Modifier.padding(16.dp))
+                Column(modifier = Modifier.padding(dimensionResource(R.dimen.padding_large)))
                 {
                     SubDetailsRow(
                         overview = movie.overview,
@@ -170,14 +168,13 @@ fun MovieDetails(
                 }
             }
 
-            val topPadding = dimensionResource(id = R.dimen.padding_large)
-            val bottomPadding = dimensionResource(id = R.dimen.padding_medium)
-
-            Column(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_large)))
+            Column()
             {
                 ListTitleText(
                     title = R.string.casts,
-                    modifier = Modifier.padding(bottom = bottomPadding)
+                    modifier = Modifier
+                        .padding(bottom = bottomPadding)
+                        .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                 )
 
                 PersonList(
@@ -187,7 +184,9 @@ fun MovieDetails(
 
                 ListTitleText(
                     title = R.string.crews,
-                    modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
+                    modifier = Modifier
+                        .padding(top = topPadding, bottom = bottomPadding)
+                        .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                 )
 
                 PersonList(
@@ -199,7 +198,9 @@ fun MovieDetails(
                 {
                     ListTitleText(
                         title = R.string.videos,
-                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
+                        modifier = Modifier
+                            .padding(top = topPadding, bottom = bottomPadding)
+                            .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                     )
 
                     VideoList(videos = movie.videos)
@@ -209,7 +210,9 @@ fun MovieDetails(
                 {
                     ListTitleText(
                         title = R.string.posters,
-                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
+                        modifier = Modifier
+                            .padding(top = topPadding, bottom = bottomPadding)
+                            .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                     )
 
                     PosterList(
@@ -226,7 +229,9 @@ fun MovieDetails(
                 {
                     ListTitleText(
                         title = R.string.backdrops,
-                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
+                        modifier = Modifier
+                            .padding(top = topPadding, bottom = bottomPadding)
+                            .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                     )
                     BackdropList(
                         backdrops = movie.backdrops,
@@ -242,7 +247,9 @@ fun MovieDetails(
                 {
                     ListTitleText(
                         title = R.string.recommendations,
-                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
+                        modifier = Modifier
+                            .padding(top = topPadding, bottom = bottomPadding)
+                            .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
                     )
 
                     RecommendationList(
@@ -251,6 +258,7 @@ fun MovieDetails(
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_large)))
         }
     }
 

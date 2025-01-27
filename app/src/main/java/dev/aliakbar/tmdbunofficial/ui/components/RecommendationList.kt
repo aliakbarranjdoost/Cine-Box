@@ -54,12 +54,12 @@ fun RecommendationItem(
 {
     ElevatedCard(
         onClick = { onNavigateToRecommend(recommendation.id) },
-        modifier = modifier.width(170.dp)
+        modifier = modifier.width(150.dp)
     )
     {
         Image(
             url = recommendation.poster,
-            modifier = Modifier.size(width = 170.dp, height = 255.dp)
+            modifier = Modifier.size(width = 150.dp, height = 225.dp)
         )
 
         Text(
