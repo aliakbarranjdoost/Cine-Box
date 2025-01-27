@@ -23,6 +23,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,6 +35,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.isTraversalGroup
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -58,76 +62,74 @@ fun SearchScreen(
 )
 {
     val searchResult = viewModel.resultPager.collectAsLazyPagingItems()
-
     val text by viewModel.query.collectAsStateWithLifecycle()
     var active by rememberSaveable { mutableStateOf(false) }
-    var isLoading by rememberSaveable {
-        mutableStateOf(false)
-    }
+    var isLoading by rememberSaveable { mutableStateOf(false) }
 
-    Box(Modifier.fillMaxSize())
+    Box(modifier = modifier
+        .fillMaxSize()
+        .semantics { isTraversalGroup = true })
     {
         SearchBar(
-            modifier = Modifier.align(Alignment.TopCenter),
-            query = text,
-            onQueryChange = { viewModel.setQuery(it) },
-            onSearch = {
-                viewModel.setQuery(text)
-                viewModel.search()
-                active = false
-                isLoading = true
-            },
-            active = active,
-            onActiveChange = { active = it },
-            placeholder = { Text(stringResource(id = R.string.search)) },
-            leadingIcon =
+            inputField =
             {
-                if (active)
-                {
-                    IconButton(onClick = { active = false })
+                SearchBarDefaults.InputField(
+                    query = text,
+                    onQueryChange = { viewModel.setQuery(it) },
+                    onSearch =
                     {
-                        Icon(Icons.AutoMirrored.Default.ArrowBack, contentDescription = null)
+                        viewModel.setQuery(text)
+                        viewModel.search()
+                        active = false
+                        isLoading = true
+                    },
+                    expanded = active,
+                    onExpandedChange = { active = it },
+                    placeholder = { Text(stringResource(id = R.string.search)) },
+                    leadingIcon =
+                    {
+                        if (active)
+                        {
+                            IconButton(onClick = { active = false })
+                            {
+                                Icon(
+                                    Icons.AutoMirrored.Default.ArrowBack,
+                                    contentDescription = null
+                                )
+                            }
+                        }
+                        else
+                        {
+                            Icon(Icons.Default.Search, contentDescription = null)
+                        }
                     }
-                }
-                else
-                {
-                    Icon(Icons.Default.Search, contentDescription = null)
-                }
-            }
+                )
+            },
+            expanded = active,
+            onExpandedChange = { active = it },
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .semantics { traversalIndex = 0f }
         )
         {
-            // TODO: Find a way to show suggestion
-            /*repeat(4)
-            { idx ->
-                val resultText = "Suggestion $idx"
-                ListItem(
-                    headlineContent = { Text(resultText) },
-                    supportingContent = { Text("Additional info") },
-                    leadingContent = { Icon(Icons.Filled.Star, contentDescription = null) },
-                    modifier = Modifier
-                        .clickable {
-                            text = resultText
-                            active = false
-                        }
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 4.dp)
-                )
-            }*/
+            // we can show suggestion here
         }
 
         LazyColumn(
-            modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp , top = 72.dp),
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 72.dp),
             verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_between_list_item))
         )
         {
-            item {
+            item()
+            {
                 if (searchResult.itemCount == 0 && isLoading && searchResult.loadState.refresh !is LoadState.Loading)
                 {
                     Text(
                         text = stringResource(R.string.message_no_result),
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(top = 72.dp).fillMaxWidth()
+                        modifier = Modifier
+                            .padding(top = 72.dp)
+                            .fillMaxWidth()
                     )
                 }
             }
@@ -179,10 +181,7 @@ fun SearchResultItem(
     {
         Row()
         {
-            Poster(
-                posterPath = result.posterUrl,
-                contentDescription = result.title,
-            )
+            Poster(posterPath = result.posterUrl)
 
             Box(modifier = Modifier.height(150.dp))
             {
@@ -200,7 +199,8 @@ fun SearchResultItem(
                     modifier = Modifier
                         .padding(dimensionResource(id = R.dimen.padding_medium))
                         .align(Alignment.BottomStart)
-                ) {
+                )
+                {
                     Text(
                         text = if (result.mediaType != MediaType.PERSON) result.mediaType.toString()
                         else result.knownForDepartment!!,
@@ -226,10 +226,8 @@ fun SearchResultItem(
                             }
                         }
 
-                        Row(
-                            modifier = Modifier.weight(0.3f)
-
-                        ) {
+                        Row(modifier = Modifier.weight(0.3f))
+                        {
                             Text(
                                 text = "%.${1}f".format(result.score),
                                 fontWeight = FontWeight.Medium,
@@ -255,9 +253,8 @@ fun SearchResultItem(
 @Composable
 fun Poster(
     posterPath: String,
-    contentDescription: String,
     modifier: Modifier = Modifier
 )
 {
-    Image(url = posterPath, modifier = Modifier.size(width = 100.dp, height = 150.dp))
+    Image(url = posterPath, modifier = modifier.size(width = 100.dp, height = 150.dp))
 }
